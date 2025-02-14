@@ -1,4 +1,3 @@
-import MenuBar from "../components/MenuBar.tsx";
 import Squares from "../ReactBits/Backgrounds/Squares/Squares.tsx";
 import RotatingText from "../ReactBits/TextAnimations/RotatingText/RotatingText.tsx";
 import DecryptedText from "../ReactBits/TextAnimations/DecryptedText/DecryptedText.tsx";
@@ -33,8 +32,6 @@ function Index() {
 
     return (
         <>
-            <MenuBar />
-
             <BannerContainer innerDivClassName="dark:bg-black">
                 <div className="z-0 w-full h-full">
                     <Squares

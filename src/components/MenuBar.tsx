@@ -27,12 +27,10 @@ function MenuBar() {
         setDarkMode(!isDarkMode);
 
         if (isDarkMode) {
-            document.documentElement.classList.add("dark");
             document.documentElement.setAttribute("theme-mode", "dark");
             return;
         }
 
-        document.documentElement.classList.remove("dark");
         document.documentElement.removeAttribute("theme-mode");
     }
 
@@ -53,22 +51,22 @@ function MenuBar() {
                         />
                     }
                     operations={operations()}>
-                    <MenuItem value={"0"}>
+                    <MenuItem value={"0"} onClick={() => redirect("/")}>
                         <span>{i18next.t("indexPage")}</span>
                     </MenuItem>
-                    <MenuItem value={"1"}>
+                    <MenuItem value={"1"} onClick={() => redirect("/lx")}>
                         <span>LauncherX</span>
                     </MenuItem>
                     <MenuItem value={"2"}>
                         <span>CMFS</span>
                     </MenuItem>
-                    <MenuItem value={"3"}>
+                    <MenuItem value={"3"} href="https://kb.corona.studio/" target="_blank">
                         <span>
                             {i18next.t("cskb")}
                             <LinkIcon />
                         </span>
                     </MenuItem>
-                    <MenuItem value={"4"}>
+                    <MenuItem value={"4"} href="https://github.com/Corona-Studio/" target="_blank">
                         <span>
                             {i18next.t("moreProjects")}
                             <LinkIcon />
