@@ -60,3 +60,31 @@
 #root {
     padding: 0;
 }
+
+h1 {
+    @apply text-6xl dark:text-white;
+}
+
+h2 {
+    @apply text-5xl dark:text-white;
+}
+
+h3 {
+    @apply text-4xl dark:text-white;
+}
+
+h4 {
+    @apply text-3xl dark:text-white;
+}
+
+h5 {
+    @apply text-2xl dark:text-white;
+}
+
+span {
+    @apply dark:text-white;
+}
+
+p {
+    @apply dark:text-white;
+}

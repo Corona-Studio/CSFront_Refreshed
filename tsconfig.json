@@ -1,4 +1,6 @@
 {
     "files": [],
+    "exclude": ["src/ReactBits"],
+    "include": ["src/ReactBits/**/*.tsx"],
     "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
 }

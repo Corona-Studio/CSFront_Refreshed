@@ -1,7 +1,7 @@
 import "./MenuBar.css";
 import { redirect } from "react-router";
 import { Button, MenuValue } from "tdesign-react";
-import { SunnyIcon, MoonIcon } from "tdesign-icons-react";
+import { SunnyIcon, MoonIcon, LinkIcon } from "tdesign-icons-react";
 import HeadMenu from "tdesign-react/es/menu/HeadMenu";
 import { useState } from "react";
 import MenuItem from "tdesign-react/es/menu/MenuItem";
@@ -13,7 +13,7 @@ function MenuBar() {
     const [isDarkMode, setDarkMode] = useState(true);
 
     const operations = () => (
-        <div>
+        <div className="pr-8">
             <Button
                 variant="text"
                 shape="square"
@@ -63,10 +63,16 @@ function MenuBar() {
                         <span>CMFS</span>
                     </MenuItem>
                     <MenuItem value={"3"}>
-                        <span>{i18next.t("cskb")}</span>
+                        <span>
+                            {i18next.t("cskb")}
+                            <LinkIcon />
+                        </span>
                     </MenuItem>
                     <MenuItem value={"4"}>
-                        <span>{i18next.t("moreProjects")}</span>
+                        <span>
+                            {i18next.t("moreProjects")}
+                            <LinkIcon />
+                        </span>
                     </MenuItem>
                 </HeadMenu>
             </div>
