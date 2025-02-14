@@ -1,68 +1,62 @@
+@import "tailwindcss";
+@tailwind utilities;
+@custom-variant dark (&:where([theme-mode=dark], [theme-mode=dark] *));
+
+* {
+    --td-brand-color: orange;
+    --td-brand-color-1: var(--brand-color-1) !important;
+    --td-brand-color-2: var(--brand-color-2) !important;
+    --td-brand-color-3: var(--brand-color-3) !important;
+    --td-brand-color-4: var(--brand-color-4) !important;
+    --td-brand-color-5: var(--brand-color-5) !important;
+    --td-brand-color-6: var(--brand-color-6) !important;
+    --td-brand-color-7: var(--brand-color-7) !important;
+    --td-brand-color-8: var(--brand-color-8) !important;
+    --td-brand-color-9: var(--brand-color-9) !important;
+    --td-brand-color-10: var(--brand-color-10) !important;
+}
+
+:root[theme-mode="dark"] {
+    --brand-color-1: #6c4b00;
+    --brand-color-2: #8f6400;
+    --brand-color-3: #c48c1a;
+    --brand-color-4: #eaa035;
+    --brand-color-5: #f3ba53;
+    --brand-color-6: #ffd189;
+    --brand-color-7: #ffdea3;
+    --brand-color-8: #ffdda5;
+    --brand-color-9: #ffe5b7;
+    --brand-color-10: #ffe2b0;
+
+    --td-brand-color-hover: var(--brand-color-6);
+    --td-brand-color-focus: var(--brand-color-2);
+    --td-brand-color-active: var(--brand-color-8);
+    --td-brand-color-disabled: var(--brand-color-3);
+    --td-brand-color-light: var(--brand-color-1);
+    --td-brand-color-light-hover: var(--brand-color-2);
+}
+
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+    --brand-color-1: #fff4db;
+    --brand-color-2: #fff0cd;
+    --brand-color-3: #ffe6b4;
+    --brand-color-4: #ffd595;
+    --brand-color-5: #ffd280;
+    --brand-color-6: #ffc059;
+    --brand-color-7: #ffbe46;
+    --brand-color-8: #ffb42f;
+    --brand-color-9: #ffab1a;
+    --brand-color-10: #ffa300;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+    --td-brand-color-hover: var(--brand-color-6);
+    --td-brand-color-focus: var(--brand-color-2);
+    --td-brand-color-active: var(--brand-color-8);
+    --td-brand-color-disabled: var(--brand-color-3);
+    --td-brand-color-light: var(--brand-color-1);
+    --td-brand-color-light-hover: var(--brand-color-2);
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+#root {
+    padding: 0;
 }

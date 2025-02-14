@@ -1,0 +1,9 @@
+#logo {
+    display: inline-block;
+    mix-blend-mode: difference;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 147px;
+    height: 39px;
+}
