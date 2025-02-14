@@ -1,5 +1,5 @@
 import styles from "./MenuBar.module.css";
-import { redirect } from "react-router";
+import { useNavigate } from "react-router";
 import { Button, MenuValue } from "tdesign-react";
 import { SunnyIcon, MoonIcon, LinkIcon } from "tdesign-icons-react";
 import HeadMenu from "tdesign-react/es/menu/HeadMenu";
@@ -11,6 +11,8 @@ import i18next from "../i18n";
 function MenuBar() {
     const [active, setActive] = useState<MenuValue>("0");
     const [isDarkMode, setDarkMode] = useState(true);
+
+    const navigate = useNavigate();
 
     const operations = () => (
         <div className="pr-8">
@@ -34,6 +36,11 @@ function MenuBar() {
         document.documentElement.removeAttribute("theme-mode");
     }
 
+    function onLogoClicked() {
+        navigate("/");
+        setActive("0");
+    }
+
     return (
         <>
             <div className="fixed flex gap-1.5 top-0 w-screen z-30 hover:shadow-lg active:shadow transition">
@@ -47,14 +54,14 @@ function MenuBar() {
                             src={logo}
                             height="28"
                             alt="logo"
-                            onClick={() => redirect("/")}
+                            onClick={onLogoClicked}
                         />
                     }
                     operations={operations()}>
-                    <MenuItem value={"0"} onClick={() => redirect("/")}>
+                    <MenuItem value={"0"} onClick={() => navigate("/")}>
                         <span>{i18next.t("indexPage")}</span>
                     </MenuItem>
-                    <MenuItem value={"1"} onClick={() => redirect("/lx")}>
+                    <MenuItem value={"1"} onClick={() => navigate("/lx")}>
                         <span>LauncherX</span>
                     </MenuItem>
                     <MenuItem value={"2"}>
