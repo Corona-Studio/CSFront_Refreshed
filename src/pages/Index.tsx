@@ -6,21 +6,36 @@ import i18next from "../i18n";
 import BannerContainer from "../components/BannerContainer.tsx";
 import GridMotion from "../ReactBits/Backgrounds/GridMotion/GridMotion.tsx";
 import { Col, Row } from "tdesign-react";
-import SpotlightCard from "../ReactBits/Components/SpotlightCard/SpotlightCard.tsx";
-import { SunnyIcon, MoonIcon, LinkIcon } from "tdesign-icons-react";
+import { RocketIcon, CatIcon } from "tdesign-icons-react";
+import ProjectCard from "../components/ProjectCard.tsx";
 
 function Index() {
-    const items1 = Array(25).fill(
-        "https://images.unsplash.com/photo-1723403804231-f4e9b515fe9d?q=80&w=3870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    );
+    const images = Array(32)
+        .fill(1)
+        .map((x, y) => x + y)
+        .map((x) => new URL(`../assets/lx/LauncherX_${x}.webp`, import.meta.url).href)
+        .map((value) => ({ value, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(({ value }) => value);
 
-    console.log(items1);
+    const projectsArray = [
+        {
+            icon: <RocketIcon />,
+            title: "LauncherX",
+            description: i18next.t("lxDescription")
+        },
+        {
+            icon: <CatIcon />,
+            title: "ProjBobcat",
+            description: i18next.t("projbobcatDescription")
+        }
+    ];
 
     return (
         <>
             <MenuBar />
 
-            <BannerContainer innerDivClassName="bg-white dark:bg-black">
+            <BannerContainer innerDivClassName="dark:bg-black">
                 <div className="z-0 w-full h-full">
                     <Squares
                         direction="diagonal"
@@ -84,52 +99,22 @@ function Index() {
                 </div>
 
                 <div className="h-[30rem]">
-                    <GridMotion items={items1} />
+                    <GridMotion items={images} />
                 </div>
 
                 <div className="p-[12.5%] w-full">
                     <div className="m-auto">
                         <h2 className="font-bold pb-8 float-end">{i18next.t("ourProjects")}</h2>
-                        <Row gutter={16} className="w-full">
-                            <Col span={4}>
-                                <SpotlightCard
-                                    className="custom-spotlight-card"
-                                    spotlightColor="rgba(0, 229, 255, 0.2)">
-                                    <div>
-                                        <SunnyIcon className="text-4xl" />
-                                        <h4 className="pt-4 font-bold">LauncherX</h4>
-                                        <p>
-                                            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                                        </p>
-                                    </div>
-                                </SpotlightCard>
-                            </Col>
-                            <Col span={4}>
-                                <SpotlightCard
-                                    className="custom-spotlight-card"
-                                    spotlightColor="rgba(0, 229, 255, 0.2)">
-                                    <div>
-                                        <SunnyIcon className="text-4xl" />
-                                        <h4 className="pt-4 font-bold">LauncherX</h4>
-                                        <p>
-                                            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                                        </p>
-                                    </div>
-                                </SpotlightCard>
-                            </Col>
-                            <Col span={4}>
-                                <SpotlightCard
-                                    className="custom-spotlight-card"
-                                    spotlightColor="rgba(0, 229, 255, 0.2)">
-                                    <div>
-                                        <SunnyIcon className="text-4xl" />
-                                        <h4 className="pt-4 font-bold">LauncherX</h4>
-                                        <p>
-                                            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                                        </p>
-                                    </div>
-                                </SpotlightCard>
-                            </Col>
+                        <Row gutter={[16, 16]} className="w-full">
+                            {projectsArray.map((project, i) => (
+                                <Col sm={12} md={6} lg={4} xl={4} key={i}>
+                                    <ProjectCard
+                                        icon={project.icon}
+                                        title={project.title}
+                                        description={project.description}
+                                    />
+                                </Col>
+                            ))}
                         </Row>
                     </div>
                 </div>

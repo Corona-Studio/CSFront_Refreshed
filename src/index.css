@@ -36,7 +36,6 @@
     --td-brand-color-light-hover: var(--brand-color-2);
 }
 
-
 :root {
     --brand-color-1: #fff4db;
     --brand-color-2: #fff0cd;
@@ -81,10 +80,6 @@ h5 {
     @apply text-2xl dark:text-white;
 }
 
-span {
-    @apply dark:text-white;
-}
-
-p {
+span, p {
     @apply dark:text-white;
 }

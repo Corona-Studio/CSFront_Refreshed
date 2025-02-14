@@ -1,4 +1,4 @@
-import "./MenuBar.css";
+import styles from "./MenuBar.module.css";
 import { redirect } from "react-router";
 import { Button, MenuValue } from "tdesign-react";
 import { SunnyIcon, MoonIcon, LinkIcon } from "tdesign-icons-react";
@@ -45,7 +45,7 @@ function MenuBar() {
                     onChange={(v) => setActive(v)}
                     logo={
                         <img
-                            id="logo"
+                            className={styles.menuLogo}
                             src={logo}
                             height="28"
                             alt="logo"

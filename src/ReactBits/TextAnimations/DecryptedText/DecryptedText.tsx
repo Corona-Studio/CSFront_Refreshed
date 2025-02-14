@@ -205,7 +205,8 @@ export default function DecryptedText({
             ref={containerRef}
             className={`inline-block whitespace-pre-wrap ${parentClassName}`}
             {...hoverProps}
-            {...props}>
+            {...props}
+        >
             <span className="sr-only">{displayText}</span>
 
             <span aria-hidden="true">
@@ -216,7 +217,8 @@ export default function DecryptedText({
                     return (
                         <span
                             key={index}
-                            className={isRevealedOrDone ? className : encryptedClassName}>
+                            className={isRevealedOrDone ? className : encryptedClassName}
+                        >
                             {char}
                         </span>
                     );

@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+.projIcon {
+    @apply text-3xl;
+}

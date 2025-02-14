@@ -187,7 +187,8 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
                     ref={containerRef}
                     style={{
                         transform: getTiltTransform()
-                    }}>
+                    }}
+                >
                     {items.map((item, i) => (
                         <div className="infinite-scroll-item" key={i}>
                             {item.content}
