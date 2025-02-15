@@ -1,12 +1,13 @@
-import styles from "./MenuBar.module.css";
-import { useNavigate } from "react-router";
-import { Button, MenuValue } from "tdesign-react";
-import { SunnyIcon, MoonIcon, LinkIcon } from "tdesign-icons-react";
-import HeadMenu from "tdesign-react/es/menu/HeadMenu";
 import { useState } from "react";
+import { useNavigate } from "react-router";
+import { SunnyIcon, MoonIcon, LinkIcon } from "tdesign-icons-react";
+import { Button, MenuValue } from "tdesign-react";
+import HeadMenu from "tdesign-react/es/menu/HeadMenu";
 import MenuItem from "tdesign-react/es/menu/MenuItem";
+
 import logo from "../assets/logo.png";
 import i18next from "../i18n";
+import styles from "./MenuBar.module.css";
 
 function MenuBar() {
     const [active, setActive] = useState<MenuValue>("0");
@@ -57,7 +58,8 @@ function MenuBar() {
                             onClick={onLogoClicked}
                         />
                     }
-                    operations={operations()}>
+                    operations={operations()}
+                >
                     <MenuItem value={"0"} onClick={() => navigate("/")}>
                         <span>{i18next.t("indexPage")}</span>
                     </MenuItem>

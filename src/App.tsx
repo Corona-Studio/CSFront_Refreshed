@@ -1,8 +1,10 @@
 import "./App.css";
+
 import { BrowserRouter, Route, Routes } from "react-router";
+
+import MenuBar from "./components/MenuBar.tsx";
 import Index from "./pages/Index.tsx";
 import LxIndex from "./pages/LauncherX/Index.tsx";
-import MenuBar from "./components/MenuBar.tsx";
 
 function App() {
     // const [count, setCount] = useState(0);

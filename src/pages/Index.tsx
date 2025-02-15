@@ -1,12 +1,13 @@
-import Squares from "../ReactBits/Backgrounds/Squares/Squares.tsx";
-import RotatingText from "../ReactBits/TextAnimations/RotatingText/RotatingText.tsx";
-import DecryptedText from "../ReactBits/TextAnimations/DecryptedText/DecryptedText.tsx";
-import i18next from "../i18n";
-import BannerContainer from "../components/BannerContainer.tsx";
-import GridMotion from "../ReactBits/Backgrounds/GridMotion/GridMotion.tsx";
-import { Col, Row } from "tdesign-react";
 import { RocketIcon, CatIcon, TreeSquareDotIcon } from "tdesign-icons-react";
+import { Col, Row } from "tdesign-react";
+
+import BannerContainer from "../components/BannerContainer.tsx";
 import ProjectCard from "../components/ProjectCard.tsx";
+import i18next from "../i18n";
+import GridMotion from "../ReactBits/Backgrounds/GridMotion/GridMotion.tsx";
+import Squares from "../ReactBits/Backgrounds/Squares/Squares.tsx";
+import DecryptedText from "../ReactBits/TextAnimations/DecryptedText/DecryptedText.tsx";
+import RotatingText from "../ReactBits/TextAnimations/RotatingText/RotatingText.tsx";
 
 function Index() {
     const images = Array(23)

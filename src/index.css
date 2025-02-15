@@ -80,6 +80,7 @@ h5 {
     @apply text-2xl dark:text-white;
 }
 
-span, p {
+span,
+p {
     @apply dark:text-white;
 }

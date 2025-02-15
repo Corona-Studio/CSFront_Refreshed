@@ -126,7 +126,8 @@ const RollingGallery: React.FC<RollingGalleryProps> = ({
                         width: cylinderWidth,
                         transformStyle: "preserve-3d"
                     }}
-                    className="flex min-h-[200px] cursor-grab items-center justify-center [transform-style:preserve-3d]">
+                    className="flex min-h-[200px] cursor-grab items-center justify-center [transform-style:preserve-3d]"
+                >
                     {galleryImages.map((url, i) => (
                         <div
                             key={i}
@@ -134,7 +135,8 @@ const RollingGallery: React.FC<RollingGalleryProps> = ({
                             style={{
                                 width: `${faceWidth}px`,
                                 transform: `rotateY(${(360 / faceCount) * i}deg) translateZ(${radius}px)`
-                            }}>
+                            }}
+                        >
                             <img
                                 src={url}
                                 alt="gallery"

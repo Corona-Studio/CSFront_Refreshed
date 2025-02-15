@@ -53,7 +53,8 @@ export default function BounceCards({
             style={{
                 width: containerWidth,
                 height: containerHeight
-            }}>
+            }}
+        >
             {images.map((src, idx) => (
                 <div
                     key={idx}
@@ -62,7 +63,8 @@ export default function BounceCards({
                         boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
                         transform:
                             transformStyles[idx] !== undefined ? transformStyles[idx] : "none"
-                    }}>
+                    }}
+                >
                     <img className="w-full h-full object-cover" src={src} alt={`card-${idx}`} />
                 </div>
             ))}

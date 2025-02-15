@@ -1,6 +1,7 @@
 import React from "react";
-import styles from "./ProjectCard.module.css";
+
 import SpotlightCard from "../ReactBits/Components/SpotlightCard/SpotlightCard.tsx";
+import styles from "./ProjectCard.module.css";
 
 interface ProjectCardProps {
     icon?: React.ReactNode;

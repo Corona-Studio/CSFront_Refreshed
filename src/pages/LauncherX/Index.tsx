@@ -1,13 +1,14 @@
-import BannerContainer from "../../components/BannerContainer.tsx";
-import InfiniteScroll from "../../ReactBits/Components/InfiniteScroll/InfiniteScroll.tsx";
-import styles from "./Index.module.css";
-import { Button, Col, Row, Statistic } from "tdesign-react";
-import { ArrowRightIcon } from "tdesign-icons-react";
 import i18next from "i18next";
-import RotatingText from "../../ReactBits/TextAnimations/RotatingText/RotatingText.tsx";
-import RollingGallery from "../../ReactBits/Components/RollingGallery/RollingGallery.tsx";
+import { ArrowRightIcon } from "tdesign-icons-react";
+import { Button, Col, Row, Statistic } from "tdesign-react";
+
+import BannerContainer from "../../components/BannerContainer.tsx";
 import LetterGlitch from "../../ReactBits/Backgrounds/LetterGlitch/LetterGlitch.tsx";
 import BounceCards from "../../ReactBits/Components/BounceCards/BounceCards.tsx";
+import InfiniteScroll from "../../ReactBits/Components/InfiniteScroll/InfiniteScroll.tsx";
+import RollingGallery from "../../ReactBits/Components/RollingGallery/RollingGallery.tsx";
+import RotatingText from "../../ReactBits/TextAnimations/RotatingText/RotatingText.tsx";
+import styles from "./Index.module.css";
 
 function Index() {
     const items = Array(11)

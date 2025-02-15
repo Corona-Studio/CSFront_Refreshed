@@ -1,5 +1,6 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+
 import { zhCN } from "./langs/zh_CN.ts";
 
 export const resources = {
