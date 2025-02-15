@@ -9,6 +9,8 @@ import BannerContainer from '../components/BannerContainer.tsx';
 import ProjectCard from '../components/ProjectCard.tsx';
 import i18next from '../i18n';
 
+const t = i18next.t;
+
 function Index() {
     const images = Array(23)
         .fill(1)
@@ -22,17 +24,17 @@ function Index() {
         {
             icon: <RocketIcon />,
             title: 'LauncherX',
-            description: i18next.t('lxDescription')
+            description: t('lxDescription')
         },
         {
             icon: <CatIcon />,
             title: 'ProjBobcat',
-            description: i18next.t('projbobcatDescription')
+            description: t('projbobcatDescription')
         },
         {
             icon: <TreeSquareDotIcon />,
             title: 'ConnectX',
-            description: i18next.t('connectxDescription')
+            description: t('connectxDescription')
         }
     ];
 
@@ -53,7 +55,7 @@ function Index() {
                     style={{ pointerEvents: 'none' }}>
                     <div className="flex absolute left-1/8 h-screen transition">
                         <div className="m-auto space-y-4">
-                            <h3>{i18next.t('welcomeAccess')}</h3>
+                            <h3>{t('welcomeAccess')}</h3>
                             <div>
                                 <DecryptedText
                                     className="dark:text-white text-6xl font-bold"
@@ -69,14 +71,14 @@ function Index() {
                                 className="dark:text-white text-6xl font-bold"
                                 encryptedClassName="dark:text-white text-6xl font-bold"
                                 sequential={true}
-                                text={i18next.t('corona_studio')}
+                                text={t('corona_studio')}
                                 useOriginalCharsOnly={false}
                                 animateOn="view"
                                 revealDirection="start"
                             />
                             <div className="flex items-center space-x-4">
                                 <span className="text-4xl align-middle inline-block">
-                                    {i18next.t('weDevelop')}
+                                    {t('weDevelop')}
                                 </span>
                                 <RotatingText
                                     texts={[
@@ -106,9 +108,9 @@ function Index() {
                 <div className="p-[12.5%] w-full">
                     <div>
                         <h2 className="font-bold pb-4">
-                            {i18next.t('whoWeAre')}
+                            {t('whoWeAre')}
                         </h2>
-                        <span>{i18next.t('whoWeAreDetail')}</span>
+                        <span>{t('whoWeAreDetail')}</span>
                     </div>
                 </div>
 
@@ -119,7 +121,7 @@ function Index() {
                 <div className="p-[12.5%] w-full">
                     <div className="m-auto">
                         <h2 className="font-bold pb-8 float-end">
-                            {i18next.t('ourProjects')}
+                            {t('ourProjects')}
                         </h2>
                         <Row gutter={[16, 16]} className="w-full">
                             {projectsArray.map((project, i) => (

@@ -29,8 +29,8 @@ createRoot(document.getElementById('root')!).render(
 
             <MenuBar />
 
-            <div className="relative">
-                <div className="shadow-lg overflow-x-hidden ?overflow-y-auto my-[56px] z-10 bg-white dark:bg-zinc-900">
+            <div className="relative shadow-lg">
+                <div className="shadow-md overflow-x-hidden ?overflow-y-auto my-[56px] z-10 bg-zinc-100 dark:bg-zinc-900" id='wrapper'>
                     <Routes>
                         <Route path="/" element={<App />}>
                             <Route index element={<Home />} />

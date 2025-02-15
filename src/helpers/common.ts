@@ -27,6 +27,16 @@ const scroll = (id: string, shine = true, precise = false) => {
     } else window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
+function handleScroll(bindContainer: HTMLElement, threshold: number, display: 'block' | 'fixed' | 'absolute' | 'relative' | 'inline-block', usingDocumentAsMeasurement = false) {
+
+    let scrollDistance = usingDocumentAsMeasurement ? (window.pageYOffset ?? document.documentElement.scrollTop) : bindContainer.scrollTop;
+
+    if (scrollDistance > threshold) bindContainer.style.display = display;
+    else bindContainer.style.display = 'none';
+    
+}
+
+
 const randomId = (marker = 'R') => {
     return `${marker}@${Math.ceil(Math.random() * 1000)}`;
 };
