@@ -7,21 +7,10 @@ import Index from "./pages/Index.tsx";
 import LxIndex from "./pages/LauncherX/Index.tsx";
 
 function App() {
-    // const [count, setCount] = useState(0);
-
     return (
         <>
             <div className="w-full h-screen">
-                <BrowserRouter>
-                    <MenuBar />
-
-                    <Routes>
-                        <Route path="/" element={<Index />} />
-                        <Route path="lx">
-                            <Route index element={<LxIndex />} />
-                        </Route>
-                    </Routes>
-                </BrowserRouter>
+                <MenuBar />
             </div>
         </>
     );
