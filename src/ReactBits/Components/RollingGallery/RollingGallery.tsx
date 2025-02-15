@@ -109,7 +109,7 @@ const RollingGallery: React.FC<RollingGalleryProps> = ({
     };
 
     return (
-        <div className="relative h-[500px] w-full overflow-hidden">
+        <div className="relative w-full overflow-hidden">
             <div className="flex h-full items-center justify-center [perspective:1000px] [transform-style:preserve-3d]">
                 <motion.div
                     drag="x"
