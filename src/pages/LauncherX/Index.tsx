@@ -10,6 +10,8 @@ import RotatingText from '../../ReactBits/TextAnimations/RotatingText/RotatingTe
 import BannerContainer from '../../components/BannerContainer.tsx';
 import styles from './Index.module.css';
 
+const t = i18next.t;
+
 function Index() {
     const items = Array(11)
         .fill(1)
@@ -41,12 +43,12 @@ function Index() {
         );
 
     const usages = [
-        i18next.t('modPackInstallation'),
-        i18next.t('resourceDownload'),
-        i18next.t('versionManagement'),
-        i18next.t('serverManagement'),
-        i18next.t('modPackManagement'),
-        i18next.t('accountManagement')
+        t('modPackInstallation'),
+        t('resourceDownload'),
+        t('versionManagement'),
+        t('serverManagement'),
+        t('modPackManagement'),
+        t('accountManagement')
     ];
 
     const thirdpartyLogo = [
@@ -93,11 +95,11 @@ function Index() {
                                         Launcher
                                         <span className={styles.x}>X</span>
                                     </h1>
-                                    <span>{i18next.t('lxSlogan')}</span>
+                                    <span>{t('lxSlogan')}</span>
                                 </div>
                                 <Button size="large" variant="base">
                                     <div className="flex items-center space-x-4">
-                                        <span>{i18next.t('downloadNow')}</span>
+                                        <span>{t('downloadNow')}</span>
                                         <ArrowRightIcon />
                                     </div>
                                 </Button>
@@ -113,10 +115,10 @@ function Index() {
                                 <div className="text-white">
                                     <div className="m-auto space-y-4">
                                         <h2 className="font-bold">
-                                            {i18next.t('powerfulFeatures')}
+                                            {t('powerfulFeatures')}
                                         </h2>
                                         <div className="flex items-center space-x-6">
-                                            <h3>{i18next.t('notOnly')}</h3>
+                                            <h3>{t('notOnly')}</h3>
                                             <RotatingText
                                                 texts={usages}
                                                 mainClassName="text-xl px-2 sm:px-2 md:px-3 bg-amber-400 text-black overflow-hidden py-0.5 sm:py-1 md:py-2 rounded-lg"
@@ -130,7 +132,7 @@ function Index() {
                                             />
                                         </div>
                                         <div className="pt-4">
-                                            {i18next.t(
+                                            {t(
                                                 'powerfulFeaturesDescription'
                                             )}
                                         </div>
@@ -153,10 +155,10 @@ function Index() {
                                 <div className="text-white pr-24 pb-16">
                                     <div className="m-auto">
                                         <h2 className="font-bold">
-                                            {i18next.t('aggressiveOptimizing')}
+                                            {t('aggressiveOptimizing')}
                                         </h2>
                                         <div className="pt-4">
-                                            {i18next.t(
+                                            {t(
                                                 'aggressiveOptimizingDescription'
                                             )}
                                         </div>
@@ -197,12 +199,12 @@ function Index() {
                                 <div className="text-white pr-24">
                                     <div className="m-auto items-end">
                                         <h2 className="font-bold text-right">
-                                            {i18next.t(
+                                            {t(
                                                 'integratedWithThirdPartyResources'
                                             )}
                                         </h2>
                                         <div className="pt-4 text-right">
-                                            {i18next.t(
+                                            {t(
                                                 'integratedWithThirdPartyResourcesDescription'
                                             )}
                                         </div>
@@ -218,7 +220,7 @@ function Index() {
                                 <div className="w-full flex pb-16 space-x-8">
                                     <Statistic
                                         style={{ color: 'white' }}
-                                        title={i18next.t('bugFixRequiredTime')}
+                                        title={t('bugFixRequiredTime')}
                                         value={99}
                                         unit="%"
                                         trend="decrease"
@@ -226,7 +228,7 @@ function Index() {
                                     />
                                     <Statistic
                                         style={{ color: 'white' }}
-                                        title={i18next.t('updateFrequency')}
+                                        title={t('updateFrequency')}
                                         value={82.76}
                                         unit="%"
                                         trend="increase"
@@ -234,7 +236,7 @@ function Index() {
                                     />
                                     <Statistic
                                         style={{ color: 'white' }}
-                                        title={i18next.t('featureDevelopment')}
+                                        title={t('featureDevelopment')}
                                         value={76}
                                         unit="%"
                                         trend="increase"
@@ -242,7 +244,7 @@ function Index() {
                                     />
                                     <Statistic
                                         style={{ color: 'white' }}
-                                        title={i18next.t('feedbackResponse')}
+                                        title={t('feedbackResponse')}
                                         value={60}
                                         unit="%"
                                         trend="increase"
@@ -254,12 +256,12 @@ function Index() {
                                 <div className="text-white pr-24">
                                     <div className="m-auto items-end">
                                         <h2 className="font-bold text-right">
-                                            {i18next.t(
+                                            {t(
                                                 'alwaysGetLatestUpdates'
                                             )}
                                         </h2>
                                         <div className="pt-4 text-right">
-                                            {i18next.t(
+                                            {t(
                                                 'alwaysGetLatestUpdatesDescription'
                                             )}
                                         </div>

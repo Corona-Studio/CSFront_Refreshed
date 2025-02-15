@@ -8,6 +8,8 @@ import MenuItem from 'tdesign-react/es/menu/MenuItem';
 import logo from '../assets/logo.png';
 import { useThemeDetector } from '../helpers/ThemeDetector.ts';
 import i18next from '../i18n';
+
+const t = i18next.t;
 import styles from './MenuBar.module.css';
 
 function MenuBar() {
@@ -37,12 +39,13 @@ function MenuBar() {
     function switchTheme() {
         setDarkMode(!isDarkMode);
 
+        localStorage.theme = isDarkMode ? "dark" : "light";
         if (isDarkMode) {
             document.documentElement.setAttribute('theme-mode', 'dark');
             return;
         }
-
         document.documentElement.removeAttribute('theme-mode');
+
     }
 
     function onLogoClicked() {
@@ -68,7 +71,7 @@ function MenuBar() {
                     }
                     operations={operations()}>
                     <MenuItem value={'/'} onClick={() => navigate('/')}>
-                        <span>{i18next.t('indexPage')}</span>
+                        <span>{t('indexPage')}</span>
                     </MenuItem>
                     <MenuItem value={'/lx'} onClick={() => navigate('/lx')}>
                         <span>LauncherX</span>
@@ -81,7 +84,7 @@ function MenuBar() {
                         href="https://kb.corona.studio/"
                         target="_blank">
                         <span>
-                            {i18next.t('cskb')}
+                            {t('cskb')}
                             <LinkIcon />
                         </span>
                     </MenuItem>
@@ -90,7 +93,7 @@ function MenuBar() {
                         href="https://github.com/Corona-Studio/"
                         target="_blank">
                         <span>
-                            {i18next.t('moreProjects')}
+                            {t('moreProjects')}
                             <LinkIcon />
                         </span>
                     </MenuItem>
