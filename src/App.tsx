@@ -1,4 +1,7 @@
 import "./App.css";
+
+import { Outlet } from "react-router";
+
 import MenuBar from "./components/MenuBar.tsx";
 
 function App() {
@@ -6,6 +9,7 @@ function App() {
         <>
             <div className="w-full h-screen">
                 <MenuBar />
+                <Outlet />
             </div>
         </>
     );
