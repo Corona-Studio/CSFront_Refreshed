@@ -9,7 +9,7 @@ import { RocketIcon, CatIcon, TreeSquareDotIcon } from "tdesign-icons-react";
 import ProjectCard from "../components/ProjectCard.tsx";
 
 function Index() {
-    const images = Array(19)
+    const images = Array(23)
         .fill(1)
         .map((x, y) => x + y)
         .map((x) => new URL(`../assets/landscapes/${x}.webp`, import.meta.url).href);
