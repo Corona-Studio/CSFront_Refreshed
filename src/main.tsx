@@ -12,6 +12,7 @@ import "tdesign-react/dist/tdesign.css";
 import { BrowserRouter, Route, Routes } from "react-router";
 
 import App from "./App.tsx";
+import MenuBar from "./components/MenuBar.tsx";
 import Home from "./pages/Index.tsx";
 import LxIndex from "./pages/LauncherX/Index.tsx";
 
@@ -20,6 +21,9 @@ createRoot(document.getElementById("root")!).render(
         <BrowserRouter>
             <Analytics />
             <SpeedInsights />
+
+            <MenuBar />
+
             <Routes>
                 <Route path="/" element={<App />}>
                     <Route index element={<Home />} />
