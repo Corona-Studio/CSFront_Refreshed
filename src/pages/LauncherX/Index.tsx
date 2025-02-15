@@ -43,12 +43,10 @@ function Index() {
         i18next.t("accountManagement")
     ];
 
-    const images = [
-        "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=500&auto=format",
-        "https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?q=80&w=500&auto=format",
-        "https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=500&auto=format",
-        "https://images.unsplash.com/photo-1452626212852-811d58933cae?q=80&w=500&auto=format",
-        "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?q=80&w=500&auto=format"
+    const thirdpartyLogo = [
+        new URL("../../assets/thirdparty/CurseForge.jpg", import.meta.url).href,
+        new URL("../../assets/thirdparty/Forge.jpg", import.meta.url).href,
+        new URL("../../assets/thirdparty/Modrinth.png", import.meta.url).href
     ];
 
     const transformStyles = [
@@ -107,15 +105,15 @@ function Index() {
                         <Row className="items-center" align="middle">
                             <Col xs={12} lg={6}>
                                 <div className="text-white">
-                                    <div className="m-auto">
+                                    <div className="m-auto space-y-4">
                                         <h2 className="font-bold">
                                             {i18next.t("powerfulFeatures")}
                                         </h2>
-                                        <div className="flex items-center space-x-4">
+                                        <div className="flex items-center space-x-6">
                                             <h3>{i18next.t("notOnly")}</h3>
                                             <RotatingText
                                                 texts={usages}
-                                                mainClassName="text-4xl px-2 sm:px-2 md:px-3 bg-amber-400 text-black overflow-hidden py-0.5 sm:py-1 md:py-2 rounded-lg"
+                                                mainClassName="text-xl px-2 sm:px-2 md:px-3 bg-amber-400 text-black overflow-hidden py-0.5 sm:py-1 md:py-2 rounded-lg"
                                                 staggerFrom={"last"}
                                                 initial={{ y: "100%" }}
                                                 animate={{ y: 0 }}
@@ -171,10 +169,9 @@ function Index() {
                         <Row>
                             <Col xs={12} lg={6}>
                                 <BounceCards
-                                    className="custom-class"
-                                    images={images}
+                                    images={thirdpartyLogo}
                                     containerWidth={500}
-                                    containerHeight={500}
+                                    containerHeight={200}
                                     animationDelay={1}
                                     animationStagger={0.08}
                                     easeType="elastic.out(1, 0.5)"
@@ -198,7 +195,7 @@ function Index() {
                         </Row>
                     </div>
 
-                    <div className="p-[12.5%] w-full bg-gray-900">
+                    <div className="p-[12.5%] w-full bg-black">
                         <Row>
                             <Col xs={12} lg={6}>
                                 <div className="w-full justify-center flex pb-16 space-x-8">
