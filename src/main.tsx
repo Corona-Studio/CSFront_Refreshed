@@ -46,7 +46,7 @@ createRoot(document.getElementById("root")!).render(
                     </Routes>
                 </div>
 
-                <BackTop container={() => containerRef.current!} visibleHeight={46} style={style} />
+                <BackTop container={() => containerRef.current!} visibleHeight={0} style={style} />
             </div>
 
             <Footer />

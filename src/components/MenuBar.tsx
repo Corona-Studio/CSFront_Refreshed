@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { SunnyIcon, MoonIcon, LinkIcon } from "tdesign-icons-react";
 import { Button, MenuValue } from "tdesign-react";
 import HeadMenu from "tdesign-react/es/menu/HeadMenu";
@@ -16,6 +16,7 @@ function MenuBar() {
     const [isDarkMode, setDarkMode] = useState(true);
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const operations = () => (
         <div className="pr-8">
@@ -30,7 +31,8 @@ function MenuBar() {
 
     useEffect(() => {
         setDarkMode(!themeDetector);
-    }, [themeDetector]);
+        setActive(location.pathname);
+    }, [location.pathname, themeDetector]);
 
     function switchTheme() {
         setDarkMode(!isDarkMode);
@@ -65,22 +67,25 @@ function MenuBar() {
                         />
                     }
                     operations={operations()}>
-                    <MenuItem value={"0"} onClick={() => navigate("/")}>
+                    <MenuItem value={"/"} onClick={() => navigate("/")}>
                         <span>{i18next.t("indexPage")}</span>
                     </MenuItem>
-                    <MenuItem value={"1"} onClick={() => navigate("/lx")}>
+                    <MenuItem value={"/lx"} onClick={() => navigate("/lx")}>
                         <span>LauncherX</span>
                     </MenuItem>
-                    <MenuItem value={"2"}>
+                    <MenuItem value={"cmfs"}>
                         <span>CMFS</span>
                     </MenuItem>
-                    <MenuItem value={"3"} href="https://kb.corona.studio/" target="_blank">
+                    <MenuItem value={"cskb"} href="https://kb.corona.studio/" target="_blank">
                         <span>
                             {i18next.t("cskb")}
                             <LinkIcon />
                         </span>
                     </MenuItem>
-                    <MenuItem value={"4"} href="https://github.com/Corona-Studio/" target="_blank">
+                    <MenuItem
+                        value={"moreProj"}
+                        href="https://github.com/Corona-Studio/"
+                        target="_blank">
                         <span>
                             {i18next.t("moreProjects")}
                             <LinkIcon />
