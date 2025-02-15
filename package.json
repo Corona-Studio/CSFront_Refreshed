@@ -13,6 +13,7 @@
     },
     "dependencies": {
         "@react-spring/web": "^9.7.5",
+        "@vercel/speed-insights": "^1.2.0",
         "framer-motion": "^12.4.3",
         "gsap": "^3.12.7",
         "ogl": "^1.0.11",
