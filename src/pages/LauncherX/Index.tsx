@@ -19,20 +19,16 @@ function Index() {
                 <img
                     key={i}
                     src={new URL(`../../assets/lx/LauncherX_${x}.webp`, import.meta.url).href}
+                    alt="LauncherX"
                 />
             )
         }));
 
-    const launcherImages = [
-        new URL("../../assets/lx/LauncherX_1.webp", import.meta.url).href,
-        new URL("../../assets/lx/LauncherX_2.webp", import.meta.url).href,
-        new URL("../../assets/lx/LauncherX_4.webp", import.meta.url).href,
-        new URL("../../assets/lx/LauncherX_8.webp", import.meta.url).href,
-        new URL("../../assets/lx/LauncherX_16.webp", import.meta.url).href,
-        new URL("../../assets/lx/LauncherX_3.webp", import.meta.url).href,
-        new URL("../../assets/lx/LauncherX_5.webp", import.meta.url).href,
-        new URL("../../assets/lx/LauncherX_7.webp", import.meta.url).href
-    ];
+    const launcherImages = Array(13)
+        .fill(1)
+        .map((x, y) => x + y)
+        .filter((x) => x % 2 !== 0)
+        .map((x) => new URL(`../../assets/lx/LauncherX_${x}.webp`, import.meta.url).href);
 
     const usages = [
         i18next.t("modPackInstallation"),
