@@ -50,7 +50,7 @@ function MenuBar() {
 
     return (
         <>
-            <div className="fixed flex gap-1.5 top-0 w-screen z-1000 hover:shadow-lg active:shadow transition">
+            <div className="fixed flex gap-1.5 top-0 w-screen z-1000 hover:shadow-lg active:shadow-md shadow transition">
                 <HeadMenu
                     theme="light"
                     value={active}

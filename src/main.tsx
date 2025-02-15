@@ -16,22 +16,31 @@ import MenuBar from "./components/MenuBar.tsx";
 import Home from "./pages/Index.tsx";
 import LxIndex from "./pages/LauncherX/Index.tsx";
 
+import Footer from "./components/Footer.tsx";
+
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
         <BrowserRouter>
             <Analytics />
             <SpeedInsights />
 
-            <MenuBar />
+            <div className=" relative">
+                <MenuBar />
+                <div className="shadow-lg overflow-x-hidden ?overflow-y-auto my-[56px] z-10 bg-white dark:bg-zinc-900">
+                    
+                    <Routes>
+                        <Route path="/" element={<App />}>
+                            <Route index element={<Home />} />
+                            <Route path="lx">
+                                <Route index element={<LxIndex />} />
+                            </Route>
+                        </Route>
+                    </Routes>
+                </div>
 
-            <Routes>
-                <Route path="/" element={<App />}>
-                    <Route index element={<Home />} />
-                    <Route path="lx">
-                        <Route index element={<LxIndex />} />
-                    </Route>
-                </Route>
-            </Routes>
+                <Footer />
+            </div>
+
         </BrowserRouter>
     </StrictMode>
 );

@@ -35,8 +35,8 @@ function Index() {
 
     return (
         <>
-            <BannerContainer innerDivClassName="dark:bg-black">
-                <div className="z-0 w-full h-full">
+            <BannerContainer innerDivClassName="dark:bg-black" >
+                <div className="z-0 w-full h-full shadow">
                     <Squares
                         direction="diagonal"
                         speed={0.1}
@@ -74,7 +74,7 @@ function Index() {
                                     {i18next.t("weDevelop")}
                                 </span>
                                 <RotatingText
-                                    texts={["LauncherX", "ConnectX", "P2P", "CMFS"]}
+                                    texts={["LauncherX", "ProjBobcat", "ConnectX", "P2P", "CMFS"]}
                                     mainClassName="text-4xl px-2 sm:px-2 md:px-3 bg-amber-400 text-black overflow-hidden py-0.5 sm:py-1 md:py-2 rounded-lg"
                                     staggerFrom={"last"}
                                     initial={{ y: "100%" }}
@@ -89,6 +89,7 @@ function Index() {
                     </div>
                 </div>
             </BannerContainer>
+            <div className="w-full shadow h-[.5px] -translate-y-[.5px]"></div>
 
             <div className="dark:bg-black w-full">
                 <div className="p-[12.5%] w-full">
