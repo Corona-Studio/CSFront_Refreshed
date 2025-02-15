@@ -1,5 +1,4 @@
 import "./App.css";
-import "tdesign-react/es/style/index.css";
 import { BrowserRouter, Route, Routes } from "react-router";
 import Index from "./pages/Index.tsx";
 import LxIndex from "./pages/LauncherX/Index.tsx";

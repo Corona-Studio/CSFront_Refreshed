@@ -4,6 +4,8 @@ import "./index.css";
 import App from "./App.tsx";
 import "./i18n";
 
+import "tdesign-react/es/style/index.css";
+
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
         <App />
