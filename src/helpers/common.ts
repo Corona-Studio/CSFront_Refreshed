@@ -41,4 +41,4 @@ const randomId = (marker = 'R') => {
     return `${marker}@${Math.ceil(Math.random() * 1000)}`;
 };
 
-export default { scroll, randomId };
+export default { scroll, randomId, handleScroll };
