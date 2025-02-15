@@ -183,6 +183,7 @@ function Index() {
                         <Row>
                             <Col xs={12} lg={6}>
                                 <BounceCards
+                                    enableHover={true}
                                     images={thirdpartyLogo}
                                     containerWidth={500}
                                     containerHeight={200}
