@@ -1,10 +1,8 @@
 import "./App.css";
 
-import { createRef, CSSProperties, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Outlet } from "react-router";
-import { BackTop } from "tdesign-react";
 
-import MenuBar from "./components/MenuBar.tsx";
 import { useThemeDetector } from "./helpers/ThemeDetector.ts";
 
 function App() {
