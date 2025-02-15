@@ -3,6 +3,7 @@
 	Installed from https://reactbits.dev/ts/tailwind/
 	2025-2-13
 */
+//@ts-nocheck
 import { AnimatePresence, Transition, motion } from 'framer-motion';
 import React, {
     forwardRef,
