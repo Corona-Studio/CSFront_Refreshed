@@ -18,7 +18,6 @@ import MenuBar from "./components/MenuBar.tsx";
 import Home from "./pages/Index.tsx";
 import LxIndex from "./pages/LauncherX/Index.tsx";
 
-const containerRef = createRef<HTMLDivElement>();
 const style: CSSProperties = {
     position: "fixed",
     insetInlineEnd: 24,
@@ -34,7 +33,7 @@ createRoot(document.getElementById("root")!).render(
 
             <MenuBar />
 
-            <div className="relative" ref={containerRef}>
+            <div id="pp" className="relative">
                 <div className="shadow-lg overflow-x-hidden ?overflow-y-auto my-[56px] z-10 bg-white dark:bg-zinc-900">
                     <Routes>
                         <Route path="/" element={<App />}>
@@ -46,7 +45,7 @@ createRoot(document.getElementById("root")!).render(
                     </Routes>
                 </div>
 
-                <BackTop container={() => containerRef.current!} visibleHeight={0} style={style} />
+                <BackTop container={() => document} visibleHeight={100} style={style} />
             </div>
 
             <Footer />
