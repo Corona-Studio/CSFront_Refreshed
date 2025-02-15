@@ -5,17 +5,14 @@ import i18next from "../i18n";
 import BannerContainer from "../components/BannerContainer.tsx";
 import GridMotion from "../ReactBits/Backgrounds/GridMotion/GridMotion.tsx";
 import { Col, Row } from "tdesign-react";
-import { RocketIcon, CatIcon } from "tdesign-icons-react";
+import { RocketIcon, CatIcon, TreeSquareDotIcon } from "tdesign-icons-react";
 import ProjectCard from "../components/ProjectCard.tsx";
 
 function Index() {
-    const images = Array(32)
+    const images = Array(19)
         .fill(1)
         .map((x, y) => x + y)
-        .map((x) => new URL(`../assets/lx/LauncherX_${x}.webp`, import.meta.url).href)
-        .map((value) => ({ value, sort: Math.random() }))
-        .sort((a, b) => a.sort - b.sort)
-        .map(({ value }) => value);
+        .map((x) => new URL(`../assets/landscapes/${x}.webp`, import.meta.url).href);
 
     const projectsArray = [
         {
@@ -27,6 +24,11 @@ function Index() {
             icon: <CatIcon />,
             title: "ProjBobcat",
             description: i18next.t("projbobcatDescription")
+        },
+        {
+            icon: <TreeSquareDotIcon />,
+            title: "ConnectX",
+            description: i18next.t("connectxDescription")
         }
     ];
 
