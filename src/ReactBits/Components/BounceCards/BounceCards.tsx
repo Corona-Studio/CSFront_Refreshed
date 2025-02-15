@@ -3,9 +3,8 @@
 	Installed from https://reactbits.dev/ts/tailwind/
 	2-14-2025
 */
-
-import { useEffect } from "react";
-import { gsap } from "gsap";
+import { gsap } from 'gsap';
+import { useEffect } from 'react';
 
 interface BounceCardsProps {
     className?: string;
@@ -19,24 +18,24 @@ interface BounceCardsProps {
 }
 
 export default function BounceCards({
-    className = "",
+    className = '',
     images = [],
     containerWidth = 400,
     containerHeight = 400,
     animationDelay = 0.5,
     animationStagger = 0.06,
-    easeType = "elastic.out(1, 0.8)",
+    easeType = 'elastic.out(1, 0.8)',
     transformStyles = [
-        "rotate(10deg) translate(-170px)",
-        "rotate(5deg) translate(-85px)",
-        "rotate(-3deg)",
-        "rotate(-10deg) translate(85px)",
-        "rotate(2deg) translate(170px)"
+        'rotate(10deg) translate(-170px)',
+        'rotate(5deg) translate(-85px)',
+        'rotate(-3deg)',
+        'rotate(-10deg) translate(85px)',
+        'rotate(2deg) translate(170px)'
     ]
 }: BounceCardsProps) {
     useEffect(() => {
         gsap.fromTo(
-            ".card",
+            '.card',
             { scale: 0 },
             {
                 scale: 1,
@@ -53,19 +52,23 @@ export default function BounceCards({
             style={{
                 width: containerWidth,
                 height: containerHeight
-            }}
-        >
+            }}>
             {images.map((src, idx) => (
                 <div
                     key={idx}
                     className="card absolute w-[200px] aspect-square border-8 border-white rounded-[30px] overflow-hidden"
                     style={{
-                        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+                        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
                         transform:
-                            transformStyles[idx] !== undefined ? transformStyles[idx] : "none"
-                    }}
-                >
-                    <img className="w-full h-full object-cover" src={src} alt={`card-${idx}`} />
+                            transformStyles[idx] !== undefined
+                                ? transformStyles[idx]
+                                : 'none'
+                    }}>
+                    <img
+                        className="w-full h-full object-cover"
+                        src={src}
+                        alt={`card-${idx}`}
+                    />
                 </div>
             ))}
         </div>

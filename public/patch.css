@@ -20,34 +20,25 @@
     background-clip: text !important;
     color: rgb(255, 220, 0);
     -webkit-background-clip: text !important;
-    background: linear-gradient(
-        to right,
-        rgb(255, 208, 89),
-        rgb(249, 170, 60)
-    );
+    background: linear-gradient(to right, rgb(255, 208, 89), rgb(249, 170, 60));
     color: transparent !important;
 }
 .shine {
-    background-color: rgba(
-        250,
-        250,
-        233,
-        0.5555555555555555514
-    ) !important;
+    background-color: rgba(250, 250, 233, 0.5555555555555555514) !important;
 }
-.shining-eternal{
+.shining-eternal {
     animation: shining 3s ease-in-out infinite;
 }
 @keyframes shining {
-    0%{
+    0% {
         background-color: #f5d66623;
     }
-    
-    50%{
+
+    50% {
         background-color: #f5d66696;
     }
 
-    100%{
+    100% {
         background-color: #f5d66623;
     }
 }

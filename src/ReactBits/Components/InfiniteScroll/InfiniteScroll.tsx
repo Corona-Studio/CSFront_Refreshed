@@ -3,11 +3,11 @@
 	Installed from https://reactbits.dev/ts/tailwind/
 	2025-2-13
 */
+import { gsap } from 'gsap';
+import { Observer } from 'gsap/Observer';
+import React, { useEffect, useRef } from 'react';
 
-import React, { useRef, useEffect } from "react";
-import { gsap } from "gsap";
-import { Observer } from "gsap/Observer";
-import "./InfiniteScroll.css";
+import './InfiniteScroll.css';
 
 gsap.registerPlugin(Observer);
 
@@ -25,35 +25,35 @@ interface InfiniteScrollProps {
     itemMinHeight?: number; // Fixed height for each item
     // ----- Tilt Props -----
     isTilted?: boolean; // Whether the container is in "skewed" perspective
-    tiltDirection?: "left" | "right"; // tiltDirection: "left" or "right"
+    tiltDirection?: 'left' | 'right'; // tiltDirection: "left" or "right"
     // ----- Autoplay Props -----
     autoplay?: boolean; // Whether it should automatically scroll
     autoplaySpeed?: number; // Speed (pixels/frame approx.)
-    autoplayDirection?: "down" | "up"; // "down" or "up"
+    autoplayDirection?: 'down' | 'up'; // "down" or "up"
     pauseOnHover?: boolean; // Pause autoplay on hover
 }
 
 const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
-    width = "30rem",
-    maxHeight = "100%",
-    negativeMargin = "-0.5em",
+    width = '30rem',
+    maxHeight = '100%',
+    negativeMargin = '-0.5em',
     items = [],
     itemMinHeight = 150,
     isTilted = false,
-    tiltDirection = "left",
+    tiltDirection = 'left',
     autoplay = false,
     autoplaySpeed = 0.5,
-    autoplayDirection = "down",
+    autoplayDirection = 'down',
     pauseOnHover = false
 }) => {
     const wrapperRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
     const getTiltTransform = (): string => {
-        if (!isTilted) return "none";
-        return tiltDirection === "left"
-            ? "rotateX(20deg) rotateZ(-20deg) skewX(20deg)"
-            : "rotateX(20deg) rotateZ(20deg) skewX(-20deg)";
+        if (!isTilted) return 'none';
+        return tiltDirection === 'left'
+            ? 'rotateX(20deg) rotateZ(-20deg) skewX(20deg)'
+            : 'rotateX(20deg) rotateZ(20deg) skewX(-20deg)';
     };
 
     useEffect(() => {
@@ -70,7 +70,8 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
         const itemHeight = firstItem.offsetHeight;
         const itemMarginTop = parseFloat(itemStyle.marginTop) || 0;
         const totalItemHeight = itemHeight + itemMarginTop;
-        const totalHeight = itemHeight * items.length + itemMarginTop * (items.length - 1);
+        const totalHeight =
+            itemHeight * items.length + itemMarginTop * (items.length - 1);
 
         const wrapFn = gsap.utils.wrap(-totalHeight, totalHeight);
 
@@ -81,21 +82,21 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
 
         const observer = Observer.create({
             target: container,
-            type: "wheel,touch,pointer",
+            type: 'wheel,touch,pointer',
             preventDefault: true,
             onPress: ({ target }) => {
-                (target as HTMLElement).style.cursor = "grabbing";
+                (target as HTMLElement).style.cursor = 'grabbing';
             },
             onRelease: ({ target }) => {
-                (target as HTMLElement).style.cursor = "grab";
+                (target as HTMLElement).style.cursor = 'grab';
             },
             onChange: ({ deltaY, isDragging, event }) => {
-                const d = event.type === "wheel" ? -deltaY : deltaY;
+                const d = event.type === 'wheel' ? -deltaY : deltaY;
                 const distance = isDragging ? d * 5 : d * 10;
                 divItems.forEach((child) => {
                     gsap.to(child, {
                         duration: 0.5,
-                        ease: "expo.out",
+                        ease: 'expo.out',
                         y: `+=${distance}`,
                         modifiers: {
                             y: gsap.utils.unitize(wrapFn)
@@ -107,7 +108,7 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
 
         let rafId: number;
         if (autoplay) {
-            const directionFactor = autoplayDirection === "down" ? 1 : -1;
+            const directionFactor = autoplayDirection === 'down' ? 1 : -1;
             const speedPerFrame = autoplaySpeed * directionFactor;
 
             const tick = () => {
@@ -130,14 +131,14 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
                     rafId = requestAnimationFrame(tick);
                 };
 
-                container.addEventListener("mouseenter", stopTicker);
-                container.addEventListener("mouseleave", startTicker);
+                container.addEventListener('mouseenter', stopTicker);
+                container.addEventListener('mouseleave', startTicker);
 
                 return () => {
                     observer.kill();
                     stopTicker();
-                    container.removeEventListener("mouseenter", stopTicker);
-                    container.removeEventListener("mouseleave", startTicker);
+                    container.removeEventListener('mouseenter', stopTicker);
+                    container.removeEventListener('mouseleave', startTicker);
                 };
             } else {
                 return () => {
@@ -187,8 +188,7 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
                     ref={containerRef}
                     style={{
                         transform: getTiltTransform()
-                    }}
-                >
+                    }}>
                     {items.map((item, i) => (
                         <div className="infinite-scroll-item" key={i}>
                             {item.content}

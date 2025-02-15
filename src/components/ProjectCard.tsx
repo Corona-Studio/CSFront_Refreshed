@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import SpotlightCard from "../ReactBits/Components/SpotlightCard/SpotlightCard.tsx";
-import styles from "./ProjectCard.module.css";
+import SpotlightCard from '../ReactBits/Components/SpotlightCard/SpotlightCard.tsx';
+import styles from './ProjectCard.module.css';
 
 interface ProjectCardProps {
     icon?: React.ReactNode;
@@ -12,9 +12,9 @@ interface ProjectCardProps {
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
     icon = null,
-    title = "",
-    description = "",
-    spotlightColor = "rgba(255, 165, 0, 0.2)"
+    title = '',
+    description = '',
+    spotlightColor = 'rgba(255, 165, 0, 0.2)'
 }) => {
     return (
         <>
