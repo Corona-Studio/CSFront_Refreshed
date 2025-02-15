@@ -1,6 +1,6 @@
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import { createRef, CSSProperties, StrictMode } from "react";
+import { CSSProperties, StrictMode } from "react";
 
 import "./index.css";
 
