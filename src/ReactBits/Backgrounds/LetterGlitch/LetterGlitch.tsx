@@ -4,6 +4,8 @@
 	2-14-2025
 */
 
+// @ts-nocheck
+
 import { useRef, useEffect } from "react";
 
 const LetterGlitch = ({

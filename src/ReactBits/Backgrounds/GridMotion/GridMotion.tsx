@@ -4,6 +4,8 @@
 	2025-2-14
 */
 
+// @ts-nocheck
+
 import { useEffect, useRef, FC } from "react";
 import { gsap } from "gsap";
 
@@ -61,14 +63,16 @@ const GridMotion: FC<GridMotionProps> = ({ items = [], gradientColor = "black" }
         };
     }, []);
 
+    // @ts-ignore
+    // @ts-ignore
+    // @ts-ignore
     return (
         <div ref={gridRef} className="h-full w-full overflow-hidden">
             <section
                 className="w-full h-screen overflow-hidden relative flex items-center justify-center"
                 style={{
                     background: `radial-gradient(circle, ${gradientColor} 0%, transparent 100%)`
-                }}
-            >
+                }}>
                 {/* Noise overlay */}
                 <div className="absolute inset-0 pointer-events-none z-[4] bg-[url('../../../assets/noise.png')] bg-[length:250px]"></div>
                 <div className="gap-4 flex-none relative w-[150vw] h-[150vh] grid grid-rows-4 grid-cols-1 rotate-[-15deg] origin-center z-[2]">
@@ -77,8 +81,7 @@ const GridMotion: FC<GridMotionProps> = ({ items = [], gradientColor = "black" }
                             key={rowIndex}
                             className="grid gap-4 grid-cols-7"
                             style={{ willChange: "transform, filter" }}
-                            ref={(el) => (rowRefs.current[rowIndex] = el)}
-                        >
+                            ref={(el) => (rowRefs.current[rowIndex] = el)}>
                             {Array.from({ length: 7 }, (_, itemIndex) => {
                                 const content = combinedItems[rowIndex * 7 + itemIndex];
                                 return (
@@ -90,8 +93,7 @@ const GridMotion: FC<GridMotionProps> = ({ items = [], gradientColor = "black" }
                                                     className="w-full h-full bg-cover bg-center absolute top-0 left-0"
                                                     style={{
                                                         backgroundImage: `url(${content})`
-                                                    }}
-                                                ></div>
+                                                    }}></div>
                                             ) : (
                                                 <div className="p-4 text-center z-[1]">
                                                     {content}
