@@ -33,7 +33,7 @@ createRoot(document.getElementById("root")!).render(
 
             <MenuBar />
 
-            <div id="pp" className="relative">
+            <div className="relative">
                 <div className="shadow-lg overflow-x-hidden ?overflow-y-auto my-[56px] z-10 bg-white dark:bg-zinc-900">
                     <Routes>
                         <Route path="/" element={<App />}>
