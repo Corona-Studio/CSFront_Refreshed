@@ -194,7 +194,7 @@ function Index() {
                     <div className="p-[12.5%] w-full bg-black">
                         <Row>
                             <Col xs={12} lg={6}>
-                                <div className="w-full justify-center flex pb-16 space-x-8">
+                                <div className="w-full flex pb-16 space-x-8">
                                     <Statistic
                                         style={{ color: "white" }}
                                         title={i18next.t("bugFixRequiredTime")}
