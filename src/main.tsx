@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { StrictMode } from "react";
 
@@ -17,6 +18,7 @@ import LxIndex from "./pages/LauncherX/Index.tsx";
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
         <BrowserRouter>
+            <Analytics />
             <SpeedInsights />
             <Routes>
                 <Route path="/" element={<App />}>
