@@ -1,17 +1,8 @@
-@import 'tailwindcss';
-
-.darkText {
-    @apply text-white;
-}
+@import "tailwindcss";
 
 .maskRadial {
     @apply backdrop-blur-xs backdrop-brightness-50 absolute h-screen pr-[75%];
 
     -webkit-mask-image: linear-gradient(to right, black 50%, transparent 100%);
     mask-image: linear-gradient(to right, black 50%, transparent 100%);
-}
-
-.x {
-    @apply text-orange-400;
-    text-shadow: 0px 0px 50px var(--color-amber-300);
 }

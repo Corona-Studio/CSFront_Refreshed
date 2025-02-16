@@ -4,10 +4,10 @@
 	2-14-2025
 */
 // @ts-nocheck
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 const LetterGlitch = ({
-    glitchColors = ['#2b4539', '#61dca3', '#61b3dc'],
+    glitchColors = ["#2b4539", "#61dca3", "#61b3dc"],
     glitchSpeed = 50,
     centerVignette = false,
     outerVignette = true,
@@ -38,64 +38,64 @@ const LetterGlitch = ({
     const charHeight = 20;
 
     const lettersAndSymbols = [
-        'A',
-        'B',
-        'C',
-        'D',
-        'E',
-        'F',
-        'G',
-        'H',
-        'I',
-        'J',
-        'K',
-        'L',
-        'M',
-        'N',
-        'O',
-        'P',
-        'Q',
-        'R',
-        'S',
-        'T',
-        'U',
-        'V',
-        'W',
-        'X',
-        'Y',
-        'Z',
-        '!',
-        '@',
-        '#',
-        '$',
-        '&',
-        '*',
-        '(',
-        ')',
-        '-',
-        '_',
-        '+',
-        '=',
-        '/',
-        '[',
-        ']',
-        '{',
-        '}',
-        ';',
-        ':',
-        '<',
-        '>',
-        ',',
-        '0',
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9'
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z",
+        "!",
+        "@",
+        "#",
+        "$",
+        "&",
+        "*",
+        "(",
+        ")",
+        "-",
+        "_",
+        "+",
+        "=",
+        "/",
+        "[",
+        "]",
+        "{",
+        "}",
+        ";",
+        ":",
+        "<",
+        ">",
+        ",",
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9"
     ];
 
     const getRandomChar = () => {
@@ -184,7 +184,7 @@ const LetterGlitch = ({
         const { width, height } = canvasRef.current!.getBoundingClientRect();
         ctx.clearRect(0, 0, width, height);
         ctx.font = `${fontSize}px monospace`;
-        ctx.textBaseline = 'top';
+        ctx.textBaseline = "top";
 
         letters.current.forEach((letter, index) => {
             const x = (index % grid.current.columns) * charWidth;
@@ -263,7 +263,7 @@ const LetterGlitch = ({
         const canvas = canvasRef.current;
         if (!canvas) return;
 
-        context.current = canvas.getContext('2d');
+        context.current = canvas.getContext("2d");
         resizeCanvas();
         animate();
 
@@ -278,11 +278,11 @@ const LetterGlitch = ({
             }, 100);
         };
 
-        window.addEventListener('resize', handleResize);
+        window.addEventListener("resize", handleResize);
 
         return () => {
             cancelAnimationFrame(animationRef.current!);
-            window.removeEventListener('resize', handleResize);
+            window.removeEventListener("resize", handleResize);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [glitchSpeed, smooth]);

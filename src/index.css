@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 @custom-variant dark (&:where([theme-mode=dark], [theme-mode=dark] *));
 
 * {
@@ -15,7 +15,7 @@
     --td-brand-color-10: var(--brand-color-10) !important;
 }
 
-:root[theme-mode='dark'] {
+:root[theme-mode="dark"] {
     --brand-color-1: #6c4b00;
     --brand-color-2: #8f6400;
     --brand-color-3: #c48c1a;

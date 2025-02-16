@@ -3,7 +3,7 @@
 	Installed from https://reactbits.dev/ts/tailwind/
 	2025-2-14
 */
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState } from "react";
 
 interface Position {
     x: number;
@@ -17,8 +17,8 @@ interface SpotlightCardProps extends React.PropsWithChildren {
 
 const SpotlightCard: React.FC<SpotlightCardProps> = ({
     children,
-    className = '',
-    spotlightColor = 'rgba(255, 255, 255, 0.25)'
+    className = "",
+    spotlightColor = "rgba(255, 255, 255, 0.25)"
 }) => {
     const divRef = useRef<HTMLDivElement>(null);
     const [isFocused, setIsFocused] = useState<boolean>(false);

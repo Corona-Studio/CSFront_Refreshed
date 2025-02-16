@@ -1,20 +1,20 @@
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
-import { LinkIcon, MoonIcon, SunnyIcon } from 'tdesign-icons-react';
-import { Button, MenuValue } from 'tdesign-react';
-import HeadMenu from 'tdesign-react/es/menu/HeadMenu';
-import MenuItem from 'tdesign-react/es/menu/MenuItem';
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
+import { LinkIcon, MoonIcon, SunnyIcon } from "tdesign-icons-react";
+import { Button, MenuValue } from "tdesign-react";
+import HeadMenu from "tdesign-react/es/menu/HeadMenu";
+import MenuItem from "tdesign-react/es/menu/MenuItem";
 
-import logo from '../assets/logo.png';
-import { useThemeDetector } from '../helpers/ThemeDetector.ts';
-import i18next from '../i18n';
+import logo from "../assets/logo.png";
+import { useThemeDetector } from "../helpers/ThemeDetector.ts";
+import i18next from "../i18n";
+import styles from "./MenuBar.module.css";
 
 const t = i18next.t;
-import styles from './MenuBar.module.css';
 
 function MenuBar() {
     const themeDetector = useThemeDetector();
-    const [active, setActive] = useState<MenuValue>('0');
+    const [active, setActive] = useState<MenuValue>("0");
     const [isDarkMode, setDarkMode] = useState(true);
 
     const navigate = useNavigate();
@@ -41,16 +41,15 @@ function MenuBar() {
 
         localStorage.theme = isDarkMode ? "dark" : "light";
         if (isDarkMode) {
-            document.documentElement.setAttribute('theme-mode', 'dark');
+            document.documentElement.setAttribute("theme-mode", "dark");
             return;
         }
-        document.documentElement.removeAttribute('theme-mode');
-
+        document.documentElement.removeAttribute("theme-mode");
     }
 
     function onLogoClicked() {
-        navigate('/');
-        setActive('0');
+        navigate("/");
+        setActive("0");
     }
 
     return (
@@ -70,30 +69,30 @@ function MenuBar() {
                         />
                     }
                     operations={operations()}>
-                    <MenuItem value={'/'} onClick={() => navigate('/')}>
-                        <span>{t('indexPage')}</span>
+                    <MenuItem value={"/"} onClick={() => navigate("/")}>
+                        <span>{t("indexPage")}</span>
                     </MenuItem>
-                    <MenuItem value={'/lx'} onClick={() => navigate('/lx')}>
+                    <MenuItem value={"/lx"} onClick={() => navigate("/lx")}>
                         <span>LauncherX</span>
                     </MenuItem>
-                    <MenuItem value={'cmfs'}>
+                    <MenuItem value={"cmfs"}>
                         <span>CMFS</span>
                     </MenuItem>
                     <MenuItem
-                        value={'cskb'}
+                        value={"cskb"}
                         href="https://kb.corona.studio/"
                         target="_blank">
                         <span>
-                            {t('cskb')}
+                            {t("cskb")}
                             <LinkIcon />
                         </span>
                     </MenuItem>
                     <MenuItem
-                        value={'moreProj'}
+                        value={"moreProj"}
                         href="https://github.com/Corona-Studio/"
                         target="_blank">
                         <span>
-                            {t('moreProjects')}
+                            {t("moreProjects")}
                             <LinkIcon />
                         </span>
                     </MenuItem>

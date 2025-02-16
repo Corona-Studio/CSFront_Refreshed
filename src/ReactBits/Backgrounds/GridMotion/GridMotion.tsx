@@ -4,8 +4,8 @@
 	2025-2-14
 */
 // @ts-nocheck
-import { gsap } from 'gsap';
-import { FC, useEffect, useRef } from 'react';
+import { gsap } from "gsap";
+import { FC, useEffect, useRef } from "react";
 
 interface GridMotionProps {
     items?: string[];
@@ -14,7 +14,7 @@ interface GridMotionProps {
 
 const GridMotion: FC<GridMotionProps> = ({
     items = [],
-    gradientColor = 'black'
+    gradientColor = "black"
 }) => {
     const gridRef = useRef<HTMLDivElement>(null);
     const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -55,18 +55,18 @@ const GridMotion: FC<GridMotionProps> = ({
                         duration:
                             baseDuration +
                             inertiaFactors[index % inertiaFactors.length],
-                        ease: 'power3.out',
-                        overwrite: 'auto'
+                        ease: "power3.out",
+                        overwrite: "auto"
                     });
                 }
             });
         };
 
         const removeAnimationLoop = gsap.ticker.add(updateMotion);
-        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener("mousemove", handleMouseMove);
 
         return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener("mousemove", handleMouseMove);
             removeAnimationLoop();
         };
     }, []);
@@ -86,7 +86,7 @@ const GridMotion: FC<GridMotionProps> = ({
                         <div
                             key={rowIndex}
                             className="grid gap-4 grid-cols-7"
-                            style={{ willChange: 'transform, filter' }}
+                            style={{ willChange: "transform, filter" }}
                             ref={(el) => (rowRefs.current[rowIndex] = el)}>
                             {Array.from({ length: 7 }, (_, itemIndex) => {
                                 const content =
@@ -94,8 +94,8 @@ const GridMotion: FC<GridMotionProps> = ({
                                 return (
                                     <div key={itemIndex} className="relative">
                                         <div className="relative w-full h-full overflow-hidden rounded-[10px] bg-[#111] flex items-center justify-center text-white text-[1.5rem]">
-                                            {typeof content === 'string' &&
-                                            content.startsWith('http') ? (
+                                            {typeof content === "string" &&
+                                            content.startsWith("http") ? (
                                                 <div
                                                     className="w-full h-full bg-cover bg-center absolute top-0 left-0"
                                                     style={{

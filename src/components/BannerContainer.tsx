@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface PaperProps {
     children?: React.ReactNode;
@@ -7,7 +7,7 @@ interface PaperProps {
 
 const BannerContainer: React.FC<PaperProps> = ({
     children = null,
-    innerDivClassName = ''
+    innerDivClassName = ""
 }) => {
     return (
         <>
