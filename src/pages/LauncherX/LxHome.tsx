@@ -19,13 +19,15 @@ const t = i18next.t;
 function LxHome() {
     const navigate = useNavigate();
 
-    const items = Array(11)
+    const items = Array(30)
         .fill(1)
         .map((x, y) => x + y)
         .filter((x) => x % 2 !== 0)
         .map((x, i) => ({
             content: (
                 <img
+                    loading="lazy"
+                    width="500"
                     key={i}
                     src={new URL(`../../assets/lx/LauncherX_${x}.webp`, import.meta.url).href}
                     alt="LauncherX"
@@ -67,17 +69,16 @@ function LxHome() {
             <div className="bg-black">
                 <BannerContainer innerDivClassName="overflow-clip">
                     <div className="z-0 w-full h-full">
-                        <div className="lg:pl-[30%]">
-                            <InfiniteScroll
-                                items={items}
-                                isTilted={true}
-                                tiltDirection="right"
-                                autoplay={true}
-                                autoplaySpeed={0.1}
-                                autoplayDirection="down"
-                                pauseOnHover={true}
-                            />
-                        </div>
+                        <InfiniteScroll
+                            width="40rem"
+                            items={items}
+                            isTilted={true}
+                            tiltDirection="right"
+                            autoplay={true}
+                            autoplaySpeed={0.1}
+                            autoplayDirection="down"
+                            pauseOnHover={true}
+                        />
                     </div>
 
                     <div className="z-10 absolute w-full h-full">
