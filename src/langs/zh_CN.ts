@@ -46,6 +46,7 @@ export const zhCN = {
         feedbackResponse: "反馈响应",
 
         acquire: "获取",
+        download: "下载",
 
         integratedWithThirdPartyResources: "与第三方资源集成",
         integratedWithThirdPartyResourcesDescription:
