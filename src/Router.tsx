@@ -1,10 +1,11 @@
 import i18next from "i18next";
+import { lazy } from "react";
 import { Route, createBrowserRouter, createRoutesFromElements } from "react-router";
 
-import App from "./App.tsx";
-import Fallback from "./pages/Fallback.tsx";
-import Home from "./pages/Home.tsx";
-import LxIndex from "./pages/LauncherX/LxHome.tsx";
+const App = lazy(() => import("./App.tsx"));
+const Fallback = lazy(() => import("./pages/Fallback.tsx"));
+const Home = lazy(() => import("./pages/Home.tsx"));
+const LxIndex = lazy(() => import("./pages/LauncherX/LxHome.tsx"));
 
 const t = i18next.t;
 

@@ -28,11 +28,7 @@ createRoot(document.getElementById("root")!).render(
                 <RouterProvider router={router} />
             </div>
 
-            <BackTop
-                container={() => document}
-                visibleHeight={100}
-                style={style}
-            />
+            <BackTop container={() => document} visibleHeight={100} style={style} />
         </div>
     </StrictMode>
 );
