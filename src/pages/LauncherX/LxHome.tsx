@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import { ArrowRightIcon } from "tdesign-icons-react";
 import { Button, Col, Row, Statistic } from "tdesign-react";
 
-import styles from "./Index.module.css";
+import styles from "./LxHome.module.css";
 
 const LetterGlitch = lazy(() => import("../../ReactBits/Backgrounds/LetterGlitch/LetterGlitch.tsx"));
 const BounceCards = lazy(() => import("../../ReactBits/Components/BounceCards/BounceCards.tsx"));
