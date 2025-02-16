@@ -3217,6 +3217,11 @@ validator@~13.7.0:
   resolved "https://registry.yarnpkg.com/validator/-/validator-13.7.0.tgz#4f9658ba13ba8f3d82ee881d3516489ea85c0857"
   integrity sha512-nYXQLCBkpJ8X6ltALua9dRrZDHVYxjJ1wgskNt1lH9fzGjs3tgojGSCBjmEPwkWS1y29+DrizMTW19Pr9uB2nw==
 
+vite-bundle-analyzer@^0.17.0:
+  version "0.17.0"
+  resolved "https://registry.yarnpkg.com/vite-bundle-analyzer/-/vite-bundle-analyzer-0.17.0.tgz#13ba290b2e0a522e91ede18ee2b39514cf07101e"
+  integrity sha512-pSQng2NuhPo13hdSFcjW/Kjq8hmdfzCkJhWvAP5g98WbqZvy1k3Z+cpDxD9oxdNqOHHQFnEAIHR/MY6El1NnHA==
+
 vite-css-modules@^1.8.4:
   version "1.8.4"
   resolved "https://registry.yarnpkg.com/vite-css-modules/-/vite-css-modules-1.8.4.tgz#7eabfdb70ffe1cb6ca89197012a76b74fc0cb9f9"

@@ -10,7 +10,8 @@
         "lint:fix": "eslint --fix",
         "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
         "preview": "vite preview",
-        "clean": "rm ./pnpm-lock.yml"
+        "clean": "rm ./pnpm-lock.yml",
+        "analyze": "analyze"
     },
     "dependencies": {
         "@react-spring/web": "^9.7.5",

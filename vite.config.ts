@@ -18,7 +18,8 @@ export default defineConfig({
             compressionOptions: {
                 level: 9
             },
-            filename: "[path][base].zst"
+            filename: "[path][base].zst",
+            deleteOriginalAssets: true
         })
     ]
 });
