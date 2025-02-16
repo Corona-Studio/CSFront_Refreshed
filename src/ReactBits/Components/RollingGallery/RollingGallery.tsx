@@ -3,13 +3,7 @@
 	Installed from https://reactbits.dev/ts/tailwind/
 	2-14-2025
 */
-import {
-    PanInfo,
-    motion,
-    useAnimation,
-    useMotionValue,
-    useTransform
-} from "framer-motion";
+import { PanInfo, motion, useAnimation, useMotionValue, useTransform } from "framer-motion";
 import React, { useEffect, useState } from "react";
 
 const IMGS: string[] = [
@@ -31,17 +25,11 @@ interface RollingGalleryProps {
     images?: string[];
 }
 
-const RollingGallery: React.FC<RollingGalleryProps> = ({
-    autoplay = false,
-    pauseOnHover = false,
-    images = []
-}) => {
+const RollingGallery: React.FC<RollingGalleryProps> = ({ autoplay = false, pauseOnHover = false, images = [] }) => {
     // Use default images if none are provided
     const galleryImages = images.length > 0 ? images : IMGS;
 
-    const [isScreenSizeSm, setIsScreenSizeSm] = useState<boolean>(
-        window.innerWidth <= 640
-    );
+    const [isScreenSizeSm, setIsScreenSizeSm] = useState<boolean>(window.innerWidth <= 640);
     useEffect(() => {
         const handleResize = () => setIsScreenSizeSm(window.innerWidth <= 640);
         window.addEventListener("resize", handleResize);
@@ -60,10 +48,7 @@ const RollingGallery: React.FC<RollingGalleryProps> = ({
     const controls = useAnimation();
 
     // Create a 3D transform based on the rotation motion value
-    const transform = useTransform(
-        rotation,
-        (val: number) => `rotate3d(0,1,0,${val}deg)`
-    );
+    const transform = useTransform(rotation, (val: number) => `rotate3d(0,1,0,${val}deg)`);
 
     const startInfiniteSpin = (startAngle: number) => {
         controls.start({

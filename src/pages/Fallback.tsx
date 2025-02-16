@@ -1,6 +1,7 @@
+import { lazy } from "react";
 import { Skeleton } from "tdesign-react";
 
-import BannerContainer from "../components/BannerContainer.tsx";
+const BannerContainer = lazy(() => import("../components/BannerContainer.tsx"));
 
 function Fallback() {
     return (

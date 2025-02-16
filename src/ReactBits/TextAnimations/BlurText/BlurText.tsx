@@ -56,10 +56,7 @@ const BlurText: React.FC<BlurTextProps> = ({
         {
             filter: "blur(5px)",
             opacity: 0.5,
-            transform:
-                direction === "top"
-                    ? "translate3d(0,5px,0)"
-                    : "translate3d(0,-5px,0)"
+            transform: direction === "top" ? "translate3d(0,5px,0)" : "translate3d(0,-5px,0)"
         },
         { filter: "blur(0px)", opacity: 1, transform: "translate3d(0,0,0)" }
     ];
@@ -89,19 +86,12 @@ const BlurText: React.FC<BlurTextProps> = ({
         elements.map((_, i) => ({
             from: animationFrom || defaultFrom,
             to: inView
-                ? async (
-                      next: (
-                          arg: Record<string, SpringValue<any>>
-                      ) => Promise<void>
-                  ) => {
+                ? async (next: (arg: Record<string, SpringValue<any>>) => Promise<void>) => {
                       for (const step of animationTo || defaultTo) {
                           await next(step);
                       }
                       animatedCount.current += 1;
-                      if (
-                          animatedCount.current === elements.length &&
-                          onAnimationComplete
-                      ) {
+                      if (animatedCount.current === elements.length && onAnimationComplete) {
                           onAnimationComplete();
                       }
                   }
@@ -120,9 +110,7 @@ const BlurText: React.FC<BlurTextProps> = ({
                     style={props}
                     className="inline-block transition-transform will-change-[transform,filter,opacity]">
                     {elements[index] === " " ? "\u00A0" : elements[index]}
-                    {animateBy === "words" &&
-                        index < elements.length - 1 &&
-                        "\u00A0"}
+                    {animateBy === "words" && index < elements.length - 1 && "\u00A0"}
                 </animated.span>
             ))}
         </p>

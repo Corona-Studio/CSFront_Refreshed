@@ -11,18 +11,14 @@ export const zhCN = {
             "Corona Studio 源于 CMFL 开发组。我们是以 Minecraft 为业务核心的由爱好者和专业人士组成的计算机开发团队。",
         ourProjects: "我们的项目",
 
-        lxDescription:
-            "LauncherX 是由日冕工作室开发的下一代 MineCraft 启动器。",
-        projbobcatDescription:
-            "用 C# 编写的下一代 Minecraft 启动器核心，提供最自由、最快速和最完整的体验。",
-        connectxDescription:
-            "基于 C# 开发的高性能跨平台 MC 联机模块实现，支持 P2P 和 中继 等高级特性。",
+        lxDescription: "LauncherX 是由日冕工作室开发的下一代 MineCraft 启动器。",
+        projbobcatDescription: "用 C# 编写的下一代 Minecraft 启动器核心，提供最自由、最快速和最完整的体验。",
+        connectxDescription: "基于 C# 开发的高性能跨平台 MC 联机模块实现，支持 P2P 和 中继 等高级特性。",
 
         lxSlogan: "功能强大、界面优美的下一代 MineCraft 启动器。",
         downloadNow: "立即下载",
         powerfulFeatures: "强大的功能",
-        powerfulFeaturesDescription:
-            "提供大量实用强大的功能，一站式管理你的所有游戏资源。",
+        powerfulFeaturesDescription: "提供大量实用强大的功能，一站式管理你的所有游戏资源。",
         notOnly: "不仅仅是",
 
         modPackInstallation: "模组包安装",

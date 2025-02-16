@@ -19,9 +19,7 @@ export default function Footer() {
 
     return (
         <>
-            <div
-                className="p-3 w-screen fixed -z-10 left-0 right-0 bottom-0 text-black dark:text-white"
-                id="footer">
+            <div className="p-3 w-screen fixed -z-10 left-0 right-0 bottom-0 text-black dark:text-white" id="footer">
                 <div data-v-5b7f1ebd="" className="grow">
                     <p data-v-5b7f1ebd="" className="">
                         2016 - 2025 © Corona Studio |
@@ -30,10 +28,7 @@ export default function Footer() {
                         </span>
                     </p>
                     <i data-v-5b7f1ebd="">
-                        <a
-                            data-v-5b7f1ebd=""
-                            className=" opacity-75 hover:opacity-80 active:opacity-95"
-                            href="#">
+                        <a data-v-5b7f1ebd="" className=" opacity-75 hover:opacity-80 active:opacity-95" href="#">
                             <span data-v-5b7f1ebd="">蜀ICP备 -号</span>
                         </a>
                     </i>
@@ -41,10 +36,7 @@ export default function Footer() {
                         |
                     </span>
                     <i data-v-5b7f1ebd="">
-                        <a
-                            data-v-5b7f1ebd=""
-                            className=" opacity-75 hover:opacity-80 active:opacity-95"
-                            href="#">
+                        <a data-v-5b7f1ebd="" className=" opacity-75 hover:opacity-80 active:opacity-95" href="#">
                             <span data-v-5b7f1ebd="">蜀公网安备 -号</span>
                         </a>
                     </i>

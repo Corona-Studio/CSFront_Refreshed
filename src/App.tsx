@@ -1,11 +1,12 @@
-import { useEffect } from "react";
+import { lazy, useEffect } from "react";
 import { Outlet, useMatches } from "react-router";
 
 import "./App.css";
-import Footer from "./components/Footer.tsx";
-import MenuBar from "./components/MenuBar.tsx";
 import { useThemeDetector } from "./helpers/ThemeDetector.ts";
 import IMatches from "./interfaces/IMatches.ts";
+
+const Footer = lazy(() => import("./components/Footer.tsx"));
+const MenuBar = lazy(() => import("./components/MenuBar.tsx"));
 
 interface HandleType {
     title: (param?: string) => string;
@@ -15,9 +16,6 @@ function App() {
     const themeDetector = useThemeDetector();
     const matches = useMatches() as IMatches[];
     const { handle, data } = matches[matches.length - 1];
-
-    console.log("sfsfsf");
-    console.log(matches);
 
     const titleHandle = !!handle && !!(handle as HandleType).title;
 

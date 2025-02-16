@@ -70,8 +70,7 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
         const itemHeight = firstItem.offsetHeight;
         const itemMarginTop = parseFloat(itemStyle.marginTop) || 0;
         const totalItemHeight = itemHeight + itemMarginTop;
-        const totalHeight =
-            itemHeight * items.length + itemMarginTop * (items.length - 1);
+        const totalHeight = itemHeight * items.length + itemMarginTop * (items.length - 1);
 
         const wrapFn = gsap.utils.wrap(-totalHeight, totalHeight);
 
@@ -152,16 +151,7 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
             observer.kill();
             if (rafId) cancelAnimationFrame(rafId);
         };
-    }, [
-        items,
-        autoplay,
-        autoplaySpeed,
-        autoplayDirection,
-        pauseOnHover,
-        isTilted,
-        tiltDirection,
-        negativeMargin
-    ]);
+    }, [items, autoplay, autoplaySpeed, autoplayDirection, pauseOnHover, isTilted, tiltDirection, negativeMargin]);
 
     return (
         <>

@@ -1,13 +1,16 @@
+import { lazy } from "react";
 import { CatIcon, RocketIcon, TreeSquareDotIcon } from "tdesign-icons-react";
 import { Col, Row } from "tdesign-react";
 
-import GridMotion from "../ReactBits/Backgrounds/GridMotion/GridMotion.tsx";
-import Squares from "../ReactBits/Backgrounds/Squares/Squares.tsx";
-import DecryptedText from "../ReactBits/TextAnimations/DecryptedText/DecryptedText.tsx";
-import RotatingText from "../ReactBits/TextAnimations/RotatingText/RotatingText.tsx";
-import BannerContainer from "../components/BannerContainer.tsx";
-import ProjectCard from "../components/ProjectCard.tsx";
 import i18next from "../i18n";
+
+const Squares = lazy(() => import("../ReactBits/Backgrounds/Squares/Squares.tsx"));
+const DecryptedText = lazy(() => import("../ReactBits/TextAnimations/DecryptedText/DecryptedText.tsx"));
+const RotatingText = lazy(() => import("../ReactBits/TextAnimations/RotatingText/RotatingText.tsx"));
+const BannerContainer = lazy(() => import("../components/BannerContainer.tsx"));
+const ProjectCard = lazy(() => import("../components/ProjectCard.tsx"));
+
+const GridMotion = lazy(() => import("../ReactBits/Backgrounds/GridMotion/GridMotion.tsx"));
 
 const t = i18next.t;
 
@@ -15,10 +18,7 @@ function Home() {
     const images = Array(23)
         .fill(1)
         .map((x, y) => x + y)
-        .map(
-            (x) =>
-                new URL(`../assets/landscapes/${x}.webp`, import.meta.url).href
-        );
+        .map((x) => new URL(`../assets/landscapes/${x}.webp`, import.meta.url).href);
 
     const projectsArray = [
         {
@@ -42,17 +42,10 @@ function Home() {
         <>
             <BannerContainer innerDivClassName="dark:bg-black">
                 <div className="z-0 w-full h-full shadow">
-                    <Squares
-                        direction="diagonal"
-                        speed={0.1}
-                        squareSize={120}
-                        hoverFillColor="#ffb300"
-                    />
+                    <Squares direction="diagonal" speed={0.1} squareSize={120} hoverFillColor="#ffb300" />
                 </div>
 
-                <div
-                    className="z-10 absolute w-full h-full"
-                    style={{ pointerEvents: "none" }}>
+                <div className="z-10 absolute w-full h-full" style={{ pointerEvents: "none" }}>
                     <div className="flex absolute left-1/8 h-screen transition">
                         <div className="m-auto space-y-4">
                             <h3>{t("welcomeAccess")}</h3>
@@ -77,17 +70,9 @@ function Home() {
                                 revealDirection="start"
                             />
                             <div className="flex items-center space-x-4">
-                                <span className="text-4xl align-middle inline-block">
-                                    {t("weDevelop")}
-                                </span>
+                                <span className="text-4xl align-middle inline-block">{t("weDevelop")}</span>
                                 <RotatingText
-                                    texts={[
-                                        "LauncherX",
-                                        "ProjBobcat",
-                                        "ConnectX",
-                                        "P2P",
-                                        "CMFS"
-                                    ]}
+                                    texts={["LauncherX", "ProjBobcat", "ConnectX", "P2P", "CMFS"]}
                                     mainClassName="text-4xl px-2 sm:px-2 md:px-3 bg-amber-400 text-black overflow-hidden py-0.5 sm:py-1 md:py-2 rounded-lg"
                                     staggerFrom={"last"}
                                     initial={{ y: "100%" }}
@@ -118,9 +103,7 @@ function Home() {
 
                 <div className="p-[12.5%] w-full">
                     <div className="m-auto">
-                        <h2 className="font-bold pb-8 float-end">
-                            {t("ourProjects")}
-                        </h2>
+                        <h2 className="font-bold pb-8 float-end">{t("ourProjects")}</h2>
                         <Row gutter={[16, 16]} className="w-full">
                             {projectsArray.map((project, i) => (
                                 <Col sm={12} md={6} lg={4} xl={4} key={i}>

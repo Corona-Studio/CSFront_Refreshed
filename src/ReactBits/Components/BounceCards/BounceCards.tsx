@@ -59,23 +59,15 @@ export default function BounceCards({
         }
     };
 
-    const getPushedTransform = (
-        baseTransform: string,
-        offsetX: number
-    ): string => {
+    const getPushedTransform = (baseTransform: string, offsetX: number): string => {
         const translateRegex = /translate\(([-0-9.]+)px\)/;
         const match = baseTransform.match(translateRegex);
         if (match) {
             const currentX = parseFloat(match[1]);
             const newX = currentX + offsetX;
-            return baseTransform.replace(
-                translateRegex,
-                `translate(${newX}px)`
-            );
+            return baseTransform.replace(translateRegex, `translate(${newX}px)`);
         } else {
-            return baseTransform === "none"
-                ? `translate(${offsetX}px)`
-                : `${baseTransform} translate(${offsetX}px)`;
+            return baseTransform === "none" ? `translate(${offsetX}px)` : `${baseTransform} translate(${offsetX}px)`;
         }
     };
 
@@ -98,10 +90,7 @@ export default function BounceCards({
                 });
             } else {
                 const offsetX = i < hoveredIdx ? -160 : 160;
-                const pushedTransform = getPushedTransform(
-                    baseTransform,
-                    offsetX
-                );
+                const pushedTransform = getPushedTransform(baseTransform, offsetX);
 
                 const distance = Math.abs(hoveredIdx - i);
                 const delay = distance * 0.05;
@@ -151,11 +140,7 @@ export default function BounceCards({
                     }}
                     onMouseEnter={() => pushSiblings(idx)}
                     onMouseLeave={resetSiblings}>
-                    <img
-                        className="w-full h-full object-cover"
-                        src={src}
-                        alt={`card-${idx}`}
-                    />
+                    <img className="w-full h-full object-cover" src={src} alt={`card-${idx}`} />
                 </div>
             ))}
         </div>

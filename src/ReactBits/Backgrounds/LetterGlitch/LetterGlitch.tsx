@@ -99,9 +99,7 @@ const LetterGlitch = ({
     ];
 
     const getRandomChar = () => {
-        return lettersAndSymbols[
-            Math.floor(Math.random() * lettersAndSymbols.length)
-        ];
+        return lettersAndSymbols[Math.floor(Math.random() * lettersAndSymbols.length)];
     };
 
     const getRandomColor = () => {
@@ -197,10 +195,7 @@ const LetterGlitch = ({
     const updateLetters = () => {
         if (!letters.current || letters.current.length === 0) return; // Prevent accessing empty array
 
-        const updateCount = Math.max(
-            1,
-            Math.floor(letters.current.length * 0.05)
-        );
+        const updateCount = Math.max(1, Math.floor(letters.current.length * 0.05));
 
         for (let i = 0; i < updateCount; i++) {
             const index = Math.floor(Math.random() * letters.current.length);
@@ -210,8 +205,7 @@ const LetterGlitch = ({
             letters.current[index].targetColor = getRandomColor();
 
             if (!smooth) {
-                letters.current[index].color =
-                    letters.current[index].targetColor;
+                letters.current[index].color = letters.current[index].targetColor;
                 letters.current[index].colorProgress = 1;
             } else {
                 letters.current[index].colorProgress = 0;
@@ -229,11 +223,7 @@ const LetterGlitch = ({
                 const startRgb = hexToRgb(letter.color);
                 const endRgb = hexToRgb(letter.targetColor);
                 if (startRgb && endRgb) {
-                    letter.color = interpolateColor(
-                        startRgb,
-                        endRgb,
-                        letter.colorProgress
-                    );
+                    letter.color = interpolateColor(startRgb, endRgb, letter.colorProgress);
                     needsRedraw = true;
                 }
             }

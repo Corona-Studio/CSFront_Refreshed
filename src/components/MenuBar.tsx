@@ -59,15 +59,7 @@ function MenuBar() {
                     theme="light"
                     value={active}
                     onChange={(v) => setActive(v)}
-                    logo={
-                        <img
-                            className={styles.menuLogo}
-                            src={logo}
-                            height="28"
-                            alt="logo"
-                            onClick={onLogoClicked}
-                        />
-                    }
+                    logo={<img className={styles.menuLogo} src={logo} height="28" alt="logo" onClick={onLogoClicked} />}
                     operations={operations()}>
                     <MenuItem value={"/"} onClick={() => navigate("/")}>
                         <span>{t("indexPage")}</span>
@@ -78,19 +70,13 @@ function MenuBar() {
                     <MenuItem value={"cmfs"}>
                         <span>CMFS</span>
                     </MenuItem>
-                    <MenuItem
-                        value={"cskb"}
-                        href="https://kb.corona.studio/"
-                        target="_blank">
+                    <MenuItem value={"cskb"} href="https://kb.corona.studio/" target="_blank">
                         <span>
                             {t("cskb")}
                             <LinkIcon />
                         </span>
                     </MenuItem>
-                    <MenuItem
-                        value={"moreProj"}
-                        href="https://github.com/Corona-Studio/"
-                        target="_blank">
+                    <MenuItem value={"moreProj"} href="https://github.com/Corona-Studio/" target="_blank">
                         <span>
                             {t("moreProjects")}
                             <LinkIcon />

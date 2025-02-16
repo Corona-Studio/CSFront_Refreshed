@@ -13,8 +13,7 @@ import "./index.css";
 const style: CSSProperties = {
     position: "fixed",
     insetInlineEnd: 24,
-    insetBlockEnd: 80,
-    zIndex: 9999
+    insetBlockEnd: 80
 };
 
 createRoot(document.getElementById("root")!).render(

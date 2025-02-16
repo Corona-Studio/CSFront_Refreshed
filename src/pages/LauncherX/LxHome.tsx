@@ -1,16 +1,18 @@
 import i18next from "i18next";
+import { lazy } from "react";
 import { useNavigate } from "react-router";
 import { ArrowRightIcon } from "tdesign-icons-react";
 import { Button, Col, Row, Statistic } from "tdesign-react";
 
-import LetterGlitch from "../../ReactBits/Backgrounds/LetterGlitch/LetterGlitch.tsx";
-import BounceCards from "../../ReactBits/Components/BounceCards/BounceCards.tsx";
-import InfiniteScroll from "../../ReactBits/Components/InfiniteScroll/InfiniteScroll.tsx";
-import RollingGallery from "../../ReactBits/Components/RollingGallery/RollingGallery.tsx";
-import RotatingText from "../../ReactBits/TextAnimations/RotatingText/RotatingText.tsx";
-import BannerContainer from "../../components/BannerContainer.tsx";
-import LxLogo from "../../components/LxLogo.tsx";
 import styles from "./Index.module.css";
+
+const LetterGlitch = lazy(() => import("../../ReactBits/Backgrounds/LetterGlitch/LetterGlitch.tsx"));
+const BounceCards = lazy(() => import("../../ReactBits/Components/BounceCards/BounceCards.tsx"));
+const InfiniteScroll = lazy(() => import("../../ReactBits/Components/InfiniteScroll/InfiniteScroll.tsx"));
+const RollingGallery = lazy(() => import("../../ReactBits/Components/RollingGallery/RollingGallery.tsx"));
+const RotatingText = lazy(() => import("../../ReactBits/TextAnimations/RotatingText/RotatingText.tsx"));
+const BannerContainer = lazy(() => import("../../components/BannerContainer.tsx"));
+const LxLogo = lazy(() => import("../../components/LxLogo.tsx"));
 
 const t = i18next.t;
 
@@ -25,12 +27,7 @@ function LxHome() {
             content: (
                 <img
                     key={i}
-                    src={
-                        new URL(
-                            `../../assets/lx/LauncherX_${x}.webp`,
-                            import.meta.url
-                        ).href
-                    }
+                    src={new URL(`../../assets/lx/LauncherX_${x}.webp`, import.meta.url).href}
                     alt="LauncherX"
                 />
             )
@@ -40,11 +37,7 @@ function LxHome() {
         .fill(1)
         .map((x, y) => x + y)
         .filter((x) => x % 2 !== 0)
-        .map(
-            (x) =>
-                new URL(`../../assets/lx/LauncherX_${x}.webp`, import.meta.url)
-                    .href
-        );
+        .map((x) => new URL(`../../assets/lx/LauncherX_${x}.webp`, import.meta.url).href);
 
     const usages = [
         t("modPackInstallation"),
@@ -96,10 +89,7 @@ function LxHome() {
                                     <LxLogo />
                                     <span>{t("lxSlogan")}</span>
                                 </div>
-                                <Button
-                                    size="large"
-                                    variant="base"
-                                    onClick={() => navigate("/lx/download")}>
+                                <Button size="large" variant="base" onClick={() => navigate("/lx/download")}>
                                     <div className="flex items-center space-x-4">
                                         <span>{t("downloadNow")}</span>
                                         <ArrowRightIcon />
@@ -116,9 +106,7 @@ function LxHome() {
                             <Col xs={12} lg={6}>
                                 <div className="text-white">
                                     <div className="m-auto space-y-4">
-                                        <h2 className="font-bold">
-                                            {t("powerfulFeatures")}
-                                        </h2>
+                                        <h2 className="font-bold">{t("powerfulFeatures")}</h2>
                                         <div className="flex items-center space-x-6">
                                             <h3>{t("notOnly")}</h3>
                                             <RotatingText
@@ -133,18 +121,12 @@ function LxHome() {
                                                 rotationInterval={2000}
                                             />
                                         </div>
-                                        <div className="pt-4">
-                                            {t("powerfulFeaturesDescription")}
-                                        </div>
+                                        <div className="pt-4">{t("powerfulFeaturesDescription")}</div>
                                     </div>
                                 </div>
                             </Col>
                             <Col xs={12} lg={6}>
-                                <RollingGallery
-                                    autoplay={true}
-                                    pauseOnHover={true}
-                                    images={launcherImages}
-                                />
+                                <RollingGallery autoplay={true} pauseOnHover={true} images={launcherImages} />
                             </Col>
                         </Row>
                     </div>
@@ -154,24 +136,14 @@ function LxHome() {
                             <Col xs={12} lg={6}>
                                 <div className="text-white pr-24 pb-16">
                                     <div className="m-auto">
-                                        <h2 className="font-bold">
-                                            {t("aggressiveOptimizing")}
-                                        </h2>
-                                        <div className="pt-4">
-                                            {t(
-                                                "aggressiveOptimizingDescription"
-                                            )}
-                                        </div>
+                                        <h2 className="font-bold">{t("aggressiveOptimizing")}</h2>
+                                        <div className="pt-4">{t("aggressiveOptimizingDescription")}</div>
                                     </div>
                                 </div>
                             </Col>
                             <Col xs={12} lg={6}>
                                 <LetterGlitch
-                                    glitchColors={[
-                                        "#64ce65",
-                                        "#4085de",
-                                        "#66b2d3"
-                                    ]}
+                                    glitchColors={["#64ce65", "#4085de", "#66b2d3"]}
                                     glitchSpeed={50}
                                     centerVignette={false}
                                     outerVignette={true}
@@ -199,14 +171,10 @@ function LxHome() {
                                 <div className="text-white pr-24">
                                     <div className="m-auto items-end">
                                         <h2 className="font-bold text-right">
-                                            {t(
-                                                "integratedWithThirdPartyResources"
-                                            )}
+                                            {t("integratedWithThirdPartyResources")}
                                         </h2>
                                         <div className="pt-4 text-right">
-                                            {t(
-                                                "integratedWithThirdPartyResourcesDescription"
-                                            )}
+                                            {t("integratedWithThirdPartyResourcesDescription")}
                                         </div>
                                     </div>
                                 </div>
@@ -255,14 +223,8 @@ function LxHome() {
                             <Col xs={12} lg={6}>
                                 <div className="text-white pr-24">
                                     <div className="m-auto items-end">
-                                        <h2 className="font-bold text-right">
-                                            {t("alwaysGetLatestUpdates")}
-                                        </h2>
-                                        <div className="pt-4 text-right">
-                                            {t(
-                                                "alwaysGetLatestUpdatesDescription"
-                                            )}
-                                        </div>
+                                        <h2 className="font-bold text-right">{t("alwaysGetLatestUpdates")}</h2>
+                                        <div className="pt-4 text-right">{t("alwaysGetLatestUpdatesDescription")}</div>
                                     </div>
                                 </div>
                             </Col>

@@ -1,11 +1,12 @@
 import i18next from "i18next";
+import { lazy } from "react";
 import { MoreIcon } from "tdesign-icons-react";
 import { Button, Dropdown, Loading, Space } from "tdesign-react";
 
-import Waves from "../../ReactBits/Backgrounds/Waves/Waves.tsx";
-import RotatingText from "../../ReactBits/TextAnimations/RotatingText/RotatingText.tsx";
-import BannerContainer from "../../components/BannerContainer.tsx";
-import LxLogo from "../../components/LxLogo.tsx";
+const Waves = lazy(() => import("../../ReactBits/Backgrounds/Waves/Waves.tsx"));
+const RotatingText = lazy(() => import("../../ReactBits/TextAnimations/RotatingText/RotatingText.tsx"));
+const BannerContainer = lazy(() => import("../../components/BannerContainer.tsx"));
+const LxLogo = lazy(() => import("../../components/LxLogo.tsx"));
 
 const t = i18next.t;
 
@@ -64,13 +65,7 @@ function LxDownload() {
                                 </div>
                             </div>
 
-                            <Loading
-                                className="w-full h-[100px]"
-                                indicator
-                                loading
-                                preventScrollThrough
-                                showOverlay
-                            />
+                            <Loading className="w-full h-[100px]" indicator loading preventScrollThrough showOverlay />
 
                             <Space size={4} className="pt-8">
                                 <Button size="large" variant="base">
