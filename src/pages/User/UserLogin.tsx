@@ -1,4 +1,4 @@
-import { DesktopIcon, LockOnIcon } from "tdesign-icons-react";
+import { DesktopIcon, LockOnIcon, UserAddIcon } from "tdesign-icons-react";
 import { Button, Form, Input } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
@@ -26,6 +26,9 @@ function UserLogin() {
                     <FormItem>
                         <Button theme="primary" type="submit" block>
                             {t("login")}
+                        </Button>
+                        <Button theme="default" type="reset" style={{ marginLeft: 12 }}>
+                            {t("register")}
                         </Button>
                     </FormItem>
                 </Form>

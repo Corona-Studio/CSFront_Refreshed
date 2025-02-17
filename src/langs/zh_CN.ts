@@ -84,6 +84,8 @@ export const zhCN = {
 
         login: "登录",
         pleaseInputEmail: "请输入邮箱",
-        pleaseInputPassword: "请输入密码"
+        pleaseInputPassword: "请输入密码",
+
+        register: "注册"
     }
 };
