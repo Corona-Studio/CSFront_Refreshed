@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import { CatIcon, RocketIcon, TreeSquareDotIcon } from "tdesign-icons-react";
+import { BookOpenIcon, CatIcon, CoordinateSystemIcon, RocketIcon, TreeSquareDotIcon } from "tdesign-icons-react";
 import { Col, Row } from "tdesign-react";
 
 import i18next from "../i18n";
@@ -9,7 +9,6 @@ const DecryptedText = lazy(() => import("../ReactBits/TextAnimations/DecryptedTe
 const RotatingText = lazy(() => import("../ReactBits/TextAnimations/RotatingText/RotatingText.tsx"));
 const BannerContainer = lazy(() => import("../components/BannerContainer.tsx"));
 const ProjectCard = lazy(() => import("../components/ProjectCard.tsx"));
-
 const GridMotion = lazy(() => import("../ReactBits/Backgrounds/GridMotion/GridMotion.tsx"));
 
 const t = i18next.t;
@@ -24,17 +23,32 @@ function Home() {
         {
             icon: <RocketIcon />,
             title: "LauncherX",
-            description: t("lxDescription")
+            description: t("lxDescription"),
+            link: "/lx"
         },
         {
             icon: <CatIcon />,
             title: "ProjBobcat",
-            description: t("projbobcatDescription")
+            description: t("projbobcatDescription"),
+            link: "https://github.com/Corona-Studio/ProjBobcat"
         },
         {
             icon: <TreeSquareDotIcon />,
             title: "ConnectX",
-            description: t("connectxDescription")
+            description: t("connectxDescription"),
+            link: "https://github.com/Corona-Studio"
+        },
+        {
+            icon: <BookOpenIcon />,
+            title: "CSKB",
+            description: t("cskbDescription"),
+            link: "https://kb.corona.studio/"
+        },
+        {
+            icon: <CoordinateSystemIcon />,
+            title: "Hive.Framework",
+            description: t("hiveDescription"),
+            link: "https://github.com/Corona-Studio/Hive.Framework"
         }
     ];
 
@@ -107,11 +121,13 @@ function Home() {
                         <Row gutter={[16, 16]} className="w-full">
                             {projectsArray.map((project, i) => (
                                 <Col sm={12} md={6} lg={4} xl={4} key={i}>
-                                    <ProjectCard
-                                        icon={project.icon}
-                                        title={project.title}
-                                        description={project.description}
-                                    />
+                                    <a href={project.link} target="_blank">
+                                        <ProjectCard
+                                            icon={project.icon}
+                                            title={project.title}
+                                            description={project.description}
+                                        />
+                                    </a>
                                 </Col>
                             ))}
                         </Row>

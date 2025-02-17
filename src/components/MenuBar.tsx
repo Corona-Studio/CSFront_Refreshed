@@ -67,7 +67,7 @@ function MenuBar() {
                     <MenuItem value={"/lx"} onClick={() => navigate("/lx")}>
                         <span>LauncherX</span>
                     </MenuItem>
-                    <MenuItem value={"cmfs"}>
+                    <MenuItem value={"/cmfs"} onClick={() => navigate("/cmfs")}>
                         <span>CMFS</span>
                     </MenuItem>
                     <MenuItem value={"cskb"} href="https://kb.corona.studio/" target="_blank">
