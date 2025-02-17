@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+.x {
+    @apply text-orange-400;
+    text-shadow: 0 0 50px var(--color-amber-300);
+}

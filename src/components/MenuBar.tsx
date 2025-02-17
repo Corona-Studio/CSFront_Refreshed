@@ -1,33 +1,99 @@
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
-import { LinkIcon, MoonIcon, SunnyIcon } from 'tdesign-icons-react';
-import { Button, MenuValue } from 'tdesign-react';
-import HeadMenu from 'tdesign-react/es/menu/HeadMenu';
-import MenuItem from 'tdesign-react/es/menu/MenuItem';
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
+import { LinkIcon, MoonIcon, SunnyIcon, User1Icon, ViewListIcon } from "tdesign-icons-react";
+import { Button, Dropdown, DropdownOption, MenuValue } from "tdesign-react";
+import HeadMenu from "tdesign-react/es/menu/HeadMenu";
+import MenuItem from "tdesign-react/es/menu/MenuItem";
 
-import logo from '../assets/logo.png';
-import { useThemeDetector } from '../helpers/ThemeDetector.ts';
-import i18next from '../i18n';
+import logo from "../assets/logo.png";
+import { useThemeDetector } from "../helpers/ThemeDetector.ts";
+import i18next from "../i18n";
+import styles from "./MenuBar.module.css";
 
 const t = i18next.t;
-import styles from './MenuBar.module.css';
+
+interface DropDownItemValue {
+    content: string;
+    value: MenuItemValue;
+    menuValue: string;
+}
+
+interface MenuItemValue {
+    to: string;
+    isInSiteLink: boolean;
+}
 
 function MenuBar() {
     const themeDetector = useThemeDetector();
-    const [active, setActive] = useState<MenuValue>('0');
+    const [active, setActive] = useState<MenuValue>("0");
     const [isDarkMode, setDarkMode] = useState(true);
 
     const navigate = useNavigate();
     const location = useLocation();
 
+    const linkOptions: DropDownItemValue[] = [
+        {
+            content: t("indexPage"),
+            value: { to: "/", isInSiteLink: true },
+            menuValue: "/"
+        },
+        {
+            content: "LauncherX",
+            value: { to: "/lx", isInSiteLink: true },
+            menuValue: "/lx"
+        },
+        {
+            content: "CMFS",
+            value: { to: "/cmfs", isInSiteLink: true },
+            menuValue: "/cmfs"
+        },
+        {
+            content: t("cskb"),
+            value: { to: "https://kb.corona.studio/", isInSiteLink: false },
+            menuValue: "cskb"
+        },
+        {
+            content: t("moreProjects"),
+            value: { to: "https://github.com/Corona-Studio/", isInSiteLink: false },
+            menuValue: "moreProj"
+        }
+    ];
+
+    function to(value: MenuItemValue) {
+        if (value.isInSiteLink) {
+            navigate(value.to);
+            return;
+        }
+
+        window.open(value.to, "_blank");
+    }
+
+    function onMenuItemClicked(dropdownItem: DropdownOption) {
+        if (!dropdownItem.value) return;
+
+        const value = dropdownItem.value as MenuItemValue;
+
+        to(value);
+    }
+
     const operations = () => (
-        <div className="pr-8">
+        <div className="flex-center pr-4">
             <Button
                 variant="text"
                 shape="square"
                 icon={isDarkMode ? <MoonIcon /> : <SunnyIcon />}
                 onClick={switchTheme}
             />
+            <Button variant="text" shape="square" icon={<User1Icon />} onClick={() => navigate("/user/login")} />
+            <Dropdown
+                direction="right"
+                hideAfterItemClick={true}
+                placement="bottom"
+                trigger="hover"
+                options={linkOptions}
+                onClick={onMenuItemClicked}>
+                <Button variant="text" shape="square" icon={<ViewListIcon />} />
+            </Dropdown>
         </div>
     );
 
@@ -41,16 +107,15 @@ function MenuBar() {
 
         localStorage.theme = isDarkMode ? "dark" : "light";
         if (isDarkMode) {
-            document.documentElement.setAttribute('theme-mode', 'dark');
+            document.documentElement.setAttribute("theme-mode", "dark");
             return;
         }
-        document.documentElement.removeAttribute('theme-mode');
-
+        document.documentElement.removeAttribute("theme-mode");
     }
 
     function onLogoClicked() {
-        navigate('/');
-        setActive('0');
+        navigate("/");
+        setActive("0");
     }
 
     return (
@@ -60,43 +125,18 @@ function MenuBar() {
                     theme="light"
                     value={active}
                     onChange={(v) => setActive(v)}
-                    logo={
-                        <img
-                            className={styles.menuLogo}
-                            src={logo}
-                            height="28"
-                            alt="logo"
-                            onClick={onLogoClicked}
-                        />
-                    }
+                    logo={<img className={styles.menuLogo} src={logo} alt="logo" onClick={onLogoClicked} />}
                     operations={operations()}>
-                    <MenuItem value={'/'} onClick={() => navigate('/')}>
-                        <span>{t('indexPage')}</span>
-                    </MenuItem>
-                    <MenuItem value={'/lx'} onClick={() => navigate('/lx')}>
-                        <span>LauncherX</span>
-                    </MenuItem>
-                    <MenuItem value={'cmfs'}>
-                        <span>CMFS</span>
-                    </MenuItem>
-                    <MenuItem
-                        value={'cskb'}
-                        href="https://kb.corona.studio/"
-                        target="_blank">
-                        <span>
-                            {t('cskb')}
-                            <LinkIcon />
-                        </span>
-                    </MenuItem>
-                    <MenuItem
-                        value={'moreProj'}
-                        href="https://github.com/Corona-Studio/"
-                        target="_blank">
-                        <span>
-                            {t('moreProjects')}
-                            <LinkIcon />
-                        </span>
-                    </MenuItem>
+                    <div className="hidden md:flex">
+                        {linkOptions.map((option, i) => (
+                            <MenuItem key={i} value={option.menuValue} onClick={() => to(option.value)}>
+                                <span>
+                                    {option.content}
+                                    {!option.value.isInSiteLink && <LinkIcon />}
+                                </span>
+                            </MenuItem>
+                        ))}
+                    </div>
                 </HeadMenu>
             </div>
         </>

@@ -2,10 +2,10 @@
   "trailingComma": "none",
   "tabWidth": 4,
   "semi": true,
-  "singleQuote": true,
+  "singleQuote": false,
   "htmlWhitespaceSensitivity": "ignore",
   "bracketSameLine": true,
-  "printWidth": 80,
+  "printWidth": 120,
   "importOrder": [
     "^@core/(.*)$",
     "<THIRD_PARTY_MODULES>",
