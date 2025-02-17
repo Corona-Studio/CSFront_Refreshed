@@ -62,7 +62,7 @@ function MenuBar() {
     }
 
     const operations = () => (
-        <div className="pr-8 flex">
+        <div className="flex-center pr-4">
             <Button
                 variant="text"
                 shape="square"
@@ -111,41 +111,29 @@ function MenuBar() {
                     onChange={(v) => setActive(v)}
                     logo={<img className={styles.menuLogo} src={logo} alt="logo" onClick={onLogoClicked} />}
                     operations={operations()}>
-                    <MenuItem value={"/"} onClick={() => navigate("/")} className="invisible w-0 md:visible md:w-auto">
-                        <span>{t("indexPage")}</span>
-                    </MenuItem>
-                    <MenuItem
-                        value={"/lx"}
-                        onClick={() => navigate("/lx")}
-                        className="invisible w-0 md:visible md:w-auto">
-                        <span>LauncherX</span>
-                    </MenuItem>
-                    <MenuItem
-                        value={"/cmfs"}
-                        onClick={() => navigate("/cmfs")}
-                        className="invisible w-0 md:visible md:w-auto">
-                        <span>CMFS</span>
-                    </MenuItem>
-                    <MenuItem
-                        value={"cskb"}
-                        href="https://kb.corona.studio/"
-                        target="_blank"
-                        className="invisible w-0 md:visible md:w-auto">
-                        <span>
-                            {t("cskb")}
-                            <LinkIcon />
-                        </span>
-                    </MenuItem>
-                    <MenuItem
-                        value={"moreProj"}
-                        href="https://github.com/Corona-Studio/"
-                        target="_blank"
-                        className="invisible w-0 md:visible md:w-auto">
-                        <span>
-                            {t("moreProjects")}
-                            <LinkIcon />
-                        </span>
-                    </MenuItem>
+                    <div className="hidden md:flex">
+                        <MenuItem value={"/"} onClick={() => navigate("/")}>
+                            <span>{t("indexPage")}</span>
+                        </MenuItem>
+                        <MenuItem value={"/lx"} onClick={() => navigate("/lx")}>
+                            <span>LauncherX</span>
+                        </MenuItem>
+                        <MenuItem value={"/cmfs"} onClick={() => navigate("/cmfs")}>
+                            <span>CMFS</span>
+                        </MenuItem>
+                        <MenuItem value={"cskb"} href="https://kb.corona.studio/" target="_blank">
+                            <span>
+                                {t("cskb")}
+                                <LinkIcon />
+                            </span>
+                        </MenuItem>
+                        <MenuItem value={"moreProj"} href="https://github.com/Corona-Studio/" target="_blank">
+                            <span>
+                                {t("moreProjects")}
+                                <LinkIcon />
+                            </span>
+                        </MenuItem>
+                    </div>
                 </HeadMenu>
             </div>
         </>
