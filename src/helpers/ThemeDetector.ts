@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 export const useThemeDetector = () => {
-
     const getCurrentTheme = () => {
         // console.log((localStorage.getItem("theme")! !== null ? localStorage.theme === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches))
         return window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -20,7 +19,7 @@ export const useThemeDetector = () => {
         return () => darkThemeMq.removeEventListener("change", mqListener);
     }, []);
 
-    return (localStorage.getItem("theme")! !== null // ... 
-                ? localStorage.theme === "dark"
-                : isDarkTheme);
+    return localStorage.getItem("theme")! !== null // ...
+        ? localStorage.theme === "dark"
+        : isDarkTheme;
 };

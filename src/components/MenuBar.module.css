@@ -1,5 +1,5 @@
 .menuLogo {
     mix-blend-mode: difference;
-    object-fit: contain;
     width: 120px;
+    object-fit: contain;
 }
