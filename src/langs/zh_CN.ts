@@ -90,6 +90,14 @@ export const zhCN = {
 
         submit: "提交",
         register: "注册",
-        forgetPassword: "忘记密码"
+        forgetPassword: "忘记密码",
+
+        emailRequired: "邮箱是必填项",
+        emailIncorrectMessage: "邮箱不正确，请输入正确的邮箱",
+        usernameRequired: "用户名是必填项",
+        usernameRuleDescription: "用户名长度在 6-18 位，允许大小写字母、横线、下划线和数字",
+        passwordRequired: "密码是必填项",
+        passwordRuleDescription: "密码至少需要 8 位，包含至少一个大写，小写字母、数字和符号",
+        passwordIsNotSame: "两次密码不一致"
     }
 };
