@@ -1,7 +1,7 @@
 import i18next from "i18next";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Outlet, useMatches } from "react-router";
-import { HomeIcon, ViewListIcon } from "tdesign-icons-react";
+import { Outlet, useLocation, useMatches, useNavigate } from "react-router";
+import { DeviceIcon, HomeIcon, MoneyIcon, ViewListIcon } from "tdesign-icons-react";
 import { Button, Divider, Menu } from "tdesign-react";
 import type { MenuValue } from "tdesign-react";
 import useScroll from "tdesign-react/es/back-top/useScroll";
@@ -25,6 +25,9 @@ function UserPageBaseElement() {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const windowBounds = useWindowResize();
 
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const scrollContainer = useMemo(() => document, []);
     const { scrollTop } = useScroll({ target: scrollContainer });
 
@@ -32,6 +35,28 @@ function UserPageBaseElement() {
     const { handle, data } = matches[matches.length - 1];
 
     const titleHandle = !!handle && !!(handle as HandleType).title;
+
+    const menuLinks = [
+        {
+            icon: <HomeIcon />,
+            to: "/user",
+            value: t("userCenter")
+        },
+        {
+            icon: <DeviceIcon />,
+            to: "/user/device",
+            value: t("deviceManage")
+        },
+        {
+            icon: <MoneyIcon />,
+            to: "/user/sponsor",
+            value: t("sponsor")
+        }
+    ];
+
+    useEffect(() => {
+        setActive(location.pathname);
+    }, [location.pathname]);
 
     useEffect(() => {
         const title = (handle as HandleType).title(data as string | undefined);
@@ -75,9 +100,11 @@ function UserPageBaseElement() {
                             onClick={() => setCollapsed(!collapsed)}
                         />
                     }>
-                    <MenuItem value={"home"} icon={<HomeIcon />}>
-                        <span>{t("userCenter")}</span>
-                    </MenuItem>
+                    {menuLinks.map((link, i) => (
+                        <MenuItem key={i} value={link.to} icon={link.icon} onClick={() => navigate(link.to)}>
+                            <span>{link.value}</span>
+                        </MenuItem>
+                    ))}
                 </Menu>
 
                 <div className="relative w-screen h-full">

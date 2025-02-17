@@ -8,6 +8,8 @@ const Home = lazy(() => import("./pages/Home.tsx"));
 const LxIndex = lazy(() => import("./pages/LauncherX/LxHome.tsx"));
 const CMFS = lazy(() => import("./pages/CMFS.tsx"));
 
+const UserHome = lazy(() => import("./pages/User/UserHome.tsx"));
+
 const AuthPageBaseElement = lazy(() => import("./pages/Auth/AuthPageBaseElement.tsx"));
 const UserPageBaseElement = lazy(() => import("./pages/User/UserPageBaseElement.tsx"));
 
@@ -52,7 +54,19 @@ export const router = createBrowserRouter(
                     lazy={() => import("./pages/Auth/AuthForgetPassword.tsx")}
                 />
             </Route>
-            <Route path="user" element={<UserPageBaseElement />} handle={{ title: () => t("userCenter") }}></Route>
+            <Route path="user" element={<UserPageBaseElement />}>
+                <Route index element={<UserHome />} handle={{ title: () => t("userCenter") }} />
+                <Route
+                    path="device"
+                    handle={{ title: () => t("deviceManage") }}
+                    lazy={() => import("./pages/User/UserDeviceManagement.tsx")}
+                />
+                <Route
+                    path="sponsor"
+                    handle={{ title: () => t("sponsor") }}
+                    lazy={() => import("./pages/User/UserSponsor.tsx")}
+                />
+            </Route>
         </Route>
     )
 );

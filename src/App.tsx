@@ -30,7 +30,6 @@ function App() {
         }
 
         document.documentElement.removeAttribute("theme-mode");
-
     }, [data, handle, themeDetector, titleHandle]);
 
     return (

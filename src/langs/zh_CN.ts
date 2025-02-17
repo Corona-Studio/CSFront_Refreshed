@@ -102,6 +102,8 @@ export const zhCN = {
         passwordRuleDescription: "密码至少需要 8 位，包含至少一个大写，小写字母、数字和符号",
         passwordIsNotSame: "两次密码不一致",
 
-        userCenter: "个人中心"
+        userCenter: "个人中心",
+        deviceManage: "设备管理",
+        sponsor: "赞助"
     }
 };
