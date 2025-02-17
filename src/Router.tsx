@@ -9,6 +9,7 @@ const LxIndex = lazy(() => import("./pages/LauncherX/LxHome.tsx"));
 const CMFS = lazy(() => import("./pages/CMFS.tsx"));
 
 const AuthPageBaseElement = lazy(() => import("./pages/Auth/AuthPageBaseElement.tsx"));
+const UserPageBaseElement = lazy(() => import("./pages/User/UserPageBaseElement.tsx"));
 
 const t = i18next.t;
 
@@ -51,6 +52,7 @@ export const router = createBrowserRouter(
                     lazy={() => import("./pages/Auth/AuthForgetPassword.tsx")}
                 />
             </Route>
+            <Route path="user" element={<UserPageBaseElement />} handle={{ title: () => t("userCenter") }}></Route>
         </Route>
     )
 );

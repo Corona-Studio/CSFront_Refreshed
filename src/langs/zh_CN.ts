@@ -100,6 +100,8 @@ export const zhCN = {
         usernameRuleDescription: "用户名长度在 6-18 位，允许大小写字母、横线、下划线和数字",
         passwordRequired: "密码是必填项",
         passwordRuleDescription: "密码至少需要 8 位，包含至少一个大写，小写字母、数字和符号",
-        passwordIsNotSame: "两次密码不一致"
+        passwordIsNotSame: "两次密码不一致",
+
+        userCenter: "个人中心"
     }
 };
