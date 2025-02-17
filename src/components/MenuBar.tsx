@@ -92,7 +92,7 @@ function MenuBar() {
                 trigger="hover"
                 options={linkOptions}
                 onClick={onMenuItemClicked}>
-                <Button variant="text" shape="square" icon={<ViewListIcon />} />
+                <Button variant="text" shape="square" className="flex lg:hidden" icon={<ViewListIcon />} />
             </Dropdown>
         </div>
     );
@@ -127,7 +127,7 @@ function MenuBar() {
                     onChange={(v) => setActive(v)}
                     logo={<img className={styles.menuLogo} src={logo} alt="logo" onClick={onLogoClicked} />}
                     operations={operations()}>
-                    <div className="hidden md:flex">
+                    <div className="hidden lg:flex">
                         {linkOptions.map((option, i) => (
                             <MenuItem key={i} value={option.menuValue} onClick={() => to(option.value)}>
                                 <span>

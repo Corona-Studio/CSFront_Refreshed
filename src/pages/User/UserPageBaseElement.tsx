@@ -64,8 +64,8 @@ function UserPageBaseElement() {
     return (
         <>
             <BannerContainer>
-                <div className="z-0 w-full h-full">
-                    <Iridescence color={iridescenceColor} mouseReact={false} amplitude={0.1} speed={1.0} />
+                <div className="z-0 w-full h-full opacity-50">
+                    <Iridescence color={iridescenceColor} mouseReact={false} amplitude={0.3} speed={0.5} />
                 </div>
 
                 <div className="z-10 absolute w-full h-full flex place-items-end pb-8 mix-blend-overlay">

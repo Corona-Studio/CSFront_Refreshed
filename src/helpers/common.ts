@@ -2,7 +2,8 @@
 const err = (logo: string, reason: string) =>
     console.error(`${logo}: ${reason}`);
 
-const scroll = (id: string, shine = true, precise = false) => {
+
+export function scroll (id: string, shine = true, precise = false){
     const logo = '[utils.common.scroll]';
     // requiring class shine and transition.
     if (id != '.PAGETOP') {
@@ -25,9 +26,9 @@ const scroll = (id: string, shine = true, precise = false) => {
         }
         return;
     } else window.scrollTo({ top: 0, behavior: 'smooth' });
-};
+}
 
-function handleScroll(bindContainer: HTMLElement, threshold: number, display: 'block' | 'fixed' | 'absolute' | 'relative' | 'inline-block', usingDocumentAsMeasurement = false) {
+export function handleScroll (bindContainer: HTMLElement, threshold: number, display: 'block' | 'fixed' | 'absolute' | 'relative' | 'inline-block', usingDocumentAsMeasurement = false){
 
     let scrollDistance = usingDocumentAsMeasurement ? (window.pageYOffset ?? document.documentElement.scrollTop) : bindContainer.scrollTop;
 
@@ -36,9 +37,13 @@ function handleScroll(bindContainer: HTMLElement, threshold: number, display: 'b
     
 }
 
+export function checkPasswd (pass: string){
+    const regex = /^(?![A-z0-9]+$)(?=.[^%&',;=?$\x22])(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,20}$/g;
 
-const randomId = (marker = 'R') => {
+    return regex.test(pass);
+}
+
+export function randomId (marker = 'R'){
     return `${marker}@${Math.ceil(Math.random() * 1000)}`;
-};
+}
 
-export default { scroll, randomId, handleScroll };
