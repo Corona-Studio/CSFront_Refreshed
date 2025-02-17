@@ -27,6 +27,9 @@ function UserLogin() {
                         <Button theme="primary" type="submit" block>
                             {t("login")}
                         </Button>
+                        <Button theme="default" type="reset" style={{ marginLeft: 12 }}>
+                            {t("register")}
+                        </Button>
                     </FormItem>
                 </Form>
             </div>

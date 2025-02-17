@@ -44,7 +44,7 @@ function UserPageBaseElement() {
             document.title = pageInfo.pageTitle;
         }
 
-        setIridescenceColor(docRef.current.getAttribute("theme-mode") ? [0.2, 0.2, 0.2] : [0.8, 0.8, 0.8]);
+        setIridescenceColor(localStorage.theme === "dark" ? [0.2, 0.2, 0.2] : [0.8, 0.8, 0.8]);
         setScrollVelocityTexts([`${pageInfo.pageKey} ${pageInfo.pageTitle}`, `Corona Studio ${t("corona_studio")}`]);
     }, [data, handle, navigate, pageInfoHandle]);
 
