@@ -1,9 +1,5 @@
 .menuLogo {
-    display: inline-block;
     mix-blend-mode: difference;
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
     object-fit: contain;
     width: 100%;
     height: 80%;
