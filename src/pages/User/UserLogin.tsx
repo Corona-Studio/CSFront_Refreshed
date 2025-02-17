@@ -13,14 +13,19 @@ function UserLogin() {
                 <h4>{t("login")}</h4>
                 <Form className="w-[300px] md:w-[400px] lg:w-[450px]" statusIcon={true} colon={true} labelWidth={0}>
                     <FormItem name="account">
-                        <Input clearable={true} prefixIcon={<DesktopIcon />} placeholder="请输入账户名" />
+                        <Input clearable={true} prefixIcon={<DesktopIcon />} placeholder={t("pleaseInputEmail")} />
                     </FormItem>
                     <FormItem name="password">
-                        <Input type="password" prefixIcon={<LockOnIcon />} clearable={true} placeholder="请输入密码" />
+                        <Input
+                            type="password"
+                            prefixIcon={<LockOnIcon />}
+                            clearable={true}
+                            placeholder={t("pleaseInputPassword")}
+                        />
                     </FormItem>
                     <FormItem>
                         <Button theme="primary" type="submit" block>
-                            登录
+                            {t("login")}
                         </Button>
                     </FormItem>
                 </Form>

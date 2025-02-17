@@ -82,6 +82,8 @@ export const zhCN = {
         event9: "故事继续",
         event9Description: "历史仍在书写...",
 
-        login: "登录"
+        login: "登录",
+        pleaseInputEmail: "请输入邮箱",
+        pleaseInputPassword: "请输入密码"
     }
 };
