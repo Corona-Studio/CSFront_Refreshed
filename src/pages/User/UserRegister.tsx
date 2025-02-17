@@ -14,8 +14,8 @@ const t = i18next.t;
 
 function UserRegister() {
 
-    let _passBuffer = "",
-        [tips, setTips] = useState("");
+    // let _passBuffer = "",
+    let [tips, setTips] = useState("");
 
     let passwd, confirm;
 
@@ -35,8 +35,8 @@ function UserRegister() {
 
     function handlePasswd(e: string, inBuffer = false){
         e = e.trim();
-        if(inBuffer) _passBuffer = e;
-        if(e !== "") setTips(`${e}: ${checkPasswd(e)}`);
+        // if(inBuffer) _passBuffer = e;
+        if(e !== "") setTips(`${e}: ${checkPasswd(e)}, inbf: ${inBuffer}`);
         
     }
 
