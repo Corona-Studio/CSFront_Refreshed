@@ -1,4 +1,4 @@
-import { DesktopIcon, LockOnIcon, UserAddIcon } from "tdesign-icons-react";
+import { DesktopIcon, LockOnIcon } from "tdesign-icons-react";
 import { Button, Form, Input } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
