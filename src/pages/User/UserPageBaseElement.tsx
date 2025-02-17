@@ -2,13 +2,14 @@ import i18next from "i18next";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Outlet, useLocation, useMatches, useNavigate } from "react-router";
 import { DeviceIcon, HomeIcon, MoneyIcon, ViewListIcon } from "tdesign-icons-react";
-import { Button, Divider, Menu } from "tdesign-react";
+import { Button, Divider, Dropdown, DropdownOption, Menu } from "tdesign-react";
 import type { MenuValue } from "tdesign-react";
 import useScroll from "tdesign-react/es/back-top/useScroll";
 import MenuItem from "tdesign-react/es/menu/MenuItem";
 
 import { useWindowResize } from "../../helpers/WindowResizeHelper.ts";
 import IMatches from "../../interfaces/IMatches.ts";
+import { MenuItemValue } from "../../interfaces/MenuItemValue.ts";
 
 interface HandleType {
     title: (param?: string) => string;
@@ -76,41 +77,68 @@ function UserPageBaseElement() {
 
         if (footerShowedHeight < 0) footerShowedHeight = 0;
 
-        console.log(footerShowedHeight);
-
         setMenuHeight(`calc(100vh - ${footerShowedHeight}px)`);
     }, [scrollTop, windowBounds]);
+
+    function onMenuItemClicked(dropdownItem: DropdownOption) {
+        if (!dropdownItem.value) return;
+
+        const value = dropdownItem.value as MenuItemValue;
+
+        navigate(value.to);
+    }
 
     return (
         <>
             <div className="flex h-screen overflow-y-hidden">
-                <Menu
-                    value={active}
-                    logo={<div />}
-                    collapsed={collapsed}
-                    expandMutex={false}
-                    style={{ top: scrollTop, height: menuHeight }}
-                    className="absolute h-full hover:shadow-lg active:shadow-md shadow transition"
-                    onChange={(v) => setActive(v)}
-                    operations={
-                        <Button
-                            variant="text"
-                            shape="square"
-                            icon={<ViewListIcon />}
-                            onClick={() => setCollapsed(!collapsed)}
-                        />
-                    }>
-                    {menuLinks.map((link, i) => (
-                        <MenuItem key={i} value={link.to} icon={link.icon} onClick={() => navigate(link.to)}>
-                            <span>{link.value}</span>
-                        </MenuItem>
-                    ))}
-                </Menu>
+                <div className="hidden md:flex">
+                    <Menu
+                        value={active}
+                        logo={<div />}
+                        collapsed={collapsed}
+                        expandMutex={false}
+                        style={{ top: scrollTop, height: menuHeight }}
+                        className="absolute h-full hover:shadow-lg active:shadow-md shadow transition"
+                        onChange={(v) => setActive(v)}
+                        operations={
+                            <Button
+                                variant="text"
+                                shape="square"
+                                icon={<ViewListIcon />}
+                                onClick={() => setCollapsed(!collapsed)}
+                            />
+                        }>
+                        {menuLinks.map((link, i) => (
+                            <MenuItem key={i} value={link.to} icon={link.icon} onClick={() => navigate(link.to)}>
+                                <span>{link.value}</span>
+                            </MenuItem>
+                        ))}
+                    </Menu>
+                </div>
 
                 <div className="relative w-screen h-full">
                     <h3>主页</h3>
                     <div ref={containerRef} className="p-[3%] m-auto">
-                        <h3 className="pt-4">{title}</h3>
+                        <div className="flex items-end">
+                            <div className="md:hidden">
+                                <Dropdown
+                                    className=""
+                                    direction="right"
+                                    hideAfterItemClick={true}
+                                    placement="bottom"
+                                    trigger="hover"
+                                    options={menuLinks.map((link) => ({ content: link.value, value: link.to }))}
+                                    onClick={onMenuItemClicked}>
+                                    <Button
+                                        variant="text"
+                                        shape="square"
+                                        className="flex lg:hidden"
+                                        icon={<ViewListIcon />}
+                                    />
+                                </Dropdown>
+                            </div>
+                            <h5 className="pt-4">{title}</h5>
+                        </div>
                         <Divider align="center" layout="horizontal" />
                         <div className="relative">
                             <Outlet />

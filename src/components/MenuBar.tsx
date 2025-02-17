@@ -8,6 +8,7 @@ import MenuItem from "tdesign-react/es/menu/MenuItem";
 import logo from "../assets/logo.png";
 import { useThemeDetector } from "../helpers/ThemeDetector.ts";
 import i18next from "../i18n";
+import { MenuItemValue } from "../interfaces/MenuItemValue.ts";
 import styles from "./MenuBar.module.css";
 
 const t = i18next.t;
@@ -16,11 +17,6 @@ interface DropDownItemValue {
     content: string;
     value: MenuItemValue;
     menuValue: string;
-}
-
-interface MenuItemValue {
-    to: string;
-    isInSiteLink: boolean;
 }
 
 function MenuBar() {
