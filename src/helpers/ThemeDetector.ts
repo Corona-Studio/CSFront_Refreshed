@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 
 export const useThemeDetector = () => {
+
     const getCurrentTheme = () => {
-        return localStorage.theme
-            ? localStorage.theme === "dark"
-            : window.matchMedia("(prefers-color-scheme: dark)").matches;
+        // console.log((localStorage.getItem("theme")! !== null ? localStorage.theme === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches))
+        return window.matchMedia("(prefers-color-scheme: dark)").matches;
     };
+
     const [isDarkTheme, setIsDarkTheme] = useState(getCurrentTheme());
     const mqListener = (e: MediaQueryListEvent) => {
         setIsDarkTheme(e.matches);
@@ -19,5 +20,7 @@ export const useThemeDetector = () => {
         return () => darkThemeMq.removeEventListener("change", mqListener);
     }, []);
 
-    return isDarkTheme;
+    return (localStorage.getItem("theme")! !== null // ... 
+                ? localStorage.theme === "dark"
+                : isDarkTheme);
 };

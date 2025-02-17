@@ -5,10 +5,44 @@ import FormItem from "tdesign-react/es/form/FormItem";
 
 import i18next from "../../i18n.ts";
 
+import { checkPasswd } from "../../helpers/common.ts";
+import { useRef, useState } from "react";
+
+
 const t = i18next.t;
 
+
 function UserRegister() {
+
+    // let _passBuffer = "",
+    let [tips, setTips] = useState("");
+
+    let passwd, confirm;
+
+    // // 1
+    // let [anything, setAnything] = useState('');
+    // // changing value
+    // setAnything("new value");
+    // // getting value
+    // anything;
+
+    // // 2
+    // let thing = new DoubleBind();
+    // // changing value
+    // thing.set("new value");
+    // // getting value
+    // thing.value;
+
+    function handlePasswd(e: string, inBuffer = false){
+        e = e.trim();
+        // if(inBuffer) _passBuffer = e;
+        if(e !== "") setTips(`${e}: ${checkPasswd(e)}, inbf: ${inBuffer}`);
+        
+    }
+
     const navigate = useNavigate();
+    passwd = useRef(null);
+    confirm = useRef(null);
 
     return (
         <>
@@ -23,18 +57,24 @@ function UserRegister() {
                     </FormItem>
                     <FormItem name="password">
                         <Input
+                            ref={passwd}
                             type="password"
                             prefixIcon={<KeyIcon />}
                             clearable={true}
                             placeholder={t("pleaseInputPassword")}
+                            onChange={(e) => handlePasswd(e, true)}
                         />
                     </FormItem>
                     <FormItem name="comfirmPassword">
                         <Input
+                            ref={confirm}
                             type="password"
                             prefixIcon={<KeyIcon />}
                             clearable={true}
                             placeholder={t("confirmPassword")}
+                            tips={tips}
+
+                            onChange={(e) => handlePasswd(e, false)}
                         />
                     </FormItem>
                     <FormItem>
