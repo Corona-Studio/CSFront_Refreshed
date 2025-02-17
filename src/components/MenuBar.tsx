@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { LinkIcon, MoonIcon, SunnyIcon, ViewListIcon } from "tdesign-icons-react";
+import { LinkIcon, MoonIcon, SunnyIcon, User1Icon, ViewListIcon } from "tdesign-icons-react";
 import { Button, Dropdown, DropdownOption, MenuValue } from "tdesign-react";
 import HeadMenu from "tdesign-react/es/menu/HeadMenu";
 import MenuItem from "tdesign-react/es/menu/MenuItem";
@@ -84,6 +84,7 @@ function MenuBar() {
                 icon={isDarkMode ? <MoonIcon /> : <SunnyIcon />}
                 onClick={switchTheme}
             />
+            <Button variant="text" shape="square" icon={<User1Icon />} onClick={() => navigate("/user/login")} />
             <Dropdown
                 direction="right"
                 hideAfterItemClick={true}

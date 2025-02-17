@@ -8,6 +8,8 @@ const Home = lazy(() => import("./pages/Home.tsx"));
 const LxIndex = lazy(() => import("./pages/LauncherX/LxHome.tsx"));
 const CMFS = lazy(() => import("./pages/CMFS.tsx"));
 
+const UserPageBaseElement = lazy(() => import("./pages/User/UserPageBaseElement.tsx"));
+
 const t = i18next.t;
 
 export const router = createBrowserRouter(
@@ -23,6 +25,16 @@ export const router = createBrowserRouter(
                 />
             </Route>
             <Route path="cmfs" element={<CMFS />} handle={{ title: () => "CMFS" }} />
+            <Route
+                path="user"
+                element={<UserPageBaseElement />}
+                handle={{ title: () => "Error", pageInfo: () => ({ pageKey: "Error", pageTitle: "Error" }) }}>
+                <Route
+                    path="login"
+                    handle={{ title: () => "Error", pageInfo: () => ({ pageKey: "Login", pageTitle: t("login") }) }}
+                    lazy={() => import("./pages/User/UserLogin.tsx")}
+                />
+            </Route>
         </Route>
     )
 );

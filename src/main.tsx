@@ -21,10 +21,8 @@ createRoot(document.getElementById("root")!).render(
         <Analytics />
         <SpeedInsights />
 
-        <div className="relative shadow-lg">
-            <div
-                className="shadow-md overflow-x-hidden ?overflow-y-auto my-[56px] z-10 bg-zinc-100 dark:bg-zinc-900"
-                id="wrapper">
+        <div className="shadow-lg">
+            <div className="shadow-md overflow-x-hidden ?overflow-y-auto bg-zinc-100 dark:bg-zinc-900" id="wrapper">
                 <RouterProvider router={router} />
             </div>
 
