@@ -12,6 +12,12 @@ import styles from "./MenuBar.module.css";
 
 const t = i18next.t;
 
+interface DropDownItemValue {
+    content: string;
+    value: MenuItemValue;
+    menuValue: string;
+}
+
 interface MenuItemValue {
     to: string;
     isInSiteLink: boolean;
@@ -25,40 +31,49 @@ function MenuBar() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const linkOptions: DropdownOption[] = [
+    const linkOptions: DropDownItemValue[] = [
         {
             content: t("indexPage"),
-            value: { to: "/", isInSiteLink: true }
+            value: { to: "/", isInSiteLink: true },
+            menuValue: "/"
         },
         {
             content: "LauncherX",
-            value: { to: "/lx", isInSiteLink: true }
+            value: { to: "/lx", isInSiteLink: true },
+            menuValue: "/lx"
         },
         {
             content: "CMFS",
-            value: { to: "/cmfs", isInSiteLink: true }
+            value: { to: "/cmfs", isInSiteLink: true },
+            menuValue: "/cmfs"
         },
         {
             content: t("cskb"),
-            value: { to: "https://kb.corona.studio/", isInSiteLink: false }
+            value: { to: "https://kb.corona.studio/", isInSiteLink: false },
+            menuValue: "cskb"
         },
         {
             content: t("moreProjects"),
-            value: { to: "https://github.com/Corona-Studio/", isInSiteLink: false }
+            value: { to: "https://github.com/Corona-Studio/", isInSiteLink: false },
+            menuValue: "moreProj"
         }
     ];
 
-    function onMenuItemClicked(dropdownItem: DropdownOption) {
-        if (!dropdownItem.value) return;
-
-        const value = dropdownItem.value as MenuItemValue;
-
+    function to(value: MenuItemValue) {
         if (value.isInSiteLink) {
             navigate(value.to);
             return;
         }
 
         window.open(value.to, "_blank");
+    }
+
+    function onMenuItemClicked(dropdownItem: DropdownOption) {
+        if (!dropdownItem.value) return;
+
+        const value = dropdownItem.value as MenuItemValue;
+
+        to(value);
     }
 
     const operations = () => (
@@ -112,27 +127,14 @@ function MenuBar() {
                     logo={<img className={styles.menuLogo} src={logo} alt="logo" onClick={onLogoClicked} />}
                     operations={operations()}>
                     <div className="hidden md:flex">
-                        <MenuItem value={"/"} onClick={() => navigate("/")}>
-                            <span>{t("indexPage")}</span>
-                        </MenuItem>
-                        <MenuItem value={"/lx"} onClick={() => navigate("/lx")}>
-                            <span>LauncherX</span>
-                        </MenuItem>
-                        <MenuItem value={"/cmfs"} onClick={() => navigate("/cmfs")}>
-                            <span>CMFS</span>
-                        </MenuItem>
-                        <MenuItem value={"cskb"} href="https://kb.corona.studio/" target="_blank">
-                            <span>
-                                {t("cskb")}
-                                <LinkIcon />
-                            </span>
-                        </MenuItem>
-                        <MenuItem value={"moreProj"} href="https://github.com/Corona-Studio/" target="_blank">
-                            <span>
-                                {t("moreProjects")}
-                                <LinkIcon />
-                            </span>
-                        </MenuItem>
+                        {linkOptions.map((option, i) => (
+                            <MenuItem key={i} value={option.menuValue} onClick={() => to(option.value)}>
+                                <span>
+                                    {option.content}
+                                    {!option.value.isInSiteLink && <LinkIcon />}
+                                </span>
+                            </MenuItem>
+                        ))}
                     </div>
                 </HeadMenu>
             </div>
