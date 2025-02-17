@@ -31,7 +31,7 @@ export const router = createBrowserRouter(
                 handle={{ title: () => "Error", pageInfo: () => ({ pageKey: "Error", pageTitle: "Error" }) }}>
                 <Route
                     path="login"
-                    handle={{ title: () => "Error", pageInfo: () => ({ pageKey: "Login", pageTitle: t("login") }) }}
+                    handle={{ title: () => t("login"), pageInfo: () => ({ pageKey: "Login", pageTitle: t("login") }) }}
                     lazy={() => import("./pages/User/UserLogin.tsx")}
                 />
             </Route>
