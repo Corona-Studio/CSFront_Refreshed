@@ -9,7 +9,7 @@ import i18next from "../../i18n.ts";
 
 const t = i18next.t;
 
-function UserRegister() {
+function AuthRegister() {
     const navigate = useNavigate();
     const form = useRef<InternalFormInstance>(null);
 
@@ -81,7 +81,7 @@ function UserRegister() {
                             theme="default"
                             type="reset"
                             style={{ marginLeft: 12 }}
-                            onClick={() => navigate("/user/login")}>
+                            onClick={() => navigate("/auth/login")}>
                             {t("login")}
                         </Button>
                     </FormItem>
@@ -92,4 +92,4 @@ function UserRegister() {
 }
 
 // Must Keep for ReactRouter
-export const Component = () => UserRegister();
+export const Component = () => AuthRegister();

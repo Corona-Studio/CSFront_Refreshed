@@ -20,7 +20,7 @@ interface HandleType {
     pageInfo: (param?: string) => PageInfo;
 }
 
-function UserPageBaseElement() {
+function AuthPageBaseElement() {
     const docRef = useRef(document.documentElement);
     const [iridescenceColor, setIridescenceColor] = useState<[number, number, number]>([0, 0, 0]);
 
@@ -87,4 +87,4 @@ function UserPageBaseElement() {
     );
 }
 
-export default UserPageBaseElement;
+export default AuthPageBaseElement;

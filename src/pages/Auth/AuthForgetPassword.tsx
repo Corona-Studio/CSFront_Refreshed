@@ -7,7 +7,7 @@ import i18next from "../../i18n.ts";
 
 const t = i18next.t;
 
-function UserForgetPassword() {
+function AuthForgetPassword() {
     const navigate = useNavigate();
 
     return (
@@ -31,7 +31,7 @@ function UserForgetPassword() {
                             theme="default"
                             type="reset"
                             style={{ marginLeft: 12 }}
-                            onClick={() => navigate("/user/login")}>
+                            onClick={() => navigate("/auth/login")}>
                             {t("login")}
                         </Button>
                     </FormItem>
@@ -42,4 +42,4 @@ function UserForgetPassword() {
 }
 
 // Must Keep for ReactRouter
-export const Component = () => UserForgetPassword();
+export const Component = () => AuthForgetPassword();

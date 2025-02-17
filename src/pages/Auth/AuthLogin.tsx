@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router";
 import { LockOnIcon, MailIcon } from "tdesign-icons-react";
-import { Button, Form, Input } from "tdesign-react";
+import { Button, Checkbox, Form, Input } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
 import i18next from "../../i18n.ts";
 
 const t = i18next.t;
 
-function UserLogin() {
+function AuthLogin() {
     const navigate = useNavigate();
 
     return (
@@ -34,7 +34,7 @@ function UserLogin() {
                             theme="danger"
                             type="reset"
                             style={{ marginLeft: 12 }}
-                            onClick={() => navigate("/user/forgetPassword")}>
+                            onClick={() => navigate("/auth/forgetPassword")}>
                             {t("forgetPassword")}
                         </Button>
                     </FormItem>
@@ -46,9 +46,12 @@ function UserLogin() {
                             theme="default"
                             type="reset"
                             style={{ marginLeft: 12 }}
-                            onClick={() => navigate("/user/register")}>
+                            onClick={() => navigate("/auth/register")}>
                             {t("register")}
                         </Button>
+                    </FormItem>
+                    <FormItem>
+                        <Checkbox value="1">{t("rememberPassword")}</Checkbox>
                     </FormItem>
                 </Form>
             </div>
@@ -57,4 +60,4 @@ function UserLogin() {
 }
 
 // Must Keep for ReactRouter
-export const Component = () => UserLogin();
+export const Component = () => AuthLogin();

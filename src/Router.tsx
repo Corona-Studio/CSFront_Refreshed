@@ -8,7 +8,7 @@ const Home = lazy(() => import("./pages/Home.tsx"));
 const LxIndex = lazy(() => import("./pages/LauncherX/LxHome.tsx"));
 const CMFS = lazy(() => import("./pages/CMFS.tsx"));
 
-const UserPageBaseElement = lazy(() => import("./pages/User/UserPageBaseElement.tsx"));
+const AuthPageBaseElement = lazy(() => import("./pages/Auth/AuthPageBaseElement.tsx"));
 
 const t = i18next.t;
 
@@ -26,13 +26,13 @@ export const router = createBrowserRouter(
             </Route>
             <Route path="cmfs" element={<CMFS />} handle={{ title: () => "CMFS" }} />
             <Route
-                path="user"
-                element={<UserPageBaseElement />}
+                path="auth"
+                element={<AuthPageBaseElement />}
                 handle={{ title: () => "Error", pageInfo: () => ({ pageKey: "Error", pageTitle: "Error" }) }}>
                 <Route
                     path="login"
                     handle={{ title: () => t("login"), pageInfo: () => ({ pageKey: "Login", pageTitle: t("login") }) }}
-                    lazy={() => import("./pages/User/UserLogin.tsx")}
+                    lazy={() => import("./pages/Auth/AuthLogin.tsx")}
                 />
                 <Route
                     path="register"
@@ -40,7 +40,7 @@ export const router = createBrowserRouter(
                         title: () => t("register"),
                         pageInfo: () => ({ pageKey: "Register", pageTitle: t("register") })
                     }}
-                    lazy={() => import("./pages/User/UserRegister.tsx")}
+                    lazy={() => import("./pages/Auth/AuthRegister.tsx")}
                 />
                 <Route
                     path="forgetPassword"
@@ -48,7 +48,7 @@ export const router = createBrowserRouter(
                         title: () => t("forgetPassword"),
                         pageInfo: () => ({ pageKey: "ForgetPassword", pageTitle: t("forgetPassword") })
                     }}
-                    lazy={() => import("./pages/User/UserForgetPassword.tsx")}
+                    lazy={() => import("./pages/Auth/AuthForgetPassword.tsx")}
                 />
             </Route>
         </Route>

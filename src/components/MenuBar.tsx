@@ -84,7 +84,7 @@ function MenuBar() {
                 icon={isDarkMode ? <MoonIcon /> : <SunnyIcon />}
                 onClick={switchTheme}
             />
-            <Button variant="text" shape="square" icon={<User1Icon />} onClick={() => navigate("/user/login")} />
+            <Button variant="text" shape="square" icon={<User1Icon />} onClick={() => navigate("/auth/login")} />
             <Dropdown
                 direction="right"
                 hideAfterItemClick={true}

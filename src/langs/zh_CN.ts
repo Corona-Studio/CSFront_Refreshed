@@ -92,6 +92,8 @@ export const zhCN = {
         register: "注册",
         forgetPassword: "忘记密码",
 
+        rememberPassword: "记住密码",
+
         emailRequired: "邮箱是必填项",
         emailIncorrectMessage: "邮箱不正确，请输入正确的邮箱",
         usernameRequired: "用户名是必填项",
