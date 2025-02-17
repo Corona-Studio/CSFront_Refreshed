@@ -22,7 +22,7 @@ interface HandleType {
 
 function UserPageBaseElement() {
     const docRef = useRef(document.documentElement);
-    const [iridescenceColor, setIridescenceColor] = useState<[number, number, number]>([0.8, 0.8, 0.8]);
+    const [iridescenceColor, setIridescenceColor] = useState<[number, number, number]>([0, 0, 0]);
 
     const navigate = useNavigate();
 
@@ -44,8 +44,9 @@ function UserPageBaseElement() {
             document.title = pageInfo.pageTitle;
         }
 
+        setIridescenceColor(docRef.current.getAttribute("theme-mode") ? [0.2, 0.2, 0.2] : [0.8, 0.8, 0.8]);
         setScrollVelocityTexts([`${pageInfo.pageKey} ${pageInfo.pageTitle}`, `Corona Studio ${t("corona_studio")}`]);
-    }, [data, handle, pageInfoHandle]);
+    }, [data, handle, navigate, pageInfoHandle]);
 
     function onThemeModeChanged(mutations: MutationRecord[]) {
         for (const mutation of mutations) {
