@@ -3,7 +3,8 @@ import { lazy, useEffect, useState } from "react";
 import { Button, Dropdown, Loading, NotificationPlugin } from "tdesign-react";
 import { DropdownOption } from "tdesign-react/es/dropdown/type";
 
-import { LauncherRawBuildModel, getAllStableBuilds, lxBackendUrl } from "../../requests/LxBuildRequests.ts";
+import { lxBackendUrl } from "../../requests/ApiConstants.ts";
+import { LauncherRawBuildModel, getAllStableBuilds } from "../../requests/LxBuildRequests.ts";
 
 const Waves = lazy(() => import("../../ReactBits/Backgrounds/Waves/Waves.tsx"));
 const RotatingText = lazy(() => import("../../ReactBits/TextAnimations/RotatingText/RotatingText.tsx"));
