@@ -89,7 +89,7 @@ function UserPageBaseElement() {
 
             setContainerHeight("100%");
         }, 100);
-    }, [location, containerRef, windowBounds]);
+    }, [location.pathname, containerRef, windowBounds]);
 
     function onMenuItemClicked(dropdownItem: DropdownOption) {
         if (!dropdownItem.value) return;
