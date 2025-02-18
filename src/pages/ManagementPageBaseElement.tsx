@@ -1,22 +1,30 @@
-import i18next from "i18next";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Outlet, useLocation, useMatches, useNavigate } from "react-router";
-import { DeviceIcon, HomeIcon, MoneyIcon, ViewListIcon } from "tdesign-icons-react";
+import { ViewListIcon } from "tdesign-icons-react";
 import { Button, Divider, Dropdown, DropdownOption, Menu } from "tdesign-react";
 import type { MenuValue } from "tdesign-react";
 import useScroll from "tdesign-react/es/back-top/useScroll";
+import { TElement } from "tdesign-react/es/common";
 import MenuItem from "tdesign-react/es/menu/MenuItem";
 
-import { useWindowResize } from "../../helpers/WindowResizeHelper.ts";
-import IMatches from "../../interfaces/IMatches.ts";
+import { useWindowResize } from "../helpers/WindowResizeHelper.ts";
+import IMatches from "../interfaces/IMatches.ts";
 
 interface HandleType {
     title: (param?: string) => string;
 }
 
-const t = i18next.t;
+export interface MenuLinkModel {
+    icon: TElement;
+    to: string;
+    value: string;
+}
 
-function UserPageBaseElement() {
+export interface ManagementPageBaseElementProps {
+    links: () => MenuLinkModel[];
+}
+
+function ManagementPageBaseElement({ links = () => [] }: ManagementPageBaseElementProps) {
     const [active, setActive] = useState<MenuValue>("/user");
     const [collapsed, setCollapsed] = useState(false);
     const [menuHeight, setMenuHeight] = useState("100vh");
@@ -36,24 +44,7 @@ function UserPageBaseElement() {
     const { handle, data } = matches[matches.length - 1];
 
     const titleHandle = !!handle && !!(handle as HandleType).title;
-
-    const menuLinks = [
-        {
-            icon: <HomeIcon />,
-            to: "/user",
-            value: t("userCenter")
-        },
-        {
-            icon: <DeviceIcon />,
-            to: "/user/device",
-            value: t("deviceManage")
-        },
-        {
-            icon: <MoneyIcon />,
-            to: "/user/sponsor",
-            value: t("sponsor")
-        }
-    ];
+    const menuLinks = links();
 
     useEffect(() => {
         setActive(location.pathname);
@@ -160,4 +151,4 @@ function UserPageBaseElement() {
     );
 }
 
-export default UserPageBaseElement;
+export default ManagementPageBaseElement;

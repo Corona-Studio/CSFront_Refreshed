@@ -2,6 +2,8 @@ import i18next from "i18next";
 import { lazy } from "react";
 import { Route, createBrowserRouter, createRoutesFromElements } from "react-router";
 
+import { userPageMenuLinks } from "./pages/User/UserPageMenuLinks.tsx";
+
 const App = lazy(() => import("./App.tsx"));
 const Fallback = lazy(() => import("./pages/Fallback.tsx"));
 const Home = lazy(() => import("./pages/Home.tsx"));
@@ -11,7 +13,7 @@ const CMFS = lazy(() => import("./pages/CMFS.tsx"));
 const UserHome = lazy(() => import("./pages/User/UserHome.tsx"));
 
 const AuthPageBaseElement = lazy(() => import("./pages/Auth/AuthPageBaseElement.tsx"));
-const UserPageBaseElement = lazy(() => import("./pages/User/UserPageBaseElement.tsx"));
+const ManagementPageBaseElement = lazy(() => import("./pages/ManagementPageBaseElement.tsx"));
 
 const t = i18next.t;
 
@@ -56,7 +58,7 @@ export const router = createBrowserRouter(
             </Route>
             <Route
                 path="user"
-                element={<UserPageBaseElement />}
+                element={<ManagementPageBaseElement links={userPageMenuLinks} />}
                 handle={{ title: () => "Error", pageInfo: () => ({ pageKey: "Error", pageTitle: "Error" }) }}>
                 <Route index element={<UserHome />} handle={{ title: () => t("userCenter") }} />
                 <Route
