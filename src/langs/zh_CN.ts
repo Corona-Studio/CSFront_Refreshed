@@ -113,6 +113,17 @@ export const zhCN = {
             "对我们最新的开发成果感兴趣？在爱发电完成赞助后点击左侧的赞助菜单，输入您的爱发电订单号即可成为赞助者！",
 
         deviceId: "设备 ID",
-        serialNumber: "序列号"
+        serialNumber: "序列号",
+
+        afdCardTitle: "前往爱发电赞助我们",
+        afdCardDescription: "前往爱发电赞助我们即可加入我们的内测计划！",
+        minebbsCardTitle: "查看我们宣传贴",
+        minebbsCardDescription: "快去 MineBBS 上的宣传贴给我们评价和反馈吧！",
+
+        afdOrderNumber: "爱发电订单号",
+        afdOrderNumberRequired: "爱发电订单号是必填项",
+        afdOrderNumberRuleDescription: "爱发电的订单号应该是一串由纯数字组成的 27 位号码",
+
+        goto: "前往"
     }
 };
