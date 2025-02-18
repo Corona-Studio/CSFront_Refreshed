@@ -1,17 +1,35 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { KeyIcon, MailIcon, User1Icon } from "tdesign-icons-react";
-import { Button, CustomValidator, Form, Input, InternalFormInstance } from "tdesign-react";
+import {
+    Button,
+    CustomValidator,
+    Form,
+    type FormProps,
+    Input,
+    InternalFormInstance,
+    NotificationPlugin
+} from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
 import { PasswordPattern, UsernamePattern } from "../../helpers/ValidationRules.ts";
 import i18next from "../../i18n.ts";
+import { StoredAuthEmail, StoredAuthPassword, registerAsync } from "../../requests/LxAuthRequests.ts";
 
 const t = i18next.t;
+
+interface FormData {
+    email?: string;
+    password?: string;
+    confirmPassword?: string;
+    username?: string;
+}
 
 function AuthRegister() {
     const navigate = useNavigate();
     const form = useRef<InternalFormInstance>(null);
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const rePassword: CustomValidator = (val) =>
         new Promise((resolve) => {
@@ -21,23 +39,75 @@ function AuthRegister() {
             });
         });
 
+    const onSubmit: FormProps["onSubmit"] = (e) => {
+        console.log(e);
+
+        if (e.validateResult !== true) return;
+
+        const formData = e.fields as FormData;
+
+        setIsLoading(true);
+
+        registerAsync({ email: formData.email!, password: formData.password!, username: formData.username! })
+            .then(async (r) => {
+                if (!r || !r.status) throw new Error(t("unknownLoginErrorDescription"));
+                if (r.status === 400) throw new Error(t("backendServerError"));
+                if (r.status === 403) throw new Error(t("emailOrUsernameUsed"));
+                if (!r.response) throw new Error(t("unknownLoginErrorDescription"));
+                if (!r.response.succeeded) throw new Error(JSON.stringify(r.response.errors));
+
+                localStorage.setItem(StoredAuthEmail, formData.email!);
+                localStorage.setItem(StoredAuthPassword, formData.password!);
+
+                await NotificationPlugin.success({
+                    title: t("registerSucceeded"),
+                    content: t("registerSucceededDescription"),
+                    placement: "top-right",
+                    duration: 3000,
+                    offset: [-36, "5rem"],
+                    closeBtn: true,
+                    attach: () => document
+                });
+
+                navigate("/auth/login");
+            })
+            .catch(async (err) => {
+                await NotificationPlugin.error({
+                    title: t("registerFailed"),
+                    content: (err as Error).message,
+                    placement: "top-right",
+                    duration: 3000,
+                    offset: [-36, "5rem"],
+                    closeBtn: true,
+                    attach: () => document
+                });
+            })
+            .finally(() => setIsLoading(false));
+    };
+
     return (
         <>
             <div className="p-8 space-y-4 bg-zinc-50/30 dark:bg-zinc-900/80 bg-opacity-25 rounded-2xl hover:shadow-lg active:shadow-md shadow transition">
                 <h5>{t("register")}</h5>
                 <Form
                     ref={form}
+                    onSubmit={onSubmit}
                     className="w-[300px] md:w-[400px] lg:w-[450px]"
                     statusIcon={true}
                     colon={true}
                     labelWidth={0}>
                     <FormItem
-                        name="account"
+                        name="email"
                         rules={[
                             { required: true, message: t("emailRequired"), type: "error" },
                             { email: true, message: t("emailIncorrectMessage") }
                         ]}>
-                        <Input clearable={true} prefixIcon={<MailIcon />} placeholder={t("pleaseInputEmail")} />
+                        <Input
+                            disabled={isLoading}
+                            clearable={true}
+                            prefixIcon={<MailIcon />}
+                            placeholder={t("pleaseInputEmail")}
+                        />
                     </FormItem>
                     <FormItem
                         name="username"
@@ -45,7 +115,12 @@ function AuthRegister() {
                             { required: true, message: t("usernameRequired"), type: "error" },
                             { pattern: UsernamePattern, message: t("usernameRuleDescription"), type: "error" }
                         ]}>
-                        <Input clearable={true} prefixIcon={<User1Icon />} placeholder={t("pleaseInputUserName")} />
+                        <Input
+                            disabled={isLoading}
+                            clearable={true}
+                            prefixIcon={<User1Icon />}
+                            placeholder={t("pleaseInputUserName")}
+                        />
                     </FormItem>
                     <FormItem
                         name="password"
@@ -54,6 +129,7 @@ function AuthRegister() {
                             { pattern: PasswordPattern, message: t("passwordRuleDescription"), type: "error" }
                         ]}>
                         <Input
+                            disabled={isLoading}
                             type="password"
                             prefixIcon={<KeyIcon />}
                             clearable={true}
@@ -61,12 +137,13 @@ function AuthRegister() {
                         />
                     </FormItem>
                     <FormItem
-                        name="comfirmPassword"
+                        name="confirmPassword"
                         rules={[
                             { required: true, message: t("afdOrderNumberRequired"), type: "error" },
                             { validator: rePassword, message: t("passwordIsNotSame") }
                         ]}>
                         <Input
+                            disabled={isLoading}
                             type="password"
                             prefixIcon={<KeyIcon />}
                             clearable={true}
@@ -74,7 +151,7 @@ function AuthRegister() {
                         />
                     </FormItem>
                     <FormItem>
-                        <Button theme="primary" type="submit" block>
+                        <Button loading={isLoading} theme="primary" type="submit" block>
                             {t("register")}
                         </Button>
                         <Button

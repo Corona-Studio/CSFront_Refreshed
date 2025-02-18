@@ -91,6 +91,7 @@ export const zhCN = {
         submit: "提交",
         register: "注册",
         forgetPassword: "忘记密码",
+        resetPassword: "重设密码",
 
         rememberPassword: "记住密码",
 
@@ -124,6 +125,19 @@ export const zhCN = {
         afdOrderNumberRequired: "爱发电订单号是必填项",
         afdOrderNumberRuleDescription: "爱发电的订单号应该是一串由纯数字组成的 27 位号码",
 
-        goto: "前往"
+        goto: "前往",
+
+        unknownError: "未知错误",
+        unknownLoginErrorDescription: "未知的登陆错误，请尝试联系管理员。",
+        incorrectEmailOrPassword: "错误的邮箱或密码",
+        loginFailed: "登陆失败",
+        loginSucceeded: "登陆成功",
+        loginSucceededDescription: "成功登录，即将跳转至用户中心...",
+
+        emailOrUsernameUsed: "注册时使用的邮箱或用户名已经被占用",
+        backendServerError: "后端服务器故障，请联系管理员",
+        registerFailed: "注册失败",
+        registerSucceeded: "注册成功",
+        registerSucceededDescription: "成功注册，即将跳转至登陆页面..."
     }
 };

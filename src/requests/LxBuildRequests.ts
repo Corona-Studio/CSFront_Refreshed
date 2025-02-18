@@ -1,4 +1,4 @@
-import axios from "axios";
+import { csBackend } from "./ApiConstants.ts";
 
 export interface LauncherRawBuildModel {
     id: string;
@@ -17,19 +17,12 @@ export interface LauncherRawBuildModel {
     runtime: string;
 }
 
-export const lxBackendUrl = import.meta.env.VITE_LX_BACKEND ?? "https://api.corona.studio";
-
-const csBackend = axios.create({
-    baseURL: lxBackendUrl
-});
-
 export async function getAllStableBuilds(): Promise<Map<string, LauncherRawBuildModel> | undefined> {
     const endPoint = "/Build/get/latest/all/stable";
 
     try {
         const response = await csBackend.get<Map<string, LauncherRawBuildModel>>(endPoint);
 
-        if (response.status !== 200) return undefined;
         if (!response.data || response.data.size === 0) return undefined;
 
         return response.data;

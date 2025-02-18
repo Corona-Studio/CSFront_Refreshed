@@ -55,6 +55,14 @@ export const router = createBrowserRouter(
                     }}
                     lazy={() => import("./pages/Auth/AuthForgetPassword.tsx")}
                 />
+                <Route
+                    path="resetPassword"
+                    handle={{
+                        title: () => t("resetPassword"),
+                        pageInfo: () => ({ pageKey: "ResetPassword", pageTitle: t("resetPassword") })
+                    }}
+                    lazy={() => import("./pages/Auth/AuthResetPassword.tsx")}
+                />
             </Route>
             <Route
                 path="user"
