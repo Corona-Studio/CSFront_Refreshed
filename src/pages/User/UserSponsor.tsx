@@ -32,11 +32,12 @@ function UserSponsor() {
                             label={t("afdOrderNumber")}
                             name="name"
                             rules={[
-                                { required: true, message: t("passwordRequired"), type: "error" },
+                                { required: true, message: t("afdOrderNumberRequired"), type: "error" },
+                                { len: 27, message: t("afdOrderNumberRuleDescription"), type: "error" },
                                 {
                                     pattern: AfdOrderNumberPattern,
                                     message: t("afdOrderNumberRuleDescription"),
-                                    type: "error"
+                                    type: "warning"
                                 }
                             ]}>
                             <Input />
