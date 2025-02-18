@@ -75,7 +75,7 @@ function UserPageBaseElement() {
         const bodyScrollableHeightExpectFooter = htmlScrollableHeight - footerHeight - 10;
         let footerShowedHeight = scrollTop - bodyScrollableHeightExpectFooter;
 
-        console.log(footerShowedHeight);
+        console.log(`${footerShowedHeight}/${footerHeight} [${scrollTop}]`);
 
         if (footerShowedHeight < 0) footerShowedHeight = 0;
         if (footerShowedHeight === footerHeight && scrollTop === 0) footerShowedHeight = 0;
