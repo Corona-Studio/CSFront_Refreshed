@@ -113,7 +113,6 @@ export const zhCN = {
             "对我们最新的开发成果感兴趣？在爱发电完成赞助后点击左侧的赞助菜单，输入您的爱发电订单号即可成为赞助者！",
 
         deviceId: "设备 ID",
-        serialNumber: "序列号",
-        removeDevice: "删除设备"
+        serialNumber: "序列号"
     }
 };

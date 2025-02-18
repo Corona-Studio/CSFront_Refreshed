@@ -1,5 +1,5 @@
 import { Delete1Icon } from "tdesign-icons-react";
-import { Button, Card, Col, Row } from "tdesign-react";
+import { Button, Card, Col, Empty, Row } from "tdesign-react";
 
 import i18next from "../../i18n.ts";
 
@@ -18,24 +18,32 @@ function UserDeviceManagement() {
         <>
             <div>
                 <Row gutter={[8, 8]}>
-                    {devices.map((device, i) => (
-                        <Col key={i} sm={12} md={6} lg={4}>
-                            <Card
-                                title={device.name}
-                                actions={<Button theme="danger" shape="square" variant="base" icon={<Delete1Icon />} />}
-                                bordered
-                                headerBordered>
-                                <article className="truncate">
-                                    <p>
-                                        {t("deviceId")} - {device.id}
-                                    </p>
-                                    <p>
-                                        {t("serialNumber")} - {device.serialNumber}
-                                    </p>
-                                </article>
-                            </Card>
+                    {devices.length > 0 ? (
+                        devices.map((device, i) => (
+                            <Col key={i} sm={12} md={6} lg={4}>
+                                <Card
+                                    title={device.name}
+                                    actions={
+                                        <Button theme="danger" shape="square" variant="base" icon={<Delete1Icon />} />
+                                    }
+                                    bordered
+                                    headerBordered>
+                                    <article className="truncate">
+                                        <p>
+                                            {t("deviceId")} - {device.id}
+                                        </p>
+                                        <p>
+                                            {t("serialNumber")} - {device.serialNumber}
+                                        </p>
+                                    </article>
+                                </Card>
+                            </Col>
+                        ))
+                    ) : (
+                        <Col span={12}>
+                            <Empty />
                         </Col>
-                    ))}
+                    )}
                 </Row>
             </div>
         </>

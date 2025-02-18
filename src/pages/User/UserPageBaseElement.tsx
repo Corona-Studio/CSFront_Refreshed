@@ -9,7 +9,6 @@ import MenuItem from "tdesign-react/es/menu/MenuItem";
 
 import { useWindowResize } from "../../helpers/WindowResizeHelper.ts";
 import IMatches from "../../interfaces/IMatches.ts";
-import { MenuItemValue } from "../../interfaces/MenuItemValue.ts";
 
 interface HandleType {
     title: (param?: string) => string;
@@ -18,9 +17,10 @@ interface HandleType {
 const t = i18next.t;
 
 function UserPageBaseElement() {
-    const [active, setActive] = useState<MenuValue>("home");
+    const [active, setActive] = useState<MenuValue>("/user");
     const [collapsed, setCollapsed] = useState(false);
     const [menuHeight, setMenuHeight] = useState("100vh");
+    const [containerHeight, setContainerHeight] = useState("100vh");
     const [title, setTitle] = useState("");
 
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -80,17 +80,28 @@ function UserPageBaseElement() {
         setMenuHeight(`calc(100vh - ${footerShowedHeight}px)`);
     }, [scrollTop, windowBounds]);
 
+    useEffect(() => {
+        setTimeout(() => {
+            if (!containerRef.current || containerRef.current.clientHeight < windowBounds[1]) {
+                setContainerHeight("100vh");
+                return;
+            }
+
+            setContainerHeight("100%");
+        }, 100);
+    }, [location, containerRef, windowBounds]);
+
     function onMenuItemClicked(dropdownItem: DropdownOption) {
         if (!dropdownItem.value) return;
 
-        const value = dropdownItem.value as MenuItemValue;
+        const value = dropdownItem.value as string;
 
-        navigate(value.to);
+        navigate(value);
     }
 
     return (
         <>
-            <div className="flex h-screen overflow-y-hidden">
+            <div className="flex overflow-y-hidden" style={{ height: containerHeight }}>
                 <div className="hidden md:flex">
                     <Menu
                         value={active}
@@ -117,11 +128,10 @@ function UserPageBaseElement() {
                 </div>
 
                 <div className="relative w-screen h-full">
-                    <div ref={containerRef} className="px-[3%] py-[6%] m-auto">
+                    <div ref={containerRef} className="px-[3%] py-[12%] md:py-[6%]">
                         <div className="flex items-end">
                             <div className="md:hidden">
                                 <Dropdown
-                                    className=""
                                     direction="right"
                                     hideAfterItemClick={true}
                                     placement="bottom"

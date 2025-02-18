@@ -54,7 +54,10 @@ export const router = createBrowserRouter(
                     lazy={() => import("./pages/Auth/AuthForgetPassword.tsx")}
                 />
             </Route>
-            <Route path="user" element={<UserPageBaseElement />}>
+            <Route
+                path="user"
+                element={<UserPageBaseElement />}
+                handle={{ title: () => "Error", pageInfo: () => ({ pageKey: "Error", pageTitle: "Error" }) }}>
                 <Route index element={<UserHome />} handle={{ title: () => t("userCenter") }} />
                 <Route
                     path="device"
