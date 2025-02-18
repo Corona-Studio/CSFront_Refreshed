@@ -16,6 +16,7 @@
         "@react-spring/web": "^9.7.5",
         "@vercel/analytics": "^1.5.0",
         "@vercel/speed-insights": "^1.2.0",
+        "axios": "^1.7.9",
         "framer-motion": "^11.3.24",
         "gsap": "^3.12.7",
         "ogl": "^1.0.11",
