@@ -1,7 +1,9 @@
 import i18next from "i18next";
-import { lazy } from "react";
-import { MoreIcon } from "tdesign-icons-react";
-import { Button, Dropdown, Loading, Space } from "tdesign-react";
+import { lazy, useEffect, useState } from "react";
+import { Button, Dropdown, Loading, NotificationPlugin } from "tdesign-react";
+import { DropdownOption } from "tdesign-react/es/dropdown/type";
+
+import { LauncherRawBuildModel, getAllStableBuilds, lxBackendUrl } from "../../requests/LxBuildRequests.ts";
 
 const Waves = lazy(() => import("../../ReactBits/Backgrounds/Waves/Waves.tsx"));
 const RotatingText = lazy(() => import("../../ReactBits/TextAnimations/RotatingText/RotatingText.tsx"));
@@ -11,6 +13,54 @@ const LxLogo = lazy(() => import("../../components/LxLogo.tsx"));
 const t = i18next.t;
 
 function LxDownload() {
+    const [isLoading, setIsLoading] = useState<boolean | undefined>(true);
+    const [downloadOptions, setDownloadOptions] = useState<DropdownOption[]>([]);
+
+    async function getLauncherBuilds() {
+        const builds = await getAllStableBuilds();
+
+        if (!builds) {
+            await NotificationPlugin.info({
+                title: "获取失败",
+                content: "无法获取构建",
+                placement: "top-right",
+                duration: 10000,
+                offset: [-36, "10rem"],
+                closeBtn: true,
+                attach: () => document
+            });
+
+            setIsLoading(undefined);
+            return;
+        }
+
+        const options: DropdownOption[] = [];
+
+        for (const [key, value] of Object.entries(builds)) {
+            const build = value as LauncherRawBuildModel;
+
+            options.push({
+                content: key,
+                value: `${lxBackendUrl}/Build/get/${build.id}/${build.framework}.${build.runtime}.zip`
+            });
+        }
+
+        setDownloadOptions(options);
+        setIsLoading(false);
+    }
+
+    useEffect(() => {
+        getLauncherBuilds().then(() => console.log("Build load completed."));
+    }, []);
+
+    function onMenuItemClicked(dropdownItem: DropdownOption) {
+        if (!dropdownItem.value) return;
+
+        const value = dropdownItem.value as string;
+
+        window.open(value, "_blank");
+    }
+
     return (
         <>
             <div className="bg-black">
@@ -65,32 +115,32 @@ function LxDownload() {
                                 </div>
                             </div>
 
-                            <Loading className="w-full h-[100px]" indicator loading preventScrollThrough showOverlay />
+                            {isLoading && (
+                                <Loading
+                                    className="w-full h-[100px]"
+                                    indicator
+                                    loading
+                                    preventScrollThrough
+                                    showOverlay
+                                />
+                            )}
 
-                            <Space size={4} className="pt-8">
-                                <Button size="large" variant="base">
-                                    <span>{t("downloadNow")}</span>
-                                </Button>
-                                <Dropdown
-                                    direction="right"
-                                    hideAfterItemClick
-                                    options={[
-                                        {
-                                            content: "操作一",
-                                            value: 1
-                                        },
-                                        {
-                                            content: "操作二",
-                                            value: 2
-                                        }
-                                    ]}
-                                    placement="bottom-left"
-                                    trigger="hover">
-                                    <Button shape="square" size="large">
-                                        <MoreIcon />
-                                    </Button>
-                                </Dropdown>
-                            </Space>
+                            {isLoading !== undefined && !isLoading && (
+                                <div className="pt-8">
+                                    <Dropdown
+                                        minColumnWidth={"190px"}
+                                        direction="right"
+                                        hideAfterItemClick
+                                        options={downloadOptions}
+                                        placement="bottom"
+                                        trigger="hover"
+                                        onClick={onMenuItemClicked}>
+                                        <Button size="large" variant="base">
+                                            <span>{t("downloadNow")}</span>
+                                        </Button>
+                                    </Dropdown>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </BannerContainer>
