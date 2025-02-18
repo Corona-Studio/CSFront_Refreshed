@@ -78,6 +78,7 @@ function UserPageBaseElement() {
         console.log(footerShowedHeight);
 
         if (footerShowedHeight < 0) footerShowedHeight = 0;
+        if (footerShowedHeight === footerHeight && scrollTop === 0) footerShowedHeight = 0;
 
         setMenuHeight(`calc(100vh - ${footerShowedHeight}px)`);
     }, [scrollTop, windowBounds]);
