@@ -117,8 +117,7 @@ function UserPageBaseElement() {
                 </div>
 
                 <div className="relative w-screen h-full">
-                    <h3>主页</h3>
-                    <div ref={containerRef} className="p-[3%] m-auto">
+                    <div ref={containerRef} className="px-[3%] py-[6%] m-auto">
                         <div className="flex items-end">
                             <div className="md:hidden">
                                 <Dropdown
@@ -137,7 +136,7 @@ function UserPageBaseElement() {
                                     />
                                 </Dropdown>
                             </div>
-                            <h5 className="pt-4">{title}</h5>
+                            <h5 className="pt-4 font-bold">{title}</h5>
                         </div>
                         <Divider align="center" layout="horizontal" />
                         <div className="relative">

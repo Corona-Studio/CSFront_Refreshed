@@ -80,9 +80,8 @@ function UserHome() {
                                     theme={tip.theme}
                                     message={
                                         <article>
-                                            <span className="font-bold text-lg">{tip.title}</span>
-                                            <br />
-                                            <span>{tip.description}</span>
+                                            <p className="font-bold text-lg">{tip.title}</p>
+                                            <p>{tip.description}</p>
                                         </article>
                                     }
                                 />
