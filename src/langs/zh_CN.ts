@@ -138,6 +138,10 @@ export const zhCN = {
         backendServerError: "后端服务器故障，请联系管理员",
         registerFailed: "注册失败",
         registerSucceeded: "注册成功",
-        registerSucceededDescription: "成功注册，即将跳转至登陆页面..."
+        registerSucceededDescription: "成功注册，即将跳转至登陆页面...",
+
+        forgetPasswordReqSucceeded: "成功申请找回密码",
+        forgetPasswordReqSucceededDescription: "如果您提供的邮箱和我们的记录相匹配，您将收到一封找回密码的邮件！",
+        forgetPasswordReqFailed: "在尝试申请找回密码邮件时出现了未知错误，请尝试联系管理员"
     }
 };

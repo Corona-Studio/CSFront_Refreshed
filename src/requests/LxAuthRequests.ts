@@ -75,3 +75,23 @@ export async function registerAsync(req: RegisterRequest): Promise<Response<Regi
 
     return await postAsync(endPoint, req);
 }
+
+export async function forgePasswordAsync(email: string): Promise<Response<boolean> | undefined> {
+    const endPoint = "/User/pwd/reset";
+
+    try {
+        await csBackend.get(endPoint, { params: { email } });
+
+        return { status: 200, response: true };
+    } catch (error) {
+        console.error(error);
+
+        if (axios.isAxiosError(error)) {
+            return {
+                status: error.status
+            };
+        }
+
+        return undefined;
+    }
+}

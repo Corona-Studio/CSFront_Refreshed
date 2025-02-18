@@ -50,7 +50,7 @@ function AuthRegister() {
 
         registerAsync({ email: formData.email!, password: formData.password!, username: formData.username! })
             .then(async (r) => {
-                if (!r || !r.status) throw new Error(t("unknownLoginErrorDescription"));
+                if (!r || !r.status) throw new Error(t("backendServerError"));
                 if (r.status === 400) throw new Error(t("backendServerError"));
                 if (r.status === 403) throw new Error(t("emailOrUsernameUsed"));
                 if (!r.response) throw new Error(t("unknownLoginErrorDescription"));
