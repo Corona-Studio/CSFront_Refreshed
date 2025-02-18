@@ -75,10 +75,8 @@ function UserPageBaseElement() {
         const bodyScrollableHeightExpectFooter = htmlScrollableHeight - footerHeight - 10;
         let footerShowedHeight = scrollTop - bodyScrollableHeightExpectFooter;
 
-        console.log(`${footerShowedHeight}/${footerHeight} [${scrollTop}]`);
-
         if (footerShowedHeight < 0) footerShowedHeight = 0;
-        if (footerShowedHeight === footerHeight && scrollTop === 0) footerShowedHeight = 0;
+        if (footerShowedHeight - 10 === footerHeight && scrollTop === 0) footerShowedHeight = 0;
 
         setMenuHeight(`calc(100vh - ${footerShowedHeight}px)`);
     }, [scrollTop, windowBounds]);
