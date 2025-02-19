@@ -178,6 +178,18 @@ export const zhCN = {
 
         deviceRemoved: "成功删除设备",
         deviceRemoveFailed: "删除设备失败",
-        deviceRemoveFailedDescription: "无法删除设备，请稍候再次尝试..."
+        deviceRemoveFailedDescription: "无法删除设备，请稍候再次尝试...",
+
+        howToCheckSponsorOrderNumber: "如何查看赞助时的订单号？",
+        checkHere: "查看这里",
+        sponsorThanks: "感谢您的赞助！",
+        sponsorThanksDescription:
+            "感谢您对日冕工作室的支持！我们会继续改进我们的产品并取得更大的进步，我们今天的成就离不开每一位赞助者的贡献。",
+        failedToGetIsPaid: "无法获取赞助状态",
+        failedToGetIsPaidDescription: "无法获取赞助状态，可能是服务器错误",
+
+        userNotFound: "用户未找到",
+        userAlreadySponsor: "您已经赞助过啦！该功能只能使用一次！",
+        redeemAlreadyUsedOrInvalid: "这个订单号已被兑换或是无效的订单号，请检查后再次尝试"
     }
 };

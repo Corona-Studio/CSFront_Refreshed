@@ -79,3 +79,15 @@ export async function removeDeviceAsync(device: UserDeviceInfo, token: string): 
 
     return await deleteAsync(endPoint, device, token);
 }
+
+export async function checkUserIsPaidAsync(token: string): Promise<IResponse<boolean> | undefined> {
+    const endPoint = "/User/isPaid";
+
+    return await getAsync(endPoint, token);
+}
+
+export async function redeemAsync(orderNumber: string, token: string): Promise<IResponse<string> | undefined> {
+    const endPoint = `Afdian/redeem/${orderNumber}`;
+
+    return await getAsync(endPoint, token);
+}

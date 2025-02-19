@@ -1,12 +1,38 @@
-import { Alert, Button, Card, Col, Comment, Divider, Form, Input, Row } from "tdesign-react";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import {
+    Alert,
+    Button,
+    Card,
+    Col,
+    Comment,
+    Divider,
+    Form,
+    type FormProps,
+    Input,
+    Loading,
+    NotificationPlugin,
+    Row,
+    Space
+} from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
+import { getStorageItem } from "../../helpers/StorageHelper.ts";
 import { AfdOrderNumberPattern } from "../../helpers/ValidationRules.ts";
 import i18next from "../../i18n.ts";
+import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
+import { checkUserIsPaidAsync, redeemAsync } from "../../requests/LxUserRequests.ts";
 
 const t = i18next.t;
 
+interface FormData {
+    orderNumber?: string;
+}
+
 function UserSponsor() {
+    const authToken = getStorageItem(StoredAuthToken);
+    const [isLoading, setIsLoading] = useState(false);
+
     const posters = [
         {
             imgLink: new URL(`../../assets/lx/LauncherX_Poster.webp`, import.meta.url).href,
@@ -22,33 +48,126 @@ function UserSponsor() {
         }
     ];
 
+    const isPaid = useQuery({
+        queryKey: ["userChannelInfo"],
+        queryFn: () =>
+            checkUserIsPaidAsync(authToken ?? "").then(async (r) => {
+                if (!r || !r.status) throw new Error(t("backendServerError"));
+                if (r.status === 404) throw new Error(t("failedToGetIsPaidDescription"));
+                if (r.response === undefined) throw new Error(t("backendServerError"));
+
+                return r.response!;
+            })
+    });
+
+    if (isPaid.error) {
+        NotificationPlugin.error({
+            title: t("failedToGetIsPaid"),
+            content: (isPaid.error as Error).message,
+            placement: "top-right",
+            duration: 3000,
+            offset: [-36, "5rem"],
+            closeBtn: true,
+            attach: () => document
+        }).then(() => {});
+    }
+
+    const onSubmit: FormProps["onSubmit"] = (e) => {
+        if (!authToken) return;
+        if (e.validateResult !== true) return;
+
+        const formData = e.fields as FormData;
+
+        setIsLoading(true);
+
+        redeemAsync(formData.orderNumber!, authToken)
+            .then(async (r) => {
+                if (!r || !r.status) throw new Error(t("backendServerError"));
+                if (r.status === 204) throw new Error(t("userAlreadySponsor"));
+                if (r.status === 400) throw new Error(t("backendServerError"));
+                if (r.status === 403) throw new Error(t("redeemAlreadyUsedOrInvalid"));
+                if (r.status === 404) throw new Error(t("userNotFound"));
+                if (!r.response) throw new Error(t("backendServerError"));
+
+                await NotificationPlugin.success({
+                    title: t("sponsorThanks"),
+                    content: t("sponsorThanksDescription"),
+                    placement: "top-right",
+                    duration: 3000,
+                    offset: [-36, "5rem"],
+                    closeBtn: true,
+                    attach: () => document
+                });
+
+                await isPaid.refetch();
+            })
+            .catch(async (err) => {
+                await NotificationPlugin.error({
+                    title: t("failedToGetIsPaid"),
+                    content: (err as Error).message,
+                    placement: "top-right",
+                    duration: 3000,
+                    offset: [-36, "5rem"],
+                    closeBtn: true,
+                    attach: () => document
+                });
+            })
+            .finally(() => setIsLoading(false));
+    };
+
     return (
         <>
             <div>
-                <Alert theme="info" message="如何查看赞助时的订单号？" operation={<span>查看这里</span>} close />
-                <div className="pt-12">
-                    <Form className="max-w-[50vh]" statusIcon={true} colon={true} labelWidth={0}>
-                        <FormItem
-                            label={t("afdOrderNumber")}
-                            name="name"
-                            rules={[
-                                { required: true, message: t("afdOrderNumberRequired"), type: "error" },
-                                { len: 27, message: t("afdOrderNumberRuleDescription"), type: "error" },
-                                {
-                                    pattern: AfdOrderNumberPattern,
-                                    message: t("afdOrderNumberRuleDescription"),
-                                    type: "warning"
-                                }
-                            ]}>
-                            <Input />
-                        </FormItem>
-                        <FormItem>
-                            <Button theme="primary" type="submit" block>
-                                {t("login")}
-                            </Button>
-                        </FormItem>
-                    </Form>
-                </div>
+                <Space direction="vertical" className="w-full">
+                    <Alert
+                        theme="info"
+                        message={t("howToCheckSponsorOrderNumber")}
+                        operation={
+                            <a href="https://kb.corona.studio/" target="_blank">
+                                {t("checkHere")}
+                            </a>
+                        }
+                        close
+                    />
+                    {isPaid.data && <Alert theme="success" message={t("sponsorThanksDescription")} close />}
+                </Space>
+
+                {isPaid.isLoading && (
+                    <div className="p-[5%]">
+                        <Loading />
+                    </div>
+                )}
+
+                {!isPaid.isLoading && !isPaid.data && (
+                    <div className="pt-12">
+                        <Form
+                            className="max-w-[50vh]"
+                            statusIcon={true}
+                            colon={true}
+                            labelWidth={0}
+                            onSubmit={onSubmit}>
+                            <FormItem
+                                label={t("afdOrderNumber")}
+                                name="orderNumber"
+                                rules={[
+                                    { required: true, message: t("afdOrderNumberRequired"), type: "error" },
+                                    { len: 27, message: t("afdOrderNumberRuleDescription"), type: "error" },
+                                    {
+                                        pattern: AfdOrderNumberPattern,
+                                        message: t("afdOrderNumberRuleDescription"),
+                                        type: "warning"
+                                    }
+                                ]}>
+                                <Input disabled={isLoading} />
+                            </FormItem>
+                            <FormItem>
+                                <Button loading={isLoading} theme="primary" type="submit" block>
+                                    {t("submit")}
+                                </Button>
+                            </FormItem>
+                        </Form>
+                    </div>
+                )}
 
                 <Divider align="center" layout="horizontal" />
 

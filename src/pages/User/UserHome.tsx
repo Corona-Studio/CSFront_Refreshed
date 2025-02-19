@@ -155,7 +155,9 @@ function UserHome() {
                         )}
 
                         {!userInfo.isLoading &&
-                            userInfo.data?.map((userInfo, i) => (
+                            userInfo.data &&
+                            userInfo.data.length >= 0 &&
+                            userInfo.data.map((userInfo, i) => (
                                 <div key={i} className="mb-4">
                                     <Card title={userInfo.title} subtitle={userInfo.value} bordered headerBordered />
                                 </div>
