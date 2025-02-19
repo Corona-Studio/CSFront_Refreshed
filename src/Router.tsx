@@ -64,6 +64,14 @@ export const router = createBrowserRouter(
                     }}
                     lazy={() => import("./pages/Auth/AuthResetPassword.tsx")}
                 />
+                <Route
+                    path="confirmEmail"
+                    handle={{
+                        title: () => t("confirmEmail"),
+                        pageInfo: () => ({ pageKey: "ConfirmEmail", pageTitle: t("confirmEmail") })
+                    }}
+                    lazy={() => import("./pages/Auth/AuthConfirmEmail.tsx")}
+                />
             </Route>
             <Route
                 path="user"

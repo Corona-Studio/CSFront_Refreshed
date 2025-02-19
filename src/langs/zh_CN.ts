@@ -92,6 +92,15 @@ export const zhCN = {
         register: "注册",
         forgetPassword: "忘记密码",
         resetPassword: "重设密码",
+        confirmEmail: "确认邮箱",
+        confirmEmailDetail: "正在确认邮箱 [{}] 的注册状态...",
+
+        emailVerified: "邮箱已验证",
+        emailVerifiedDescription: "邮箱成功验证，即将跳转到登陆页面...",
+        emailVerificationFailed: "邮箱验证失败",
+        emailVerificationFailedDescription: "无法完成验证，确实重要参数，即将返回首页...",
+        emailVerificationExpired: "验证链接无效或已过有效期，请尝试重新申请",
+        emailVerificationNotFound: "凭据未找到，这可能不是有效的链接",
 
         rememberPassword: "记住密码",
 

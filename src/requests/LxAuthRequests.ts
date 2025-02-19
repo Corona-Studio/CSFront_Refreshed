@@ -62,6 +62,27 @@ async function postAsync<T>(endPoint: string, req: unknown): Promise<IResponse<T
     }
 }
 
+async function getAsync<T>(endPoint: string, params: unknown): Promise<IResponse<T> | undefined> {
+    try {
+        const response = await csBackend.get<T>(endPoint, { params: params });
+
+        return {
+            status: 200,
+            response: response.data
+        };
+    } catch (error) {
+        console.error(error);
+
+        if (axios.isAxiosError(error)) {
+            return {
+                status: error.status
+            };
+        }
+
+        return undefined;
+    }
+}
+
 export async function loginAsync(req: LoginRequest): Promise<IResponse<RawLoginResponse> | undefined> {
     const endPoint = "/User/login";
 
@@ -74,22 +95,19 @@ export async function registerAsync(req: RegisterRequest): Promise<IResponse<Reg
     return await postAsync(endPoint, req);
 }
 
-export async function forgePasswordAsync(email: string): Promise<IResponse<boolean> | undefined> {
+export async function forgePasswordAsync(email: string): Promise<IResponse<unknown> | undefined> {
     const endPoint = "/User/pwd/reset";
 
-    try {
-        await csBackend.get(endPoint, { params: { email } });
+    return await getAsync(endPoint, { email });
+}
 
-        return { status: 200, response: true };
-    } catch (error) {
-        console.error(error);
+export async function emailVerifyAsync(
+    code: string,
+    email: string,
+    val: string,
+    verifyFor: string
+): Promise<IResponse<string> | undefined> {
+    const endPoint = "/User/code/confirm";
 
-        if (axios.isAxiosError(error)) {
-            return {
-                status: error.status
-            };
-        }
-
-        return undefined;
-    }
+    return await getAsync(endPoint, { code, email, val, verifyFor });
 }

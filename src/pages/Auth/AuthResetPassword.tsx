@@ -1,14 +1,32 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router";
 import { KeyIcon } from "tdesign-icons-react";
-import { Button, CustomValidator, Form, Input, InternalFormInstance } from "tdesign-react";
+import { Button, CustomValidator, Form, type FormProps, Input, InternalFormInstance } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
+import { verifyEmail } from "../../helpers/EmailVerificationHelper.ts";
+import { useUrlQuery } from "../../helpers/UrlQueryHelper.ts";
 import { PasswordPattern } from "../../helpers/ValidationRules.ts";
 import i18next from "../../i18n.ts";
 
 const t = i18next.t;
 
+interface FormData {
+    password?: string;
+    confirmPassword?: string;
+}
+
 function AuthResetPassword() {
+    const navigate = useNavigate();
+    const query = useUrlQuery();
+
+    const queryCode = query.get("code");
+    const queryEmail = query.get("email");
+    const queryVerifyFor = query.get("verifyFor");
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [isFaulted, setIsFaulted] = useState(false);
+
     const form = useRef<InternalFormInstance>(null);
 
     const rePassword: CustomValidator = (val) =>
@@ -19,6 +37,26 @@ function AuthResetPassword() {
             });
         });
 
+    const onSubmit: FormProps["onSubmit"] = (e) => {
+        if (!queryCode || !queryEmail || !queryVerifyFor) return;
+        if (e.validateResult !== true) return;
+
+        const formData = e.fields as FormData;
+
+        setIsLoading(true);
+
+        verifyEmail(
+            queryCode!,
+            queryEmail!,
+            formData.password!,
+            queryVerifyFor!,
+            "/auth/login",
+            navigate,
+            setIsLoading,
+            setIsFaulted
+        );
+    };
+
     return (
         <>
             <div className="p-8 space-y-4 bg-zinc-50/30 dark:bg-zinc-900/80 bg-opacity-25 rounded-2xl hover:shadow-lg active:shadow-md shadow transition">
@@ -28,7 +66,8 @@ function AuthResetPassword() {
                     className="w-[300px] md:w-[400px] lg:w-[450px]"
                     statusIcon={true}
                     colon={true}
-                    labelWidth={0}>
+                    labelWidth={0}
+                    onSubmit={onSubmit}>
                     <FormItem
                         name="password"
                         rules={[
@@ -36,6 +75,7 @@ function AuthResetPassword() {
                             { pattern: PasswordPattern, message: t("passwordRuleDescription"), type: "error" }
                         ]}>
                         <Input
+                            disabled={isLoading}
                             type="password"
                             prefixIcon={<KeyIcon />}
                             clearable={true}
@@ -43,12 +83,13 @@ function AuthResetPassword() {
                         />
                     </FormItem>
                     <FormItem
-                        name="comfirmPassword"
+                        name="confirmPassword"
                         rules={[
                             { required: true, message: t("afdOrderNumberRequired"), type: "error" },
                             { validator: rePassword, message: t("passwordIsNotSame") }
                         ]}>
                         <Input
+                            disabled={isLoading}
                             type="password"
                             prefixIcon={<KeyIcon />}
                             clearable={true}
@@ -56,7 +97,7 @@ function AuthResetPassword() {
                         />
                     </FormItem>
                     <FormItem>
-                        <Button theme="primary" type="submit" block>
+                        <Button loading={isLoading} disabled={isFaulted} theme="primary" type="submit" block>
                             {t("resetPassword")}
                         </Button>
                     </FormItem>

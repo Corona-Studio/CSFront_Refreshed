@@ -40,8 +40,6 @@ function AuthRegister() {
         });
 
     const onSubmit: FormProps["onSubmit"] = (e) => {
-        console.log(e);
-
         if (e.validateResult !== true) return;
 
         const formData = e.fields as FormData;
