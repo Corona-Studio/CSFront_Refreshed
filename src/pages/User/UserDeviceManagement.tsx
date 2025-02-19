@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Delete1Icon } from "tdesign-icons-react";
-import { Button, Card, Col, Empty, NotificationPlugin, Row } from "tdesign-react";
+import { Button, Card, Col, Empty, Loading, NotificationPlugin, Row } from "tdesign-react";
 
 import { getStorageItem } from "../../helpers/StorageHelper.ts";
 import i18next from "../../i18n.ts";
@@ -107,7 +107,8 @@ function UserDeviceManagement() {
                                 </Card>
                             </Col>
                         ))}
-                    {(!devices.data || devices.data.length === 0) && (
+                    {devices.isLoading && <Loading />}
+                    {!devices.isLoading && (!devices.data || devices.data.length === 0) && (
                         <Col span={12}>
                             <Empty />
                         </Col>

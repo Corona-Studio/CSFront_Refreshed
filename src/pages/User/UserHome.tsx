@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { MoneyIcon, SecuredIcon } from "tdesign-icons-react";
-import { Alert, Avatar, Button, Card, Col, Divider, NotificationPlugin, Row } from "tdesign-react";
+import { Alert, Avatar, Button, Card, Col, Divider, Loading, NotificationPlugin, Row } from "tdesign-react";
 import { TElement } from "tdesign-react/lib/common";
 
 import { getStorageItem } from "../../helpers/StorageHelper.ts";
@@ -148,11 +148,18 @@ function UserHome() {
 
                 <Row gutter={40}>
                     <Col sm={12} md={8}>
-                        {userInfo.data?.map((userInfo, i) => (
-                            <div key={i} className="mb-4">
-                                <Card title={userInfo.title} subtitle={userInfo.value} bordered headerBordered />
+                        {userInfo.isLoading && (
+                            <div className="w-full place-items-center p-0 md:p-[24%]">
+                                <Loading />
                             </div>
-                        ))}
+                        )}
+
+                        {!userInfo.isLoading &&
+                            userInfo.data?.map((userInfo, i) => (
+                                <div key={i} className="mb-4">
+                                    <Card title={userInfo.title} subtitle={userInfo.value} bordered headerBordered />
+                                </div>
+                            ))}
                     </Col>
                     <Col sm={12} md={4}>
                         {tips.map((tip, i) => (
