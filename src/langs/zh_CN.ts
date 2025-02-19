@@ -155,10 +155,17 @@ export const zhCN = {
         userInfoFetchFailed: "无法获取用户信息",
         userInfoFetchFailedDescription: "无法获取用户信息，请尝试注销后重新登录",
 
+        userDeviceFetchFailed: "无法获取已经注册的设备信息",
+        userDeviceFetchFailedDescription: "没有获取到设备信息，请尝试注销后重新登录",
+
         userBranch: "用户分支",
         userChannel: "用户通道",
 
         stable: "稳定通道",
-        preview: "测试通道"
+        preview: "测试通道",
+
+        deviceRemoved: "成功删除设备",
+        deviceRemoveFailed: "删除设备失败",
+        deviceRemoveFailedDescription: "无法删除设备，请稍候再次尝试..."
     }
 };

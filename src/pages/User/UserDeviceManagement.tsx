@@ -1,30 +1,98 @@
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { Delete1Icon } from "tdesign-icons-react";
-import { Button, Card, Col, Empty, Row } from "tdesign-react";
+import { Button, Card, Col, Empty, NotificationPlugin, Row } from "tdesign-react";
 
+import { getStorageItem } from "../../helpers/StorageHelper.ts";
 import i18next from "../../i18n.ts";
+import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
+import { UserDeviceInfo, getUserAllDevicesAsync, removeDeviceAsync } from "../../requests/LxUserRequests.ts";
 
 const t = i18next.t;
 
 function UserDeviceManagement() {
-    const devices = [
-        {
-            name: "laolarou-VMware20-1",
-            id: "bb05584f-7789-4c4c-b7c6-643333e9e62f",
-            serialNumber: "1189C99F159034538D3F935B102041BA93DE7C7845570972A6DB9AFD88653780"
-        }
-    ];
+    const [isLoading, setIsLoading] = useState(false);
+
+    const authToken = getStorageItem(StoredAuthToken);
+
+    const devices = useQuery({
+        queryKey: ["userDeviceList"],
+        queryFn: () =>
+            getUserAllDevicesAsync(authToken ?? "").then(async (r) => {
+                if (!r || !r.status) throw new Error(t("backendServerError"));
+                if (r.status === 404) throw new Error(t("userDeviceFetchFailedDescription"));
+                if (!r.response) throw new Error(t("backendServerError"));
+
+                return r.response;
+            })
+    });
+
+    if (devices.error) {
+        NotificationPlugin.error({
+            title: t("userDeviceFetchFailed"),
+            content: (devices.error as Error).message,
+            placement: "top-right",
+            duration: 3000,
+            offset: [-36, "5rem"],
+            closeBtn: true,
+            attach: () => document
+        }).then(() => {});
+    }
+
+    function deleteDevice(device: UserDeviceInfo) {
+        if (!authToken) return;
+
+        setIsLoading(true);
+        removeDeviceAsync(device, authToken)
+            .then(async (r) => {
+                if (!r || !r.status) throw new Error(t("backendServerError"));
+                if (r.status === 404) throw new Error(t("deviceRemoveFailedDescription"));
+
+                await NotificationPlugin.success({
+                    title: t("deviceRemoved"),
+                    content: `${t("deviceRemoved")} - ${device.computerName}`,
+                    placement: "top-right",
+                    duration: 3000,
+                    offset: [-36, "5rem"],
+                    closeBtn: true,
+                    attach: () => document
+                });
+
+                await devices.refetch();
+            })
+            .catch(async (error) => {
+                await NotificationPlugin.error({
+                    title: t("deviceRemoveFailed"),
+                    content: (error as Error).message,
+                    placement: "top-right",
+                    duration: 3000,
+                    offset: [-36, "5rem"],
+                    closeBtn: true,
+                    attach: () => document
+                });
+            })
+            .finally(() => setIsLoading(false));
+    }
 
     return (
         <>
             <div>
                 <Row gutter={[8, 8]}>
-                    {devices.length > 0 ? (
-                        devices.map((device, i) => (
+                    {devices.data &&
+                        devices.data.length > 0 &&
+                        devices.data.map((device, i) => (
                             <Col key={i} sm={12} md={6} lg={4}>
                                 <Card
-                                    title={device.name}
+                                    title={device.computerName}
                                     actions={
-                                        <Button theme="danger" shape="square" variant="base" icon={<Delete1Icon />} />
+                                        <Button
+                                            disabled={isLoading}
+                                            theme="danger"
+                                            shape="square"
+                                            variant="base"
+                                            icon={<Delete1Icon />}
+                                            onClick={() => deleteDevice(device)}
+                                        />
                                     }
                                     bordered
                                     headerBordered>
@@ -33,13 +101,13 @@ function UserDeviceManagement() {
                                             {t("deviceId")} - {device.id}
                                         </p>
                                         <p>
-                                            {t("serialNumber")} - {device.serialNumber}
+                                            {t("serialNumber")} - {device.mac}
                                         </p>
                                     </article>
                                 </Card>
                             </Col>
-                        ))
-                    ) : (
+                        ))}
+                    {(!devices.data || devices.data.length === 0) && (
                         <Col span={12}>
                             <Empty />
                         </Col>
