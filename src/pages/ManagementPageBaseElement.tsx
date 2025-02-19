@@ -22,9 +22,17 @@ export interface MenuLinkModel {
 
 export interface ManagementPageBaseElementProps {
     links: () => MenuLinkModel[];
+    userSessionValidation: boolean;
+    userSessionValidator?: () => boolean;
+    invalidJumpPage?: string;
 }
 
-function ManagementPageBaseElement({ links = () => [] }: ManagementPageBaseElementProps) {
+function ManagementPageBaseElement({
+    links = () => [],
+    userSessionValidation = false,
+    userSessionValidator = () => true,
+    invalidJumpPage = "/"
+}: ManagementPageBaseElementProps) {
     const [active, setActive] = useState<MenuValue>("/user");
     const [collapsed, setCollapsed] = useState(false);
     const [menuHeight, setMenuHeight] = useState("100vh");
@@ -45,6 +53,13 @@ function ManagementPageBaseElement({ links = () => [] }: ManagementPageBaseEleme
 
     const titleHandle = !!handle && !!(handle as HandleType).title;
     const menuLinks = links();
+
+    useEffect(() => {
+        if (!userSessionValidation) return;
+        if (userSessionValidator()) return;
+
+        navigate(invalidJumpPage);
+    }, [invalidJumpPage, navigate, userSessionValidation, userSessionValidator]);
 
     useEffect(() => {
         setActive(location.pathname);

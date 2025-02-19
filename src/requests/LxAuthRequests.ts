@@ -1,11 +1,14 @@
 import axios from "axios";
 
+import IResponse from "../interfaces/IResponse.ts";
 import { csBackend } from "./ApiConstants.ts";
 
 export const StoredAuthEmail = "AUTH_EMAIL";
 export const StoredAuthPassword = "AUTH_PASSWORD";
 export const StoredAuthToken = "AUTH_TOKEN";
 export const StoredAuthExpired = "AUTH_EXPIRED";
+export const StoredAuthUserName = "AUTH_USERNAME";
+export const StoredAuthUserId = "AUTH_USERID";
 
 interface LoginRequest {
     email: string;
@@ -25,12 +28,7 @@ interface RawLoginResponse {
     branch: string;
     channel: number;
     token: string;
-    expiration: Date;
-}
-
-interface Response<T> {
-    status?: number;
-    response?: T;
+    expiration: string;
 }
 
 interface IdentityError {
@@ -43,7 +41,7 @@ interface RegisterResponse {
     errors?: IdentityError[];
 }
 
-async function postAsync<T>(endPoint: string, req: unknown): Promise<Response<T> | undefined> {
+async function postAsync<T>(endPoint: string, req: unknown): Promise<IResponse<T> | undefined> {
     try {
         const response = await csBackend.post<T>(endPoint, req);
 
@@ -64,19 +62,19 @@ async function postAsync<T>(endPoint: string, req: unknown): Promise<Response<T>
     }
 }
 
-export async function loginAsync(req: LoginRequest): Promise<Response<RawLoginResponse> | undefined> {
+export async function loginAsync(req: LoginRequest): Promise<IResponse<RawLoginResponse> | undefined> {
     const endPoint = "/User/login";
 
     return await postAsync(endPoint, req);
 }
 
-export async function registerAsync(req: RegisterRequest): Promise<Response<RegisterResponse> | undefined> {
+export async function registerAsync(req: RegisterRequest): Promise<IResponse<RegisterResponse> | undefined> {
     const endPoint = "/User/register";
 
     return await postAsync(endPoint, req);
 }
 
-export async function forgePasswordAsync(email: string): Promise<Response<boolean> | undefined> {
+export async function forgePasswordAsync(email: string): Promise<IResponse<boolean> | undefined> {
     const endPoint = "/User/pwd/reset";
 
     try {

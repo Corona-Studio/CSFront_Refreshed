@@ -1,16 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { LockOnIcon, MailIcon } from "tdesign-icons-react";
 import { Button, Checkbox, Form, Input, NotificationPlugin } from "tdesign-react";
 import type { FormProps } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
+import { isSessionValid } from "../../helpers/SessionHelper.ts";
 import i18next from "../../i18n.ts";
 import {
     StoredAuthEmail,
     StoredAuthExpired,
     StoredAuthPassword,
     StoredAuthToken,
+    StoredAuthUserId,
+    StoredAuthUserName,
     loginAsync
 } from "../../requests/LxAuthRequests.ts";
 
@@ -29,6 +32,12 @@ function AuthLogin() {
     const [savedEmail] = useState(localStorage.getItem(StoredAuthEmail));
     const [savedPassword] = useState(localStorage.getItem(StoredAuthPassword));
 
+    // Check for login status
+    useEffect(() => {
+        if (!isSessionValid()) return;
+        navigate("/user");
+    }, [navigate]);
+
     const onSubmit: FormProps["onSubmit"] = (e) => {
         if (e.validateResult !== true) return;
 
@@ -46,16 +55,22 @@ function AuthLogin() {
                     localStorage.setItem(StoredAuthEmail, formData.email!);
                     localStorage.setItem(StoredAuthPassword, formData.password!);
                     localStorage.setItem(StoredAuthToken, r.response.token);
-                    localStorage.setItem(StoredAuthExpired, r.response.expiration.toUTCString());
+                    localStorage.setItem(StoredAuthExpired, new Date(r.response.expiration).toUTCString());
+                    localStorage.setItem(StoredAuthUserName, r.response.username);
+                    localStorage.setItem(StoredAuthUserId, r.response.id);
                 } else {
                     // Reset localstorage
                     localStorage.setItem(StoredAuthEmail, "");
                     localStorage.setItem(StoredAuthPassword, "");
                     localStorage.setItem(StoredAuthToken, "");
                     localStorage.setItem(StoredAuthExpired, "");
+                    localStorage.setItem(StoredAuthUserName, "");
+                    localStorage.setItem(StoredAuthUserId, "");
 
                     sessionStorage.setItem(StoredAuthToken, r.response.token);
-                    sessionStorage.setItem(StoredAuthExpired, r.response.expiration.toUTCString());
+                    sessionStorage.setItem(StoredAuthExpired, new Date(r.response.expiration).toUTCString());
+                    sessionStorage.setItem(StoredAuthUserName, r.response.username);
+                    sessionStorage.setItem(StoredAuthUserId, r.response.id);
                 }
 
                 await NotificationPlugin.success({

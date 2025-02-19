@@ -95,6 +95,10 @@ export const zhCN = {
 
         rememberPassword: "记住密码",
 
+        email: "邮箱",
+        username: "用户名",
+        userId: "用户 ID",
+
         emailRequired: "邮箱是必填项",
         emailIncorrectMessage: "邮箱不正确，请输入正确的邮箱",
         usernameRequired: "用户名是必填项",
@@ -142,6 +146,19 @@ export const zhCN = {
 
         forgetPasswordReqSucceeded: "成功申请找回密码",
         forgetPasswordReqSucceededDescription: "如果您提供的邮箱和我们的记录相匹配，您将收到一封找回密码的邮件！",
-        forgetPasswordReqFailed: "在尝试申请找回密码邮件时出现了未知错误，请尝试联系管理员"
+        forgetPasswordReqFailed: "在尝试申请找回密码邮件时出现了未知错误，请尝试联系管理员",
+
+        logout: "注销",
+        loggedOut: "成功注销",
+        loggedOutDescription: "成功注销，即将返回主页...",
+
+        userInfoFetchFailed: "无法获取用户信息",
+        userInfoFetchFailedDescription: "无法获取用户信息，请尝试注销后重新登录",
+
+        userBranch: "用户分支",
+        userChannel: "用户通道",
+
+        stable: "稳定通道",
+        preview: "测试通道"
     }
 };

@@ -2,6 +2,7 @@ import i18next from "i18next";
 import { lazy } from "react";
 import { Route, createBrowserRouter, createRoutesFromElements } from "react-router";
 
+import { isSessionValid } from "./helpers/SessionHelper.ts";
 import { userPageMenuLinks } from "./pages/User/UserPageMenuLinks.tsx";
 
 const App = lazy(() => import("./App.tsx"));
@@ -66,7 +67,14 @@ export const router = createBrowserRouter(
             </Route>
             <Route
                 path="user"
-                element={<ManagementPageBaseElement links={userPageMenuLinks} />}
+                element={
+                    <ManagementPageBaseElement
+                        links={userPageMenuLinks}
+                        userSessionValidation={true}
+                        userSessionValidator={isSessionValid}
+                        invalidJumpPage="/auth/login"
+                    />
+                }
                 handle={{ title: () => "Error", pageInfo: () => ({ pageKey: "Error", pageTitle: "Error" }) }}>
                 <Route index element={<UserHome />} handle={{ title: () => t("userCenter") }} />
                 <Route
