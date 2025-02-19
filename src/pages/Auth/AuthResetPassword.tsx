@@ -1,7 +1,15 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { KeyIcon } from "tdesign-icons-react";
-import { Button, CustomValidator, Form, type FormProps, Input, InternalFormInstance } from "tdesign-react";
+import {
+    Button,
+    CustomValidator,
+    Form,
+    type FormProps,
+    Input,
+    InternalFormInstance,
+    NotificationPlugin
+} from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
 import { verifyEmail } from "../../helpers/EmailVerificationHelper.ts";
@@ -28,6 +36,24 @@ function AuthResetPassword() {
     const [isFaulted, setIsFaulted] = useState(false);
 
     const form = useRef<InternalFormInstance>(null);
+
+    useEffect(() => {
+        if (queryCode && queryEmail && queryVerifyFor) return;
+
+        NotificationPlugin.error({
+            title: t("resetPasswordLinkInvalid"),
+            content: t("resetPasswordLinkInvalidDescription"),
+            placement: "top-right",
+            duration: 10000,
+            offset: [-36, "5rem"],
+            closeBtn: true,
+            attach: () => document
+        }).then(() => {});
+
+        setTimeout(() => {
+            navigate("/");
+        }, 3000);
+    }, [navigate, queryCode, queryEmail, queryVerifyFor]);
 
     const rePassword: CustomValidator = (val) =>
         new Promise((resolve) => {
