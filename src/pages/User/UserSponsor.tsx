@@ -129,7 +129,7 @@ function UserSponsor() {
                         }
                         close
                     />
-                    {isPaid.data && <Alert theme="success" message={t("sponsorThanksDescription")} close />}
+                    {isPaid.data && <Alert theme="success" message={t("sponsorThanksDescription")} />}
                 </Space>
 
                 {isPaid.isLoading && (
