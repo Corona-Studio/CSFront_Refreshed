@@ -123,7 +123,7 @@ function UserSponsor() {
                         theme="info"
                         message={t("howToCheckSponsorOrderNumber")}
                         operation={
-                            <a href="https://kb.corona.studio/" target="_blank">
+                            <a href={t("checkHereLink")} target="_blank">
                                 {t("checkHere")}
                             </a>
                         }
