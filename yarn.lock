@@ -54,10 +54,10 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
-"@babel/runtime@~7.24.7":
-  version "7.24.8"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.24.8.tgz#5d958c3827b13cc6d05e038c07fb2e5e3420d82e"
-  integrity sha512-5F7SDGs1T72ZczbRwbGO9lQi0NLjQxzl6i4lJxLxfW9U5UluCSyEJeniWvnhl3/euNiqQVbo8zruhsDfid0esA==
+"@babel/runtime@~7.26.7":
+  version "7.26.9"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.26.9.tgz#aa4c6facc65b9cb3f87d75125ffd47781b475433"
+  integrity sha512-aA63XwOkcl4xxQa3HjPMqOP6LiK0ZDv3mUPYEFXkpHbaFjtGggE1A61FjFzJnB+p7/oy2gA8E+rcBNl/zC1tMg==
   dependencies:
     regenerator-runtime "^0.14.0"
 
@@ -2167,12 +2167,17 @@ locate-path@^6.0.0:
   dependencies:
     p-locate "^5.0.0"
 
+lodash-es@^4.17.21:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
+  integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
+
 lodash.merge@^4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
 
-lodash@^4.17.21, lodash@~4.17.15:
+lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -2475,10 +2480,14 @@ postcss@^8.5.1:
     picocolors "^1.1.1"
     source-map-js "^1.2.1"
 
-postprocessing@^6.36.7:
-  version "6.36.7"
-  resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.36.7.tgz#43d968b900f1109d718e6a53cfb90976220e1a1f"
-  integrity sha512-X6B3xt9dy4Osv19kqnVGqV01I2Tm7VwV6rLegRIZkZJPH3ozKLypHSBK1xKx7P/Ols++OkXe6L8dBGTaDUL5aw==
+postcss@^8.5.3:
+  version "8.5.3"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.5.3.tgz#1463b6f1c7fb16fe258736cba29a2de35237eafb"
+  integrity sha512-dle9A3yYxlBSrt8Fu+IpjGT8SY8hN0mlaA6GY8t0P5PjIOZemULz/E2Bnm/2dcUOena75OTNkHI76uZBNUUq3A==
+  dependencies:
+    nanoid "^3.3.8"
+    picocolors "^1.1.1"
+    source-map-js "^1.2.1"
 
 prelude-ls@^1.2.1:
   version "1.2.1"
@@ -2906,12 +2915,12 @@ tdesign-icons-react@^0.4.3:
     "@babel/runtime" "^7.16.5"
     classnames "^2.2.6"
 
-tdesign-react@^1.10.5:
-  version "1.10.5"
-  resolved "https://registry.yarnpkg.com/tdesign-react/-/tdesign-react-1.10.5.tgz#e2cda8b40b8efa1defa4243dd7a60429e9dbb0d5"
-  integrity sha512-fAb/vyOZu0JV8lhYEoICgB793E/toVak3F/6moJpRE8syx7nnLm/XxzDe2NlmhLnOxxXH9qaNrcsQEmJUjCtdQ==
+tdesign-react@^1.11.0:
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/tdesign-react/-/tdesign-react-1.11.0.tgz#e07ac67c9d47a39ca8dd93088a32951aaf5c7cfe"
+  integrity sha512-qdxhg8quSh7p3ub6YQQtgF/Khk86DAQcUaRXLcrmI5A7Rksvwh7pGEvWOYxJqYmbe9vz4IHHG1zs+vyjqUkAKw==
   dependencies:
-    "@babel/runtime" "~7.24.7"
+    "@babel/runtime" "~7.26.7"
     "@popperjs/core" "~2.11.2"
     "@types/sortablejs" "^1.10.7"
     "@types/tinycolor2" "^1.4.3"
@@ -2919,7 +2928,7 @@ tdesign-react@^1.10.5:
     classnames "~2.5.1"
     dayjs "1.11.10"
     hoist-non-react-statics "~3.3.2"
-    lodash "~4.17.15"
+    lodash-es "^4.17.21"
     mitt "^3.0.0"
     raf "~3.4.1"
     react-is "^18.2.0"
