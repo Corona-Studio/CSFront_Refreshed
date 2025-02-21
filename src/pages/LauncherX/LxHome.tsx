@@ -27,7 +27,6 @@ function LxHome() {
             content: (
                 <img
                     loading="lazy"
-                    width="500"
                     key={i}
                     src={new URL(`../../assets/lx/LauncherX_${x}.webp`, import.meta.url).href}
                     alt="LauncherX"
@@ -70,7 +69,7 @@ function LxHome() {
                 <BannerContainer innerDivClassName="overflow-clip">
                     <div className="z-0 w-full h-full">
                         <InfiniteScroll
-                            width="40rem"
+                            width="50rem"
                             items={items}
                             isTilted={true}
                             tiltDirection="right"
@@ -78,6 +77,7 @@ function LxHome() {
                             autoplaySpeed={0.1}
                             autoplayDirection="down"
                             pauseOnHover={true}
+                            negativeMargin="4rem"
                         />
                     </div>
 
