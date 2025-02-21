@@ -182,6 +182,7 @@ export const zhCN = {
 
         howToCheckSponsorOrderNumber: "如何查看赞助时的订单号？",
         checkHere: "查看这里",
+        checkHereLink: "https://kb.corona.studio/zhCN/guide/general/donate.html",
         sponsorThanks: "感谢您的赞助！",
         sponsorThanksDescription:
             "感谢您对日冕工作室的支持！我们会继续改进我们的产品并取得更大的进步，我们今天的成就离不开每一位赞助者的贡献。",
