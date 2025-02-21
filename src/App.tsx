@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { lazy, useEffect } from "react";
-import { Outlet, useMatches, useNavigate, useNavigation } from "react-router";
+import { Outlet, useMatches, useNavigation } from "react-router";
 
 import "./App.css";
 import { useThemeDetector } from "./helpers/ThemeDetector.ts";
