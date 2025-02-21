@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { lazy, useEffect } from "react";
-import { Outlet, useMatches } from "react-router";
+import { Outlet, useMatches, useNavigate, useNavigation } from "react-router";
 
 import "./App.css";
 import { useThemeDetector } from "./helpers/ThemeDetector.ts";
@@ -8,6 +8,7 @@ import IMatches from "./interfaces/IMatches.ts";
 
 const queryClient = new QueryClient();
 
+const Fallback = lazy(() => import("./pages/Fallback.tsx"));
 const Footer = lazy(() => import("./components/Footer.tsx"));
 const MenuBar = lazy(() => import("./components/MenuBar.tsx"));
 
@@ -16,6 +17,7 @@ interface HandleType {
 }
 
 function App() {
+    const navigation = useNavigation();
     const themeDetector = useThemeDetector();
     const matches = useMatches() as IMatches[];
     const { handle, data } = matches[matches.length - 1];
@@ -39,7 +41,10 @@ function App() {
         <>
             <QueryClientProvider client={queryClient}>
                 <MenuBar />
-                <Outlet />
+
+                {navigation.state === "loading" && <Fallback />}
+
+                {navigation.state !== "loading" && <Outlet />}
                 <Footer />
             </QueryClientProvider>
         </>
