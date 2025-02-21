@@ -43,8 +43,8 @@ function App() {
                 <MenuBar />
 
                 {navigation.state === "loading" && <Fallback />}
-
                 {navigation.state !== "loading" && <Outlet />}
+
                 <Footer />
             </QueryClientProvider>
         </>
