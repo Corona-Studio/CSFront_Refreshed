@@ -58,8 +58,8 @@ function ManagementPageBaseElement({
         if (!userSessionValidation) return;
         if (userSessionValidator()) return;
 
-        navigate(invalidJumpPage);
-    }, [invalidJumpPage, navigate, userSessionValidation, userSessionValidator]);
+        navigate(`${invalidJumpPage}?redirect=${location.pathname}`);
+    }, [invalidJumpPage, location.pathname, navigate, userSessionValidation, userSessionValidator]);
 
     useEffect(() => {
         setActive(location.pathname);

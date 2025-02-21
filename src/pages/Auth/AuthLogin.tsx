@@ -6,6 +6,7 @@ import type { FormProps } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
 import { isSessionValid } from "../../helpers/SessionHelper.ts";
+import { useUrlQuery } from "../../helpers/UrlQueryHelper.ts";
 import i18next from "../../i18n.ts";
 import {
     StoredAuthEmail,
@@ -27,6 +28,9 @@ interface FormData {
 
 function AuthLogin() {
     const navigate = useNavigate();
+    const query = useUrlQuery();
+
+    const redirect = query.get("redirect");
 
     const [isLoading, setIsLoading] = useState(false);
     const [savedEmail] = useState(localStorage.getItem(StoredAuthEmail));
@@ -83,7 +87,7 @@ function AuthLogin() {
                     attach: () => document
                 });
 
-                navigate("/user");
+                navigate(redirect ? redirect : "/user");
             })
             .catch(async (err) => {
                 await NotificationPlugin.error({
