@@ -39,8 +39,8 @@ function AuthLogin() {
     // Check for login status
     useEffect(() => {
         if (!isSessionValid()) return;
-        navigate("/user");
-    }, [navigate]);
+        navigate(redirect ? redirect : "/user");
+    }, [navigate, redirect]);
 
     const onSubmit: FormProps["onSubmit"] = (e) => {
         if (e.validateResult !== true) return;
@@ -139,7 +139,11 @@ function AuthLogin() {
                             theme="danger"
                             type="reset"
                             style={{ marginLeft: 12 }}
-                            onClick={() => navigate("/auth/forgetPassword")}>
+                            onClick={() =>
+                                navigate(
+                                    redirect ? `/auth/forgetPassword?redirect=${redirect}` : "/auth/forgetPassword"
+                                )
+                            }>
                             {t("forgetPassword")}
                         </Button>
                     </FormItem>
@@ -151,7 +155,9 @@ function AuthLogin() {
                             theme="default"
                             type="reset"
                             style={{ marginLeft: 12 }}
-                            onClick={() => navigate("/auth/register")}>
+                            onClick={() =>
+                                navigate(redirect ? `/auth/register?redirect=${redirect}` : "/auth/register")
+                            }>
                             {t("register")}
                         </Button>
                     </FormItem>
