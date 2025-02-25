@@ -4,8 +4,9 @@ import { ErrorResponse, useNavigate, useRouteError } from "react-router";
 import { HomeIcon } from "tdesign-icons-react";
 import { Button } from "tdesign-react";
 
+import Particles from "../ReactBits/Backgrounds/Particles/Particles.tsx";
+
 const BannerContainer = lazy(() => import("../components/BannerContainer.tsx"));
-const Threads = lazy(() => import("../ReactBits/Backgrounds/Threads/Threads.tsx"));
 
 function ErrorBoundary() {
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ function ErrorBoundary() {
         <>
             <BannerContainer innerDivClassName="bg-black">
                 <div className="z-0 w-full h-full shadow">
-                    <Threads amplitude={2} distance={0} enableMouseInteraction={false} />
+                    <Particles speed={0.03} />
                 </div>
 
                 <div className="z-10 absolute w-full h-full content-center place-items-center">
