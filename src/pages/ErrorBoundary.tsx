@@ -1,6 +1,7 @@
 import { t } from "i18next";
 import { lazy } from "react";
 import { ErrorResponse, useNavigate, useRouteError } from "react-router";
+import { HomeIcon } from "tdesign-icons-react";
 import { Button } from "tdesign-react";
 
 const BannerContainer = lazy(() => import("../components/BannerContainer.tsx"));
@@ -19,7 +20,7 @@ function ErrorBoundary() {
 
                 <div className="z-10 absolute w-full h-full content-center place-items-center">
                     <div className="m-8 md:m-0 flex text-white">
-                        <div className="m-auto place-items-center space-y-8 border-2 border-dashed border-red-400 p-4 rounded-xl">
+                        <div className="m-auto space-y-8 border-2 border-dashed border-red-400 p-4 rounded-xl">
                             <article className="text-center text-pretty">
                                 <p className="rounded-xl font-bold text-6xl md:text-8xl text-white bg-red-400">
                                     {error.status}
@@ -29,8 +30,16 @@ function ErrorBoundary() {
                                 <p className="text-red-400">{error.statusText}</p>
                                 <p className="text-red-400">{error.data}</p>
                             </article>
-                            <Button theme="danger" size="large" variant="base" onClick={() => navigate("/")}>
-                                {t("indexPage")}
+                            <Button
+                                className="w-full"
+                                theme="danger"
+                                size="large"
+                                variant="base"
+                                onClick={() => navigate("/")}>
+                                <div className="flex items-center space-x-4">
+                                    <HomeIcon />
+                                    <span>{t("indexPage")}</span>
+                                </div>
                             </Button>
                         </div>
                     </div>
