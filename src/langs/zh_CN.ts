@@ -194,6 +194,19 @@ export const zhCN = {
         redeemAlreadyUsedOrInvalid: "这个订单号已被兑换或是无效的订单号，请检查后再次尝试",
 
         errorBoundaryTitle: "似乎到了世界的边缘...",
-        errorBoundarySubText: '"早安！若无缘再见，便祝你午安，晚安，夜夜好梦。"'
+        errorBoundarySubText: '"早安！若无缘再见，便祝你午安，晚安，夜夜好梦。"',
+
+        adminCenter: "管理中心",
+        returnToUserCenter: "返回用户中心",
+        contributorAdminPanel: "贡献者管理面板",
+
+        userCount: "用户数",
+        userCountDescription: "已注册日冕账号的用户数量",
+        insiderUserCount: "内测用户数",
+        insiderUserCountDescription: "加入赞助计划的用户数量",
+        loginCount: "登陆总计",
+        loginCountDescription: "在过去 24H 的登陆数量",
+        failedLoginCount: "失败的登陆尝试",
+        failedLoginCountDescription: "在过去 24H 失败的登陆数量"
     }
 };

@@ -5,7 +5,7 @@ import { Button, Checkbox, Form, Input, NotificationPlugin } from "tdesign-react
 import type { FormProps } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
-import { isSessionValid } from "../../helpers/SessionHelper.ts";
+import { isUserSessionValid } from "../../helpers/SessionHelper.ts";
 import { useUrlQuery } from "../../helpers/UrlQueryHelper.ts";
 import i18next from "../../i18n.ts";
 import {
@@ -38,7 +38,7 @@ function AuthLogin() {
 
     // Check for login status
     useEffect(() => {
-        if (!isSessionValid()) return;
+        if (!isUserSessionValid()) return;
         navigate(redirect ? redirect : "/user");
     }, [navigate, redirect]);
 

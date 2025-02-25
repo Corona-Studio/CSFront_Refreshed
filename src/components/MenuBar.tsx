@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { LinkIcon, MoonIcon, SunnyIcon, User1Icon, ViewListIcon } from "tdesign-icons-react";
 import { Button, Dropdown, DropdownOption, MenuValue } from "tdesign-react";
@@ -139,4 +139,4 @@ function MenuBar() {
     );
 }
 
-export default MenuBar;
+export default React.memo(MenuBar);

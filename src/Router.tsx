@@ -2,8 +2,11 @@ import i18next from "i18next";
 import { lazy } from "react";
 import { Route, createBrowserRouter, createRoutesFromElements } from "react-router";
 
-import { isSessionValid } from "./helpers/SessionHelper.ts";
+import { isAdminSessionValid, isUserSessionValid } from "./helpers/SessionHelper.ts";
+import { adminPageMenuLinks } from "./pages/Admin/AdminPageMenuLinks.tsx";
 import { userPageMenuLinks } from "./pages/User/UserPageMenuLinks.tsx";
+
+const AdminHome = lazy(() => import("./pages/Admin/AdminHome.tsx"));
 
 const App = lazy(() => import("./App.tsx"));
 const Fallback = lazy(() => import("./pages/Fallback.tsx"));
@@ -79,7 +82,7 @@ export const router = createBrowserRouter(
                     <ManagementPageBaseElement
                         links={userPageMenuLinks}
                         userSessionValidation={true}
-                        userSessionValidator={isSessionValid}
+                        userSessionValidator={isUserSessionValid}
                         invalidJumpPage="/auth/login"
                     />
                 }
@@ -95,6 +98,19 @@ export const router = createBrowserRouter(
                     handle={{ title: () => t("sponsor") }}
                     lazy={() => import("./pages/User/UserSponsor.tsx")}
                 />
+            </Route>
+            <Route
+                path="admin"
+                element={
+                    <ManagementPageBaseElement
+                        links={adminPageMenuLinks}
+                        userSessionValidation={true}
+                        userSessionValidator={() => isAdminSessionValid(true)}
+                        invalidJumpPage="/auth/login"
+                    />
+                }
+                handle={{ title: () => "Error", pageInfo: () => ({ pageKey: "Error", pageTitle: "Error" }) }}>
+                <Route index element={<AdminHome />} handle={{ title: () => t("adminCenter") }} />
             </Route>
         </Route>
     )

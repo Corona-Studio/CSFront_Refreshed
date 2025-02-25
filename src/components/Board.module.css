@@ -1,0 +1,33 @@
+.boardItemBottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.boardItemDesc {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 22px;
+    color: var(--td-text-color-placeholder);
+}
+
+.boardTitle {
+    line-height: 22px;
+    font-size: 14px;
+    color: var(--td-text-color-secondary);
+}
+
+.boardItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.boardItemLeft {
+    display: inline-block;
+    color: var(--td-text-color-primary);
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 16px;
+}

@@ -1,7 +1,5 @@
-import axios from "axios";
-
 import IResponse from "../interfaces/IResponse.ts";
-import { csBackend } from "./ApiConstants.ts";
+import { getAsync, postAsync } from "./ApiConstants.ts";
 
 export const StoredAuthEmail = "AUTH_EMAIL";
 export const StoredAuthPassword = "AUTH_PASSWORD";
@@ -41,48 +39,6 @@ interface RegisterResponse {
     errors?: IdentityError[];
 }
 
-async function postAsync<T>(endPoint: string, req: unknown): Promise<IResponse<T> | undefined> {
-    try {
-        const response = await csBackend.post<T>(endPoint, req);
-
-        return {
-            status: 200,
-            response: response.data
-        };
-    } catch (error) {
-        console.error(error);
-
-        if (axios.isAxiosError(error)) {
-            return {
-                status: error.status
-            };
-        }
-
-        return undefined;
-    }
-}
-
-async function getAsync<T>(endPoint: string, params: unknown): Promise<IResponse<T> | undefined> {
-    try {
-        const response = await csBackend.get<T>(endPoint, { params: params });
-
-        return {
-            status: 200,
-            response: response.data
-        };
-    } catch (error) {
-        console.error(error);
-
-        if (axios.isAxiosError(error)) {
-            return {
-                status: error.status
-            };
-        }
-
-        return undefined;
-    }
-}
-
 export async function loginAsync(req: LoginRequest): Promise<IResponse<RawLoginResponse> | undefined> {
     const endPoint = "/User/login";
 
@@ -98,7 +54,7 @@ export async function registerAsync(req: RegisterRequest): Promise<IResponse<Reg
 export async function forgePasswordAsync(email: string): Promise<IResponse<unknown> | undefined> {
     const endPoint = "/User/pwd/reset";
 
-    return await getAsync(endPoint, { email });
+    return await getAsync(endPoint, { params: { email } });
 }
 
 export async function emailVerifyAsync(
@@ -109,5 +65,5 @@ export async function emailVerifyAsync(
 ): Promise<IResponse<string> | undefined> {
     const endPoint = "/User/code/confirm";
 
-    return await getAsync(endPoint, { code, email, val, verifyFor });
+    return await getAsync(endPoint, { params: { code, email, val, verifyFor } });
 }

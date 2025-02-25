@@ -18,6 +18,7 @@ export interface MenuLinkModel {
     icon: TElement;
     to: string;
     value: string;
+    visible?: () => boolean;
 }
 
 export interface ManagementPageBaseElementProps {
@@ -126,16 +127,23 @@ function ManagementPageBaseElement({
                                 onClick={() => setCollapsed(!collapsed)}
                             />
                         }>
-                        {menuLinks.map((link, i) => (
-                            <MenuItem key={i} value={link.to} icon={link.icon} onClick={() => navigate(link.to)}>
-                                <span>{link.value}</span>
-                            </MenuItem>
-                        ))}
+                        {menuLinks.map(
+                            (link, i) =>
+                                (!link.visible || (link.visible && link.visible())) && (
+                                    <MenuItem
+                                        key={i}
+                                        value={link.to}
+                                        icon={link.icon}
+                                        onClick={() => navigate(link.to)}>
+                                        <span>{link.value}</span>
+                                    </MenuItem>
+                                )
+                        )}
                     </Menu>
                 </div>
 
                 <div className="relative w-screen h-full">
-                    <div ref={containerRef} className="px-[3%] py-[12%] md:py-[6%]">
+                    <div ref={containerRef} className="px-[3%] py-[12%] md:py-[10%] lg:py-[6%]">
                         <div className="flex items-end">
                             <div className="md:hidden">
                                 <Dropdown

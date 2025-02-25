@@ -1,0 +1,17 @@
+.iconWrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background: var(--td-brand-color-1);
+    border-radius: 50%;
+    position: absolute;
+    top: 32px;
+    right: 32px;
+}
+
+.svgIcon {
+    font-size: 24px;
+    color: var(--td-brand-color);
+}
