@@ -26,7 +26,7 @@ function ErrorBoundary() {
                                     {error.status}
                                 </p>
                                 <p className="pt-4 text-xl md:text-4xl font-bold">{t("errorBoundaryTitle")}</p>
-                                <p className="pb-4 md:text-xl">{t("errorBoundarySubText")}</p>
+                                <p className="italic pb-4 md:text-lg text-zinc-500">{t("errorBoundarySubText")}</p>
                                 <p className="text-red-400">{error.statusText}</p>
                                 <p className="text-red-400">{error.data}</p>
                             </article>
