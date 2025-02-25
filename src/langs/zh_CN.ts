@@ -207,6 +207,8 @@ export const zhCN = {
         loginCount: "登陆总计",
         loginCountDescription: "在过去 24H 的登陆数量",
         failedLoginCount: "失败的登陆尝试",
-        failedLoginCountDescription: "在过去 24H 失败的登陆数量"
+        failedLoginCountDescription: "在过去 24H 失败的登陆数量",
+
+        sponsorAdmin: "赞助者管理"
     }
 };

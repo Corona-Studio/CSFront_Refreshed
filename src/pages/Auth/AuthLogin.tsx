@@ -71,6 +71,7 @@ function AuthLogin() {
                     localStorage.setItem(StoredAuthUserName, "");
                     localStorage.setItem(StoredAuthUserId, "");
 
+                    sessionStorage.setItem(StoredAuthEmail, formData.email!);
                     sessionStorage.setItem(StoredAuthToken, r.response.token);
                     sessionStorage.setItem(StoredAuthExpired, new Date(r.response.expiration).toUTCString());
                     sessionStorage.setItem(StoredAuthUserName, r.response.username);

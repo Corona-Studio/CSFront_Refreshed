@@ -147,7 +147,7 @@ function UserHome() {
                 <Divider align="center" layout="horizontal" />
 
                 <Row gutter={40}>
-                    <Col sm={12} md={8}>
+                    <Col span={12} sm={12} md={8}>
                         {userInfo.isLoading && (
                             <div className="w-full place-items-center p-0 md:p-[24%]">
                                 <Loading />
