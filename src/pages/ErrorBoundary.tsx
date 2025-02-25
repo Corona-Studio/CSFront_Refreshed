@@ -15,7 +15,7 @@ function ErrorBoundary() {
         <>
             <BannerContainer innerDivClassName="bg-black">
                 <div className="z-0 w-full h-full shadow">
-                    <Threads amplitude={5} enableMouseInteraction={false} />
+                    <Threads amplitude={2} distance={0} enableMouseInteraction={false} />
                 </div>
 
                 <div className="z-10 absolute w-full h-full content-center place-items-center">
