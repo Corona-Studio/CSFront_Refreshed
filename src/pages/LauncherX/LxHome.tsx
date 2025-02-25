@@ -102,7 +102,7 @@ function LxHome() {
                 </BannerContainer>
 
                 <div className="w-full text-white">
-                    <div className="p-[12.5%] w-full bg-gray-900">
+                    <div className="px-[12.5%] py-24 w-full bg-gray-900">
                         <Row className="items-center" align="middle">
                             <Col xs={12} lg={6}>
                                 <div className="text-white">
@@ -132,7 +132,7 @@ function LxHome() {
                         </Row>
                     </div>
 
-                    <div className="p-[12.5%] w-full bg-black">
+                    <div className="px-[12.5%] py-24 w-full bg-black">
                         <Row align="middle">
                             <Col xs={12} lg={6}>
                                 <div className="text-white pr-24 pb-16">
@@ -154,7 +154,7 @@ function LxHome() {
                         </Row>
                     </div>
 
-                    <div className="p-[12.5%] w-full bg-gray-900">
+                    <div className="px-[12.5%] py-24 w-full bg-gray-900">
                         <Row>
                             <Col xs={12} lg={6}>
                                 <BounceCards
@@ -183,7 +183,7 @@ function LxHome() {
                         </Row>
                     </div>
 
-                    <div className="p-[12.5%] w-full bg-black">
+                    <div className="px-[12.5%] py-24 w-full bg-black">
                         <Row>
                             <Col xs={12} lg={6}>
                                 <div className="w-full flex pb-16 space-x-8">
