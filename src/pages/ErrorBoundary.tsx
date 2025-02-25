@@ -22,7 +22,7 @@ function ErrorBoundary() {
                     <div className="m-8 md:m-0 flex text-white">
                         <div className="m-auto space-y-8 border-2 border-dashed border-red-400 p-4 rounded-xl">
                             <article className="text-center text-pretty">
-                                <p className="rounded-xl font-bold text-6xl md:text-8xl text-white bg-red-400">
+                                <p className="rounded-xl py-4 font-bold text-6xl md:text-8xl text-white bg-red-400">
                                     {error.status}
                                 </p>
                                 <p className="pt-4 text-xl md:text-4xl font-bold">{t("errorBoundaryTitle")}</p>
