@@ -28,7 +28,7 @@ function AuthResetPassword() {
     const navigate = useNavigate();
     const query = useUrlQuery();
 
-    const queryCode = query.get("code");
+    const queryToken = query.get("token");
     const queryEmail = query.get("email");
     const queryVerifyFor = query.get("verifyFor");
 
@@ -38,7 +38,7 @@ function AuthResetPassword() {
     const form = useRef<InternalFormInstance>(null);
 
     useEffect(() => {
-        if (queryCode && queryEmail && queryVerifyFor) return;
+        if (queryToken && queryEmail && queryVerifyFor) return;
 
         NotificationPlugin.error({
             title: t("resetPasswordLinkInvalid"),
@@ -53,7 +53,7 @@ function AuthResetPassword() {
         setTimeout(() => {
             navigate("/");
         }, 3000);
-    }, [navigate, queryCode, queryEmail, queryVerifyFor]);
+    }, [navigate, queryToken, queryEmail, queryVerifyFor]);
 
     const rePassword: CustomValidator = (val) =>
         new Promise((resolve) => {
@@ -64,7 +64,7 @@ function AuthResetPassword() {
         });
 
     const onSubmit: FormProps["onSubmit"] = (e) => {
-        if (!queryCode || !queryEmail || !queryVerifyFor) return;
+        if (!queryToken || !queryEmail || !queryVerifyFor) return;
         if (e.validateResult !== true) return;
 
         const formData = e.fields as FormData;
@@ -72,7 +72,7 @@ function AuthResetPassword() {
         setIsLoading(true);
 
         verifyEmail(
-            queryCode!,
+            queryToken!,
             queryEmail!,
             formData.password!,
             queryVerifyFor!,

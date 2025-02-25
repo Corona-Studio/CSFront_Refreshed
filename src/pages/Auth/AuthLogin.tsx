@@ -6,6 +6,7 @@ import type { FormProps } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
 import { isSessionValid } from "../../helpers/SessionHelper.ts";
+import { useUrlQuery } from "../../helpers/UrlQueryHelper.ts";
 import i18next from "../../i18n.ts";
 import {
     StoredAuthEmail,
@@ -27,6 +28,9 @@ interface FormData {
 
 function AuthLogin() {
     const navigate = useNavigate();
+    const query = useUrlQuery();
+
+    const redirect = query.get("redirect");
 
     const [isLoading, setIsLoading] = useState(false);
     const [savedEmail] = useState(localStorage.getItem(StoredAuthEmail));
@@ -35,8 +39,8 @@ function AuthLogin() {
     // Check for login status
     useEffect(() => {
         if (!isSessionValid()) return;
-        navigate("/user");
-    }, [navigate]);
+        navigate(redirect ? redirect : "/user");
+    }, [navigate, redirect]);
 
     const onSubmit: FormProps["onSubmit"] = (e) => {
         if (e.validateResult !== true) return;
@@ -83,7 +87,7 @@ function AuthLogin() {
                     attach: () => document
                 });
 
-                navigate("/user");
+                navigate(redirect ? redirect : "/user");
             })
             .catch(async (err) => {
                 await NotificationPlugin.error({
@@ -135,7 +139,11 @@ function AuthLogin() {
                             theme="danger"
                             type="reset"
                             style={{ marginLeft: 12 }}
-                            onClick={() => navigate("/auth/forgetPassword")}>
+                            onClick={() =>
+                                navigate(
+                                    redirect ? `/auth/forgetPassword?redirect=${redirect}` : "/auth/forgetPassword"
+                                )
+                            }>
                             {t("forgetPassword")}
                         </Button>
                     </FormItem>
@@ -147,7 +155,9 @@ function AuthLogin() {
                             theme="default"
                             type="reset"
                             style={{ marginLeft: 12 }}
-                            onClick={() => navigate("/auth/register")}>
+                            onClick={() =>
+                                navigate(redirect ? `/auth/register?redirect=${redirect}` : "/auth/register")
+                            }>
                             {t("register")}
                         </Button>
                     </FormItem>

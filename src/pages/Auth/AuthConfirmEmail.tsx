@@ -12,7 +12,7 @@ function AuthConfirmEmail() {
     const navigate = useNavigate();
     const query = useUrlQuery();
 
-    const queryCode = query.get("code");
+    const queryToken = query.get("token");
     const queryEmail = query.get("email");
     const queryVerifyFor = query.get("verifyFor");
 
@@ -20,7 +20,7 @@ function AuthConfirmEmail() {
     const [isFaulted, setIsFaulted] = useState(false);
 
     useEffect(() => {
-        if (queryCode && queryEmail && queryVerifyFor) return;
+        if (queryToken && queryEmail && queryVerifyFor) return;
 
         NotificationPlugin.error({
             title: t("emailVerificationFailed"),
@@ -35,13 +35,13 @@ function AuthConfirmEmail() {
         setTimeout(() => {
             navigate("/");
         }, 3000);
-    }, [navigate, queryCode, queryEmail, queryVerifyFor]);
+    }, [navigate, queryToken, queryEmail, queryVerifyFor]);
 
     useEffect(() => {
-        if (!queryCode || !queryEmail || !queryVerifyFor) return;
+        if (!queryToken || !queryEmail || !queryVerifyFor) return;
 
         verifyEmail(
-            queryCode!,
+            queryToken!,
             queryEmail!,
             "none",
             queryVerifyFor!,
@@ -51,7 +51,7 @@ function AuthConfirmEmail() {
             setIsFaulted
         );
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [queryCode, queryEmail, queryVerifyFor]);
+    }, [queryToken, queryEmail, queryVerifyFor]);
 
     return (
         <>

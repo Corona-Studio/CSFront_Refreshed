@@ -7,12 +7,14 @@ export const resources = {
     zhCN: zhCN
 } as const;
 
-i18n.use(initReactI18next).init({
-    lng: "zhCN",
-    resources,
-    interpolation: {
-        escapeValue: false // react already safes from xss
-    }
-});
+i18n.use(initReactI18next)
+    .init({
+        lng: "zhCN",
+        resources,
+        interpolation: {
+            escapeValue: false // react already safes from xss
+        }
+    })
+    .then(() => {});
 
 export default i18n;

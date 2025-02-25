@@ -12,6 +12,7 @@ import {
 } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
+import { useUrlQuery } from "../../helpers/UrlQueryHelper.ts";
 import { PasswordPattern, UsernamePattern } from "../../helpers/ValidationRules.ts";
 import i18next from "../../i18n.ts";
 import { StoredAuthEmail, StoredAuthPassword, registerAsync } from "../../requests/LxAuthRequests.ts";
@@ -27,6 +28,10 @@ interface FormData {
 
 function AuthRegister() {
     const navigate = useNavigate();
+    const query = useUrlQuery();
+
+    const redirect = query.get("redirect");
+
     const form = useRef<InternalFormInstance>(null);
 
     const [isLoading, setIsLoading] = useState(false);
@@ -67,7 +72,7 @@ function AuthRegister() {
                     attach: () => document
                 });
 
-                navigate("/auth/login");
+                navigate(redirect ? `/auth/login?redirect=${redirect}` : "/auth/login");
             })
             .catch(async (err) => {
                 await NotificationPlugin.error({
@@ -156,7 +161,7 @@ function AuthRegister() {
                             theme="default"
                             type="reset"
                             style={{ marginLeft: 12 }}
-                            onClick={() => navigate("/auth/login")}>
+                            onClick={() => navigate(redirect ? `/auth/login?redirect=${redirect}` : "/auth/login")}>
                             {t("login")}
                         </Button>
                     </FormItem>

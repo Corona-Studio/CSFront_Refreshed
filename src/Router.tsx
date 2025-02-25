@@ -10,7 +10,6 @@ const Fallback = lazy(() => import("./pages/Fallback.tsx"));
 const Home = lazy(() => import("./pages/Home.tsx"));
 const LxIndex = lazy(() => import("./pages/LauncherX/LxHome.tsx"));
 const CMFS = lazy(() => import("./pages/CMFS.tsx"));
-
 const UserHome = lazy(() => import("./pages/User/UserHome.tsx"));
 
 const ErrorBoundary = lazy(() => import("./pages/ErrorBoundary.tsx"));

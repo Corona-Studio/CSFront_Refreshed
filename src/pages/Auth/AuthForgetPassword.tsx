@@ -4,6 +4,7 @@ import { MailIcon } from "tdesign-icons-react";
 import { Button, Form, type FormProps, Input, NotificationPlugin } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
+import { useUrlQuery } from "../../helpers/UrlQueryHelper.ts";
 import i18next from "../../i18n.ts";
 import { forgePasswordAsync } from "../../requests/LxAuthRequests.ts";
 
@@ -15,6 +16,9 @@ interface FormData {
 
 function AuthForgetPassword() {
     const navigate = useNavigate();
+    const query = useUrlQuery();
+
+    const redirect = query.get("redirect");
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -41,7 +45,7 @@ function AuthForgetPassword() {
                     attach: () => document
                 });
 
-                navigate("/auth/login");
+                navigate(redirect ? `/auth/login?redirect=${redirect}` : "/auth/login");
             })
             .catch(async (err) => {
                 await NotificationPlugin.error({
@@ -88,7 +92,7 @@ function AuthForgetPassword() {
                             theme="default"
                             type="reset"
                             style={{ marginLeft: 12 }}
-                            onClick={() => navigate("/auth/login")}>
+                            onClick={() => navigate(redirect ? `/auth/login?redirect=${redirect}` : "/auth/login")}>
                             {t("login")}
                         </Button>
                     </FormItem>
