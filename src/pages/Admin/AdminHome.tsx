@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { t } from "i18next";
+import { Suspense, lazy } from "react";
 import {
     ChartLineMultiIcon,
     GitRepositoryCommitsIcon,
@@ -8,13 +9,14 @@ import {
     UserBlockedIcon,
     UsergroupIcon
 } from "tdesign-icons-react";
-import { Alert, Col, Loading, Row } from "tdesign-react";
+import { Alert, Col, Loading, Row, Skeleton } from "tdesign-react";
 
-import Board from "../../components/Board.tsx";
 import { getStorageItem } from "../../helpers/StorageHelper.ts";
 import { getDashboardData } from "../../requests/AdminRequests.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
 import styles from "./AdminHome.module.css";
+
+const Board = lazy(() => import("../../components/Board.tsx"));
 
 function getDashboardItemIcon(dataKey: string) {
     if (dataKey === "UserCount") {
@@ -83,20 +85,22 @@ function AdminHome() {
     return (
         <>
             <div>
-                {dashboardItems.isLoading && <Loading />}
-
                 {dashboardItems.error && <Alert theme="error" message={t("backendServerError")} />}
 
+                {dashboardItems.isLoading && <Loading />}
                 <Row gutter={[12, 12]}>
                     {!dashboardItems.isLoading &&
                         dashboardItems.data &&
                         dashboardItems.data.map((boardItem, i) => (
                             <Col key={i} span={12} sm={12} md={6} lg={3}>
-                                <Board
-                                    title={boardItem.title}
-                                    desc={boardItem.desc}
-                                    count={boardItem.count}
-                                    Icon={boardItem.icon}></Board>
+                                <Suspense fallback={<Skeleton theme="paragraph" />}>
+                                    <Board
+                                        title={boardItem.title}
+                                        desc={boardItem.desc}
+                                        count={boardItem.count}
+                                        Icon={boardItem.icon}
+                                    />
+                                </Suspense>
                             </Col>
                         ))}
                 </Row>

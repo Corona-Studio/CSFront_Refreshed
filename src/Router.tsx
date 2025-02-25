@@ -111,6 +111,11 @@ export const router = createBrowserRouter(
                 }
                 handle={{ title: () => "Error", pageInfo: () => ({ pageKey: "Error", pageTitle: "Error" }) }}>
                 <Route index element={<AdminHome />} handle={{ title: () => t("adminCenter") }} />
+                <Route
+                    path="sponsor"
+                    handle={{ title: () => t("sponsorAdmin") }}
+                    lazy={() => import("./pages/Admin/AdminSponsor.tsx")}
+                />
             </Route>
         </Route>
     )

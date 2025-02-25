@@ -24,7 +24,7 @@ function ErrorBoundary() {
                         <div className="m-auto space-y-8 border-2 border-dashed border-red-400 p-4 rounded-xl">
                             <article className="text-center text-pretty">
                                 <p className="rounded-xl py-4 font-bold text-6xl md:text-8xl text-white bg-red-400">
-                                    {error.status}
+                                    {error.status ?? "Error"}
                                 </p>
                                 <p className="pt-4 text-xl md:text-4xl font-bold">{t("errorBoundaryTitle")}</p>
                                 <p className="italic pb-4 md:text-lg text-zinc-500">{t("errorBoundarySubText")}</p>
