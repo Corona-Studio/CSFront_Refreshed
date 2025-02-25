@@ -191,6 +191,9 @@ export const zhCN = {
 
         userNotFound: "用户未找到",
         userAlreadySponsor: "您已经赞助过啦！该功能只能使用一次！",
-        redeemAlreadyUsedOrInvalid: "这个订单号已被兑换或是无效的订单号，请检查后再次尝试"
+        redeemAlreadyUsedOrInvalid: "这个订单号已被兑换或是无效的订单号，请检查后再次尝试",
+
+        errorBoundaryTitle: "你来到了世界的边缘",
+        errorBoundarySubText: "早安！若无缘再见，便祝你午安，晚安，夜夜好梦。"
     }
 };

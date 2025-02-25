@@ -13,6 +13,7 @@ const CMFS = lazy(() => import("./pages/CMFS.tsx"));
 
 const UserHome = lazy(() => import("./pages/User/UserHome.tsx"));
 
+const ErrorBoundary = lazy(() => import("./pages/ErrorBoundary.tsx"));
 const AuthPageBaseElement = lazy(() => import("./pages/Auth/AuthPageBaseElement.tsx"));
 const ManagementPageBaseElement = lazy(() => import("./pages/ManagementPageBaseElement.tsx"));
 
@@ -20,7 +21,7 @@ const t = i18next.t;
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
-        <Route path="/" element={<App />} hydrateFallbackElement={<Fallback />}>
+        <Route path="/" element={<App />} hydrateFallbackElement={<Fallback />} errorElement={<ErrorBoundary />}>
             <Route index element={<Home />} handle={{ title: () => "Corona Studio" }} />
             <Route path="lx">
                 <Route index element={<LxIndex />} handle={{ title: () => "LauncherX" }} />
