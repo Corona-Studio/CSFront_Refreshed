@@ -41,6 +41,7 @@
         "eslint-plugin-react-refresh": "^0.4.19",
         "globals": "^16.0.0",
         "i18next": "^24.2.2",
+        "postcss": "^8.5.3",
         "prettier": "^3.5.2",
         "prettier-plugin-css-order": "^2.1.2",
         "prettier-plugin-organize-attributes": "^1.0.0",
