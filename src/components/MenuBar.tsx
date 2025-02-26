@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { LinkIcon, MoonIcon, SunnyIcon, User1Icon, ViewListIcon } from "tdesign-icons-react";
+import { EarthIcon, LinkIcon, MoonIcon, SunnyIcon, User1Icon, ViewListIcon } from "tdesign-icons-react";
 import { Button, Dropdown, DropdownOption, MenuValue } from "tdesign-react";
 import HeadMenu from "tdesign-react/es/menu/HeadMenu";
 import MenuItem from "tdesign-react/es/menu/MenuItem";
 
 import logo from "../assets/logo.png";
+import { I18NLangKey } from "../helpers/StorageHelper.ts";
 import { useThemeDetector } from "../helpers/ThemeDetector.ts";
 import i18next from "../i18n";
 import { MenuItemValue } from "../interfaces/MenuItemValue.ts";
@@ -26,6 +27,17 @@ function MenuBar() {
 
     const navigate = useNavigate();
     const location = useLocation();
+
+    const languageOptions = [
+        {
+            content: "简体中文",
+            value: "zhCN"
+        },
+        {
+            content: "English (US)",
+            value: "enUS"
+        }
+    ];
 
     const linkOptions: DropDownItemValue[] = [
         {
@@ -72,6 +84,18 @@ function MenuBar() {
         to(value);
     }
 
+    function onLanguageMenuItemClicked(dropdownItem: DropdownOption) {
+        if (!dropdownItem.value) return;
+
+        const value = dropdownItem.value as string;
+
+        localStorage.setItem(I18NLangKey, value);
+
+        i18next.changeLanguage(value ?? "zhCN").then(() => {
+            window.location.reload();
+        });
+    }
+
     const operations = () => (
         <div className="flex-center pr-4">
             <Button
@@ -81,6 +105,15 @@ function MenuBar() {
                 onClick={switchTheme}
             />
             <Button variant="text" shape="square" icon={<User1Icon />} onClick={() => navigate("/auth/login")} />
+            <Dropdown
+                direction="right"
+                hideAfterItemClick={true}
+                placement="bottom"
+                trigger="hover"
+                options={languageOptions}
+                onClick={onLanguageMenuItemClicked}>
+                <Button variant="text" shape="square" className="flex lg:hidden" icon={<EarthIcon />} />
+            </Dropdown>
             <Dropdown
                 direction="right"
                 hideAfterItemClick={true}
