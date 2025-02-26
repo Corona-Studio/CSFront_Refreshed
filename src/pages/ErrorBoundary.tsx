@@ -4,8 +4,7 @@ import { ErrorResponse, useNavigate, useRouteError } from "react-router";
 import { HomeIcon } from "tdesign-icons-react";
 import { Button } from "tdesign-react";
 
-import Particles from "../ReactBits/Backgrounds/Particles/Particles.tsx";
-
+const Particles = lazy(() => import("../ReactBits/Backgrounds/Particles/Particles.tsx"));
 const BannerContainer = lazy(() => import("../components/BannerContainer.tsx"));
 
 function ErrorBoundary() {

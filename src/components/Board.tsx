@@ -29,4 +29,4 @@ const Board: React.FC<BoardProps> = ({ title, count, desc, Icon, border = false 
     </>
 );
 
-export default Board;
+export default React.memo(Board);
