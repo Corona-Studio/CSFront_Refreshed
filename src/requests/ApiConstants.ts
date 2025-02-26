@@ -8,12 +8,17 @@ export const csBackend = axios.create({
     baseURL: lxBackendUrl
 });
 
-export function buildHeader(token: string, data: unknown = undefined): AxiosRequestConfig<unknown> {
+export function buildHeader(
+    token: string,
+    data: unknown = undefined,
+    query: unknown = undefined
+): AxiosRequestConfig<unknown> {
     return {
         headers: {
             Authorization: `Bearer ${token}`
         },
-        data: data
+        data: data,
+        params: query
     };
 }
 
@@ -45,6 +50,31 @@ export async function postAsync<T>(
 ): Promise<IResponse<T> | undefined> {
     try {
         const response = await csBackend.post<T>(endPoint, req, axiosConfig);
+
+        return {
+            status: 200,
+            response: response.data
+        };
+    } catch (error) {
+        console.error(error);
+
+        if (axios.isAxiosError(error)) {
+            return {
+                status: error.status
+            };
+        }
+
+        return undefined;
+    }
+}
+
+export async function putAsync<T>(
+    endPoint: string,
+    req: unknown,
+    axiosConfig: AxiosRequestConfig<unknown> = {}
+): Promise<IResponse<T> | undefined> {
+    try {
+        const response = await csBackend.put<T>(endPoint, req, axiosConfig);
 
         return {
             status: 200,

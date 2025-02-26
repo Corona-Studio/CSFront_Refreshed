@@ -4,7 +4,7 @@ import { Button, Dropdown, Loading, NotificationPlugin } from "tdesign-react";
 import { DropdownOption } from "tdesign-react/es/dropdown/type";
 
 import { lxBackendUrl } from "../../requests/ApiConstants.ts";
-import { LauncherRawBuildModel, getAllStableBuilds } from "../../requests/LxBuildRequests.ts";
+import { LauncherRawBuildModel, getAllStableBuildsAsync } from "../../requests/LxBuildRequests.ts";
 
 const Waves = lazy(() => import("../../ReactBits/Backgrounds/Waves/Waves.tsx"));
 const RotatingText = lazy(() => import("../../ReactBits/TextAnimations/RotatingText/RotatingText.tsx"));
@@ -18,7 +18,7 @@ function LxDownload() {
     const [downloadOptions, setDownloadOptions] = useState<DropdownOption[]>([]);
 
     async function getLauncherBuilds() {
-        const builds = await getAllStableBuilds();
+        const builds = await getAllStableBuildsAsync();
 
         if (!builds) {
             await NotificationPlugin.info({

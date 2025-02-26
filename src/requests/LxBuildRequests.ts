@@ -17,7 +17,7 @@ export interface LauncherRawBuildModel {
     runtime: string;
 }
 
-export async function getAllStableBuilds(): Promise<Map<string, LauncherRawBuildModel> | undefined> {
+export async function getAllStableBuildsAsync(): Promise<Map<string, LauncherRawBuildModel> | undefined> {
     const endPoint = "/Build/get/latest/all/stable";
 
     try {

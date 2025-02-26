@@ -209,6 +209,26 @@ export const zhCN = {
         failedLoginCount: "失败的登陆尝试",
         failedLoginCountDescription: "在过去 24H 失败的登陆数量",
 
-        sponsorAdmin: "赞助者管理"
+        sponsorAdmin: "赞助者管理",
+        query: "查询",
+        querySponsorInfo: "查询赞助者信息",
+        querySponsorInfoDescription:
+            "该功能用于查询任意用户的简要信息，包含用户的用户名，ID，赞助信息等。这些为敏感信息，请勿泄露！",
+
+        setUserAsSponsor: "将用户设置为赞助者",
+        setUserAsSponsorDescription:
+            "输入用户的邮箱来将用户设置为赞助者。注意：请勿滥用该功能，一经发现可能会被吊销管理员权限！",
+
+        isPaid: "已支付",
+        notPay: "未支付",
+
+        queriedSponsorInfo: "查询到的用户信息",
+
+        copy: "复制",
+        copyAdminUserToken: "快速复制管理员 JWT Token",
+
+        setSponsorFailed: "设置赞助者失败",
+        setSponsorSucceeded: "成功设置赞助者",
+        setSponsorSucceededDescription: "成功将用户设置为赞助者，该操作已被记录。"
     }
 };

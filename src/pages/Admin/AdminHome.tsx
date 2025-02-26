@@ -3,6 +3,7 @@ import { t } from "i18next";
 import { Suspense, lazy } from "react";
 import {
     ChartLineMultiIcon,
+    CopyIcon,
     GitRepositoryCommitsIcon,
     LoginIcon,
     MoneyIcon,
@@ -12,7 +13,7 @@ import {
 import { Alert, Col, Loading, Row, Skeleton } from "tdesign-react";
 
 import { getStorageItem } from "../../helpers/StorageHelper.ts";
-import { getDashboardData } from "../../requests/AdminRequests.ts";
+import { getDashboardDataAsync } from "../../requests/AdminRequests.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
 import styles from "./AdminHome.module.css";
 
@@ -69,7 +70,7 @@ function AdminHome() {
     const dashboardItems = useQuery({
         queryKey: ["dashboardItems"],
         queryFn: () =>
-            getDashboardData(authToken ?? "").then(async (r) => {
+            getDashboardDataAsync(authToken ?? "").then(async (r) => {
                 if (!r || !r.status) throw new Error(t("backendServerError"));
                 if (!r.response) throw new Error(t("backendServerError"));
 
@@ -106,6 +107,19 @@ function AdminHome() {
                 </Row>
 
                 <div className="mt-8 space-y-4">
+                    <div>
+                        <Alert
+                            icon={<CopyIcon />}
+                            theme="success"
+                            message={t("copyAdminUserToken")}
+                            operation={
+                                <a onClick={() => navigator.clipboard.writeText(authToken ?? "")} target="_blank">
+                                    {t("copy")}
+                                </a>
+                            }
+                        />
+                    </div>
+
                     {quickLinks.map((link, i) => (
                         <div key={i}>
                             <Alert

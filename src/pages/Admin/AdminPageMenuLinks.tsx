@@ -12,7 +12,7 @@ export const adminPageMenuLinks = () => [
     },
     {
         icon: <MoneyIcon />,
-        to: "/money",
+        to: "/admin/sponsor",
         value: t("sponsorAdmin")
     },
     {
