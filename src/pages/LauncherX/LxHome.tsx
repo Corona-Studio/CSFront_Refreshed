@@ -50,9 +50,9 @@ function LxHome() {
     ];
 
     const thirdpartyLogo = [
-        new URL("../../assets/thirdparty/CurseForge.jpg", import.meta.url).href,
-        new URL("../../assets/thirdparty/Forge.jpg", import.meta.url).href,
-        new URL("../../assets/thirdparty/Modrinth.png", import.meta.url).href
+        new URL("../../assets/thirdparty/CurseForge.webp", import.meta.url).href,
+        new URL("../../assets/thirdparty/Forge.webp", import.meta.url).href,
+        new URL("../../assets/thirdparty/Modrinth.webp", import.meta.url).href
     ];
 
     const transformStyles = [
