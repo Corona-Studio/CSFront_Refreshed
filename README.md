@@ -1,50 +1,31 @@
-# React + TypeScript + Vite
+# CSFront Refreshed
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🎉 这是全面焕新的日冕工作室新的官方网站
 
-Currently, two official plugins are available:
+This is the renewed official website for Corona Studio!
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![image](https://github.com/user-attachments/assets/72f7ad62-8faf-4f30-bcbe-b15da45a7492)
 
-## Expanding the ESLint configuration
+## 📃 多语言支持
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+目前站点的多语言支持还处于早期阶段，我们欢迎志愿者来贡献其他地区的语言！
 
-- Configure the top-level `parserOptions` property like this:
+|语言|进展|
+|:----|:---|
+|zh_CN|✅  |
+|en_US|🚧  |
 
-```js
-export default tseslint.config({
-    languageOptions: {
-        // other options...
-        parserOptions: {
-            project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-            tsconfigRootDir: import.meta.dirname
-        }
-    }
-});
-```
+## ⚙️ 页面概述
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+目前所有的主要功能均已经迁移到该项目，预计后期将关闭 CSFront Min 站
 
-```js
-// eslint.config.js
-import react from "eslint-plugin-react";
-
-export default tseslint.config({
-    // Set the react version
-    settings: { react: { version: "18.3" } },
-    plugins: {
-        // Add the react plugin
-        react
-    },
-    rules: {
-        // other rules...
-        // Enable its recommended rules
-        ...react.configs.recommended.rules,
-        ...react.configs["jsx-runtime"].rules
-    }
-});
-```
+|项目             |进展|
+|:----------------|:--|
+|主页              |✅|
+|LauncherX 宣传页面|✅|
+|LauncherX 下载页面|✅|
+|CMFS 宣传页面     |✅|
+|用户主页          |✅|
+|设备管理页面      |✅|
+|赞助者页面        |✅|
+|管理员页面        |🚧|
