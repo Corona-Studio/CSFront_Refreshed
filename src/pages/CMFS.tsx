@@ -50,7 +50,7 @@ function CMFS() {
 
                     <div className={styles.midBlurBg} style={{ pointerEvents: "none" }}></div>
 
-                    <div className="z-10 w-full h-full absolute flex-center">
+                    <div className="z-10 absolute w-full h-full grid place-items-center">
                         <div className="place-items-center">
                             <img
                                 src={new URL(`../assets/cmfs.png`, import.meta.url).href}
