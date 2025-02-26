@@ -10,6 +10,7 @@ import { I18NLangKey } from "../helpers/StorageHelper.ts";
 import { useThemeDetector } from "../helpers/ThemeDetector.ts";
 import i18next from "../i18n";
 import { MenuItemValue } from "../interfaces/MenuItemValue.ts";
+import "./MenuBar.css";
 import styles from "./MenuBar.module.css";
 
 const t = i18next.t;
@@ -144,7 +145,6 @@ function MenuBar() {
 
     function onLogoClicked() {
         navigate("/");
-        setActive("0");
     }
 
     return (

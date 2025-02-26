@@ -4,7 +4,7 @@ import { CSSProperties, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router";
 import { BackTop } from "tdesign-react";
-import "tdesign-react/dist/tdesign.css";
+import "tdesign-react/es/style/index.css";
 
 import { router } from "./Router.tsx";
 import "./i18n";
