@@ -1,6 +1,6 @@
-# CSFront Refreshed
+# 🎉 CSFront Refreshed
 
-🎉 这是全面焕新的日冕工作室新的官方网站
+这是全面焕新的日冕工作室新的官方网站
 
 This is the renewed official website for Corona Studio!
 
