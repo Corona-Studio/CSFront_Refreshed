@@ -74,7 +74,6 @@ const Squares: React.FC<SquaresProps> = ({
                     }
 
                     ctx.strokeStyle = borderColor;
-                    ctx.lineWidth = 1.5;
                     ctx.strokeRect(squareX, squareY, squareSize, squareSize);
                 }
             }
