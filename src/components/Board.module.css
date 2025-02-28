@@ -6,16 +6,16 @@
 
 .boardItemDesc {
     display: flex;
-    align-items: center;
     justify-content: center;
-    line-height: 22px;
+    align-items: center;
     color: var(--td-text-color-placeholder);
+    line-height: 22px;
 }
 
 .boardTitle {
-    line-height: 22px;
-    font-size: 14px;
     color: var(--td-text-color-secondary);
+    font-size: 14px;
+    line-height: 22px;
 }
 
 .boardItem {
@@ -27,7 +27,7 @@
 .boardItemLeft {
     display: inline-block;
     color: var(--td-text-color-primary);
-    font-size: 30px;
     font-weight: bold;
+    font-size: 30px;
     line-height: 16px;
 }
