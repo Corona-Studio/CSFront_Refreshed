@@ -81,7 +81,7 @@ function LxDownload() {
                         />
                     </div>
 
-                    <div className="absolute z-10 w-full h-full text-white flex-center">
+                    <div className="z-10 absolute w-full h-full grid place-items-center">
                         <div className="place-items-center">
                             <div className="space-y-4 place-items-end">
                                 <div>
