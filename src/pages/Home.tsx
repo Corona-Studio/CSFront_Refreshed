@@ -36,7 +36,7 @@ function Home() {
             icon: <TreeSquareDotIcon />,
             title: "ConnectX",
             description: t("connectxDescription"),
-            link: "https://github.com/Corona-Studio"
+            link: "https://github.com/Corona-Studio/ConnectX"
         },
         {
             icon: <BookOpenIcon />,
