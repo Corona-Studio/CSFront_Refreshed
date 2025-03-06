@@ -1,4 +1,4 @@
-import React from "react";
+import { FC, ReactElement, memo } from "react";
 import { Card } from "tdesign-react";
 
 import styles from "./Board.module.css";
@@ -6,12 +6,12 @@ import styles from "./Board.module.css";
 interface BoardProps {
     title?: string;
     count?: string;
-    Icon?: React.ReactElement;
+    Icon?: ReactElement;
     desc?: string;
     border?: boolean;
 }
 
-const Board: React.FC<BoardProps> = ({ title, count, desc, Icon, border = false }) => (
+const Board: FC<BoardProps> = ({ title, count, desc, Icon, border = false }) => (
     <>
         <Card
             title={<span className={styles.boardTitle}>{title}</span>}
@@ -29,4 +29,4 @@ const Board: React.FC<BoardProps> = ({ title, count, desc, Icon, border = false 
     </>
 );
 
-export default React.memo(Board);
+export default memo(Board);

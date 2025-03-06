@@ -1,16 +1,16 @@
-import React from "react";
+import { FC, ReactNode, memo } from "react";
 
 import SpotlightCard from "../ReactBits/Components/SpotlightCard/SpotlightCard.tsx";
 import styles from "./ProjectCard.module.css";
 
 interface ProjectCardProps {
-    icon?: React.ReactNode;
+    icon?: ReactNode;
     title?: string;
     description?: string;
     spotlightColor?: `rgba(${number}, ${number}, ${number}, ${number})`;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({
+const ProjectCard: FC<ProjectCardProps> = ({
     icon = null,
     title = "",
     description = "",
@@ -29,4 +29,4 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     );
 };
 
-export default React.memo(ProjectCard);
+export default memo(ProjectCard);
