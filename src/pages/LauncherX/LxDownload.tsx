@@ -100,7 +100,7 @@ function LxDownload() {
                                         exit={{ y: "-120%" }}
                                         staggerDuration={0.025}
                                         splitLevelClassName="overflow-hidden"
-                                        rotationInterval={2000}
+                                        rotationInterval={4000}
                                     />
                                     <RotatingText
                                         texts={["X64", "Arm64"]}
