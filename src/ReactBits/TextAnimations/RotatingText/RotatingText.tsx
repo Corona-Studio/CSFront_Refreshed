@@ -190,7 +190,7 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
 
         useEffect(() => {
             if (divRef.current) {
-                setWidth(divRef.current.offsetWidth + 24);
+                setWidth(divRef.current.clientWidth);
             }
         }, [currentTextIndex]);
 
@@ -202,7 +202,7 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
                 transition={transition}
                 animate={{ width }}>
                 <span className="sr-only">{texts[currentTextIndex]}</span>
-                <span ref={divRef} style={{ position: "absolute", color: "transparent" }}>
+                <span ref={divRef} className={mainClassName} style={{ position: "absolute", color: "transparent" }}>
                     {texts[currentTextIndex]}
                 </span>
                 <AnimatePresence mode={animatePresenceMode} initial={animatePresenceInitial}>
