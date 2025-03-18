@@ -1,11 +1,17 @@
 /*
-	jsrepo 1.36.0
 	Installed from https://reactbits.dev/ts/tailwind/
-	2025-2-13
 */
-//@ts-nocheck
-import { AnimatePresence, Transition, motion } from "framer-motion";
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from "react";
+// @ts-nocheck
+import {
+    AnimatePresence,
+    type AnimationControls,
+    type Target,
+    type TargetAndTransition,
+    Transition,
+    type VariantLabels,
+    motion
+} from "framer-motion";
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 
 function cn(...classes: (string | undefined | null | boolean)[]): string {
     return classes.filter(Boolean).join(" ");
@@ -25,9 +31,9 @@ export interface RotatingTextProps
     > {
     texts: string[];
     transition?: Transition;
-    initial?: any;
-    animate?: any;
-    exit?: any;
+    initial?: boolean | Target | VariantLabels;
+    animate?: boolean | VariantLabels | AnimationControls | TargetAndTransition;
+    exit?: Target | VariantLabels;
     animatePresenceMode?: "sync" | "wait";
     animatePresenceInitial?: boolean;
     rotationInterval?: number;
@@ -69,13 +75,8 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
         const [currentTextIndex, setCurrentTextIndex] = useState<number>(0);
 
         const splitIntoCharacters = (text: string): string[] => {
-            // @ts-ignore
             if (typeof Intl !== "undefined" && Intl.Segmenter) {
-                // @ts-ignore
-                const segmenter = new Intl.Segmenter("en", {
-                    granularity: "grapheme"
-                });
-                // @ts-ignore
+                const segmenter = new Intl.Segmenter("en", { granularity: "grapheme" });
                 return Array.from(segmenter.segment(text), (segment) => segment.segment);
             }
             return Array.from(text);
@@ -184,15 +185,29 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
             return () => clearInterval(intervalId);
         }, [next, rotationInterval, auto]);
 
+        const [width, setWidth] = useState(1);
+        const divRef = useRef<HTMLDivElement | null>(null);
+
+        useEffect(() => {
+            if (divRef.current) {
+                setWidth(divRef.current.offsetWidth + 24);
+            }
+        }, [currentTextIndex]);
+
         return (
             <motion.span
                 className={cn("flex flex-wrap whitespace-pre-wrap relative", mainClassName)}
                 {...rest}
                 layout
-                transition={transition}>
+                transition={transition}
+                animate={{ width }}>
                 <span className="sr-only">{texts[currentTextIndex]}</span>
+                <span ref={divRef} style={{ position: "absolute", color: "transparent" }}>
+                    {texts[currentTextIndex]}
+                </span>
                 <AnimatePresence mode={animatePresenceMode} initial={animatePresenceInitial}>
                     <motion.div
+                        initial={{ transform: 0 }}
                         key={currentTextIndex}
                         className={cn(
                             splitBy === "lines" ? "flex flex-col w-full" : "flex flex-wrap whitespace-pre-wrap relative"

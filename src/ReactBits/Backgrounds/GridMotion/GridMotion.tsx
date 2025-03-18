@@ -1,9 +1,6 @@
 /*
-	jsrepo 1.36.0
 	Installed from https://reactbits.dev/ts/tailwind/
-	2025-2-14
 */
-// @ts-nocheck
 import { gsap } from "gsap";
 import { FC, useEffect, useRef } from "react";
 
@@ -59,9 +56,6 @@ const GridMotion: FC<GridMotionProps> = ({ items = [], gradientColor = "black" }
         };
     }, []);
 
-    // @ts-ignore
-    // @ts-ignore
-    // @ts-ignore
     return (
         <div ref={gridRef} className="h-full w-full overflow-hidden">
             <section
@@ -69,6 +63,8 @@ const GridMotion: FC<GridMotionProps> = ({ items = [], gradientColor = "black" }
                 style={{
                     background: `radial-gradient(circle, ${gradientColor} 0%, transparent 100%)`
                 }}>
+                {/* Noise overlay */}
+                <div className="absolute inset-0 pointer-events-none z-[4] bg-[url('../../../assets/noise.png')] bg-[length:250px]"></div>
                 <div className="gap-4 flex-none relative w-[150vw] h-[150vh] grid grid-rows-4 grid-cols-1 rotate-[-15deg] origin-center z-[2]">
                     {Array.from({ length: 4 }, (_, rowIndex) => (
                         <div
@@ -82,14 +78,9 @@ const GridMotion: FC<GridMotionProps> = ({ items = [], gradientColor = "black" }
                                     <div key={itemIndex} className="relative">
                                         <div className="relative w-full h-full overflow-hidden rounded-[10px] bg-[#111] flex items-center justify-center text-white text-[1.5rem]">
                                             {typeof content === "string" && content.startsWith("http") ? (
-                                                <div className="w-full h-full bg-cover bg-center absolute top-0 left-0">
-                                                    <img
-                                                        alt="content"
-                                                        loading="lazy"
-                                                        src={content}
-                                                        style={{ height: "100%", objectFit: "cover" }}
-                                                    />
-                                                </div>
+                                                <div
+                                                    className="w-full h-full bg-cover bg-center absolute top-0 left-0"
+                                                    style={{ backgroundImage: `url(${content})` }}></div>
                                             ) : (
                                                 <div className="p-4 text-center z-[1]">{content}</div>
                                             )}

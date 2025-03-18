@@ -1,7 +1,5 @@
 /*
-	jsrepo 1.36.0
 	Installed from https://reactbits.dev/ts/tailwind/
-	2025-2-13
 */
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";

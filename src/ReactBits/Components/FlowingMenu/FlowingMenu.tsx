@@ -1,12 +1,8 @@
 /*
-	jsrepo 1.36.0
 	Installed from https://reactbits.dev/ts/tailwind/
-	2025-2-16
 */
 import { gsap } from "gsap";
 import React from "react";
-
-import "./FlowingMenu.css";
 
 interface MenuItemProps {
     link: string;
@@ -20,8 +16,8 @@ interface FlowingMenuProps {
 
 const FlowingMenu: React.FC<FlowingMenuProps> = ({ items = [] }) => {
     return (
-        <div className="menu-wrap">
-            <nav className="menu">
+        <div className="w-full h-full overflow-hidden">
+            <nav className="flex flex-col h-full m-0 p-0">
                 {items.map((item, idx) => (
                     <MenuItem key={idx} {...item} />
                 ))}
@@ -80,13 +76,21 @@ const MenuItem: React.FC<MenuItemProps> = ({ link, text, image }) => {
     }, [text, image]);
 
     return (
-        <div className="menu__item" ref={itemRef}>
-            <a className="menu__item-link" href={link} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <div className="flex-1 relative overflow-hidden text-center shadow-[0_-1px_0_0_#fff]" ref={itemRef}>
+            <a
+                className="flex items-center justify-center h-full relative cursor-pointer uppercase no-underline font-semibold text-white text-[4vh] hover:text-[#060606] focus:text-white focus-visible:text-[#060606]"
+                href={link}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}>
                 {text}
             </a>
-            <div className="marquee" ref={marqueeRef}>
-                <div className="marquee__inner-wrap" ref={marqueeInnerRef}>
-                    <div className="marquee__inner">{repeatedMarqueeContent}</div>
+            <div
+                className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none bg-white translate-y-[101%]"
+                ref={marqueeRef}>
+                <div className="h-full w-[200%] flex" ref={marqueeInnerRef}>
+                    <div className="flex items-center relative h-full w-[200%] will-change-transform animate-marquee">
+                        {repeatedMarqueeContent}
+                    </div>
                 </div>
             </div>
         </div>

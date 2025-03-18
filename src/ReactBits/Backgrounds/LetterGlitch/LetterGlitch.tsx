@@ -1,7 +1,5 @@
 /*
-	jsrepo 1.36.0
 	Installed from https://reactbits.dev/ts/tailwind/
-	2-14-2025
 */
 // @ts-nocheck
 import { useEffect, useRef } from "react";

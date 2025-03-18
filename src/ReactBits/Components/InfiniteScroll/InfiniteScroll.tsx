@@ -1,7 +1,5 @@
 /*
-	jsrepo 1.36.0
 	Installed from https://reactbits.dev/ts/tailwind/
-	2025-2-13
 */
 import { gsap } from "gsap";
 import { Observer } from "gsap/Observer";

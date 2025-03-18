@@ -1,7 +1,5 @@
 /*
-	jsrepo 1.40.1
 	Installed from https://reactbits.dev/ts/tailwind/
-	2025-2-24
 */
 import { Camera, Geometry, Mesh, Program, Renderer } from "ogl";
 import React, { useEffect, useRef } from "react";

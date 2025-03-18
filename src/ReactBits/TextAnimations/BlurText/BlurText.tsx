@@ -1,10 +1,10 @@
 /*
-	jsrepo 1.36.0
 	Installed from https://reactbits.dev/ts/tailwind/
-	2025-2-13
 */
 import { SpringValue, animated, useSprings } from "@react-spring/web";
 import { useEffect, useRef, useState } from "react";
+
+const AnimatedSpan = animated.span as React.FC<React.HTMLAttributes<HTMLSpanElement>>;
 
 interface BlurTextProps {
     text?: string;
@@ -41,16 +41,8 @@ const BlurText: React.FC<BlurTextProps> = ({
     // Default animations based on direction
     const defaultFrom: Record<string, any> =
         direction === "top"
-            ? {
-                  filter: "blur(10px)",
-                  opacity: 0,
-                  transform: "translate3d(0,-50px,0)"
-              }
-            : {
-                  filter: "blur(10px)",
-                  opacity: 0,
-                  transform: "translate3d(0,50px,0)"
-              };
+            ? { filter: "blur(10px)", opacity: 0, transform: "translate3d(0,-50px,0)" }
+            : { filter: "blur(10px)", opacity: 0, transform: "translate3d(0,50px,0)" };
 
     const defaultTo: Record<string, any>[] = [
         {
@@ -104,14 +96,13 @@ const BlurText: React.FC<BlurTextProps> = ({
     return (
         <p ref={ref} className={`blur-text ${className} flex flex-wrap`}>
             {springs.map((props, index) => (
-                // @ts-ignore
-                <animated.span
+                <AnimatedSpan
                     key={index}
                     style={props}
                     className="inline-block transition-transform will-change-[transform,filter,opacity]">
                     {elements[index] === " " ? "\u00A0" : elements[index]}
                     {animateBy === "words" && index < elements.length - 1 && "\u00A0"}
-                </animated.span>
+                </AnimatedSpan>
             ))}
         </p>
     );

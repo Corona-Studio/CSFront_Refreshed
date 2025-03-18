@@ -1,9 +1,7 @@
 /*
-	jsrepo 1.36.0
 	Installed from https://reactbits.dev/ts/tailwind/
-	2025-2-16
 */
-//@ts-nocheck
+// @ts-nocheck
 import { a, useTransition } from "@react-spring/web";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
@@ -101,16 +99,11 @@ function Masonry({ data }: MasonryProps) {
                         className="relative w-full h-full overflow-hidden uppercase text-[10px] leading-[10px] rounded-[4px] shadow-[0px_10px_50px_-10px_rgba(0,0,0,0.2)] transition duration-300 ease hover:scale-110"
                         style={{
                             backgroundColor: "#ffffff",
+                            backgroundImage: `url(${item.image})`,
                             backgroundSize: "cover",
                             backgroundPosition: "center"
-                        }}>
-                        <img
-                            alt="content"
-                            loading="lazy"
-                            src={item.image}
-                            style={{ height: "100%", objectFit: "cover" }}
-                        />
-                    </div>
+                        }}
+                    />
                 </a.div>
             ))}
         </div>

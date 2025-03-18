@@ -1,7 +1,5 @@
 {
     "files": [],
-    "exclude": ["src/ReactBits"],
-    "include": ["src/ReactBits/**/*.tsx"],
     "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
     "compilerOptions": {
         "typeRoots": ["./node_modules/@types", "./src/globals.d.ts"]

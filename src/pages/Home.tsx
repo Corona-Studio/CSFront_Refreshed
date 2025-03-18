@@ -93,6 +93,7 @@ function Home() {
                                     animate={{ y: 0 }}
                                     exit={{ y: "-120%" }}
                                     staggerDuration={0.025}
+                                    transition={{ type: "spring", damping: 30, stiffness: 400 }}
                                     splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
                                     rotationInterval={2000}
                                 />
