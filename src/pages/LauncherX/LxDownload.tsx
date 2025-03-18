@@ -71,12 +71,12 @@ function LxDownload() {
                             lineColor="#6c4b00"
                             waveSpeedX={0.02}
                             waveSpeedY={0.01}
-                            waveAmpX={30}
-                            waveAmpY={30}
-                            friction={0.2}
-                            tension={0.1}
+                            waveAmpX={40}
+                            waveAmpY={20}
+                            friction={0.9}
+                            tension={0.01}
                             maxCursorMove={120}
-                            xGap={15}
+                            xGap={12}
                             yGap={36}
                         />
                     </div>
@@ -85,7 +85,7 @@ function LxDownload() {
                         <div className="place-items-center">
                             <div className="space-y-4 place-items-end">
                                 <div>
-                                    <h5>{t("acquire")}</h5>
+                                    <h5 className="text-white">{t("acquire")}</h5>
                                     <div className="flex space-x-4 items-center">
                                         <LxLogo />
                                     </div>
@@ -93,7 +93,7 @@ function LxDownload() {
                                 <div className="flex space-x-2">
                                     <RotatingText
                                         texts={["Windows", "macOS", "Linux"]}
-                                        mainClassName="px-3 bg-amber-600 text-black overflow-hidden py-1 rounded-lg"
+                                        mainClassName="text-white px-3 bg-amber-600 text-black overflow-hidden py-1 rounded-lg"
                                         staggerFrom={"last"}
                                         initial={{ y: "100%" }}
                                         animate={{ y: 0 }}
@@ -104,7 +104,7 @@ function LxDownload() {
                                     />
                                     <RotatingText
                                         texts={["X64", "Arm64"]}
-                                        mainClassName="px-3 bg-indigo-500 text-black overflow-hidden py-1 rounded-lg"
+                                        mainClassName="text-white px-3 bg-indigo-500 text-black overflow-hidden py-1 rounded-lg"
                                         staggerFrom={"last"}
                                         initial={{ y: "100%" }}
                                         animate={{ y: 0 }}
