@@ -112,13 +112,13 @@ function LxHome() {
                                             <h3>{t("notOnly")}</h3>
                                             <RotatingText
                                                 texts={usages}
-                                                mainClassName="text-xl px-2 sm:px-2 md:px-3 bg-amber-400 text-black overflow-hidden py-0.5 sm:py-1 md:py-2 rounded-lg"
+                                                mainClassName="text-xl px-3 bg-amber-400 text-black overflow-hidden py-2 rounded-lg"
                                                 staggerFrom={"last"}
                                                 initial={{ y: "100%" }}
                                                 animate={{ y: 0 }}
                                                 exit={{ y: "-120%" }}
                                                 staggerDuration={0.025}
-                                                splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
+                                                splitLevelClassName="overflow-hidden"
                                                 rotationInterval={2000}
                                             />
                                         </div>

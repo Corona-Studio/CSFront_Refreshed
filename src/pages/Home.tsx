@@ -87,7 +87,7 @@ function Home() {
                                 <span className="text-4xl align-middle inline-block">{t("weDevelop")}</span>
                                 <RotatingText
                                     texts={["LauncherX", "ProjBobcat", "ConnectX", "P2P", "CMFS"]}
-                                    mainClassName="text-4xl px-2 sm:px-2 md:px-3 bg-amber-400 text-black overflow-hidden py-0.5 sm:py-1 md:py-2 rounded-lg"
+                                    mainClassName="text-4xl px-3 bg-amber-400 text-black overflow-hidden py-0.5 sm:py-1 md:py-2 rounded-lg"
                                     staggerFrom={"last"}
                                     initial={{ y: "100%" }}
                                     animate={{ y: 0 }}

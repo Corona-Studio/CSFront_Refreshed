@@ -93,18 +93,18 @@ function LxDownload() {
                                 <div className="flex space-x-2">
                                     <RotatingText
                                         texts={["Windows", "macOS", "Linux"]}
-                                        mainClassName="px-2 sm:px-2 md:px-3 bg-amber-600 overflow-hidden py-1 rounded-lg"
+                                        mainClassName="px-3 bg-amber-600 text-black overflow-hidden py-1 rounded-lg"
                                         staggerFrom={"last"}
                                         initial={{ y: "100%" }}
                                         animate={{ y: 0 }}
                                         exit={{ y: "-120%" }}
                                         staggerDuration={0.025}
                                         splitLevelClassName="overflow-hidden"
-                                        rotationInterval={4000}
+                                        rotationInterval={2000}
                                     />
                                     <RotatingText
                                         texts={["X64", "Arm64"]}
-                                        mainClassName="px-2 sm:px-2 md:px-3 bg-indigo-700 overflow-hidden py-1 rounded-lg"
+                                        mainClassName="px-3 bg-indigo-500 text-black overflow-hidden py-1 rounded-lg"
                                         staggerFrom={"last"}
                                         initial={{ y: "100%" }}
                                         animate={{ y: 0 }}
