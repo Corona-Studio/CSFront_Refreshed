@@ -102,15 +102,15 @@ function Home() {
                             <div className="flex items-center space-x-4">
                                 <span className="text-4xl align-middle inline-block">{t("weDevelop")}</span>
                                 <RotatingText
-                                    texts={["LauncherX", "ProjBobcat", "ConnectX", "P2P", "CMFS"]}
-                                    mainClassName="text-4xl px-3 bg-amber-400 text-black overflow-hidden py-0.5 sm:py-1 md:py-2 rounded-lg"
+                                    texts={["LauncherX", "🐱", "ConnectX", "P2P", "CMFS"]}
+                                    mainClassName="text-4xl px-3 bg-amber-400 text-black overflow-hidden py-2 rounded-lg"
                                     staggerFrom={"last"}
                                     initial={{ y: "100%" }}
                                     animate={{ y: 0 }}
                                     exit={{ y: "-120%" }}
                                     staggerDuration={0.025}
+                                    splitLevelClassName="overflow-hidden"
                                     transition={{ type: "spring", damping: 30, stiffness: 400 }}
-                                    splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
                                     rotationInterval={2000}
                                 />
                             </div>
