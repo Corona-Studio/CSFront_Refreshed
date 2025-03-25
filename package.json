@@ -21,6 +21,7 @@
         "framer-motion": "^11.3.24",
         "gsap": "^3.12.7",
         "jwt-decode": "^4.0.0",
+        "localforage": "^1.10.0",
         "ogl": "^1.0.11",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",

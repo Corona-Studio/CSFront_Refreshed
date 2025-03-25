@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, lazy, useEffect, useMemo, useRef, useState } from "react";
 import { Outlet, useLocation, useMatches, useNavigate } from "react-router";
 import { ViewListIcon } from "tdesign-icons-react";
-import { Button, Divider, Dropdown, DropdownOption, Menu } from "tdesign-react";
+import { Button, Divider, Dropdown, DropdownOption, Menu, Skeleton } from "tdesign-react";
 import type { MenuValue } from "tdesign-react";
 import useScroll from "tdesign-react/es/back-top/useScroll";
 import { TElement } from "tdesign-react/es/common";
@@ -9,6 +9,8 @@ import MenuItem from "tdesign-react/es/menu/MenuItem";
 
 import { useWindowResize } from "../helpers/WindowResizeHelper.ts";
 import IMatches from "../interfaces/IMatches.ts";
+
+const AsyncVisibilityContainer = lazy(() => import("../components/AsyncVisibilityContainer.tsx"));
 
 interface HandleType {
     title: (param?: string) => string;
@@ -18,20 +20,20 @@ export interface MenuLinkModel {
     icon: TElement;
     to: string;
     value: string;
-    visible?: () => boolean;
+    visible?: () => Promise<boolean>;
 }
 
 export interface ManagementPageBaseElementProps {
     links: () => MenuLinkModel[];
     userSessionValidation: boolean;
-    userSessionValidator?: () => boolean;
+    userSessionValidator?: () => Promise<boolean>;
     invalidJumpPage?: string;
 }
 
 function ManagementPageBaseElement({
     links = () => [],
     userSessionValidation = false,
-    userSessionValidator = () => true,
+    userSessionValidator = () => Promise.resolve(true),
     invalidJumpPage = "/"
 }: ManagementPageBaseElementProps) {
     const [active, setActive] = useState<MenuValue>("/user");
@@ -56,10 +58,14 @@ function ManagementPageBaseElement({
     const menuLinks = links();
 
     useEffect(() => {
-        if (!userSessionValidation) return;
-        if (userSessionValidator()) return;
+        async function checkAuthAsync() {
+            if (!userSessionValidation) return;
+            if (await userSessionValidator()) return;
 
-        navigate(`${invalidJumpPage}?redirect=${location.pathname}`);
+            navigate(`${invalidJumpPage}?redirect=${location.pathname}`);
+        }
+
+        checkAuthAsync().then();
     }, [invalidJumpPage, location.pathname, navigate, userSessionValidation, userSessionValidator]);
 
     useEffect(() => {
@@ -127,18 +133,15 @@ function ManagementPageBaseElement({
                                 onClick={() => setCollapsed(!collapsed)}
                             />
                         }>
-                        {menuLinks.map(
-                            (link, i) =>
-                                (!link.visible || (link.visible && link.visible())) && (
-                                    <MenuItem
-                                        key={i}
-                                        value={link.to}
-                                        icon={link.icon}
-                                        onClick={() => navigate(link.to)}>
+                        {menuLinks.map((link, i) => (
+                            <Suspense key={i} fallback={<Skeleton loading={true} />}>
+                                <AsyncVisibilityContainer visible={link.visible}>
+                                    <MenuItem value={link.to} icon={link.icon} onClick={() => navigate(link.to)}>
                                         <span>{link.value}</span>
                                     </MenuItem>
-                                )
-                        )}
+                                </AsyncVisibilityContainer>
+                            </Suspense>
+                        ))}
                     </Menu>
                 </div>
 

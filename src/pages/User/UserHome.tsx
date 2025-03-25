@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { MoneyIcon, SecuredIcon } from "tdesign-icons-react";
 import { Alert, Avatar, Button, Card, Col, Divider, Loading, NotificationPlugin, Row } from "tdesign-react";
 import { TElement } from "tdesign-react/lib/common";
 
-import { getStorageItem } from "../../helpers/StorageHelper.ts";
+import { clearForageStorageAsync } from "../../helpers/SessionHelper.ts";
+import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import i18next from "../../i18n.ts";
 import { lxBackendUrl } from "../../requests/ApiConstants.ts";
 import {
@@ -30,14 +31,26 @@ interface TipModel {
 function UserHome() {
     const navigate = useNavigate();
 
-    const authToken = getStorageItem(StoredAuthToken);
-    const userId = getStorageItem(StoredAuthUserId);
+    const [userName, setUserName] = useState<string | null>();
+    const [userEmail, setUserEmail] = useState<string | null>();
+    const [userAvatarUrl, setUserAvatarUrl] = useState("https://tdesign.gtimg.com/site/avatar.jpg");
 
-    const [userName] = useState(getStorageItem(StoredAuthUserName));
-    const [userEmail] = useState(getStorageItem(StoredAuthEmail));
-    const [userAvatarUrl] = useState(
-        userId ? `${lxBackendUrl}/Avatar/${userId}` : "https://tdesign.gtimg.com/site/avatar.jpg"
-    );
+    useEffect(() => {
+        async function getStoredUserInfoAsync() {
+            const storedUserName = await getStorageItemAsync(StoredAuthUserName);
+            const storedUserEmail = await getStorageItemAsync(StoredAuthEmail);
+            const storedUserId = await getStorageItemAsync(StoredAuthUserId);
+            const avatarUrl = storedUserId
+                ? `${lxBackendUrl}/Avatar/${storedUserId}`
+                : "https://tdesign.gtimg.com/site/avatar.jpg";
+
+            setUserName(storedUserName);
+            setUserEmail(storedUserEmail);
+            setUserAvatarUrl(avatarUrl);
+        }
+
+        getStoredUserInfoAsync().then();
+    }, []);
 
     const tips: TipModel[] = [
         {
@@ -54,22 +67,30 @@ function UserHome() {
         }
     ];
 
+    async function getUserChannelImplAsync() {
+        const authToken = await getStorageItemAsync(StoredAuthToken);
+        return await getUserCurrentChannelAsync(authToken ?? "");
+    }
+
     const userInfo = useQuery({
         queryKey: ["userChannelInfo"],
         queryFn: () =>
-            getUserCurrentChannelAsync(authToken ?? "").then(async (r) => {
+            getUserChannelImplAsync().then(async (r) => {
                 if (!r || !r.status) throw new Error(t("backendServerError"));
                 if (r.status === 404) throw new Error(t("userInfoFetchFailedDescription"));
                 if (!r.response) throw new Error(t("backendServerError"));
 
+                const storedUserName = await getStorageItemAsync(StoredAuthUserName);
+                const storedUserEmail = await getStorageItemAsync(StoredAuthEmail);
+
                 return [
                     {
                         title: t("username"),
-                        value: userName
+                        value: storedUserName
                     },
                     {
                         title: t("email"),
-                        value: userEmail
+                        value: storedUserEmail
                     },
                     {
                         title: t("userBranch"),
@@ -96,12 +117,7 @@ function UserHome() {
     }
 
     async function logout() {
-        localStorage.setItem(StoredAuthEmail, "");
-        localStorage.setItem(StoredAuthPassword, "");
-        localStorage.setItem(StoredAuthToken, "");
-        localStorage.setItem(StoredAuthExpired, "");
-        localStorage.setItem(StoredAuthUserName, "");
-        localStorage.setItem(StoredAuthUserId, "");
+        await clearForageStorageAsync();
 
         sessionStorage.setItem(StoredAuthEmail, "");
         sessionStorage.setItem(StoredAuthPassword, "");

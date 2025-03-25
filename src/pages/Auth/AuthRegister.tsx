@@ -1,3 +1,4 @@
+import localForage from "localforage";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { KeyIcon, MailIcon, User1Icon } from "tdesign-icons-react";
@@ -59,8 +60,8 @@ function AuthRegister() {
                 if (!r.response) throw new Error(t("unknownLoginErrorDescription"));
                 if (!r.response.succeeded) throw new Error(JSON.stringify(r.response.errors));
 
-                localStorage.setItem(StoredAuthEmail, formData.email!);
-                localStorage.setItem(StoredAuthPassword, formData.password!);
+                localForage.setItem(StoredAuthEmail, formData.email!);
+                localForage.setItem(StoredAuthPassword, formData.password!);
 
                 await NotificationPlugin.success({
                     title: t("registerSucceeded"),

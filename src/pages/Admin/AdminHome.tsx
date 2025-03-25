@@ -12,7 +12,7 @@ import {
 } from "tdesign-icons-react";
 import { Alert, Col, Loading, Row, Skeleton } from "tdesign-react";
 
-import { getStorageItem } from "../../helpers/StorageHelper.ts";
+import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import { getDashboardDataAsync } from "../../requests/AdminRequests.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
 import styles from "./AdminHome.module.css";
@@ -52,8 +52,6 @@ function getDashboardItemIcon(dataKey: string) {
 }
 
 function AdminHome() {
-    const authToken = getStorageItem(StoredAuthToken);
-
     const quickLinks = [
         {
             text: t("contributorAdminPanel"),
@@ -67,10 +65,16 @@ function AdminHome() {
         }
     ];
 
+    async function getDashboardDataImplAsync() {
+        const authToken = await getStorageItemAsync(StoredAuthToken);
+
+        return getDashboardDataAsync(authToken ?? "");
+    }
+
     const dashboardItems = useQuery({
         queryKey: ["dashboardItems"],
         queryFn: () =>
-            getDashboardDataAsync(authToken ?? "").then(async (r) => {
+            getDashboardDataImplAsync().then(async (r) => {
                 if (!r || !r.status) throw new Error(t("backendServerError"));
                 if (!r.response) throw new Error(t("backendServerError"));
 
@@ -82,6 +86,12 @@ function AdminHome() {
                 }));
             })
     });
+
+    function copyAdminUserTokenAsync() {
+        getStorageItemAsync(StoredAuthToken).then((value) => {
+            navigator.clipboard.writeText(value ?? "").then();
+        });
+    }
 
     return (
         <>
@@ -113,7 +123,7 @@ function AdminHome() {
                             theme="success"
                             message={t("copyAdminUserToken")}
                             operation={
-                                <a onClick={() => navigator.clipboard.writeText(authToken ?? "")} target="_blank">
+                                <a onClick={copyAdminUserTokenAsync} target="_blank">
                                     {t("copy")}
                                 </a>
                             }

@@ -17,7 +17,7 @@ import {
 } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
-import { getStorageItem } from "../../helpers/StorageHelper.ts";
+import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import { AfdOrderNumberPattern } from "../../helpers/ValidationRules.ts";
 import i18next from "../../i18n.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
@@ -30,7 +30,6 @@ interface FormData {
 }
 
 function UserSponsor() {
-    const authToken = getStorageItem(StoredAuthToken);
     const [isLoading, setIsLoading] = useState(false);
 
     const posters = [
@@ -48,10 +47,15 @@ function UserSponsor() {
         }
     ];
 
+    async function checkUserIsPaidImplAsync() {
+        const authToken = await getStorageItemAsync(StoredAuthToken);
+        return await checkUserIsPaidAsync(authToken ?? "");
+    }
+
     const isPaid = useQuery({
         queryKey: ["userChannelInfo"],
         queryFn: () =>
-            checkUserIsPaidAsync(authToken ?? "").then(async (r) => {
+            checkUserIsPaidImplAsync().then(async (r) => {
                 if (!r || !r.status) throw new Error(t("backendServerError"));
                 if (r.status === 404) throw new Error(t("failedToGetIsPaidDescription"));
                 if (r.response === undefined) throw new Error(t("backendServerError"));
@@ -73,46 +77,53 @@ function UserSponsor() {
     }
 
     const onSubmit: FormProps["onSubmit"] = (e) => {
-        if (!authToken) return;
         if (e.validateResult !== true) return;
 
         const formData = e.fields as FormData;
 
         setIsLoading(true);
 
-        redeemAsync(formData.orderNumber!, authToken)
-            .then(async (r) => {
-                if (!r || !r.status) throw new Error(t("backendServerError"));
-                if (r.status === 204) throw new Error(t("userAlreadySponsor"));
-                if (r.status === 400) throw new Error(t("backendServerError"));
-                if (r.status === 403) throw new Error(t("redeemAlreadyUsedOrInvalid"));
-                if (r.status === 404) throw new Error(t("userNotFound"));
-                if (!r.response) throw new Error(t("backendServerError"));
+        async function redeemAsyncImpl() {
+            const authToken = await getStorageItemAsync(StoredAuthToken);
 
-                await NotificationPlugin.success({
-                    title: t("sponsorThanks"),
-                    content: t("sponsorThanksDescription"),
-                    placement: "top-right",
-                    duration: 3000,
-                    offset: [-36, "5rem"],
-                    closeBtn: true,
-                    attach: () => document
-                });
+            if (!authToken) return;
 
-                await isPaid.refetch();
-            })
-            .catch(async (err) => {
-                await NotificationPlugin.error({
-                    title: t("failedToGetIsPaid"),
-                    content: (err as Error).message,
-                    placement: "top-right",
-                    duration: 3000,
-                    offset: [-36, "5rem"],
-                    closeBtn: true,
-                    attach: () => document
-                });
-            })
-            .finally(() => setIsLoading(false));
+            redeemAsync(formData.orderNumber!, authToken)
+                .then(async (r) => {
+                    if (!r || !r.status) throw new Error(t("backendServerError"));
+                    if (r.status === 204) throw new Error(t("userAlreadySponsor"));
+                    if (r.status === 400) throw new Error(t("backendServerError"));
+                    if (r.status === 403) throw new Error(t("redeemAlreadyUsedOrInvalid"));
+                    if (r.status === 404) throw new Error(t("userNotFound"));
+                    if (!r.response) throw new Error(t("backendServerError"));
+
+                    await NotificationPlugin.success({
+                        title: t("sponsorThanks"),
+                        content: t("sponsorThanksDescription"),
+                        placement: "top-right",
+                        duration: 3000,
+                        offset: [-36, "5rem"],
+                        closeBtn: true,
+                        attach: () => document
+                    });
+
+                    await isPaid.refetch();
+                })
+                .catch(async (err) => {
+                    await NotificationPlugin.error({
+                        title: t("failedToGetIsPaid"),
+                        content: (err as Error).message,
+                        placement: "top-right",
+                        duration: 3000,
+                        offset: [-36, "5rem"],
+                        closeBtn: true,
+                        attach: () => document
+                    });
+                })
+                .finally(() => setIsLoading(false));
+        }
+
+        redeemAsyncImpl().then();
     };
 
     return (

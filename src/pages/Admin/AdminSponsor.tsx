@@ -17,7 +17,7 @@ import {
 } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
-import { getStorageItem } from "../../helpers/StorageHelper.ts";
+import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import { UserSponsorInfo, querySponsorInfoAsync, setUserAsSponsorAsync } from "../../requests/AdminRequests.ts";
 import { lxBackendUrl } from "../../requests/ApiConstants.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
@@ -27,72 +27,84 @@ interface FormData {
 }
 
 function AdminSponsor() {
-    const authToken = getStorageItem(StoredAuthToken);
-
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | undefined>(undefined);
     const [userInfo, setUserInfo] = useState<UserSponsorInfo | undefined>(undefined);
 
     const onQuerySponsorSubmit: FormProps["onSubmit"] = (e) => {
         if (e.validateResult !== true) return;
-        if (!authToken) return;
 
         const formData = e.fields as FormData;
 
         setError(undefined);
         setIsLoading(true);
 
-        querySponsorInfoAsync(authToken, formData.email!)
-            .then(async (r) => {
-                if (!r || !r.status) throw new Error(t("backendServerError"));
-                if (r.status === 404) throw new Error(t("userNotFound"));
-                if (!r.response) throw new Error(t("backendServerError"));
+        async function querySponsorInfoImplAsync() {
+            const authToken = await getStorageItemAsync(StoredAuthToken);
 
-                setUserInfo(r.response);
-            })
-            .catch(async (err) => {
-                setError((err as Error).message);
-            })
-            .finally(() => setIsLoading(false));
+            if (!authToken) return;
+
+            querySponsorInfoAsync(authToken, formData.email!)
+                .then(async (r) => {
+                    if (!r || !r.status) throw new Error(t("backendServerError"));
+                    if (r.status === 404) throw new Error(t("userNotFound"));
+                    if (!r.response) throw new Error(t("backendServerError"));
+
+                    setUserInfo(r.response);
+                })
+                .catch(async (err) => {
+                    setError((err as Error).message);
+                })
+                .finally(() => setIsLoading(false));
+        }
+
+        querySponsorInfoImplAsync().then();
     };
 
     const onSetSponsorSubmit: FormProps["onSubmit"] = (e) => {
         if (e.validateResult !== true) return;
-        if (!authToken) return;
 
         const formData = e.fields as FormData;
 
         setIsLoading(true);
 
-        setUserAsSponsorAsync(authToken, formData.email!)
-            .then(async (r) => {
-                if (!r || !r.status) throw new Error(t("backendServerError"));
-                if (r.status === 400) throw new Error(t("userAlreadySponsor"));
-                if (r.status === 404) throw new Error(t("userNotFound"));
-                if (!r.response) throw new Error(t("backendServerError"));
+        async function setUserAsSponsorImplAsync() {
+            const authToken = await getStorageItemAsync(StoredAuthToken);
 
-                await NotificationPlugin.success({
-                    title: t("setSponsorSucceeded"),
-                    content: t("setSponsorSucceededDescription"),
-                    placement: "top-right",
-                    duration: 3000,
-                    offset: [-36, "5rem"],
-                    closeBtn: true,
-                    attach: () => document
-                });
-            })
-            .catch(async (err) => {
-                await NotificationPlugin.error({
-                    title: t("setSponsorFailed"),
-                    content: (err as Error).message,
-                    placement: "top-right",
-                    duration: 3000,
-                    offset: [-36, "5rem"],
-                    closeBtn: true,
-                    attach: () => document
-                });
-            })
-            .finally(() => setIsLoading(false));
+            if (!authToken) return;
+
+            setUserAsSponsorAsync(authToken, formData.email!)
+                .then(async (r) => {
+                    if (!r || !r.status) throw new Error(t("backendServerError"));
+                    if (r.status === 400) throw new Error(t("userAlreadySponsor"));
+                    if (r.status === 404) throw new Error(t("userNotFound"));
+                    if (!r.response) throw new Error(t("backendServerError"));
+
+                    await NotificationPlugin.success({
+                        title: t("setSponsorSucceeded"),
+                        content: t("setSponsorSucceededDescription"),
+                        placement: "top-right",
+                        duration: 3000,
+                        offset: [-36, "5rem"],
+                        closeBtn: true,
+                        attach: () => document
+                    });
+                })
+                .catch(async (err) => {
+                    await NotificationPlugin.error({
+                        title: t("setSponsorFailed"),
+                        content: (err as Error).message,
+                        placement: "top-right",
+                        duration: 3000,
+                        offset: [-36, "5rem"],
+                        closeBtn: true,
+                        attach: () => document
+                    });
+                })
+                .finally(() => setIsLoading(false));
+        }
+
+        setUserAsSponsorImplAsync().then();
     };
 
     return (

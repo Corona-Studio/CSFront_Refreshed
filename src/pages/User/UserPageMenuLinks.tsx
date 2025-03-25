@@ -1,6 +1,6 @@
 import { DeviceIcon, HomeIcon, MoneyIcon, UserLockedIcon } from "tdesign-icons-react";
 
-import { isAdminSessionValid } from "../../helpers/SessionHelper.ts";
+import { isAdminSessionValidAsync } from "../../helpers/SessionHelper.ts";
 import i18next from "../../i18n.ts";
 import { MenuLinkModel } from "../ManagementPageBaseElement.tsx";
 
@@ -27,7 +27,7 @@ export const userPageMenuLinks: () => MenuLinkModel[] = () => [
         to: "/admin",
         value: t("adminCenter"),
         visible: () => {
-            return isAdminSessionValid(false);
+            return isAdminSessionValidAsync(false);
         }
     }
 ];

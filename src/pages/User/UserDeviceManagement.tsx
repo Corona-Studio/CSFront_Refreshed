@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Delete1Icon } from "tdesign-icons-react";
 import { Button, Card, Col, Empty, Loading, NotificationPlugin, Row } from "tdesign-react";
 
-import { getStorageItem } from "../../helpers/StorageHelper.ts";
+import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import i18next from "../../i18n.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
 import { UserDeviceInfo, getUserAllDevicesAsync, removeDeviceAsync } from "../../requests/LxUserRequests.ts";
@@ -13,12 +13,15 @@ const t = i18next.t;
 function UserDeviceManagement() {
     const [isLoading, setIsLoading] = useState(false);
 
-    const authToken = getStorageItem(StoredAuthToken);
+    async function getUserAllDevicesImplAsync() {
+        const authToken = await getStorageItemAsync(StoredAuthToken);
+        return await getUserAllDevicesAsync(authToken ?? "");
+    }
 
     const devices = useQuery({
         queryKey: ["userDeviceList"],
         queryFn: () =>
-            getUserAllDevicesAsync(authToken ?? "").then(async (r) => {
+            getUserAllDevicesImplAsync().then(async (r) => {
                 if (!r || !r.status) throw new Error(t("backendServerError"));
                 if (r.status === 404) throw new Error(t("userDeviceFetchFailedDescription"));
                 if (!r.response) throw new Error(t("backendServerError"));
@@ -39,7 +42,9 @@ function UserDeviceManagement() {
         }).then(() => {});
     }
 
-    function deleteDevice(device: UserDeviceInfo) {
+    async function deleteDeviceAsync(device: UserDeviceInfo) {
+        const authToken = await getStorageItemAsync(StoredAuthToken);
+
         if (!authToken) return;
 
         setIsLoading(true);
@@ -91,7 +96,7 @@ function UserDeviceManagement() {
                                             shape="square"
                                             variant="base"
                                             icon={<Delete1Icon />}
-                                            onClick={() => deleteDevice(device)}
+                                            onClick={async () => await deleteDeviceAsync(device)}
                                         />
                                     }
                                     bordered

@@ -2,7 +2,7 @@ import i18next from "i18next";
 import { lazy } from "react";
 import { Route, createBrowserRouter, createRoutesFromElements } from "react-router";
 
-import { isAdminSessionValid, isUserSessionValid } from "./helpers/SessionHelper.ts";
+import { isAdminSessionValidAsync, isUserSessionValidAsync } from "./helpers/SessionHelper.ts";
 import { adminPageMenuLinks } from "./pages/Admin/AdminPageMenuLinks.tsx";
 import { userPageMenuLinks } from "./pages/User/UserPageMenuLinks.tsx";
 
@@ -82,7 +82,7 @@ export const router = createBrowserRouter(
                     <ManagementPageBaseElement
                         links={userPageMenuLinks}
                         userSessionValidation={true}
-                        userSessionValidator={isUserSessionValid}
+                        userSessionValidator={isUserSessionValidAsync}
                         invalidJumpPage="/auth/login"
                     />
                 }
@@ -105,7 +105,7 @@ export const router = createBrowserRouter(
                     <ManagementPageBaseElement
                         links={adminPageMenuLinks}
                         userSessionValidation={true}
-                        userSessionValidator={() => isAdminSessionValid(true)}
+                        userSessionValidator={async () => await isAdminSessionValidAsync(true)}
                         invalidJumpPage="/auth/login"
                     />
                 }

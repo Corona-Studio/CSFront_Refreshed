@@ -1,3 +1,4 @@
+import localForage from "localforage";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { LockOnIcon, MailIcon } from "tdesign-icons-react";
@@ -5,7 +6,7 @@ import { Button, Checkbox, Form, Input, NotificationPlugin } from "tdesign-react
 import type { FormProps } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
-import { isUserSessionValid } from "../../helpers/SessionHelper.ts";
+import { clearForageStorageAsync, isUserSessionValidAsync } from "../../helpers/SessionHelper.ts";
 import { useUrlQuery } from "../../helpers/UrlQueryHelper.ts";
 import i18next from "../../i18n.ts";
 import {
@@ -33,13 +34,33 @@ function AuthLogin() {
     const redirect = query.get("redirect");
 
     const [isLoading, setIsLoading] = useState(false);
-    const [savedEmail] = useState(localStorage.getItem(StoredAuthEmail));
-    const [savedPassword] = useState(localStorage.getItem(StoredAuthPassword));
+    const [savedEmail, setSavedEmail] = useState<string | null>();
+    const [savedPassword, setSavedPassword] = useState<string | null>();
+
+    const [form] = Form.useForm();
+
+    useEffect(() => {
+        async function setEmailAsync() {
+            const email = await localForage.getItem<string>(StoredAuthEmail);
+            const password = await localForage.getItem<string>(StoredAuthPassword);
+
+            setSavedEmail(email);
+            setSavedPassword(password);
+
+            form.reset();
+        }
+
+        setEmailAsync().then();
+    }, [form]);
 
     // Check for login status
     useEffect(() => {
-        if (!isUserSessionValid()) return;
-        navigate(redirect ? redirect : "/user");
+        async function checkAuthAsync() {
+            if (!(await isUserSessionValidAsync())) return;
+            navigate(redirect ? redirect : "/user");
+        }
+
+        checkAuthAsync().then();
     }, [navigate, redirect]);
 
     const onSubmit: FormProps["onSubmit"] = (e) => {
@@ -56,20 +77,15 @@ function AuthLogin() {
                 if (!r.response) throw new Error(t("unknownLoginErrorDescription"));
 
                 if (formData.rememberMe) {
-                    localStorage.setItem(StoredAuthEmail, formData.email!);
-                    localStorage.setItem(StoredAuthPassword, formData.password!);
-                    localStorage.setItem(StoredAuthToken, r.response.token);
-                    localStorage.setItem(StoredAuthExpired, new Date(r.response.expiration).toUTCString());
-                    localStorage.setItem(StoredAuthUserName, r.response.username);
-                    localStorage.setItem(StoredAuthUserId, r.response.id);
+                    await localForage.setItem(StoredAuthEmail, formData.email!);
+                    await localForage.setItem(StoredAuthPassword, formData.password!);
+                    await localForage.setItem(StoredAuthToken, r.response.token);
+                    await localForage.setItem(StoredAuthExpired, new Date(r.response.expiration).toUTCString());
+                    await localForage.setItem(StoredAuthUserName, r.response.username);
+                    await localForage.setItem(StoredAuthUserId, r.response.id);
                 } else {
-                    // Reset localstorage
-                    localStorage.setItem(StoredAuthEmail, "");
-                    localStorage.setItem(StoredAuthPassword, "");
-                    localStorage.setItem(StoredAuthToken, "");
-                    localStorage.setItem(StoredAuthExpired, "");
-                    localStorage.setItem(StoredAuthUserName, "");
-                    localStorage.setItem(StoredAuthUserId, "");
+                    // Reset localForage
+                    await clearForageStorageAsync();
 
                     sessionStorage.setItem(StoredAuthEmail, formData.email!);
                     sessionStorage.setItem(StoredAuthToken, r.response.token);
@@ -109,6 +125,8 @@ function AuthLogin() {
             <div className="p-8 space-y-4 bg-zinc-50/30 dark:bg-zinc-900/80 bg-opacity-25 rounded-2xl hover:shadow-lg active:shadow-md shadow transition">
                 <h5>{t("login")}</h5>
                 <Form
+                    resetType="initial"
+                    form={form}
                     className="w-[300px] md:w-[400px] lg:w-[450px]"
                     statusIcon={true}
                     colon={true}

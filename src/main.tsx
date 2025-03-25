@@ -1,5 +1,6 @@
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import localForage from "localforage";
 import { CSSProperties, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router";
@@ -15,6 +16,14 @@ const style: CSSProperties = {
     insetInlineEnd: 24,
     insetBlockEnd: 80
 };
+
+localForage.config({
+    driver: localForage.INDEXEDDB,
+    name: "CSFront",
+    version: 1.0,
+    storeName: "cs_front_kv",
+    description: "This is the Key-Value store for CSFront."
+});
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>

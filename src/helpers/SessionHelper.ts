@@ -1,21 +1,24 @@
 import { JwtPayload, jwtDecode } from "jwt-decode";
+import localForage from "localforage";
 
 import {
+    StoredAuthEmail,
     StoredAuthExpired,
+    StoredAuthPassword,
     StoredAuthToken,
     StoredAuthUserId,
     StoredAuthUserName
 } from "../requests/LxAuthRequests.ts";
-import { getStorageItem } from "./StorageHelper.ts";
+import { getStorageItemAsync } from "./StorageHelper.ts";
 
 export const JwtRoleKey = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
 
-function resetCredentials() {
+async function resetCredentialsAsync() {
     // Reset saved token
-    localStorage.setItem(StoredAuthToken, "");
-    localStorage.setItem(StoredAuthExpired, "");
-    localStorage.setItem(StoredAuthUserName, "");
-    localStorage.setItem(StoredAuthUserId, "");
+    await localForage.setItem(StoredAuthToken, "");
+    await localForage.setItem(StoredAuthExpired, "");
+    await localForage.setItem(StoredAuthUserName, "");
+    await localForage.setItem(StoredAuthUserId, "");
 
     sessionStorage.setItem(StoredAuthToken, "");
     sessionStorage.setItem(StoredAuthExpired, "");
@@ -32,27 +35,48 @@ function generalChecks(token: string | null, expireDate: string | null) {
     return new Date(expireDate).getTime() > new Date().getTime();
 }
 
+export function clearOldLocalStorageInfo() {
+    localStorage.removeItem(StoredAuthEmail);
+    localStorage.removeItem(StoredAuthPassword);
+    localStorage.removeItem(StoredAuthToken);
+    localStorage.removeItem(StoredAuthExpired);
+    localStorage.removeItem(StoredAuthUserName);
+    localStorage.removeItem(StoredAuthUserId);
+}
+
+export async function clearForageStorageAsync() {
+    await localForage.setItem(StoredAuthEmail, "");
+    await localForage.setItem(StoredAuthPassword, "");
+    await localForage.setItem(StoredAuthToken, "");
+    await localForage.setItem(StoredAuthExpired, "");
+    await localForage.setItem(StoredAuthUserName, "");
+    await localForage.setItem(StoredAuthUserId, "");
+}
+
 // Check if the User session is valid
 // Side effect: It will reset the storage when session is invalid
-export function isUserSessionValid() {
-    const token = getStorageItem(StoredAuthToken);
-    const expireDate = getStorageItem(StoredAuthExpired);
+export async function isUserSessionValidAsync() {
+    // Clear old local storage info
+    clearOldLocalStorageInfo();
+
+    const token = await getStorageItemAsync(StoredAuthToken);
+    const expireDate = await getStorageItemAsync(StoredAuthExpired);
 
     const result = generalChecks(token, expireDate);
 
-    if (!result) resetCredentials();
+    if (!result) await resetCredentialsAsync();
 
     return result;
 }
 
 // Check if the Admin session is valid
 // Side effect: It will reset the storage when session is invalid
-export function isAdminSessionValid(isResetCredentials: boolean) {
-    const token = getStorageItem(StoredAuthToken);
-    const expireDate = getStorageItem(StoredAuthExpired);
+export async function isAdminSessionValidAsync(isResetCredentials: boolean) {
+    const token = await getStorageItemAsync(StoredAuthToken);
+    const expireDate = await getStorageItemAsync(StoredAuthExpired);
 
     if (!generalChecks(token, expireDate)) {
-        if (isResetCredentials) resetCredentials();
+        if (isResetCredentials) await resetCredentialsAsync();
 
         return false;
     }
