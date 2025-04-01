@@ -701,17 +701,17 @@
     lightningcss "1.29.2"
     tailwindcss "4.0.17"
 
-"@tanstack/query-core@5.69.0":
-  version "5.69.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.69.0.tgz#c434505987ade936dc53e6e27aa1406b0295516f"
-  integrity sha512-Kn410jq6vs1P8Nm+ZsRj9H+U3C0kjuEkYLxbiCyn3MDEiYor1j2DGVULqAz62SLZtUZ/e9Xt6xMXiJ3NJ65WyQ==
+"@tanstack/query-core@5.71.0":
+  version "5.71.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.71.0.tgz#10ebac969b38f3c201c4b1286bf7612c6c39eb0f"
+  integrity sha512-p4+T7CIEe1kMhii4booWiw42nuaiYI9La/bRCNzBaj1P3PDb0dEZYDhc/7oBifKJfHYN+mtS1ynW1qsmzQW7Og==
 
-"@tanstack/react-query@^5.69.0":
-  version "5.69.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.69.0.tgz#8d58e800854cc11d0aa2c39569f53ae32ba442a9"
-  integrity sha512-Ift3IUNQqTcaFa1AiIQ7WCb/PPy8aexZdq9pZWLXhfLcLxH0+PZqJ2xFImxCpdDZrFRZhLJrh76geevS5xjRhA==
+"@tanstack/react-query@^5.71.0":
+  version "5.71.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.71.0.tgz#4babdd88b74de8c395100109eab8eb2750960757"
+  integrity sha512-Udhlz9xHwk0iB7eLDchIqvu666NZFxPZZF80KnL8sZy+5J0kMvnJkzQNYRJwF70g8Vc1nn0TSMkPJgvx6+Pn4g==
   dependencies:
-    "@tanstack/query-core" "5.69.0"
+    "@tanstack/query-core" "5.71.0"
 
 "@trivago/prettier-plugin-sort-imports@^5.2.2":
   version "5.2.2"
@@ -2923,14 +2923,6 @@ tapable@^2.2.0:
   resolved "https://registry.yarnpkg.com/tapable/-/tapable-2.2.1.tgz#1967a73ef4060a82f12ab96af86d52fdb76eeca0"
   integrity sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==
 
-tdesign-icons-react@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/tdesign-icons-react/-/tdesign-icons-react-0.4.3.tgz#ba3e71b0523542f21b2a795b1861a72f5f6c064e"
-  integrity sha512-Lln/P3qkKpDct6qD4KxHgH+zr6yuEtbnoa8peYHpzB7Reqre8g4w06kyAe8mKCKrXtCkOwDVBf7XsxzAU5WqKg==
-  dependencies:
-    "@babel/runtime" "^7.16.5"
-    classnames "^2.2.6"
-
 tdesign-icons-react@^0.4.4:
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/tdesign-icons-react/-/tdesign-icons-react-0.4.4.tgz#02527126288503f5810f6187871ed690effad7b9"
@@ -2939,10 +2931,10 @@ tdesign-icons-react@^0.4.4:
     "@babel/runtime" "^7.16.5"
     classnames "^2.2.6"
 
-tdesign-react@^1.11.1:
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/tdesign-react/-/tdesign-react-1.11.1.tgz#8013dcfbcc1622a134683974daf3232d670a3153"
-  integrity sha512-4ckMAj7eqo2jFKVE7ojSNidDZlQi8zIFT9DM3VGQqrEWEn4f5I/R9Kcu513VUHnjthYQnlHJ2E93fzDGK+ySOA==
+tdesign-react@^1.11.2:
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/tdesign-react/-/tdesign-react-1.11.2.tgz#99da54a0284fa58d062d6b80622fa14e82ca3cf7"
+  integrity sha512-Axg+/XKLcz+xGluCAFwM1m2h9q3rFfI4CPDtGkRQjeaFht8a4WQBRizbe8NVLocgrzRMpdHFaa2SjIX+PIpQmg==
   dependencies:
     "@babel/runtime" "~7.26.7"
     "@popperjs/core" "~2.11.2"
@@ -2959,7 +2951,7 @@ tdesign-react@^1.11.1:
     react-popper "~2.3.0"
     react-transition-group "~4.4.1"
     sortablejs "^1.15.0"
-    tdesign-icons-react "^0.4.3"
+    tdesign-icons-react "^0.4.4"
     tinycolor2 "^1.4.2"
     tslib "~2.3.1"
     validator "~13.7.0"
