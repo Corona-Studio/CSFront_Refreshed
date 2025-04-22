@@ -1,5 +1,6 @@
 import i18next from "i18next";
 import { lazy, useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Button, Dropdown, Loading, NotificationPlugin } from "tdesign-react";
 import { DropdownOption } from "tdesign-react/es/dropdown/type";
 
@@ -64,6 +65,11 @@ function LxDownload() {
 
     return (
         <>
+            <Helmet>
+                <title>LauncherX {t("download")} - Corona Studio</title>
+                <meta name="description" content={t("lxDescription")} />
+            </Helmet>
+
             <div className="bg-black">
                 <BannerContainer innerDivClassName="overflow-clip">
                     <div className="z-0 w-full h-full">

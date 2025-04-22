@@ -1,5 +1,6 @@
 import i18next from "i18next";
 import { lazy } from "react";
+import { Helmet } from "react-helmet-async";
 import { Button, Timeline } from "tdesign-react";
 
 import styles from "./CMFS.module.css";
@@ -42,6 +43,11 @@ function CMFS() {
 
     return (
         <>
+            <Helmet>
+                <title>{t("serverList")} - Corona Studio</title>
+                <meta name="description" content={t("beginningOfEverythingDescription1")} />
+            </Helmet>
+
             <div className="dark:bg-black">
                 <BannerContainer>
                     <div className={styles.masonry}>

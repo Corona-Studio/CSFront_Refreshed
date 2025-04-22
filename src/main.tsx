@@ -3,6 +3,7 @@ import { SpeedInsights } from "@vercel/speed-insights/react";
 import localForage from "localforage";
 import { CSSProperties, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { HelmetProvider } from "react-helmet-async";
 import { RouterProvider } from "react-router";
 import { BackTop } from "tdesign-react";
 import "tdesign-react/es/style/index.css";
@@ -27,15 +28,17 @@ localForage.config({
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
-        <Analytics />
-        <SpeedInsights />
+        <HelmetProvider>
+            <Analytics />
+            <SpeedInsights />
 
-        <div className="shadow-lg">
-            <div className="shadow-md overflow-x-hidden ?overflow-y-auto bg-zinc-100 dark:bg-zinc-900" id="wrapper">
-                <RouterProvider router={router} />
+            <div className="shadow-lg">
+                <div className="shadow-md overflow-x-hidden ?overflow-y-auto bg-zinc-100 dark:bg-zinc-900" id="wrapper">
+                    <RouterProvider router={router} />
+                </div>
+
+                <BackTop container={() => document} visibleHeight={100} style={style} />
             </div>
-
-            <BackTop container={() => document} visibleHeight={100} style={style} />
-        </div>
+        </HelmetProvider>
     </StrictMode>
 );

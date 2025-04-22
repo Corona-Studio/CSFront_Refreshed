@@ -1,4 +1,5 @@
 import { lazy, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { BookOpenIcon, CatIcon, CoordinateSystemIcon, RocketIcon, TreeSquareDotIcon } from "tdesign-icons-react";
 import { Col, Row } from "tdesign-react";
 
@@ -70,6 +71,14 @@ function Home() {
 
     return (
         <>
+            <Helmet>
+                <title>{t("indexPage")} - Corona Studio</title>
+                <meta
+                    name="description"
+                    content="欢迎访问 Corona Studio，我们是一个由 Minecraft 爱好者组建的开发团队。"
+                />
+            </Helmet>
+
             <BannerContainer innerDivClassName="dark:bg-black">
                 <div className="z-0 w-full h-full shadow">
                     <Squares direction="diagonal" speed={0.1} squareSize={120} hoverFillColor="#ffb300" />

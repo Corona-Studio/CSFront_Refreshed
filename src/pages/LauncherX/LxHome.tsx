@@ -1,5 +1,6 @@
 import i18next from "i18next";
 import { lazy } from "react";
+import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router";
 import { ArrowRightIcon } from "tdesign-icons-react";
 import { Button, Col, Row, Statistic } from "tdesign-react";
@@ -65,6 +66,11 @@ function LxHome() {
 
     return (
         <>
+            <Helmet>
+                <title>{t("downloadNow")} - LauncherX</title>
+                <meta name="description" content={t("lxDescription")} />
+            </Helmet>
+
             <div className="bg-black">
                 <BannerContainer innerDivClassName="overflow-clip">
                     <div className="z-0 w-full h-full">
