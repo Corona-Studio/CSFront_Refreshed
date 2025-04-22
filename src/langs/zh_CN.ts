@@ -186,6 +186,7 @@ export const zhCN = {
         sponsorThanks: "感谢您的赞助！",
         sponsorThanksDescription:
             "感谢您对日冕工作室的支持！我们会继续改进我们的产品并取得更大的进步，我们今天的成就离不开每一位赞助者的贡献。",
+        sponsorThanksDescription2: "您可以加入我们的内测群以获得最新的更新通知！群号：956810404",
         failedToGetIsPaid: "无法获取赞助状态",
         failedToGetIsPaidDescription: "无法获取赞助状态，可能是服务器错误",
 
