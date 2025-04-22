@@ -1,6 +1,7 @@
 /*
 	Installed from https://reactbits.dev/ts/tailwind/
 */
+// @ts-nocheck
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
