@@ -139,7 +139,7 @@ export const zhCN = {
 
         afdOrderNumber: "爱发电订单号",
         afdOrderNumberRequired: "爱发电订单号是必填项",
-        afdOrderNumberRuleDescription: "爱发电的订单号应该是一串由纯数字组成的 27 位号码",
+        afdOrderNumberRuleDescription: "爱发电的订单号应该是一串由纯数字组成的 23-30 位号码",
 
         goto: "前往",
 

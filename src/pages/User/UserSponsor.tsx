@@ -163,7 +163,8 @@ function UserSponsor() {
                                 name="orderNumber"
                                 rules={[
                                     { required: true, message: t("afdOrderNumberRequired"), type: "error" },
-                                    { len: 27, message: t("afdOrderNumberRuleDescription"), type: "error" },
+                                    { min: 23, message: t("afdOrderNumberRuleDescription"), type: "error" },
+                                    { max: 30, message: t("afdOrderNumberRuleDescription"), type: "error" },
                                     {
                                         pattern: AfdOrderNumberPattern,
                                         message: t("afdOrderNumberRuleDescription"),
