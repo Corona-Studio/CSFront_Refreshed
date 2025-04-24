@@ -108,9 +108,9 @@ function Home() {
                                 animateOn="view"
                                 revealDirection="start"
                             />
-                            <div className="flex items-center space-x-4">
+                            <div className="space-x-4">
                                 <span className="text-4xl align-middle inline-block whitespace-nowrap">{t("weDevelop")}</span>
-                                <div className="w-48 min-w-[8rem]">
+                                <div className="inline-block align-middle min-w-[12rem]">
                                     <RotatingText
                                         texts={["LauncherX", "🐱", "ConnectX", "P2P", "CMFS"]}
                                         mainClassName="text-4xl px-3 bg-amber-400 text-black overflow-hidden py-2 rounded-lg"
