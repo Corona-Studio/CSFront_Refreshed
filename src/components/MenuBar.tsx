@@ -29,6 +29,11 @@ function MenuBar() {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const langCodeMapping: Map<string, string> = new Map([
+        ["zhCN", "zh"],
+        ["enUS", "en"]
+    ]);
+
     const languageOptions = [
         {
             content: "简体中文",
@@ -85,6 +90,8 @@ function MenuBar() {
         to(value);
     }
 
+    document.documentElement.lang = langCodeMapping.get(i18next.language) ?? "zh";
+
     function onLanguageMenuItemClicked(dropdownItem: DropdownOption) {
         if (!dropdownItem.value) return;
 
@@ -94,6 +101,7 @@ function MenuBar() {
 
         i18next.changeLanguage(value ?? "zhCN").then(() => {
             window.location.reload();
+            console.log("pp");
         });
     }
 
