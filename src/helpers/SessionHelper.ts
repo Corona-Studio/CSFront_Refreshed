@@ -89,7 +89,11 @@ export async function isAdminSessionValidAsync(isResetCredentials: boolean) {
 
         const values = value as string[];
 
-        return values.includes("admin");
+        for (const v of values) {
+            if (v === "admin") {
+                return true;
+            }
+        }
     }
 
     return false;
