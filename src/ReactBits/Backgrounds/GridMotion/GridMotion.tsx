@@ -1,6 +1,7 @@
 /*
 	Installed from https://reactbits.dev/ts/tailwind/
 */
+//@ts-nocheck
 import { gsap } from "gsap";
 import { FC, useEffect, useRef } from "react";
 
