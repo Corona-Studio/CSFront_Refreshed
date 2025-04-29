@@ -108,7 +108,7 @@ function Home() {
                                 animateOn="view"
                                 revealDirection="start"
                             />
-                            <div className="space-x-4">
+                            <div className="space-x-4 flex flex-wrap gap-y-4">
                                 <span className="text-4xl align-middle inline-block whitespace-nowrap">{t("weDevelop")}</span>
                                 <div className="inline-block align-middle min-w-[12rem]">
                                     <RotatingText
