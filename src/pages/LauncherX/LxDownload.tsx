@@ -233,15 +233,13 @@ function LxDownload() {
                                 />
                             )}
 
-                            {/* 修改下载按钮区域 */}
-                            {isLoading === false && ( // 确保 isLoading 不是 undefined
+                            {isLoading === false && (
                                 <div className="pt-8">
                                     <Space size="small">
-                                        {/* 主下载按钮 - 下载推荐版本 */}
                                         <Button
                                             size="large"
                                             variant="base"
-                                            disabled={!recommendedBuild} // 如果没有推荐版本则禁用
+                                            disabled={!recommendedBuild}
                                             onClick={onRecommendedDownloadClick}>
                                             <span>
                                                 {recommendedBuild
@@ -250,17 +248,15 @@ function LxDownload() {
                                             </span>
                                         </Button>
 
-                                        {/* 更多版本下拉菜单 */}
                                         <Dropdown
                                             minColumnWidth={"190px"}
                                             direction="right"
                                             hideAfterItemClick
                                             options={downloadOptions}
                                             placement="bottom"
-                                            trigger="click" // 改为 click 触发
+                                            trigger="click"
                                             onClick={onMenuItemClicked}>
                                             <Button size="large" variant="outline" icon={<ChevronDownIcon />}>
-                                                {t("moreVersions")}
                                             </Button>
                                         </Dropdown>
                                     </Space>
@@ -295,5 +291,4 @@ function LxDownload() {
     );
 }
 
-// Must Keep for ReactRouter
 export const Component = () => LxDownload();
