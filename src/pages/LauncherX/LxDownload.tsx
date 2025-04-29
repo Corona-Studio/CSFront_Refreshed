@@ -1,8 +1,9 @@
 import i18next from "i18next";
 import { lazy, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Button, Dropdown, Loading, NotificationPlugin } from "tdesign-react";
+import { Button, Dropdown, Loading, NotificationPlugin, Space } from "tdesign-react";
 import { DropdownOption } from "tdesign-react/es/dropdown/type";
+import { ChevronDownIcon } from "tdesign-icons-react";
 
 import { lxBackendUrl } from "../../requests/ApiConstants.ts";
 import { LauncherRawBuildModel, getAllStableBuildsAsync } from "../../requests/LxBuildRequests.ts";
@@ -14,17 +15,86 @@ const LxLogo = lazy(() => import("../../components/LxLogo.tsx"));
 
 const t = i18next.t;
 
+interface RecommendedBuild {
+    name: string;
+    url: string;
+}
+
 function LxDownload() {
     const [isLoading, setIsLoading] = useState<boolean | undefined>(true);
     const [downloadOptions, setDownloadOptions] = useState<DropdownOption[]>([]);
+    const [recommendedBuild, setRecommendedBuild] = useState<RecommendedBuild | null>(null);
+
+    function detectPlatform(): { os: string; arch: string } {
+        const uaLower = navigator.userAgent.toLowerCase();
+        let os = "Unknown";
+        let arch = "Unknown";
+    
+        if (uaLower.includes("window")) {
+            os = "Windows";
+        } else if (uaLower.includes("mac")) {
+            os = "macOS";
+        } else if (uaLower.includes("linux")) {
+            os = "Linux";
+        }
+    
+        if (os === "macOS") {
+            try {
+                const canvas = document.createElement("canvas");
+                const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+                if (gl) {
+                    const webgl = gl as WebGLRenderingContext;
+                    const debugInfo = webgl.getExtension('WEBGL_debug_renderer_info');
+                    const renderer = debugInfo ? webgl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "";
+    
+                    if (typeof renderer === 'string') {
+                        const rendererLower = renderer.toLowerCase();
+                        if (rendererLower.includes("apple") && !rendererLower.includes("apple gpu")) {
+                            arch = "Apple";
+                        } else if (rendererLower.includes("apple gpu")) {
+                            const supportedExtensions = webgl.getSupportedExtensions() || [];
+                            if (supportedExtensions.indexOf("WEBGL_compressed_texture_s3tc_srgb") === -1) {
+                                arch = "Apple";
+                            } else {
+                                arch = "Intel";
+                            }
+                        } else if (rendererLower.includes("intel") || rendererLower.includes("amd") || rendererLower.includes("nvidia")) {
+                            arch = "Intel";
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error("Error during WebGL detection:", e);
+            }
+    
+            if (arch === "Unknown") {
+                if (uaLower.includes("arm64") || uaLower.includes("aarch64")) {
+                     arch = "Apple";
+                } else {
+                     arch = "Intel";
+                }
+            }
+    
+        } else if (uaLower.includes("arm64") || uaLower.includes("aarch64")) {
+            arch = "Arm64";
+        } else if (uaLower.includes("win64") || uaLower.includes("wow64") || uaLower.includes("x64")) {
+            arch = "X64";
+        }
+    
+        if (os !== "Unknown" && arch === "Unknown") {
+            arch = (os === "macOS") ? "Intel" : "X64";
+        }
+    
+        return { os, arch };
+    }
 
     async function getLauncherBuilds() {
-        const builds = await getAllStableBuildsAsync();
+        const buildsMap = await getAllStableBuildsAsync();
 
-        if (!builds) {
+        if (!buildsMap) {
             await NotificationPlugin.info({
                 title: "获取失败",
-                content: "无法获取构建",
+                content: "无法获取构建列表",
                 placement: "top-right",
                 duration: 10000,
                 offset: [-36, "10rem"],
@@ -37,30 +107,59 @@ function LxDownload() {
         }
 
         const options: DropdownOption[] = [];
+        const buildsArray: { key: string; build: LauncherRawBuildModel }[] = [];
 
-        for (const [key, value] of Object.entries(builds)) {
+        for (const [key, value] of Object.entries(buildsMap)) {
             const build = value as LauncherRawBuildModel;
-
+            const url = `${lxBackendUrl}/Build/get/${build.id}/${build.framework}.${build.runtime}.zip`;
             options.push({
                 content: key,
-                value: `${lxBackendUrl}/Build/get/${build.id}/${build.framework}.${build.runtime}.zip`
+                value: url
             });
+            buildsArray.push({ key, build });
         }
 
         setDownloadOptions(options);
+
+        const { os, arch } = detectPlatform();
+        let bestMatch: RecommendedBuild | null = null;
+        let fallbackMatch: RecommendedBuild | null = null;
+
+        const targetKeyExact = `${os} ${arch}`;
+        const targetKeyFallback = (os === "macOS") ? `${os} Intel` : `${os} X64`;
+
+        for (const { key, build } of buildsArray) {
+             const url = `${lxBackendUrl}/Build/get/${build.id}/${build.framework}.${build.runtime}.zip`;
+
+            if (key === targetKeyExact) {
+                bestMatch = { name: key, url: url };
+                break;
+            }
+            if (key === targetKeyFallback) {
+                fallbackMatch = { name: key, url: url };
+            }
+        }
+
+        const finalRecommendation = bestMatch ?? fallbackMatch;
+        setRecommendedBuild(finalRecommendation);
+
         setIsLoading(false);
     }
 
     useEffect(() => {
-        getLauncherBuilds().then(() => console.log("Build load completed."));
-    }, []);
+        getLauncherBuilds();
+    });
 
     function onMenuItemClicked(dropdownItem: DropdownOption) {
         if (!dropdownItem.value) return;
-
         const value = dropdownItem.value as string;
-
         window.open(value, "_blank");
+    }
+
+    function onRecommendedDownloadClick() {
+        if (recommendedBuild?.url) {
+            window.open(recommendedBuild.url, "_blank");
+        }
     }
 
     return (
@@ -74,16 +173,18 @@ function LxDownload() {
                 <BannerContainer innerDivClassName="overflow-clip">
                     <div className="z-0 w-full h-full">
                         <Waves
-                            lineColor="#6c4b00"
-                            waveSpeedX={0.02}
-                            waveSpeedY={0.01}
-                            waveAmpX={40}
-                            waveAmpY={20}
-                            friction={0.9}
-                            tension={0.01}
-                            maxCursorMove={120}
-                            xGap={12}
-                            yGap={36}
+                            lineColor="oklch(44.2% 0.017 285.786)"
+                            waveSpeedX={0}
+                            waveSpeedY={0}
+                            waveAmpX={0}
+                            waveAmpY={0}
+                            friction={0}
+                            tension={0}
+                            maxCursorMove={0}
+                            xGap={20}
+                            yGap={20}
+                            slantFactor={0.5}
+                            lineOpacity={0.3}
                         />
                     </div>
 
@@ -132,20 +233,58 @@ function LxDownload() {
                                 />
                             )}
 
-                            {isLoading !== undefined && !isLoading && (
+                            {/* 修改下载按钮区域 */}
+                            {isLoading === false && ( // 确保 isLoading 不是 undefined
                                 <div className="pt-8">
-                                    <Dropdown
-                                        minColumnWidth={"190px"}
-                                        direction="right"
-                                        hideAfterItemClick
-                                        options={downloadOptions}
-                                        placement="bottom"
-                                        trigger="hover"
-                                        onClick={onMenuItemClicked}>
-                                        <Button size="large" variant="base">
-                                            <span>{t("downloadNow")}</span>
+                                    <Space size="small">
+                                        {/* 主下载按钮 - 下载推荐版本 */}
+                                        <Button
+                                            size="large"
+                                            variant="base"
+                                            disabled={!recommendedBuild} // 如果没有推荐版本则禁用
+                                            onClick={onRecommendedDownloadClick}>
+                                            <span>
+                                                {recommendedBuild
+                                                    ? `${t("download")} (${recommendedBuild.name})`
+                                                    : t("noRecommendedBuild")}
+                                            </span>
                                         </Button>
-                                    </Dropdown>
+
+                                        {/* 更多版本下拉菜单 */}
+                                        <Dropdown
+                                            minColumnWidth={"190px"}
+                                            direction="right"
+                                            hideAfterItemClick
+                                            options={downloadOptions}
+                                            placement="bottom"
+                                            trigger="click" // 改为 click 触发
+                                            onClick={onMenuItemClicked}>
+                                            <Button size="large" variant="outline" icon={<ChevronDownIcon />}>
+                                                {t("moreVersions")}
+                                            </Button>
+                                        </Dropdown>
+                                    </Space>
+                                </div>
+                            )}
+
+                            {isLoading === undefined && (
+                                <div className="pt-8">
+                                    <div className="bg-red-500/10 p-6 rounded-lg border border-red-500/30 text-center">
+                                        <div className="text-red-500 text-lg font-medium mb-2">
+                                            {t("failedToLoadBuilds")}
+                                        </div>
+                                        <p className="text-white/70 mb-4">
+                                            {t("failedToLoadBuildsDescription")}
+                                        </p>
+                                        <Button
+                                            size="large"
+                                            variant="outline"
+                                            theme="danger"
+                                            onClick={getLauncherBuilds}
+                                        >
+                                            {t("retry")}
+                                        </Button>
+                                    </div>
                                 </div>
                             )}
                         </div>
