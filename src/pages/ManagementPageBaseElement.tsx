@@ -21,6 +21,7 @@ export interface MenuLinkModel {
     to: string;
     value: string;
     visible?: () => Promise<boolean>;
+    visibleInDropDown?: boolean;
 }
 
 export interface ManagementPageBaseElementProps {
@@ -154,7 +155,11 @@ function ManagementPageBaseElement({
                                     hideAfterItemClick={true}
                                     placement="bottom"
                                     trigger="hover"
-                                    options={menuLinks.map((link) => ({ content: link.value, value: link.to }))}
+                                    options={menuLinks
+                                        .filter(
+                                            (link) => link.visibleInDropDown === undefined || link.visibleInDropDown
+                                        )
+                                        .map((link) => ({ content: link.value, value: link.to }))}
                                     onClick={onMenuItemClicked}>
                                     <Button
                                         variant="text"

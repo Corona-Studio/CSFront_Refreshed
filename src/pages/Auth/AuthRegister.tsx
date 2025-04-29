@@ -40,7 +40,7 @@ function AuthRegister() {
     const rePassword: CustomValidator = (val) =>
         new Promise((resolve) => {
             const timer = setTimeout(() => {
-                resolve(form.current?.getFieldValue("confirmPassword") === val);
+                resolve(form.current?.getFieldValue("password") === val);
                 clearTimeout(timer);
             });
         });

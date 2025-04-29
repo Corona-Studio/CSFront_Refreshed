@@ -26,6 +26,7 @@ export const userPageMenuLinks: () => MenuLinkModel[] = () => [
         icon: <UserLockedIcon />,
         to: "/admin",
         value: t("adminCenter"),
+        visibleInDropDown: false,
         visible: () => {
             return isAdminSessionValidAsync(false);
         }

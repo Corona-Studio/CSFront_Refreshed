@@ -106,7 +106,7 @@ export const router = createBrowserRouter(
                         links={adminPageMenuLinks}
                         userSessionValidation={true}
                         userSessionValidator={async () => await isAdminSessionValidAsync(true)}
-                        invalidJumpPage="/auth/login"
+                        invalidJumpPage="/"
                     />
                 }
                 handle={{ title: () => "Error", pageInfo: () => ({ pageKey: "Error", pageTitle: "Error" }) }}>
