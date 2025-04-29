@@ -108,20 +108,22 @@ function Home() {
                                 animateOn="view"
                                 revealDirection="start"
                             />
-                            <div className="flex items-center space-x-4">
-                                <span className="text-4xl align-middle inline-block">{t("weDevelop")}</span>
-                                <RotatingText
-                                    texts={["LauncherX", "🐱", "ConnectX", "P2P", "CMFS"]}
-                                    mainClassName="text-4xl px-3 bg-amber-400 text-black overflow-hidden py-2 rounded-lg"
-                                    staggerFrom={"last"}
-                                    initial={{ y: "100%" }}
-                                    animate={{ y: 0 }}
-                                    exit={{ y: "-120%" }}
-                                    staggerDuration={0.025}
-                                    splitLevelClassName="overflow-hidden"
-                                    transition={{ type: "spring", damping: 30, stiffness: 400 }}
-                                    rotationInterval={2000}
-                                />
+                            <div className="space-x-4 flex flex-wrap gap-y-4 items-center">
+                                <span className="text-4xl whitespace-nowrap">{t("weDevelop")}</span>
+                                <div className="min-w-[12rem]">
+                                    <RotatingText
+                                        texts={["LauncherX", "🐱", "ConnectX", "P2P", "CMFS"]}
+                                        mainClassName="text-4xl px-3 bg-amber-400 text-black overflow-hidden py-2 rounded-lg"
+                                        staggerFrom={"last"}
+                                        initial={{ y: "100%" }}
+                                        animate={{ y: 0 }}
+                                        exit={{ y: "-120%" }}
+                                        staggerDuration={0.025}
+                                        splitLevelClassName="overflow-hidden"
+                                        transition={{ type: "spring", damping: 30, stiffness: 400 }}
+                                        rotationInterval={2000}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
