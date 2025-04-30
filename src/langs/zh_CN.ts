@@ -234,6 +234,18 @@ export const zhCN = {
         noRecommendedBuild: "没有推荐的版本",
         failedToLoadBuildsDescription: "无法加载版本信息，请稍后重试。",
         failedToLoadBuilds: "无法加载版本信息",
-        retry: "重试"
+        retry: "重试",
+        downloadThanks: "感谢您的下载",
+        downloadThanksDescription: "您的下载应该已经开始。如果遇到问题，请查阅下方的设置指南。",
+        downloadThanksFollowGuide: "请按照下面的设置指南完成安装。",
+        setupGuides: "设置指南",
+        recommendedGuide: "推荐指南",
+        basedOnYourSystem: "根据您的操作系统",
+        weRecommendReading: "我们建议您阅读",
+        windowsSetupGuide: "Windows 设置指南",
+        macosSetupGuide: "macOS 设置指南",
+        linuxSetupGuide: "Linux 设置指南",
+        guideFor: "适用于",
+        viewGuide: "查看指南",
     }
 };

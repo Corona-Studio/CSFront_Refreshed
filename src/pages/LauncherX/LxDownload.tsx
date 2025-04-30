@@ -1,6 +1,7 @@
 import i18next from "i18next";
 import { lazy, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { useNavigate } from "react-router"; // Added import
 import { ChevronDownIcon } from "tdesign-icons-react";
 import { Button, Dropdown, Loading, NotificationPlugin, Space } from "tdesign-react";
 import { DropdownOption } from "tdesign-react/es/dropdown/type";
@@ -22,6 +23,7 @@ interface RecommendedBuild {
 }
 
 function LxDownload() {
+    const navigate = useNavigate(); // Added hook usage
     const [isLoading, setIsLoading] = useState<boolean | undefined>(true);
     const [downloadOptions, setDownloadOptions] = useState<DropdownOption[]>([]);
     const [recommendedBuild, setRecommendedBuild] = useState<RecommendedBuild | null>(null);
@@ -88,6 +90,9 @@ function LxDownload() {
         if (os !== "Unknown" && arch === "Unknown") {
             arch = os === "macOS" ? "Intel" : "X64";
         }
+
+        sessionStorage.setItem("detectedOS", os);
+        sessionStorage.setItem("detectedArch", arch);
 
         return { os, arch };
     }
@@ -157,11 +162,19 @@ function LxDownload() {
     function onMenuItemClicked(dropdownItem: DropdownOption) {
         if (!dropdownItem.value) return;
         const value = dropdownItem.value as string;
+        const { os, arch } = detectPlatform();
+        sessionStorage.setItem("detectedOS", os);
+        sessionStorage.setItem("detectedArch", arch);
+        navigate("/lx/download/thanks");
         window.open(value, "_blank");
     }
 
     function onRecommendedDownloadClick() {
         if (recommendedBuild?.url) {
+            const { os, arch } = detectPlatform();
+            sessionStorage.setItem("detectedOS", os);
+            sessionStorage.setItem("detectedArch", arch);
+            navigate("/lx/download/thanks");
             window.open(recommendedBuild.url, "_blank");
         }
     }
@@ -188,7 +201,7 @@ function LxDownload() {
                             xGap={envVal(20, 12)}
                             yGap={envVal(20, 36)}
                             slantFactor={0.5}
-                            lineOpacity={envVal(0.3, 0.75)}
+                            lineOpacity={envVal(0.3, 0.4)}
                         />
                     </div>
 
