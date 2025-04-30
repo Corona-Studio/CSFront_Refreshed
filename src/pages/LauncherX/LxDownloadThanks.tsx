@@ -23,16 +23,13 @@ function LxDownloadThanks() {
         return sessionStorage.getItem("detectedOS");
     });
     
-    // 添加动画效果状态
     const [showAnimation, setShowAnimation] = useState(false);
     
-    // 组件加载时触发动画
     useEffect(() => {
         setShowAnimation(true);
         
-        // 如果没有检测到操作系统，尝试检测
         if (!detectedOS) {
-            const platform = navigator.platform.toLowerCase();
+            const platform = navigator.userAgent.toLowerCase();
             let os = null;
             
             if (platform.includes('win')) {

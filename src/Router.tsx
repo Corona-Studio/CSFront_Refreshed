@@ -38,6 +38,11 @@ export const router = createBrowserRouter(
                     lazy={() => import("./pages/LauncherX/LxDownloadThanks.tsx")}
                 />
             </Route>
+            <Route
+                path="launcherx/download"
+                handle={{ title: () => `LauncherX - ${t("download")}` }}
+                lazy={() => import("./pages/LauncherX/LxDownload.tsx")}
+            />
             <Route path="cmfs" element={<CMFS />} handle={{ title: () => "CMFS" }} />
             <Route
                 path="auth"
