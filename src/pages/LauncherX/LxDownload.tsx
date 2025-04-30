@@ -1,10 +1,11 @@
 import i18next from "i18next";
 import { lazy, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { ChevronDownIcon } from "tdesign-icons-react";
 import { Button, Dropdown, Loading, NotificationPlugin, Space } from "tdesign-react";
 import { DropdownOption } from "tdesign-react/es/dropdown/type";
-import { ChevronDownIcon } from "tdesign-icons-react";
 
+import { envVal } from "../../helpers/EnvHelper.ts";
 import { lxBackendUrl } from "../../requests/ApiConstants.ts";
 import { LauncherRawBuildModel, getAllStableBuildsAsync } from "../../requests/LxBuildRequests.ts";
 
@@ -29,7 +30,7 @@ function LxDownload() {
         const uaLower = navigator.userAgent.toLowerCase();
         let os = "Unknown";
         let arch = "Unknown";
-    
+
         if (uaLower.includes("window")) {
             os = "Windows";
         } else if (uaLower.includes("mac")) {
@@ -37,17 +38,17 @@ function LxDownload() {
         } else if (uaLower.includes("linux")) {
             os = "Linux";
         }
-    
+
         if (os === "macOS") {
             try {
                 const canvas = document.createElement("canvas");
                 const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
                 if (gl) {
                     const webgl = gl as WebGLRenderingContext;
-                    const debugInfo = webgl.getExtension('WEBGL_debug_renderer_info');
+                    const debugInfo = webgl.getExtension("WEBGL_debug_renderer_info");
                     const renderer = debugInfo ? webgl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "";
-    
-                    if (typeof renderer === 'string') {
+
+                    if (typeof renderer === "string") {
                         const rendererLower = renderer.toLowerCase();
                         if (rendererLower.includes("apple") && !rendererLower.includes("apple gpu")) {
                             arch = "Apple";
@@ -58,7 +59,11 @@ function LxDownload() {
                             } else {
                                 arch = "Intel";
                             }
-                        } else if (rendererLower.includes("intel") || rendererLower.includes("amd") || rendererLower.includes("nvidia")) {
+                        } else if (
+                            rendererLower.includes("intel") ||
+                            rendererLower.includes("amd") ||
+                            rendererLower.includes("nvidia")
+                        ) {
                             arch = "Intel";
                         }
                     }
@@ -66,25 +71,24 @@ function LxDownload() {
             } catch (e) {
                 console.error("Error during WebGL detection:", e);
             }
-    
+
             if (arch === "Unknown") {
                 if (uaLower.includes("arm64") || uaLower.includes("aarch64")) {
-                     arch = "Apple";
+                    arch = "Apple";
                 } else {
-                     arch = "Intel";
+                    arch = "Intel";
                 }
             }
-    
         } else if (uaLower.includes("arm64") || uaLower.includes("aarch64")) {
             arch = "Arm64";
         } else if (uaLower.includes("win64") || uaLower.includes("wow64") || uaLower.includes("x64")) {
             arch = "X64";
         }
-    
+
         if (os !== "Unknown" && arch === "Unknown") {
-            arch = (os === "macOS") ? "Intel" : "X64";
+            arch = os === "macOS" ? "Intel" : "X64";
         }
-    
+
         return { os, arch };
     }
 
@@ -126,10 +130,10 @@ function LxDownload() {
         let fallbackMatch: RecommendedBuild | null = null;
 
         const targetKeyExact = `${os} ${arch}`;
-        const targetKeyFallback = (os === "macOS") ? `${os} Intel` : `${os} X64`;
+        const targetKeyFallback = os === "macOS" ? `${os} Intel` : `${os} X64`;
 
         for (const { key, build } of buildsArray) {
-             const url = `${lxBackendUrl}/Build/get/${build.id}/${build.framework}.${build.runtime}.zip`;
+            const url = `${lxBackendUrl}/Build/get/${build.id}/${build.framework}.${build.runtime}.zip`;
 
             if (key === targetKeyExact) {
                 bestMatch = { name: key, url: url };
@@ -147,7 +151,7 @@ function LxDownload() {
     }
 
     useEffect(() => {
-        getLauncherBuilds();
+        getLauncherBuilds().then();
     });
 
     function onMenuItemClicked(dropdownItem: DropdownOption) {
@@ -173,16 +177,16 @@ function LxDownload() {
                 <BannerContainer innerDivClassName="overflow-clip">
                     <div className="z-0 w-full h-full">
                         <Waves
-                            lineColor="oklch(44.2% 0.017 285.786)"
-                            waveSpeedX={0}
-                            waveSpeedY={0}
-                            waveAmpX={0}
-                            waveAmpY={0}
-                            friction={0}
-                            tension={0}
-                            maxCursorMove={0}
-                            xGap={20}
-                            yGap={20}
+                            lineColor={envVal("oklch(44.2% 0.017 285.786)", "#6c4b00")}
+                            waveSpeedX={envVal(0, 0.02)}
+                            waveSpeedY={envVal(0, 0.01)}
+                            waveAmpX={envVal(0, 40)}
+                            waveAmpY={envVal(0, 20)}
+                            friction={envVal(0, 0.9)}
+                            tension={envVal(0, 0.01)}
+                            maxCursorMove={envVal(0, 120)}
+                            xGap={envVal(20, 12)}
+                            yGap={envVal(20, 36)}
                             slantFactor={0.5}
                             lineOpacity={0.3}
                         />
@@ -256,8 +260,7 @@ function LxDownload() {
                                             placement="bottom"
                                             trigger="click"
                                             onClick={onMenuItemClicked}>
-                                            <Button size="large" variant="outline" icon={<ChevronDownIcon />}>
-                                            </Button>
+                                            <Button size="large" variant="outline" icon={<ChevronDownIcon />}></Button>
                                         </Dropdown>
                                     </Space>
                                 </div>
@@ -269,15 +272,12 @@ function LxDownload() {
                                         <div className="text-red-500 text-lg font-medium mb-2">
                                             {t("failedToLoadBuilds")}
                                         </div>
-                                        <p className="text-white/70 mb-4">
-                                            {t("failedToLoadBuildsDescription")}
-                                        </p>
+                                        <p className="text-white/70 mb-4">{t("failedToLoadBuildsDescription")}</p>
                                         <Button
                                             size="large"
                                             variant="outline"
                                             theme="danger"
-                                            onClick={getLauncherBuilds}
-                                        >
+                                            onClick={getLauncherBuilds}>
                                             {t("retry")}
                                         </Button>
                                     </div>
