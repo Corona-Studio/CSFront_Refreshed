@@ -260,7 +260,11 @@ function LxDownload() {
                                             placement="bottom"
                                             trigger="click"
                                             onClick={onMenuItemClicked}>
-                                            <Button size="large" variant="outline" icon={<ChevronDownIcon />}></Button>
+                                            <Button
+                                                ghost
+                                                size="large"
+                                                variant="outline"
+                                                icon={<ChevronDownIcon />}></Button>
                                         </Dropdown>
                                     </Space>
                                 </div>
