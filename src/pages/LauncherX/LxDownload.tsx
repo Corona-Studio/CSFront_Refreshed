@@ -188,7 +188,7 @@ function LxDownload() {
                             xGap={envVal(20, 12)}
                             yGap={envVal(20, 36)}
                             slantFactor={0.5}
-                            lineOpacity={0.3}
+                            lineOpacity={envVal(0.3, 0.75)}
                         />
                     </div>
 
