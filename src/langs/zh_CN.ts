@@ -230,6 +230,10 @@ export const zhCN = {
 
         setSponsorFailed: "设置赞助者失败",
         setSponsorSucceeded: "成功设置赞助者",
-        setSponsorSucceededDescription: "成功将用户设置为赞助者，该操作已被记录。"
+        setSponsorSucceededDescription: "成功将用户设置为赞助者，该操作已被记录。",
+        noRecommendedBuild: "没有推荐的版本",
+        failedToLoadBuildsDescription: "无法加载版本信息，请稍后重试。",
+        failedToLoadBuilds: "无法加载版本信息",
+        retry: "重试"
     }
 };

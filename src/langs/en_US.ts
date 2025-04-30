@@ -190,6 +190,10 @@ export const enUS = {
         howToCheckSponsorOrderNumber: "How to Find Your Sponsor Order Number?",
         checkHere: "Check Here",
         checkHereLink: "https://kb.corona.studio/enUS/guide/general/donate.html",
-        sponsorThanks: "Thank You for Your Support!"
+        sponsorThanks: "Thank You for Your Support!",
+        noRecommendedBuild: "No Recommended Build",
+        failedToLoadBuildsDescription: "Failed to load build list. Please check your network connection.",
+        failedToLoadBuilds: "Failed to load build list.",
+        retry: "Retry"
     }
 };
