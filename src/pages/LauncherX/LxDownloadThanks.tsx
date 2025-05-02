@@ -1,7 +1,7 @@
 import i18next from "i18next";
 import { lazy, useState, useMemo, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { Alert, Button, Card, Row, Divider } from "tdesign-react";
+import { Alert, Button, Card, Divider } from "tdesign-react";
 import { LinkIcon, CheckCircleFilledIcon } from "tdesign-icons-react";
 
 import { envVal } from "../../helpers/EnvHelper.ts";
@@ -99,7 +99,7 @@ function LxDownloadThanks() {
                         />
                     </div>
                     <div className="z-10 absolute w-full h-full grid place-items-center">
-                        <div className={`text-center text-white space-y-6 transition-all duration-700 ${showAnimation ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform -translate-y-10'}`}>
+                        <div className={`text-center text-white space-y-6 transition-all duration-500 ${showAnimation ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform -translate-y-10'}`}>
                             <div className="mb-6 flex justify-center">
                                 <CheckCircleFilledIcon className="text-green-500 text-6xl" />
                             </div>
@@ -114,52 +114,55 @@ function LxDownloadThanks() {
                                 <h2 className="font-bold mb-8 text-center text-2xl dark:text-white">{t("setupGuides")}</h2>
 
                                 {recommendedGuide && (
-                                    <Alert
-                                        theme="info"
-                                        title={t("recommendedGuide")}
-                                        message={
-                                            <span className="text-base">
-                                                {t("basedOnYourSystem")} <strong className="text-blue-400">{detectedOS}</strong>, {t("weRecommendReading")} <a href={recommendedGuide.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline font-medium">{recommendedGuide.title}</a>.
-                                            </span>
-                                        }
-                                        className="mb-10 text-left shadow-lg"
-                                    />
+                                    <div className="max-w-7xl mx-auto w-full mb-10">
+                                        <Alert
+                                            theme="info"
+                                            title={t("recommendedGuide")}
+                                            message={
+                                                <span className="text-base">
+                                                    {t("basedOnYourSystem")} <strong className="text-blue-400">{detectedOS}</strong>, {t("weRecommendReading")} <a href={recommendedGuide.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline font-medium">{recommendedGuide.title}</a>.
+                                                </span>
+                                            }
+                                            className="text-left shadow-lg"
+                                        />
+                                    </div>
                                 )}
 
-                                <div className="h-4"></div>
-                                <Row gutter={[24, 24]} className="justify-center">
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-7xl mx-auto">
-                                        {guideLinks.map((guide, index) => (
-                                            <div key={guide.os} className="w-full">
-                                                <Card
-                                                    bordered
-                                                    hoverShadow
-                                                    className={`dark:bg-zinc-800/80 backdrop-blur-sm transition-all duration-300 transform hover:scale-105 ${guide.os === detectedOS ? 'border-2 border-blue-500 shadow-lg shadow-blue-500/20' : 'dark:border-zinc-700'}`}
-                                                    style={{
-                                                        animationDelay: `${index * 150}ms`,
-                                                        animation: showAnimation ? 'fadeInUp 0.6s ease forwards' : 'none'
-                                                    }}
-                                                >
-                                                    <div className="flex flex-col items-center text-center dark:text-white p-4">
-                                                        <div className="text-4xl mb-3">{guide.icon}</div>
-                                                        <h3 className="text-xl font-semibold mb-2">{guide.title}</h3>
-                                                        <p className="text-sm text-gray-400 mb-6">{t("guideFor")} {guide.os}</p>
-                                                        <Button
-                                                            theme="primary"
-                                                            variant={guide.os === detectedOS ? "base" : "outline"}
-                                                            href={guide.url}
-                                                            target="_blank"
-                                                            icon={<LinkIcon />}
-                                                            className="w-full"
-                                                        >
-                                                            {t("viewGuide")}
-                                                        </Button>
-                                                    </div>
-                                                </Card>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </Row>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-7xl mx-auto items-stretch">
+                                    {guideLinks.map((guide, index) => (
+                                        <div key={guide.os} className="w-full h-full group"> 
+                                            <Card
+                                                bordered
+                                                hoverShadow
+                                                className={`dark:bg-zinc-800/80 backdrop-blur-sm transition-all duration-300 ease-out transform h-full 
+                                                group-hover:-translate-y-2 group-hover:scale-[1.03] group-hover:shadow-[0_20px_25px_-5px_rgba(59,130,246,0.1)]
+                                                ${guide.os === detectedOS 
+                                                    ? 'border-2 border-blue-500 shadow-lg shadow-blue-500/20' 
+                                                    : 'dark:border-zinc-700 hover:border-blue-400/50'}`}
+                                                style={{
+                                                    animationDelay: `${index * 150}ms`,
+                                                    animation: showAnimation ? 'fadeInUp 0.6s ease forwards' : 'none',
+                                                }}
+                                            >
+                                                <div className="flex flex-col items-center text-center dark:text-white p-4 h-full">
+                                                    <div className="text-4xl mb-3 transition-transform duration-500 ease-out group-hover:scale-110 group-hover:rotate-[360deg]">{guide.icon}</div>
+                                                    <h3 className="text-xl font-semibold mb-2 transition-colors duration-300 group-hover:text-blue-400">{guide.title}</h3>
+                                                    <p className="text-sm text-gray-400 mb-6 flex-grow transition-colors duration-300 group-hover:text-gray-300">{t("guideFor")} {guide.os}</p>
+                                                    <Button
+                                                        theme="primary"
+                                                        variant={guide.os === detectedOS ? "base" : "outline"}
+                                                        href={guide.url}
+                                                        target="_blank"
+                                                        icon={<LinkIcon className="transition-transform duration-300 group-hover:rotate-45" />}
+                                                        className="w-full mt-auto transition-transform duration-300 group-hover:scale-105"
+                                                    >
+                                                        {t("viewGuide")}
+                                                    </Button>
+                                                </div>
+                                            </Card>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </div>
