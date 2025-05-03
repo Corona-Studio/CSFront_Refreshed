@@ -1,7 +1,7 @@
 import i18next from "i18next";
 import { lazy, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useNavigate } from "react-router"; // Added import
+import { useNavigate } from "react-router";
 import { ChevronDownIcon } from "tdesign-icons-react";
 import { Button, Dropdown, Loading, NotificationPlugin, Space } from "tdesign-react";
 import { DropdownOption } from "tdesign-react/es/dropdown/type";
@@ -186,38 +186,44 @@ function LxDownload() {
                 <meta name="description" content={t("lxDescription")} />
             </Helmet>
 
-            <div className="bg-black">
+            <div>
                 <BannerContainer innerDivClassName="overflow-clip">
-                    <div className="z-0 w-full h-full">
+                    <div className="fixed inset-0 z-0">
                         <Waves
-                            lineColor={envVal("oklch(44.2% 0.017 285.786)", "#6c4b00")}
-                            waveSpeedX={envVal(0, 0.02)}
-                            waveSpeedY={envVal(0, 0.01)}
-                            waveAmpX={envVal(0, 40)}
-                            waveAmpY={envVal(0, 20)}
-                            friction={envVal(0, 0.9)}
-                            tension={envVal(0, 0.01)}
-                            maxCursorMove={envVal(0, 120)}
-                            xGap={envVal(20, 12)}
-                            yGap={envVal(20, 36)}
-                            slantFactor={0.5}
-                            lineOpacity={envVal(0.3, 0.4)}
+                            lineColor={envVal("oklch(50% 0.15 200)", "#6c4b00")}
+                            waveSpeedX={envVal(0, 0.015)}
+                            waveSpeedY={envVal(0, 0.008)}
+                            waveAmpX={envVal(0, 35)}
+                            waveAmpY={envVal(0, 15)}
+                            friction={envVal(0, 0.92)}
+                            tension={envVal(0, 0.015)}
+                            maxCursorMove={envVal(0, 100)}
+                            xGap={envVal(20, 15)}
+                            yGap={envVal(20, 40)}
+                            slantFactor={0.4}
+                            lineOpacity={envVal(0.3, 0.5)}
                         />
                     </div>
 
-                    <div className="z-10 absolute w-full h-full grid place-items-center">
-                        <div className="place-items-center">
-                            <div className="space-y-4 place-items-end">
+                    <div className="relative z-10 w-full h-full grid place-items-center">
+                        <div className="place-items-center text-center">
+                            {" "}
+                            <div className="space-y-4 place-items-center">
+                                {" "}
                                 <div>
-                                    <h5 className="text-white">{t("acquire")}</h5>
-                                    <div className="flex space-x-4 items-center">
-                                        <LxLogo />
+                                    <h5 className="text-gray-900 dark:text-white">{t("acquire")}</h5>
+                                    <div className="flex justify-center space-x-4 items-center">
+                                        {" "}
+                                        <div className="text-current">
+                                            <LxLogo />
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="flex space-x-2">
+                                <div className="flex justify-center space-x-2">
+                                    {" "}
                                     <RotatingText
                                         texts={["Windows", "macOS", "Linux"]}
-                                        mainClassName="text-white px-3 bg-amber-600 text-black overflow-hidden py-1 rounded-lg"
+                                        mainClassName="text-black dark:text-white px-3 bg-amber-400 dark:bg-amber-600 overflow-hidden py-1 rounded-lg"
                                         staggerFrom={"last"}
                                         initial={{ y: "100%" }}
                                         animate={{ y: 0 }}
@@ -228,7 +234,7 @@ function LxDownload() {
                                     />
                                     <RotatingText
                                         texts={["X64", "Arm64"]}
-                                        mainClassName="text-white px-3 bg-indigo-500 text-black overflow-hidden py-1 rounded-lg"
+                                        mainClassName="text-black dark:text-white px-3 bg-indigo-400 dark:bg-indigo-600 overflow-hidden py-1 rounded-lg"
                                         staggerFrom={"last"}
                                         initial={{ y: "100%" }}
                                         animate={{ y: 0 }}
@@ -239,26 +245,25 @@ function LxDownload() {
                                     />
                                 </div>
                             </div>
-
                             {isLoading && (
                                 <Loading
-                                    className="w-full h-[100px]"
+                                    className="w-full h-[100px] mt-8"
                                     indicator
                                     loading
                                     preventScrollThrough
-                                    showOverlay
+                                    showOverlay={false}
                                 />
                             )}
-
                             {isLoading === false && (
                                 <div className="pt-8">
                                     <Space size="small">
                                         <Button
                                             size="large"
+                                            theme="primary"
                                             variant="base"
                                             disabled={!recommendedBuild}
                                             onClick={onRecommendedDownloadClick}>
-                                            <span>
+                                            <span className="text-black dark:text-white">
                                                 {recommendedBuild
                                                     ? `${t("download")} (${recommendedBuild.name})`
                                                     : t("noRecommendedBuild")}
@@ -270,26 +275,28 @@ function LxDownload() {
                                             direction="right"
                                             hideAfterItemClick
                                             options={downloadOptions}
-                                            placement="bottom"
+                                            placement="bottom-right"
                                             trigger="click"
                                             onClick={onMenuItemClicked}>
                                             <Button
-                                                ghost
+                                                theme="primary"
                                                 size="large"
                                                 variant="outline"
+                                                style={{ backgroundColor: "transparent" }}
                                                 icon={<ChevronDownIcon />}></Button>
                                         </Dropdown>
                                     </Space>
                                 </div>
                             )}
-
                             {isLoading === undefined && (
                                 <div className="pt-8">
-                                    <div className="bg-red-500/10 p-6 rounded-lg border border-red-500/30 text-center">
-                                        <div className="text-red-500 text-lg font-medium mb-2">
+                                    <div className="bg-red-100 dark:bg-red-900/30 p-6 rounded-lg border border-red-300 dark:border-red-700 text-center">
+                                        <div className="text-red-700 dark:text-red-400 text-lg font-medium mb-2">
                                             {t("failedToLoadBuilds")}
                                         </div>
-                                        <p className="text-white/70 mb-4">{t("failedToLoadBuildsDescription")}</p>
+                                        <p className="text-red-600 dark:text-red-300/80 mb-4">
+                                            {t("failedToLoadBuildsDescription")}
+                                        </p>
                                         <Button
                                             size="large"
                                             variant="outline"
@@ -308,4 +315,7 @@ function LxDownload() {
     );
 }
 
+export default LxDownload;
+
+// Must Keep for ReactRouter
 export const Component = () => LxDownload();
