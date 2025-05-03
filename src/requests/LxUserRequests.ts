@@ -39,6 +39,12 @@ export async function checkUserIsPaidAsync(token: string): Promise<IResponse<boo
     return await getAsync(endPoint, buildHeader(token));
 }
 
+export async function revokeUserAccountAsync(token: string): Promise<IResponse<string> | undefined> {
+    const endPoint = "/User/revoke";
+
+    return await deleteAsync(endPoint, buildHeader(token));
+}
+
 export async function redeemAsync(orderNumber: string, token: string): Promise<IResponse<string> | undefined> {
     const endPoint = `Afdian/redeem/${orderNumber}`;
 

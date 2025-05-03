@@ -2,7 +2,19 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { MoneyIcon, SecuredIcon } from "tdesign-icons-react";
-import { Alert, Avatar, Button, Card, Col, Divider, Loading, NotificationPlugin, Row } from "tdesign-react";
+import {
+    Alert,
+    Avatar,
+    Button,
+    Card,
+    Col,
+    Dialog,
+    DialogProps,
+    Divider,
+    Loading,
+    NotificationPlugin,
+    Row
+} from "tdesign-react";
 import { TElement } from "tdesign-react/lib/common";
 
 import { clearForageStorageAsync } from "../../helpers/SessionHelper.ts";
@@ -17,7 +29,7 @@ import {
     StoredAuthUserId,
     StoredAuthUserName
 } from "../../requests/LxAuthRequests.ts";
-import { getUserCurrentChannelAsync } from "../../requests/LxUserRequests.ts";
+import { getUserCurrentChannelAsync, revokeUserAccountAsync } from "../../requests/LxUserRequests.ts";
 
 const t = i18next.t;
 
@@ -34,6 +46,8 @@ function UserHome() {
     const [userName, setUserName] = useState<string | null>();
     const [userEmail, setUserEmail] = useState<string | null>();
     const [userAvatarUrl, setUserAvatarUrl] = useState("https://tdesign.gtimg.com/site/avatar.jpg");
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [isDeleteUserVisible, setIsDeleteUserVisible] = useState(false);
 
     useEffect(() => {
         async function getStoredUserInfoAsync() {
@@ -140,6 +154,69 @@ function UserHome() {
         navigate("/");
     }
 
+    const handleClose: DialogProps["onClose"] = () => {
+        setIsDeleteUserVisible(false);
+    };
+
+    const onConfirm: DialogProps["onConfirm"] = async (context) => {
+        console.log("User confirmed to revoke account", context);
+
+        setIsDeleting(true);
+        setIsDeleteUserVisible(false);
+
+        const authToken = await getStorageItemAsync(StoredAuthToken);
+
+        if (!authToken) {
+            NotificationPlugin.error({
+                title: t("deleteAccountFailed"),
+                content: t("deleteAccountFailedDescription1"),
+                placement: "top-right",
+                duration: 3000,
+                offset: [-36, "5rem"],
+                closeBtn: true,
+                attach: () => document
+            }).then(() => {});
+            setIsDeleting(false);
+
+            return;
+        }
+
+        const revokeResult = await revokeUserAccountAsync(authToken);
+
+        if (
+            !revokeResult ||
+            !revokeResult.status ||
+            (revokeResult.status !== 200 && revokeResult.response !== "succeeded")
+        ) {
+            NotificationPlugin.error({
+                title: t("deleteAccountFailed"),
+                content: t("deleteAccountFailedDescription2"),
+                placement: "top-right",
+                duration: 3000,
+                offset: [-36, "5rem"],
+                closeBtn: true,
+                attach: () => document
+            }).then(() => {});
+            setIsDeleting(false);
+
+            return;
+        }
+
+        await logout();
+
+        NotificationPlugin.success({
+            title: t("deleteAccountSucceeded"),
+            content: t("deleteAccountSucceededDescription"),
+            placement: "top-right",
+            duration: 3000,
+            offset: [-36, "5rem"],
+            closeBtn: true,
+            attach: () => document
+        }).then(() => {});
+
+        setIsDeleting(false);
+    };
+
     return (
         <>
             <div>
@@ -155,7 +232,9 @@ function UserHome() {
                             <span>{userEmail}</span>
                         </Col>
                         <Col>
-                            <Button onClick={logout}>{t("logout")}</Button>
+                            <div className="mt-4">
+                                <Button onClick={logout}>{t("logout")}</Button>
+                            </div>
                         </Col>
                     </Col>
                 </Row>
@@ -178,6 +257,38 @@ function UserHome() {
                                     <Card title={userInfo.title} subtitle={userInfo.value} bordered headerBordered />
                                 </div>
                             ))}
+
+                        <Divider align="left" layout="horizontal" />
+
+                        <div className="border-2 border-dashed rounded-lg border-red-500 px-4 py-4 ">
+                            <Alert
+                                theme="error"
+                                title={t("revokeCsAccountTitle")}
+                                message={t("revokeCsAccountMessage")}
+                            />
+
+                            <div className="w-full place-content-end flex">
+                                <div className="mt-4">
+                                    <Button
+                                        theme="danger"
+                                        variant="base"
+                                        onClick={() => setIsDeleteUserVisible(true)}
+                                        loading={isDeleting}>
+                                        {t("logoutAndDelete")}
+                                    </Button>
+                                </div>
+                            </div>
+
+                            <Dialog
+                                theme="warning"
+                                header={t("confirmDelete")}
+                                visible={isDeleteUserVisible}
+                                confirmOnEnter
+                                onConfirm={onConfirm}
+                                onClose={handleClose}>
+                                <p>{t("revokeCsAccountMessage")}</p>
+                            </Dialog>
+                        </div>
                     </Col>
                     <Col sm={12} md={4}>
                         {tips.map((tip, i) => (
