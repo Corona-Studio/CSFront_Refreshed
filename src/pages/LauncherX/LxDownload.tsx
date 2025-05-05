@@ -315,7 +315,5 @@ function LxDownload() {
     );
 }
 
-export default LxDownload;
-
 // Must Keep for ReactRouter
 export const Component = () => LxDownload();
