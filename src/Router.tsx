@@ -1,6 +1,6 @@
 import i18next from "i18next";
 import { lazy } from "react";
-import { Route, createBrowserRouter, createRoutesFromElements } from "react-router";
+import { Route, createBrowserRouter, createRoutesFromElements, ScrollRestoration } from "react-router";
 
 import { isAdminSessionValidAsync, isUserSessionValidAsync } from "./helpers/SessionHelper.ts";
 import { adminPageMenuLinks } from "./pages/Admin/AdminPageMenuLinks.tsx";
@@ -23,7 +23,7 @@ const t = i18next.t;
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
-        <Route path="/" element={<App />} hydrateFallbackElement={<Fallback />} errorElement={<ErrorBoundary />}>
+        <Route path="/" element={<><ScrollRestoration /><App /></>} hydrateFallbackElement={<Fallback />} errorElement={<ErrorBoundary />}>
             <Route index element={<Home />} handle={{ title: () => "Corona Studio" }} />
             <Route path="lx">
                 <Route index element={<LxIndex />} handle={{ title: () => "LauncherX" }} />
