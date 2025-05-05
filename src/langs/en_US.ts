@@ -194,6 +194,18 @@ export const enUS = {
         noRecommendedBuild: "No Recommended Build",
         failedToLoadBuildsDescription: "Failed to load build list. Please check your network connection.",
         failedToLoadBuilds: "Failed to load build list.",
-        retry: "Retry"
+        retry: "Retry",
+        downloadThanks: "Thank You for Downloading",
+        downloadThanksDescription: "Your download should have started. Please refer to the setup guides below if you encounter issues.",
+        downloadThanksFollowGuide: "Please follow the guide below to complete the installation.",
+        setupGuides: "Setup Guides",
+        recommendedGuide: "Recommended Guide",
+        basedOnYourSystem: "Based on your system",
+        weRecommendReading: "We recommend reading the following guide to complete the installation.",
+        windowsSetupGuide: "Windows Setup Guide",
+        macosSetupGuide: "macOS Setup Guide",
+        linuxSetupGuide: "Linux Setup Guide",
+        guideFor: "Guide for",
+        viewGuide: "View Guide",
     }
 };
