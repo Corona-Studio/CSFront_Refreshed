@@ -215,7 +215,7 @@ function LxDownload() {
                                     <div className="flex justify-center space-x-4 items-center">
                                         {" "}
                                         <div className="text-current">
-                                            <LxLogo />
+                                            <LxLogo textClassName="font-bold text-gray-900 dark:text-white" />
                                         </div>
                                     </div>
                                 </div>
