@@ -29,3 +29,7 @@ This is the renewed official website for Corona Studio!
 | 设备管理页面       | ✅   |
 | 赞助者页面         | ✅   |
 | 管理员页面         | 🚧   |
+
+## 😄 仓库活动
+
+![Alt](https://repobeats.axiom.co/api/embed/0218d1839b4a887b0ae3a2be9edb1135240910d6.svg "Repobeats analytics image")
