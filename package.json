@@ -27,7 +27,7 @@
         "react-dom": "^19.1.0",
         "react-router": "^7.6.1",
         "tdesign-icons-react": "^0.5.0",
-        "tdesign-react": "^1.12.1",
+        "tdesign-react": "1.12.0",
         "react-helmet-async": "^2.0.5"
     },
     "devDependencies": {

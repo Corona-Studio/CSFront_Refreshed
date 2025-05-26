@@ -3068,10 +3068,10 @@ tdesign-icons-react@0.5.0, tdesign-icons-react@^0.5.0:
     "@babel/runtime" "^7.16.5"
     classnames "^2.2.6"
 
-tdesign-react@^1.12.1:
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/tdesign-react/-/tdesign-react-1.12.1.tgz#e09da8ed376dafd27f657271aab504ebea0bfaa1"
-  integrity sha512-mHS/RWQgYcVLnIdhzueLFzdvHk8O9Gw1weUXRYbOKx02QZE0v5AJ/ZFjqSRMO+XAtvVzuZ/4zUd1bikzjSC3pg==
+tdesign-react@1.12.0:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/tdesign-react/-/tdesign-react-1.12.0.tgz#53e336dc011b08636822b7035c412d16c839900e"
+  integrity sha512-9arAR3Hb66kP4eHigVIQIGKgqy0v82f3+d0rrKB4W/O0Qr+8G1FmFD0WZ/ACf5pWGKDtMgTkTklQAp3hMsBSgA==
   dependencies:
     "@babel/runtime" "~7.26.7"
     "@popperjs/core" "~2.11.2"
@@ -3091,7 +3091,7 @@ tdesign-react@^1.12.1:
     tdesign-icons-react "0.5.0"
     tinycolor2 "^1.4.2"
     tslib "~2.3.1"
-    validator "~13.15.0"
+    validator "~13.7.0"
 
 tinycolor2@^1.4.2:
   version "1.6.0"
@@ -3231,10 +3231,10 @@ util-deprecate@^1.0.2:
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
 
-validator@~13.15.0:
-  version "13.15.0"
-  resolved "https://registry.yarnpkg.com/validator/-/validator-13.15.0.tgz#2dc7ce057e7513a55585109eec29b2c8e8c1aefd"
-  integrity sha512-36B2ryl4+oL5QxZ3AzD0t5SsMNGvTtQHpjgFO5tbNxfXbMFkY822ktCDe1MnlqV3301QQI9SLHDNJokDI+Z9pA==
+validator@~13.7.0:
+  version "13.7.0"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-13.7.0.tgz#4f9658ba13ba8f3d82ee881d3516489ea85c0857"
+  integrity sha512-nYXQLCBkpJ8X6ltALua9dRrZDHVYxjJ1wgskNt1lH9fzGjs3tgojGSCBjmEPwkWS1y29+DrizMTW19Pr9uB2nw==
 
 vite-css-modules@^1.8.6:
   version "1.8.6"
