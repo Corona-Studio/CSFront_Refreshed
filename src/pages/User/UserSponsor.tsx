@@ -17,11 +17,12 @@ import {
 } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
+import { checkIsPaidImpl } from "../../helpers/PaymentHelper.ts";
 import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import { AfdOrderNumberPattern } from "../../helpers/ValidationRules.ts";
 import i18next from "../../i18n.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
-import { checkUserIsPaidAsync, redeemAsync } from "../../requests/LxUserRequests.ts";
+import { redeemAsync } from "../../requests/LxUserRequests.ts";
 
 const t = i18next.t;
 
@@ -47,21 +48,9 @@ function UserSponsor() {
         }
     ];
 
-    async function checkUserIsPaidImplAsync() {
-        const authToken = await getStorageItemAsync(StoredAuthToken);
-        return await checkUserIsPaidAsync(authToken ?? "");
-    }
-
     const isPaid = useQuery({
-        queryKey: ["userChannelInfo"],
-        queryFn: () =>
-            checkUserIsPaidImplAsync().then(async (r) => {
-                if (!r || !r.status) throw new Error(t("backendServerError"));
-                if (r.status === 404) throw new Error(t("failedToGetIsPaidDescription"));
-                if (r.response === undefined) throw new Error(t("backendServerError"));
-
-                return r.response!;
-            })
+        queryKey: ["isPaid"],
+        queryFn: () => checkIsPaidImpl()
     });
 
     if (isPaid.error) {

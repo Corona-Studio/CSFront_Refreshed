@@ -5,6 +5,7 @@ import { MoneyIcon, SecuredIcon } from "tdesign-icons-react";
 import {
     Alert,
     Avatar,
+    Badge,
     Button,
     Card,
     Col,
@@ -17,6 +18,7 @@ import {
 } from "tdesign-react";
 import { TElement } from "tdesign-react/lib/common";
 
+import { checkIsPaidImpl } from "../../helpers/PaymentHelper.ts";
 import { clearForageStorageAsync } from "../../helpers/SessionHelper.ts";
 import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import i18next from "../../i18n.ts";
@@ -217,6 +219,11 @@ function UserHome() {
         setIsDeleting(false);
     };
 
+    const isPaid = useQuery({
+        queryKey: ["isPaid"],
+        queryFn: () => checkIsPaidImpl()
+    });
+
     return (
         <>
             <div>
@@ -230,6 +237,13 @@ function UserHome() {
                         </Col>
                         <Col>
                             <span>{userEmail}</span>
+                        </Col>
+                        <Col>
+                            {isPaid.isLoading && <Loading />}
+
+                            {isPaid.data && (
+                                <Badge count={t("sponsorBadgeText")} shape="circle" size="medium" color="#FF5721" />
+                            )}
                         </Col>
                         <Col>
                             <div className="mt-4">

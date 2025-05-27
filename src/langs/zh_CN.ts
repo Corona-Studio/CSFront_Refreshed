@@ -246,7 +246,7 @@ export const zhCN = {
         windowsSetupGuide: "Windows 设置指南",
         macosSetupGuide: "macOS 设置指南",
         linuxSetupGuide: "Linux 设置指南",
-      
+
         guideFor: "适用于",
         viewGuide: "查看指南",
         revokeCsAccountTitle: "彻底删除日冕账号以及与之相关的所有数据",
@@ -262,6 +262,8 @@ export const zhCN = {
 
         deleteAccountSucceeded: "删除账号成功",
         deleteAccountSucceededDescription:
-            "删除账号成功，您的账号信息已经被删除，您将无法再使用该账号登录日冕工作室的任何服务。期待与您的再次相遇。"
+            "删除账号成功，您的账号信息已经被删除，您将无法再使用该账号登录日冕工作室的任何服务。期待与您的再次相遇。",
+
+        sponsorBadgeText: "荣誉股东"
     }
 };
