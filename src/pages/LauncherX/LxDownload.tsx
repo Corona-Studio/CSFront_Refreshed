@@ -6,6 +6,7 @@ import { ChevronDownIcon } from "tdesign-icons-react";
 import { Button, Dropdown, Loading, NotificationPlugin, Space } from "tdesign-react";
 import { DropdownOption } from "tdesign-react/es/dropdown/type";
 
+import { getBuildName } from "../../helpers/BuildHelper.ts";
 import { envVal } from "../../helpers/EnvHelper.ts";
 import { lxBackendUrl } from "../../requests/ApiConstants.ts";
 import { LauncherRawBuildModel, getAllStableBuildsAsync } from "../../requests/LxBuildRequests.ts";
@@ -98,9 +99,9 @@ function LxDownload() {
     }
 
     async function getLauncherBuilds() {
-        const buildsMap = await getAllStableBuildsAsync();
+        const builds = await getAllStableBuildsAsync();
 
-        if (!buildsMap) {
+        if (!builds) {
             await NotificationPlugin.info({
                 title: "获取失败",
                 content: "无法获取构建列表",
@@ -118,14 +119,17 @@ function LxDownload() {
         const options: DropdownOption[] = [];
         const buildsArray: { key: string; build: LauncherRawBuildModel }[] = [];
 
-        for (const [key, value] of Object.entries(buildsMap)) {
-            const build = value as LauncherRawBuildModel;
+        for (const fetchedBuild of builds) {
+            const build = fetchedBuild as LauncherRawBuildModel;
             const url = `${lxBackendUrl}/Build/get/${build.id}/${build.framework}.${build.runtime}.zip`;
+            const buildName = getBuildName(build.framework, build.runtime);
+
             options.push({
-                content: key,
+                content: buildName,
                 value: url
             });
-            buildsArray.push({ key, build });
+
+            buildsArray.push({ key: buildName, build });
         }
 
         setDownloadOptions(options);

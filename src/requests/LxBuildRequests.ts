@@ -17,11 +17,11 @@ export interface LauncherRawBuildModel {
     runtime: string;
 }
 
-export async function getAllStableBuildsAsync(): Promise<Map<string, LauncherRawBuildModel> | undefined> {
+export async function getAllStableBuildsAsync(): Promise<LauncherRawBuildModel[] | undefined> {
     const endPoint = "/Build/get/latest/all/stable";
 
     try {
-        const response = await csBackend.get<Map<string, LauncherRawBuildModel>>(endPoint);
+        const response = await csBackend.get<LauncherRawBuildModel[]>(endPoint);
 
         if (!response.data || response.data.size === 0) return undefined;
 
