@@ -23,7 +23,7 @@ export async function getAllStableBuildsAsync(): Promise<LauncherRawBuildModel[]
     try {
         const response = await csBackend.get<LauncherRawBuildModel[]>(endPoint);
 
-        if (!response.data || response.data.size === 0) return undefined;
+        if (!response.data || response.data.length === 0) return undefined;
 
         return response.data;
     } catch (error) {
