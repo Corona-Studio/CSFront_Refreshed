@@ -6,6 +6,7 @@ import { createRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
 import { RouterProvider } from "react-router";
 import { BackTop } from "tdesign-react";
+import "tdesign-react/es/_util/react-19-adapter";
 import "tdesign-react/es/style/index.css";
 
 import { router } from "./Router.tsx";
