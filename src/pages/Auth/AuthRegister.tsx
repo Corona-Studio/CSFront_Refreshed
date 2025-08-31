@@ -143,7 +143,7 @@ function AuthRegister() {
                     <FormItem
                         name="confirmPassword"
                         rules={[
-                            { required: true, message: t("afdOrderNumberRequired"), type: "error" },
+                            { required: true, message: t("passwordRequired"), type: "error" },
                             { validator: rePassword, message: t("passwordIsNotSame") }
                         ]}>
                         <Input

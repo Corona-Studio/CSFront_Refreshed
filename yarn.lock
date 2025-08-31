@@ -773,17 +773,17 @@
     "@tailwindcss/oxide" "4.1.11"
     tailwindcss "4.1.11"
 
-"@tanstack/query-core@5.83.0":
-  version "5.83.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.83.0.tgz#ac3bf337007bb7ea97b1fd2e7c3ceb4240f36dbc"
-  integrity sha512-0M8dA+amXUkyz5cVUm/B+zSk3xkQAcuXuz5/Q/LveT4ots2rBpPTZOzd7yJa2Utsf8D2Upl5KyjhHRY+9lB/XA==
+"@tanstack/query-core@5.85.6":
+  version "5.85.6"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.85.6.tgz#2af90f3c56c38fd2194e0ed1996122373c4bfca5"
+  integrity sha512-hCj0TktzdCv2bCepIdfwqVwUVWb+GSHm1Jnn8w+40lfhQ3m7lCO7ADRUJy+2unxQ/nzjh2ipC6ye69NDW3l73g==
 
-"@tanstack/react-query@^5.83.0":
-  version "5.83.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.83.0.tgz#e72cacdb03d2e6a7e4f82f5b2fc228118941d499"
-  integrity sha512-/XGYhZ3foc5H0VM2jLSD/NyBRIOK4q9kfeml4+0x2DlL6xVuAcVEW+hTlTapAmejObg0i3eNqhkr2dT+eciwoQ==
+"@tanstack/react-query@^5.85.6":
+  version "5.85.6"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.85.6.tgz#0885cd9e02f8a5aa228f6b5dc2122d22ba597d68"
+  integrity sha512-VUAag4ERjh+qlmg0wNivQIVCZUrYndqYu3/wPCVZd4r0E+1IqotbeyGTc+ICroL/PqbpSaGZg02zSWYfcvxbdA==
   dependencies:
-    "@tanstack/query-core" "5.83.0"
+    "@tanstack/query-core" "5.85.6"
 
 "@trivago/prettier-plugin-sort-imports@^5.2.2":
   version "5.2.2"
@@ -854,11 +854,6 @@
   version "1.15.8"
   resolved "https://registry.yarnpkg.com/@types/sortablejs/-/sortablejs-1.15.8.tgz#11ed555076046e00869a5ef85d1e7651e7a66ef6"
   integrity sha512-b79830lW+RZfwaztgs1aVPgbasJ8e7AXtZYHTELNXZPsERt4ymJdjV4OccDbHQAvHrCcFpbF78jkm0R6h/pZVg==
-
-"@types/tinycolor2@^1.4.3":
-  version "1.4.6"
-  resolved "https://registry.yarnpkg.com/@types/tinycolor2/-/tinycolor2-1.4.6.tgz#670cbc0caf4e58dd61d1e3a6f26386e473087f06"
-  integrity sha512-iEN8J0BoMnsWBqjVbWH/c0G0Hh7O21lpR2/+PrvAVgWdzL7eexIFm4JN/Wn10PTcmNdtS6U67r499mlWMXOxNw==
 
 "@types/validator@^13.1.3":
   version "13.12.2"
@@ -2035,10 +2030,10 @@ html-parse-stringify@^3.0.1:
   dependencies:
     void-elements "3.1.0"
 
-i18next@^25.3.2:
-  version "25.3.2"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-25.3.2.tgz#3d6a7d1dc058caa1b9bdca47fd585483e2e7a637"
-  integrity sha512-JSnbZDxRVbphc5jiptxr3o2zocy5dEqpVm9qCGdJwRNO+9saUJS0/u4LnM/13C23fUEWxAylPqKU/NpMV/IjqA==
+i18next@^25.4.2:
+  version "25.4.2"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-25.4.2.tgz#97a2c65d6c633b768b95055928c2f6086a672f08"
+  integrity sha512-gD4T25a6ovNXsfXY1TwHXXXLnD/K2t99jyYMCSimSCBnBRJVQr5j+VAaU83RJCPzrTGhVQ6dqIga66xO2rtd5g==
   dependencies:
     "@babel/runtime" "^7.27.6"
 
@@ -3214,23 +3209,22 @@ tar@^7.4.3:
     mkdirp "^3.0.1"
     yallist "^5.0.0"
 
-tdesign-icons-react@0.5.0, tdesign-icons-react@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/tdesign-icons-react/-/tdesign-icons-react-0.5.0.tgz#8afafaddecf1cf547d915ecca3db39264e964342"
-  integrity sha512-Gpl1Kxkb8+YXYjMsSW5W3kWy/drVB/huFLIHWhmJdUnEwUAW0Il+nDyb/BsRi51jLnalBwjYbOELEggH2qp6FQ==
+tdesign-icons-react@0.5.1, tdesign-icons-react@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/tdesign-icons-react/-/tdesign-icons-react-0.5.1.tgz#2b650214702e68c69b55e08f963d0cbedb5028a8"
+  integrity sha512-y+KDjIn1z+llAzk4vGJR9rFKjMwpKPwTPD799Na9TI/knmD3XG+stInHAhTpXT386lwQwm4OGpYS98eE3DKOVQ==
   dependencies:
     "@babel/runtime" "^7.16.5"
     classnames "^2.2.6"
 
-tdesign-react@^1.13.1:
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/tdesign-react/-/tdesign-react-1.13.1.tgz#778717dbc88e6b99a7a048a883be891b0c47c2e5"
-  integrity sha512-SPQNIoMFYUJraH83cu6F2VvQgX19XaVPwrQ/iMxk9f8jqrltcncXcoQwmT3rdqFPu1w0u9x68Kap4BZUmLwxRA==
+tdesign-react@^1.14.5:
+  version "1.14.5"
+  resolved "https://registry.yarnpkg.com/tdesign-react/-/tdesign-react-1.14.5.tgz#d6c45356199293741ed220f3744a433ff2e6117d"
+  integrity sha512-t1TWQ6By/JZ+awGzyW3FqcH8n+vgAU8KzcGWnjtMCHPhHiqJgcwcdVPkP0Gf0txUxYbZkhHPVvWwb/NryL3JEA==
   dependencies:
     "@babel/runtime" "~7.26.7"
     "@popperjs/core" "~2.11.2"
     "@types/sortablejs" "^1.10.7"
-    "@types/tinycolor2" "^1.4.3"
     "@types/validator" "^13.1.3"
     classnames "~2.5.1"
     dayjs "1.11.10"
@@ -3242,15 +3236,9 @@ tdesign-react@^1.13.1:
     react-is "^18.2.0"
     react-transition-group "~4.4.1"
     sortablejs "^1.15.0"
-    tdesign-icons-react "0.5.0"
-    tinycolor2 "^1.4.2"
+    tdesign-icons-react "0.5.1"
     tslib "~2.3.1"
     validator "~13.15.0"
-
-tinycolor2@^1.4.2:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.6.0.tgz#f98007460169b0263b97072c5ae92484ce02d09e"
-  integrity sha512-XPaBkWQJdsf3pLKJV9p4qN/S+fm2Oj8AIPo1BTUhg5oxkvm9+SVEGFdhyOz7tTdUTfvxMiAs4sp6/eZO2Ew+pw==
 
 tinyglobby@^0.2.14:
   version "0.2.14"
