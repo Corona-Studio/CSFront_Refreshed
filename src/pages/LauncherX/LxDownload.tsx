@@ -160,8 +160,8 @@ function LxDownload() {
     }
 
     useEffect(() => {
-        getLauncherBuilds().then();
-    });
+        getLauncherBuilds();
+    }, []);
 
     function onMenuItemClicked(dropdownItem: DropdownOption) {
         if (!dropdownItem.value) return;
