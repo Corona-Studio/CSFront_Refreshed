@@ -161,7 +161,7 @@ function LxDownload() {
 
     useEffect(() => {
         getLauncherBuilds();
-    }, []);
+    }, []); // eslint-disable-line
 
     function onMenuItemClicked(dropdownItem: DropdownOption) {
         if (!dropdownItem.value) return;
