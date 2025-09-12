@@ -113,9 +113,11 @@ function Home() {
                                 <div className="min-w-[12rem]">
                                     <RotatingText
                                         texts={["LauncherX", "🐱", "ConnectX", "P2P", "CMFS"]}
-                                        mainClassName="text-4xl px-3 bg-amber-400 text-black overflow-hidden py-2 rounded-lg"
+                                        mainClassName="text-4xl px-3 bg-amber-400 text-black overflow-hidden py-2 justify-center rounded-lg"
                                         staggerFrom={"last"}
+                                        initial={{ y: "100%" }}
                                         animate={{ y: 0 }}
+                                        exit={{ y: "-120%" }}
                                         staggerDuration={0.025}
                                         splitLevelClassName="overflow-hidden"
                                         transition={{ type: "spring", damping: 30, stiffness: 400 }}
