@@ -2,7 +2,7 @@ import i18next from "i18next";
 import { lazy, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router";
-import { ChevronDownIcon } from "tdesign-icons-react";
+import { ChevronDownIcon, IconFont } from "tdesign-icons-react";
 import { Button, Dropdown, Loading, NotificationPlugin, Space } from "tdesign-react";
 import { DropdownOption } from "tdesign-react/es/dropdown/type";
 
@@ -26,6 +26,7 @@ interface RecommendedBuild {
 function LxDownload() {
     const navigate = useNavigate(); // Added hook usage
     const [isLoading, setIsLoading] = useState<boolean | undefined>(true);
+    const [updatedAt, setUpdatedAt] = useState<string | null>(null);
     const [downloadOptions, setDownloadOptions] = useState<DropdownOption[]>([]);
     const [recommendedBuild, setRecommendedBuild] = useState<RecommendedBuild | null>(null);
 
@@ -133,6 +134,7 @@ function LxDownload() {
         }
 
         setDownloadOptions(options);
+        setUpdatedAt(builds[0]!.releaseDate ?? null);
 
         const { os, arch } = detectPlatform();
         let bestMatch: RecommendedBuild | null = null;
@@ -225,6 +227,12 @@ function LxDownload() {
                                 </div>
                                 <div className="flex justify-center space-x-2">
                                     {" "}
+                                    <span
+                                        className="inline-block align-middle relative text-black dark:text-white px-3 bg-zinc-300 dark:bg-zinc-700 overflow-hidden py-1 rounded-lg">
+                                        <div>
+                                            <IconFont className="inline-block -translate-y-0.5" name="rocket" /> {(updatedAt ?? "-").split("T")[0]}
+                                        </div>
+                                    </span>
                                     <RotatingText
                                         texts={["Windows", "macOS", "Linux"]}
                                         mainClassName="text-black dark:text-white px-3 bg-amber-400 dark:bg-amber-600 overflow-hidden py-1 rounded-lg"
