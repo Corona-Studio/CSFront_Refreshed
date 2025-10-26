@@ -2,7 +2,7 @@ import i18next from "i18next";
 import { lazy, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router";
-import { ChevronDownIcon, IconFont } from "tdesign-icons-react";
+import { ChevronDownIcon, RocketIcon } from "tdesign-icons-react";
 import { Button, Dropdown, Loading, NotificationPlugin, Space } from "tdesign-react";
 import { DropdownOption } from "tdesign-react/es/dropdown/type";
 
@@ -162,7 +162,7 @@ function LxDownload() {
     }
 
     useEffect(() => {
-        getLauncherBuilds();
+        getLauncherBuilds(); // eslint-disable-line
     }, []); // eslint-disable-line
 
     function onMenuItemClicked(dropdownItem: DropdownOption) {
@@ -230,7 +230,7 @@ function LxDownload() {
                                     <span
                                         className="inline-block align-middle relative text-black dark:text-white px-3 bg-zinc-300 dark:bg-zinc-700 overflow-hidden py-1 rounded-lg">
                                         <div>
-                                            <IconFont className="inline-block -translate-y-0.5" name="rocket" /> {(updatedAt ?? "-").split("T")[0]}
+                                            <RocketIcon className="inline-block -translate-y-0.5" /> {(updatedAt ?? "-").split("T")[0]}
                                         </div>
                                     </span>
                                     <RotatingText
