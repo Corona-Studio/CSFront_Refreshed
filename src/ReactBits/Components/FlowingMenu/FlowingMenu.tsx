@@ -1,5 +1,5 @@
 /*
-	Installed from https://reactbits.dev/ts/tailwind/
+    Installed from https://reactbits.dev/ts/tailwind/
 */
 import { gsap } from "gsap";
 import React from "react";
@@ -85,7 +85,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ link, text, image }) => {
                 {text}
             </a>
             <div
-                className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none bg-white translate-y-[101%]"
+                className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none bg-white dark:bg-zinc-900 translate-y-[101%]"
                 ref={marqueeRef}>
                 <div className="h-full w-[200%] flex" ref={marqueeInnerRef}>
                     <div className="flex items-center relative h-full w-[200%] will-change-transform animate-marquee">
