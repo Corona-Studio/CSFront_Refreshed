@@ -6,7 +6,7 @@ interface LxLogoProps {
     textClassName?: string;
 }
 
-const LxLogo: FC<LxLogoProps> = ({ textClassName = "font-bold text-white" }) => {
+const LxLogo: FC<LxLogoProps> = ({ textClassName = "font-bold text-white text-5xl! md:text-6xl" }) => {
     return (
         <>
             <h1 className={textClassName}>

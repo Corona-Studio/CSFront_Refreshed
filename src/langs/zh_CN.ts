@@ -32,7 +32,7 @@ export const zhCN = {
 
         aggressiveOptimizing: "极致的优化",
         aggressiveOptimizingDescription:
-            "LauncherX 采用了最新的开发技术，同时包含了我们精心设计的多任务调度和分片下载/断点续传技术。最大程度保证您的浏览和安装体验。",
+            "LauncherX 始终与时俱进，始终同步到最新的开发技术，借助这些技术，我们得以更好地设计多任务调度和分片下载/断点续传等功能。这些精心打造的功能可以最大程度保证您的浏览和安装体验。",
 
         alwaysGetLatestUpdates: "始终获取最新更新",
         alwaysGetLatestUpdatesDescription:

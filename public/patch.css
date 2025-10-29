@@ -23,12 +23,15 @@
     background: linear-gradient(to right, rgb(255, 208, 89), rgb(249, 170, 60));
     color: transparent !important;
 }
+
 .shine {
     background-color: rgba(250, 250, 233, 0.5555555555555555514) !important;
 }
+
 .shining-eternal {
     animation: shining 3s ease-in-out infinite;
 }
+
 @keyframes shining {
     0% {
         background-color: #f5d66623;
@@ -41,6 +44,20 @@
     100% {
         background-color: #f5d66623;
     }
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadein 1s forwards cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 * {
@@ -65,8 +82,8 @@
         filter,
         -webkit-backdrop-filter,
         backdrop-filter;
-    transition-timing-function: var(
-        --tw-ease,
-        var(--default-transition-timing-function) /* cubic-bezier(0.4, 0, 0.2, 1) */
-    );
+    transition-timing-function: var(--tw-ease,
+            var(--default-transition-timing-function)
+            /* cubic-bezier(0.4, 0, 0.2, 1) */
+        );
 }
