@@ -90,8 +90,8 @@ function Home() {
                             <h3>{t("welcomeAccess")}</h3>
                             <div>
                                 <DecryptedText
-                                    className="dark:text-white text-6xl font-bold"
-                                    encryptedClassName="dark:text-white text-6xl font-bold"
+                                    className="dark:text-white text-4xl lg:text-6xl font-bold"
+                                    encryptedClassName="dark:text-white text-4xl lg:text-6xl font-bold"
                                     sequential={true}
                                     text="Corona Studio"
                                     useOriginalCharsOnly={true}
@@ -100,8 +100,8 @@ function Home() {
                                 />
                             </div>
                             <DecryptedText
-                                className="dark:text-white text-6xl font-bold"
-                                encryptedClassName="dark:text-white text-6xl font-bold"
+                                className="dark:text-white text-4xl lg:text-6xl font-bold"
+                                encryptedClassName="dark:text-white text-4xl lg:text-6xl font-bold"
                                 sequential={true}
                                 text={t("corona_studio")}
                                 useOriginalCharsOnly={false}
@@ -109,11 +109,11 @@ function Home() {
                                 revealDirection="start"
                             />
                             <div className="space-x-4 flex flex-wrap gap-y-4 items-center">
-                                <span className="text-4xl whitespace-nowrap">{t("weDevelop")}</span>
+                                <span className="text-2xl lg:text-4xl whitespace-nowrap">{t("weDevelop")}</span>
                                 <div className="min-w-[12rem]">
                                     <RotatingText
                                         texts={["LauncherX", "🐱", "ConnectX", "P2P", "CMFS"]}
-                                        mainClassName="text-4xl px-3 bg-amber-400 text-black overflow-hidden py-2 justify-center rounded-lg"
+                                        mainClassName="text-2xl lg:text-4xl px-3 bg-amber-400 text-black overflow-hidden py-2 justify-center rounded-lg"
                                         staggerFrom={"last"}
                                         initial={{ y: "100%" }}
                                         animate={{ y: 0 }}
@@ -145,7 +145,7 @@ function Home() {
 
                 <div className="p-[12.5%] w-full">
                     <div className="m-auto">
-                        <h2 className="font-bold pb-8 float-end">{t("ourProjects")}</h2>
+                        <h2 className="font-bold pb-8 float-end?">{t("ourProjects")}</h2>
                         <Row gutter={[16, 16]} className="w-full">
                             {projectsArray.map((project, i) => (
                                 <Col sm={12} md={6} lg={4} xl={4} key={i}>
