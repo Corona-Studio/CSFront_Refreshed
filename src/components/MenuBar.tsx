@@ -90,6 +90,7 @@ function MenuBar() {
         to(value);
     }
 
+    // eslint-disable-next-line react-hooks/immutability
     document.documentElement.lang = langCodeMapping.get(i18next.language) ?? "zh";
 
     function onLanguageMenuItemClicked(dropdownItem: DropdownOption) {
@@ -121,7 +122,7 @@ function MenuBar() {
                 trigger="hover"
                 options={languageOptions}
                 onClick={onLanguageMenuItemClicked}>
-                <Button variant="text" shape="square" className="flex lg:hidden" icon={<EarthIcon />} />
+                <Button variant="text" shape="square" className="flex" icon={<EarthIcon />} />
             </Dropdown>
             <Dropdown
                 direction="right"
@@ -130,7 +131,7 @@ function MenuBar() {
                 trigger="hover"
                 options={linkOptions}
                 onClick={onMenuItemClicked}>
-                <Button variant="text" shape="square" className="flex lg:hidden" icon={<ViewListIcon />} />
+                <Button variant="text" shape="square" className="flex lg:hidden!" icon={<ViewListIcon />} />
             </Dropdown>
         </div>
     );

@@ -67,19 +67,19 @@ h1 {
 }
 
 h2 {
-    @apply text-5xl dark:text-white;
+    @apply text-3xl lg:text-5xl dark:text-white;
 }
 
 h3 {
-    @apply text-4xl dark:text-white;
+    @apply text-2xl lg:text-4xl dark:text-white;
 }
 
 h4 {
-    @apply text-3xl dark:text-white;
+    @apply text-xl lg:text-3xl dark:text-white;
 }
 
 h5 {
-    @apply text-2xl dark:text-white;
+    @apply text-lg lg:text-2xl dark:text-white;
 }
 
 span,
@@ -94,8 +94,13 @@ p {
 }
 
 @keyframes marquee {
-    0% { transform: translateX(0%); }
-    100% { transform: translateX(-50%); }
+    0% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
 @layer utilities {
