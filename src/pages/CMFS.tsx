@@ -58,7 +58,7 @@ function CMFS() {
                     <div className={styles.midBlurBg} style={{ pointerEvents: "none" }}></div>
 
                     <div className="z-10 absolute w-full h-full grid place-items-center">
-                        <div className="place-items-center space-y-3">
+                        <div className="grid items-center justify-items-center">
                             <img
                                 src={new URL(`../assets/cmfs.png`, import.meta.url).href}
                                 alt="CMFS"
@@ -69,7 +69,7 @@ function CMFS() {
                             <Button size="large" onClick={() => window.scrollTo({ top: document.getElementById("srvlst")!.offsetTop, behavior: "smooth" })} className="my-5! block " shape="round" >
                                 {t("joinServer")}
                             </Button>
-                            <br />
+
                             <Button title="将会跳转到CMF首页 | It leads you to the homepage of CMF" href="https://craftmine.fun" target="_blank" variant="text" className="border-0! text-shadow-md text-shadow-white/30 pt-1! hover:border-b-4! block! transition active:border-b-2! hover:bg-zinc-500/50! border-b-amber-50! rounded-none!" shape="round" >
                                 了解更多 <JumpIcon className="ml-1 translate-y-1" />
                             </Button>
