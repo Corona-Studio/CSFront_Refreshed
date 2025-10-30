@@ -26,9 +26,6 @@ export const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<><ScrollRestoration /><App /></>} hydrateFallbackElement={<Fallback />} errorElement={<ErrorBoundary />}>
             <Route index element={<Home />} handle={{ title: () => "Corona Studio" }} />
-            {/*<Route handle={{ title: () => `Corona Studio Event` }} path="events-static" element={<StaticEvent />} >
-                <Route handle={{ title: () => `Corona Studio Event` }} path=":path" />
-            </Route>*/}
             <Route path="lx">
                 <Route index element={<LxIndex />} handle={{ title: () => "LauncherX" }} />
                 <Route
