@@ -1,5 +1,5 @@
 /*
-	Installed from https://reactbits.dev/ts/tailwind/
+    Installed from https://reactbits.dev/ts/tailwind/
 */
 //@ts-nocheck
 import { gsap } from "gsap";
@@ -64,7 +64,7 @@ const GridMotion: FC<GridMotionProps> = ({ items = [], gradientColor = "black" }
                 style={{
                     background: `radial-gradient(circle, ${gradientColor} 0%, transparent 100%)`
                 }}>
-                <div className="gap-4 flex-none relative w-[150vw] h-[150vh] grid grid-rows-4 grid-cols-1 rotate-[-15deg] origin-center z-[2]">
+                <div className="gap-4 flex-none relative w-[180vw] md:w-[150vw] h-[150vh] grid grid-rows-8 md:grid-rows-4 grid-cols-1 rotate-[-15deg] origin-center z-[2]">
                     {Array.from({ length: 4 }, (_, rowIndex) => (
                         <div
                             key={rowIndex}

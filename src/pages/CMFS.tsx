@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import { Button, Timeline } from "tdesign-react";
 
 import styles from "./CMFS.module.css";
+import { JumpIcon } from "tdesign-icons-react";
 
 const FlowingMenu = lazy(() => import("../ReactBits/Components/FlowingMenu/FlowingMenu.tsx"));
 const Masonry = lazy(() => import("../ReactBits/Components/Masonry/Masonry.tsx"));
@@ -19,17 +20,17 @@ function CMFS() {
         .map((x, i) => ({
             id: i,
             image: new URL(`../assets/landscapes/${x}.webp`, import.meta.url).href,
-            height: heights[Math.floor(Math.random() * heights.length)]
+            height: heights[Math.floor(Math.random() * heights.length)] // eslint-disable-line
         }))
-        .map((value) => ({ value, sort: Math.random() }))
+        .map((value) => ({ value, sort: Math.random() })) // eslint-disable-line
         .sort((a, b) => a.sort - b.sort)
         .map(({ value }) => value);
 
     const serverListItems = [
-        { link: "#", text: "cmfs.kami.su", image: new URL(`../assets/landscapes/1.webp`, import.meta.url).href },
-        { link: "#", text: "pure.cmfs.kami.su", image: new URL(`../assets/landscapes/5.webp`, import.meta.url).href },
-        { link: "#", text: "lapp.kami.su", image: new URL(`../assets/landscapes/10.webp`, import.meta.url).href },
-        { link: "#", text: "lapp.cmfs.kami.su", image: new URL(`../assets/landscapes/15.webp`, import.meta.url).href }
+        { link: "https://craftmine.fun/cmfs/pure/survival", text: "pure.craftmine.fun", image: new URL(`../assets/landscapes/1.webp`, import.meta.url).href },
+        // { link: "https://craftmine.fun/cmfs/pure/survival", text: "pure.cmfs.kami.su 纯净生存国际解析", image: new URL(`../assets/landscapes/5.webp`, import.meta.url).href },
+        { link: "https://craftmine.fun/cmfs/pure/radost", text: "pure.craftmine.fun 小游戏", image: new URL(`../assets/landscapes/10.webp`, import.meta.url).href },
+        { link: "https://craftmine.fun/cmfs/mood/lappland", text: "lapp.cmfs.kami.su", image: new URL(`../assets/landscapes/15.webp`, import.meta.url).href }
     ];
 
     const timeline = Array(9)
@@ -57,7 +58,7 @@ function CMFS() {
                     <div className={styles.midBlurBg} style={{ pointerEvents: "none" }}></div>
 
                     <div className="z-10 absolute w-full h-full grid place-items-center">
-                        <div className="place-items-center">
+                        <div className="place-items-center space-y-3">
                             <img
                                 src={new URL(`../assets/cmfs.png`, import.meta.url).href}
                                 alt="CMFS"
@@ -65,8 +66,12 @@ function CMFS() {
                                 width={200}
                             />
 
-                            <Button size="large" shape="round">
+                            <Button size="large" onClick={() => window.scrollTo({ top: document.getElementById("srvlst")!.offsetTop, behavior: "smooth" })} className="my-5! block " shape="round" >
                                 {t("joinServer")}
+                            </Button>
+                            <br />
+                            <Button title="将会跳转到CMF首页 | It leads you to the homepage of CMF" href="https://craftmine.fun" target="_blank" variant="text" className="border-0! text-shadow-md text-shadow-white/30 pt-1! hover:border-b-4! block! transition active:border-b-2! hover:bg-zinc-500/50! border-b-amber-50! rounded-none!" shape="round" >
+                                了解更多 <JumpIcon className="ml-1 translate-y-1" />
                             </Button>
                         </div>
                     </div>
@@ -74,7 +79,8 @@ function CMFS() {
 
                 <div className="w-full text-white">
                     <div className="py-[12.5%] w-full bg-gray-900">
-                        <h2 className="px-[12.5%] pb-[6%] font-bold">{t("serverList")}</h2>
+                        <h2 id="srvlst" className="px-[12.5%] pb-3 font-bold">{t("serverList")}</h2>
+                        <p className="px-[12.5%] pb-[6%] text-lg">点击跳转到服务器详细信息显示页面。</p>
                         <div style={{ height: "600px", position: "relative" }}>
                             <FlowingMenu items={serverListItems} />
                         </div>

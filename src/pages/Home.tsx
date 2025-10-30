@@ -139,7 +139,7 @@ function Home() {
                     </div>
                 </div>
 
-                <div className="h-[30rem]">
+                <div className="h-56 lg:h-120">
                     <GridMotion items={images} gradientColor={gradientColor} />
                 </div>
 

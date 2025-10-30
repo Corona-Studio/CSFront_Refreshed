@@ -6,6 +6,7 @@ import { ArrowRightIcon } from "tdesign-icons-react";
 import { Button, Col, Row, Statistic } from "tdesign-react";
 
 import styles from "./LxHome.module.css";
+import MagicBento, { BentoCardProps } from "../../ReactBits/Components/MagicBento/MagicBento.tsx";
 
 const LetterGlitch = lazy(() => import("../../ReactBits/Backgrounds/LetterGlitch/LetterGlitch.tsx"));
 const BounceCards = lazy(() => import("../../ReactBits/Components/BounceCards/BounceCards.tsx"));
@@ -14,6 +15,61 @@ const RollingGallery = lazy(() => import("../../ReactBits/Components/RollingGall
 const RotatingText = lazy(() => import("../../ReactBits/TextAnimations/RotatingText/RotatingText.tsx"));
 const BannerContainer = lazy(() => import("../../components/BannerContainer.tsx"));
 const LxLogo = lazy(() => import("../../components/LxLogo.tsx"));
+
+const launcherImages = Array(13)
+    .fill(1)
+    .map((x, y) => x + y)
+    .filter((x) => x % 2 !== 0)
+    .map((x) => new URL(`../../assets/lx/LauncherX_${x}.webp`, import.meta.url).href);
+
+const cardData: BentoCardProps[] = [
+    {
+        bgImage: '#fecaca',
+        bgStyle: {
+            opacity: 0,
+            transform: 'scale(300%)',
+            top: 3
+        },
+        title: 'ConnectX',
+        description: '多人游戏更便利',
+        label: 'P2P/中继双模'
+    },
+    {
+        bgImage: '#05050555',
+        bgStyle: { opacity: 0 },
+        title: '跨平台',
+        description: 'Linux/Windows/macOS 几乎一致的体验',
+        label: 'x64+ARM64'
+    },
+    {
+        bgImage: '#39c5bb1f',
+        bgStyle: { opacity: 0 },
+        title: '整合包',
+        description: '主流平台整合包导入导出和资源安装支持',
+        label: 'Curseforge/Modrinth'
+    },
+    {
+        bgImage: '#33229955',
+        bgStyle: { opacity: 0 },
+        title: 'ProjBobcat',
+        description: '自研启动核心',
+        label: '安全 稳定 开源'
+    },
+    {
+        bgImage: '#11451419',
+        bgStyle: { opacity: 0 },
+        title: '简洁美观',
+        description: '即便放在桌面也是件艺术品',
+        label: '极简外观 暗藏玄机'
+    },
+    {
+        bgImage: '#19810033',
+        bgStyle: { opacity: 0 },
+        title: '多线下载',
+        description: '最大化利用上下游带宽以高速下载',
+        label: '高效便捷'
+    }
+];
 
 const t = i18next.t;
 
@@ -35,11 +91,7 @@ function LxHome() {
             )
         }));
 
-    const launcherImages = Array(13)
-        .fill(1)
-        .map((x, y) => x + y)
-        .filter((x) => x % 2 !== 0)
-        .map((x) => new URL(`../../assets/lx/LauncherX_${x}.webp`, import.meta.url).href);
+
 
     const usages = [
         t("modPackInstallation"),
@@ -90,52 +142,63 @@ function LxHome() {
                     <div className="z-10 absolute w-full h-full">
                         <div className={styles.maskRadial} />
 
-                        <div className="flex absolute left-1/8 h-screen transition">
+                        <div className="flex absolute md:left-1/8 h-screen transition px-5">
                             <div className="m-auto space-y-4">
                                 <div className="text-white">
                                     <LxLogo />
                                     <span>{t("lxSlogan")}</span>
                                 </div>
-                                <Button size="large" variant="base" onClick={() => navigate("/lx/download")}>
-                                    <div className="flex items-center space-x-4">
-                                        <span>{t("downloadNow")}</span>
-                                        <ArrowRightIcon />
-                                    </div>
-                                </Button>
+                                <div className="">
+                                    <Button size="large" variant="base" onClick={() => navigate("/lx/download")}>
+                                        <div className="flex items-center space-x-4 ">
+                                            <span>{t("downloadNow")}</span>
+                                            <ArrowRightIcon />
+                                        </div>
+                                    </Button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </BannerContainer>
 
+                <div className="w-full px-[12.5%]">
+                    <h3 className="text-3xl!">闲话<b>少说</b></h3>
+                    <MagicBento cardData={cardData}
+                        textAutoHide={true}
+                        enableStars={true}
+                        enableSpotlight={true}
+                        enableBorderGlow={true}
+                        clickEffect={true}
+                        spotlightRadius={300}
+                        particleCount={12}
+                        glowColor="255, 185, 0"
+                    />
+                </div>
                 <div className="w-full text-white">
-                    <div className="px-[12.5%] py-24 w-full bg-gray-900">
-                        <Row className="items-center" align="middle">
-                            <Col xs={12} lg={6}>
-                                <div className="text-white">
-                                    <div className="m-auto space-y-4">
-                                        <h2 className="font-bold">{t("powerfulFeatures")}</h2>
-                                        <div className="flex items-center space-x-6">
-                                            <h3>{t("notOnly")}</h3>
-                                            <RotatingText
-                                                texts={usages}
-                                                mainClassName="text-xl px-3 bg-amber-400 text-black overflow-hidden py-2 rounded-lg"
-                                                staggerFrom={"last"}
-                                                initial={{ y: "100%" }}
-                                                animate={{ y: 0 }}
-                                                exit={{ y: "-120%" }}
-                                                staggerDuration={0.025}
-                                                splitLevelClassName="overflow-hidden"
-                                                rotationInterval={2000}
-                                            />
-                                        </div>
-                                        <div className="pt-4">{t("powerfulFeaturesDescription")}</div>
-                                    </div>
+                    <div className=" py-24 w-full bg-gray-900 px-0 xl:px-[12.5%] grid grid-cols-1 xl:grid-cols-2 gap-2">
+                        <div className="w-full px-[12.5%] xl:px-0 ">
+                            <div className="m-auto space-y-4 text-white">
+                                <h2 className="font-bold m-0!">{t("powerfulFeatures")}</h2>
+                                <div className="flex flex-wrap items-center justify-start! justify-items-start! space-x-6 mt-3">
+                                    <h3 className="inline-block m-0! mr-1!">{t("notOnly")}</h3>
+                                    <RotatingText
+                                        texts={usages}
+                                        mainClassName="text-base lg:text-xl block px-2 lg:px-3 bg-amber-400 text-black overflow-hidden py-1  rounded-lg"
+                                        staggerFrom={"last"}
+                                        initial={{ y: "100%" }}
+                                        animate={{ y: 0 }}
+                                        exit={{ y: "-120%" }}
+                                        staggerDuration={0.025}
+                                        splitLevelClassName="overflow-hidden"
+                                        rotationInterval={2000}
+                                    />
                                 </div>
-                            </Col>
-                            <Col xs={12} lg={6}>
-                                <RollingGallery autoplay={true} pauseOnHover={true} images={launcherImages} />
-                            </Col>
-                        </Row>
+                                <div className="pt-4">{t("powerfulFeaturesDescription")}</div>
+                            </div>
+                        </div>
+                        <div className="w-full">
+                            <RollingGallery autoplay={true} pauseOnHover={true} images={launcherImages} />
+                        </div>
                     </div>
 
                     <div className="px-[12.5%] py-24 w-full bg-black">

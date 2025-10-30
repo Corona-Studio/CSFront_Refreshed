@@ -45,6 +45,8 @@ function ErrorBoundary() {
                     </div>
                 </div>
             </BannerContainer>
+            <p className="bg-black italic text-white p-1">(c) Corona Studio</p>
+            {/* problem: error boundary doesn't include the footer */}
         </>
     );
 }
