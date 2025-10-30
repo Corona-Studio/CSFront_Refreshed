@@ -94,6 +94,7 @@ export const zhCN = {
         resetPassword: "重设密码",
         confirmEmail: "确认邮箱",
         confirmEmailDetail: "正在确认邮箱 [{}] 的注册状态...",
+        onlyAllowedChars: "提示: 密码中只允许下列半角特殊符号: ",
 
         emailVerified: "邮箱已验证",
         emailVerifiedDescription: "邮箱成功验证，即将跳转到登陆页面...",

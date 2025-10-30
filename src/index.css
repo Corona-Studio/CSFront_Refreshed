@@ -87,6 +87,14 @@ p {
     @apply dark:text-white;
 }
 
+button.t-button {
+    @apply shadow hover:shadow-lg active:shadow-md transition;
+}
+
+code {
+    @apply inline-block bg-yellow-300/10 border border-yellow-600 text-center rounded-lg px-1.5 py-0 shadow-sm;
+}
+
 @layer utilities {
     .translate-101 {
         transform: translateX(101%);

@@ -30,7 +30,7 @@ function AuthConfirmEmail() {
             offset: [-36, "5rem"],
             closeBtn: true,
             attach: () => document
-        }).then(() => {});
+        }).then(() => { });
 
         setTimeout(() => {
             navigate("/");
@@ -55,7 +55,7 @@ function AuthConfirmEmail() {
 
     return (
         <>
-            <div className="p-8 space-y-4 bg-zinc-50/30 dark:bg-zinc-900/80 bg-opacity-25 rounded-2xl hover:shadow-lg active:shadow-md shadow transition">
+            <div className="p-5 sm:p-8 space-y-4 bg-zinc-50/30 dark:bg-zinc-900/80 bg-opacity-25 rounded-2xl hover:shadow-lg active:shadow-md shadow transition">
                 <h5>{t("confirmEmail")}</h5>
 
                 {isLoading && (

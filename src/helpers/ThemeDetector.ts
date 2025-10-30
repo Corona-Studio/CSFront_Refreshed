@@ -22,3 +22,7 @@ export const useThemeDetector = () => {
         ? localStorage.theme === "dark"
         : isDarkTheme;
 };
+
+export const getCurrentPageTheme = () => {
+    return document.documentElement.getAttribute("theme-mode") == "dark";
+}
