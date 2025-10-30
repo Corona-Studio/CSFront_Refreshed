@@ -77,8 +77,8 @@ function AuthPageBaseElement() {
                     />
                 </div>
 
-                <div className="z-20 absolute w-full h-full flex justify-center overflow-clip">
-                    <div className="w-fit h-[60%] flex-center mt-32 overflow-clip">
+                <div className="z-20 absolute w-full h-full flex justify-center overflow-clip ">
+                    <div className="w-fit h-[60%] flex-center mt-32 overflow-clip scale-95 sm:scale-100">
                         <Outlet />
                     </div>
                 </div>
