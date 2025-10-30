@@ -8,7 +8,8 @@ import {
     type FormProps,
     Input,
     InternalFormInstance,
-    NotificationPlugin
+    NotificationPlugin,
+    Tooltip
 } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
@@ -16,6 +17,8 @@ import { verifyEmail } from "../../helpers/EmailVerificationHelper.ts";
 import { useUrlQuery } from "../../helpers/UrlQueryHelper.ts";
 import { PasswordPattern } from "../../helpers/ValidationRules.ts";
 import i18next from "../../i18n.ts";
+import AllowedChars from "./AllowedChars.tsx";
+import { getCurrentPageTheme } from "../../helpers/ThemeDetector.ts";
 
 const t = i18next.t;
 
@@ -48,7 +51,7 @@ function AuthResetPassword() {
             offset: [-36, "5rem"],
             closeBtn: true,
             attach: () => document
-        }).then(() => {});
+        }).then(() => { });
 
         setTimeout(() => {
             navigate("/");
@@ -100,13 +103,15 @@ function AuthResetPassword() {
                             { required: true, message: t("passwordRequired"), type: "error" },
                             { pattern: PasswordPattern, message: t("passwordRuleDescription"), type: "error" }
                         ]}>
-                        <Input
-                            disabled={isLoading}
-                            type="password"
-                            prefixIcon={<KeyIcon />}
-                            clearable={true}
-                            placeholder={t("pleaseInputPassword")}
-                        />
+                        <Tooltip content={<AllowedChars />} trigger="focus" theme={getCurrentPageTheme() ? "default" : "light"}>
+                            <Input
+                                disabled={isLoading}
+                                type="password"
+                                prefixIcon={<KeyIcon />}
+                                clearable={true}
+                                placeholder={t("pleaseInputPassword")}
+                            />
+                        </Tooltip>
                     </FormItem>
                     <FormItem
                         name="confirmPassword"

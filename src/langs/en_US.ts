@@ -99,6 +99,7 @@ export const enUS = {
         resetPassword: "Reset Password",
         confirmEmail: "Confirm Email",
         confirmEmailDetail: "Verifying registration status for [{}]...",
+        onlyAllowedChars: "Hint: Only these half-width special characters allowed in password: ",
 
         emailVerified: "Email Verified",
         emailVerifiedDescription: "Verification successful, redirecting to login page...",
