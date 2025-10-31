@@ -1,6 +1,7 @@
 import localForage from "localforage";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
+import Constants from "./../../helpers/Constants.ts";
 import { KeyIcon, MailIcon, User1Icon } from "tdesign-icons-react";
 import {
     Button,
@@ -71,7 +72,7 @@ function AuthRegister() {
                     content: t("registerSucceededDescription"),
                     placement: "top-right",
                     duration: 3000,
-                    offset: [-36, "5rem"],
+                    offset: Constants.NotificationOffset,
                     closeBtn: true,
                     attach: () => document
                 });
@@ -84,7 +85,7 @@ function AuthRegister() {
                     content: (err as Error).message,
                     placement: "top-right",
                     duration: 3000,
-                    offset: [-36, "5rem"],
+                    offset: Constants.NotificationOffset,
                     closeBtn: true,
                     attach: () => document
                 });

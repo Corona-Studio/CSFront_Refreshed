@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { LockOnIcon, MailIcon } from "tdesign-icons-react";
 import { Button, Checkbox, Form, Input, NotificationPlugin } from "tdesign-react";
 import type { FormProps } from "tdesign-react";
+import Constants from "./../../helpers/Constants.ts";
 import FormItem from "tdesign-react/es/form/FormItem";
 
 import { clearForageStorageAsync, isUserSessionValidAsync } from "../../helpers/SessionHelper.ts";
@@ -99,7 +100,7 @@ function AuthLogin() {
                     content: t("loginSucceededDescription"),
                     placement: "top-right",
                     duration: 3000,
-                    offset: [-36, "5rem"],
+                    offset: Constants.NotificationOffset,
                     closeBtn: true,
                     attach: () => document
                 });
@@ -112,7 +113,7 @@ function AuthLogin() {
                     content: (err as Error).message,
                     placement: "top-right",
                     duration: 3000,
-                    offset: [-36, "5rem"],
+                    offset: Constants.NotificationOffset,
                     closeBtn: true,
                     attach: () => document
                 });

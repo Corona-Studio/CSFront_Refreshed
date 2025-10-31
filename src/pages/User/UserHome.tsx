@@ -18,6 +18,7 @@ import {
 } from "tdesign-react";
 import { TElement } from "tdesign-react/lib/common";
 
+import Constants from "./../../helpers/Constants.ts";
 import { checkIsPaidImpl } from "../../helpers/PaymentHelper.ts";
 import { clearForageStorageAsync } from "../../helpers/SessionHelper.ts";
 import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
@@ -126,10 +127,10 @@ function UserHome() {
             content: (userInfo.error as Error).message,
             placement: "top-right",
             duration: 3000,
-            offset: [-36, "5rem"],
+            offset: Constants.NotificationOffset,
             closeBtn: true,
             attach: () => document
-        }).then(() => {});
+        }).then(() => { });
     }
 
     async function logout() {
@@ -147,7 +148,7 @@ function UserHome() {
             content: t("loggedOutDescription"),
             placement: "top-right",
             duration: 3000,
-            offset: [-36, "5rem"],
+            offset: Constants.NotificationOffset,
             closeBtn: true,
             attach: () => document
         });
@@ -174,10 +175,10 @@ function UserHome() {
                 content: t("deleteAccountFailedDescription1"),
                 placement: "top-right",
                 duration: 3000,
-                offset: [-36, "5rem"],
+                offset: Constants.NotificationOffset,
                 closeBtn: true,
                 attach: () => document
-            }).then(() => {});
+            }).then(() => { });
             setIsDeleting(false);
 
             return;
@@ -195,10 +196,10 @@ function UserHome() {
                 content: t("deleteAccountFailedDescription2"),
                 placement: "top-right",
                 duration: 3000,
-                offset: [-36, "5rem"],
+                offset: Constants.NotificationOffset,
                 closeBtn: true,
                 attach: () => document
-            }).then(() => {});
+            }).then(() => { });
             setIsDeleting(false);
 
             return;
@@ -211,10 +212,10 @@ function UserHome() {
             content: t("deleteAccountSucceededDescription"),
             placement: "top-right",
             duration: 3000,
-            offset: [-36, "5rem"],
+            offset: Constants.NotificationOffset,
             closeBtn: true,
             attach: () => document
-        }).then(() => {});
+        }).then(() => { });
 
         setIsDeleting(false);
     };

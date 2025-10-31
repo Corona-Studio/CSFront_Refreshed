@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Delete1Icon } from "tdesign-icons-react";
 import { Button, Card, Col, Empty, Loading, NotificationPlugin, Row } from "tdesign-react";
 
+import Constants from "./../../helpers/Constants.ts";
 import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import i18next from "../../i18n.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
@@ -36,10 +37,10 @@ function UserDeviceManagement() {
             content: (devices.error as Error).message,
             placement: "top-right",
             duration: 3000,
-            offset: [-36, "5rem"],
+            offset: Constants.NotificationOffset,
             closeBtn: true,
             attach: () => document
-        }).then(() => {});
+        }).then(() => { });
     }
 
     async function deleteDeviceAsync(device: UserDeviceInfo) {
@@ -58,7 +59,7 @@ function UserDeviceManagement() {
                     content: `${t("deviceRemoved")} - ${device.computerName}`,
                     placement: "top-right",
                     duration: 3000,
-                    offset: [-36, "5rem"],
+                    offset: Constants.NotificationOffset,
                     closeBtn: true,
                     attach: () => document
                 });
@@ -71,7 +72,7 @@ function UserDeviceManagement() {
                     content: (error as Error).message,
                     placement: "top-right",
                     duration: 3000,
-                    offset: [-36, "5rem"],
+                    offset: Constants.NotificationOffset,
                     closeBtn: true,
                     attach: () => document
                 });

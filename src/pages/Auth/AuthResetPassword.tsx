@@ -11,6 +11,7 @@ import {
     NotificationPlugin,
     Tooltip
 } from "tdesign-react";
+import Constants from "./../../helpers/Constants.ts";
 import FormItem from "tdesign-react/es/form/FormItem";
 
 import { verifyEmail } from "../../helpers/EmailVerificationHelper.ts";
@@ -48,7 +49,7 @@ function AuthResetPassword() {
             content: t("resetPasswordLinkInvalidDescription"),
             placement: "top-right",
             duration: 10000,
-            offset: [-36, "5rem"],
+            offset: Constants.NotificationOffset,
             closeBtn: true,
             attach: () => document
         }).then(() => { });
