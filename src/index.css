@@ -87,7 +87,7 @@ p {
     @apply dark:text-white;
 }
 
-button.t-button {
+button.t-button:not(div.flex-center>button) {
     @apply shadow hover:shadow-lg active:shadow-md transition;
 }
 
