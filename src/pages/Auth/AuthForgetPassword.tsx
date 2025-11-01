@@ -4,6 +4,7 @@ import { MailIcon } from "tdesign-icons-react";
 import { Button, Form, type FormProps, Input, NotificationPlugin } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
+import Constants from "./../../helpers/Constants.ts";
 import { useUrlQuery } from "../../helpers/UrlQueryHelper.ts";
 import i18next from "../../i18n.ts";
 import { forgePasswordAsync } from "../../requests/LxAuthRequests.ts";
@@ -40,7 +41,7 @@ function AuthForgetPassword() {
                     content: t("forgetPasswordReqSucceededDescription"),
                     placement: "top-right",
                     duration: 3000,
-                    offset: [-36, "5rem"],
+                    offset: Constants.NotificationOffset,
                     closeBtn: true,
                     attach: () => document
                 });
@@ -53,7 +54,7 @@ function AuthForgetPassword() {
                     content: (err as Error).message,
                     placement: "top-right",
                     duration: 3000,
-                    offset: [-36, "5rem"],
+                    offset: Constants.NotificationOffset,
                     closeBtn: true,
                     attach: () => document
                 });

@@ -4,6 +4,7 @@ import { NotificationPlugin } from "tdesign-react";
 
 import i18next from "../i18n.ts";
 import { emailVerifyAsync } from "../requests/LxAuthRequests.ts";
+import Constants from "./Constants.ts";
 
 const t = i18next.t;
 
@@ -31,7 +32,7 @@ export function verifyEmail(
                 content: t("emailVerifiedDescription"),
                 placement: "top-right",
                 duration: 3000,
-                offset: [-36, "5rem"],
+                offset: Constants.NotificationOffset,
                 closeBtn: true,
                 attach: () => document
             });
@@ -45,7 +46,7 @@ export function verifyEmail(
                 content: (err as Error).message,
                 placement: "top-right",
                 duration: 3000,
-                offset: [-36, "5rem"],
+                offset: Constants.NotificationOffset,
                 closeBtn: true,
                 attach: () => document
             });

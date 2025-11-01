@@ -17,6 +17,7 @@ import {
 } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
+import Constants from "./../../helpers/Constants.ts";
 import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import { UserSponsorInfo, querySponsorInfoAsync, setUserAsSponsorAsync } from "../../requests/AdminRequests.ts";
 import { lxBackendUrl } from "../../requests/ApiConstants.ts";
@@ -85,7 +86,7 @@ function AdminSponsor() {
                         content: t("setSponsorSucceededDescription"),
                         placement: "top-right",
                         duration: 3000,
-                        offset: [-36, "5rem"],
+                        offset: Constants.NotificationOffset,
                         closeBtn: true,
                         attach: () => document
                     });
@@ -96,7 +97,7 @@ function AdminSponsor() {
                         content: (err as Error).message,
                         placement: "top-right",
                         duration: 3000,
-                        offset: [-36, "5rem"],
+                        offset: Constants.NotificationOffset,
                         closeBtn: true,
                         attach: () => document
                     });

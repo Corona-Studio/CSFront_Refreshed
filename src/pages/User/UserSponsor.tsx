@@ -17,6 +17,7 @@ import {
 } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
+import Constants from "./../../helpers/Constants.ts";
 import { checkIsPaidImpl } from "../../helpers/PaymentHelper.ts";
 import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import { AfdOrderNumberPattern } from "../../helpers/ValidationRules.ts";
@@ -59,10 +60,10 @@ function UserSponsor() {
             content: (isPaid.error as Error).message,
             placement: "top-right",
             duration: 3000,
-            offset: [-36, "5rem"],
+            offset: Constants.NotificationOffset,
             closeBtn: true,
             attach: () => document
-        }).then(() => {});
+        }).then(() => { });
     }
 
     const onSubmit: FormProps["onSubmit"] = (e) => {
@@ -91,7 +92,7 @@ function UserSponsor() {
                         content: t("sponsorThanksDescription"),
                         placement: "top-right",
                         duration: 3000,
-                        offset: [-36, "5rem"],
+                        offset: Constants.NotificationOffset,
                         closeBtn: true,
                         attach: () => document
                     });
@@ -104,7 +105,7 @@ function UserSponsor() {
                         content: (err as Error).message,
                         placement: "top-right",
                         duration: 3000,
-                        offset: [-36, "5rem"],
+                        offset: Constants.NotificationOffset,
                         closeBtn: true,
                         attach: () => document
                     });

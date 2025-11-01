@@ -11,6 +11,7 @@ import {
     NotificationPlugin,
     Tooltip
 } from "tdesign-react";
+import Constants from "./../../helpers/Constants.ts";
 import FormItem from "tdesign-react/es/form/FormItem";
 
 import { verifyEmail } from "../../helpers/EmailVerificationHelper.ts";
@@ -38,6 +39,7 @@ function AuthResetPassword() {
     const [isLoading, setIsLoading] = useState(false);
     const [isFaulted, setIsFaulted] = useState(false);
 
+    const tooltip = useRef(null);
     const form = useRef<InternalFormInstance>(null);
 
     useEffect(() => {
@@ -48,7 +50,7 @@ function AuthResetPassword() {
             content: t("resetPasswordLinkInvalidDescription"),
             placement: "top-right",
             duration: 10000,
-            offset: [-36, "5rem"],
+            offset: Constants.NotificationOffset,
             closeBtn: true,
             attach: () => document
         }).then(() => { });
@@ -97,22 +99,29 @@ function AuthResetPassword() {
                     colon={true}
                     labelWidth={0}
                     onSubmit={onSubmit}>
-                    <FormItem
-                        name="password"
-                        rules={[
-                            { required: true, message: t("passwordRequired"), type: "error" },
-                            { pattern: PasswordPattern, message: t("passwordRuleDescription"), type: "error" }
-                        ]}>
-                        <Tooltip content={<AllowedChars />} trigger="focus" theme={getCurrentPageTheme() ? "default" : "light"}>
+                    <FormItem className="h-px! p-0! m-0!">
+                        <div className="INTERNAL___WHERE_TOOLTIP_ATTACHES h-px! p-0! m-0!"></div>
+                    </FormItem>
+                    <Tooltip zIndex={1000} ref={tooltip} attach="div.INTERNAL___WHERE_TOOLTIP_ATTACHES" content={<AllowedChars />}
+                        trigger="focus" theme={getCurrentPageTheme() ? "default" : "light"} placement="top" overlayClassName="-translate-y-[108px] md:-translate-y-[78px]" >
+                        <FormItem
+                            name="password"
+                            rules={[
+                                { required: true, message: t("passwordRequired"), type: "error" },
+                                { pattern: PasswordPattern, message: t("passwordRuleDescription"), type: "error" }
+                            ]}>
                             <Input
+                                onFocus={() => {
+                                    (tooltip.current! as any).setVisible(true); // eslint-disable-line
+                                }}
                                 disabled={isLoading}
                                 type="password"
                                 prefixIcon={<KeyIcon />}
                                 clearable={true}
                                 placeholder={t("pleaseInputPassword")}
                             />
-                        </Tooltip>
-                    </FormItem>
+                        </FormItem>
+                    </Tooltip>
                     <FormItem
                         name="confirmPassword"
                         rules={[

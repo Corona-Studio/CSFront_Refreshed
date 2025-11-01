@@ -91,6 +91,10 @@ button.t-button:not(div.flex-center>button) {
     @apply shadow hover:shadow-lg active:shadow-md transition;
 }
 
+div.t-notification__show--top-right {
+    @apply scale-[80%] sm:scale-100 translate-x-5 sm:translate-x-0.5 md:translate-x-0
+}
+
 code {
     @apply inline-block bg-yellow-300/10 border border-yellow-600 text-center rounded-lg px-1.5 py-0 shadow-sm;
 }
