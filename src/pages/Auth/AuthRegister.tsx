@@ -1,5 +1,5 @@
 import localForage from "localforage";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import Constants from "./../../helpers/Constants.ts";
 import { KeyIcon, MailIcon, User1Icon } from "tdesign-icons-react";
@@ -38,6 +38,11 @@ function AuthRegister() {
     const redirect = query.get("redirect");
 
     const form = useRef<InternalFormInstance>(null);
+    const tooltip = useRef(null);
+
+    useEffect(() => {
+        console.log(tooltip.current)
+    }, [tooltip])
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -118,35 +123,44 @@ function AuthRegister() {
                         />
                     </FormItem>
                     <FormItem
+
                         name="username"
                         rules={[
                             { required: true, message: t("usernameRequired"), type: "error" },
                             { pattern: UsernamePattern, message: t("usernameRuleDescription"), type: "error" }
                         ]}>
-                        <Input
+                        <Input className="INTERNAL___WHERE_TOOLTIP_ATTACHES"
                             disabled={isLoading}
                             clearable={true}
                             prefixIcon={<User1Icon />}
                             placeholder={t("pleaseInputUserName")}
                         />
                     </FormItem>
-                    <FormItem
-                        name="password"
-                        rules={[
-                            { required: true, message: t("passwordRequired"), type: "error" },
-                            { pattern: PasswordPattern, message: t("passwordRuleDescription"), type: "error" }
-                        ]}>
-                        <Tooltip content={<AllowedChars />} trigger="focus" theme={getCurrentPageTheme() ? "default" : "light"}>
+                    <Tooltip ref={tooltip} attach="div.INTERNAL___WHERE_TOOLTIP_ATTACHES" content={<AllowedChars />}
+                        trigger="focus" theme={getCurrentPageTheme() ? "default" : "light"} placement="bottom" overlayClassName="-translate-y-[48px] md:-translate-y-[24px]" >
+                        <FormItem
+                            name="password"
+                            rules={[
+                                { required: true, message: t("passwordRequired"), type: "error" },
+                                { pattern: PasswordPattern, message: t("passwordRuleDescription"), type: "error" }
+                            ]}>
+
                             <Input
+                                onFocus={() => {
+                                    (tooltip.current! as any).setVisible(true); // eslint-disable-line
+                                }}
+                                name="password"
                                 disabled={isLoading}
                                 type="password"
                                 prefixIcon={<KeyIcon />}
                                 clearable={true}
                                 placeholder={t("pleaseInputPassword")}
                             />
-                        </Tooltip>
 
-                    </FormItem>
+                        </FormItem>
+                    </Tooltip>
+
+
                     <FormItem
                         name="confirmPassword"
                         rules={[
