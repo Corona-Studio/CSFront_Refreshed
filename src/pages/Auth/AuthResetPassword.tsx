@@ -57,7 +57,7 @@ function AuthResetPassword() {
 
         setTimeout(() => {
             navigate("/");
-        }, 300000);
+        }, 3000);
     }, [navigate, queryToken, queryEmail, queryVerifyFor]);
 
     const rePassword: CustomValidator = (val) =>
