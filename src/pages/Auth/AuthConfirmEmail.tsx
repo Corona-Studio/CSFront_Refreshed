@@ -5,7 +5,7 @@ import { Loading, NotificationPlugin, Space } from "tdesign-react";
 import { verifyEmail } from "../../helpers/EmailVerificationHelper.ts";
 import { useUrlQuery } from "../../helpers/UrlQueryHelper.ts";
 import i18next from "../../i18n.ts";
-
+import Constants from "./../../helpers/Constants.ts";
 const t = i18next.t;
 
 function AuthConfirmEmail() {
@@ -27,7 +27,7 @@ function AuthConfirmEmail() {
             content: t("emailVerificationFailedDescription"),
             placement: "top-right",
             duration: 10000,
-            offset: [-36, "5rem"],
+            offset: Constants.NotificationOffset,
             closeBtn: true,
             attach: () => document
         }).then(() => { });
