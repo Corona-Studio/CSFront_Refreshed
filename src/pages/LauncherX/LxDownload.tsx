@@ -2,7 +2,7 @@ import i18next from "i18next";
 import { lazy, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router";
-import { ChevronDownIcon, RocketIcon } from "tdesign-icons-react";
+import { ChevronDownIcon, CodeIcon, RocketIcon } from "tdesign-icons-react";
 import { Button, Dropdown, Loading, NotificationPlugin, Space } from "tdesign-react";
 import { DropdownOption } from "tdesign-react/es/dropdown/type";
 
@@ -17,6 +17,7 @@ const BannerContainer = lazy(() => import("../../components/BannerContainer.tsx"
 const LxLogo = lazy(() => import("../../components/LxLogo.tsx"));
 
 const t = i18next.t;
+const latestToken = "net10.0";
 
 interface RecommendedBuild {
     name: string;
@@ -122,8 +123,11 @@ function LxDownload() {
 
         for (const fetchedBuild of builds) {
             const build = fetchedBuild as LauncherRawBuildModel;
+            console.log(fetchedBuild)
+            if (!build.framework.startsWith(latestToken)) continue;
+
             const url = `${lxBackendUrl}/Build/get/${build.id}/${build.framework}.${build.runtime}.zip`;
-            const buildName = getBuildName(build.framework, build.runtime);
+            const buildName = getBuildName(build.framework, build.runtime, latestToken);
 
             options.push({
                 content: buildName,
@@ -144,6 +148,7 @@ function LxDownload() {
         const targetKeyFallback = os === "macOS" ? `${os} Intel` : `${os} X64`;
 
         for (const { key, build } of buildsArray) {
+            // if (!build.framework.startsWith(latestToken)) continue;
             const url = `${lxBackendUrl}/Build/get/${build.id}/${build.framework}.${build.runtime}.zip`;
 
             if (key === targetKeyExact) {
@@ -157,7 +162,7 @@ function LxDownload() {
 
         const finalRecommendation = bestMatch ?? fallbackMatch;
         setRecommendedBuild(finalRecommendation);
-
+        console.log(downloadOptions, options)
         setIsLoading(false);
     }
 
@@ -225,7 +230,7 @@ function LxDownload() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex justify-center space-x-2">
+                                <div className="flex justify-center flex-wrap gap-1 md:gap-2 lg:gap-3">
                                     {" "}
                                     <span
                                         className="inline-block align-middle relative text-black dark:text-white px-3 bg-zinc-300 dark:bg-zinc-700 overflow-hidden py-1 rounded-lg">
@@ -233,6 +238,7 @@ function LxDownload() {
                                             <RocketIcon className="inline-block -translate-y-0.5" /> {(updatedAt ?? "-").split("T")[0]}
                                         </div>
                                     </span>
+
                                     <RotatingText
                                         texts={["Windows", "macOS", "Linux"]}
                                         mainClassName="text-black dark:text-white px-3 bg-amber-400 dark:bg-amber-600 overflow-hidden py-1 rounded-lg"
@@ -259,7 +265,7 @@ function LxDownload() {
                             </div>
                             {isLoading && (
                                 <Loading
-                                    className="w-full h-[100px] mt-8"
+                                    className="w-full h-[100px] mt-5"
                                     indicator
                                     loading
                                     preventScrollThrough
@@ -267,7 +273,7 @@ function LxDownload() {
                                 />
                             )}
                             {isLoading === false && (
-                                <div className="pt-8">
+                                <div className="pt-5">
                                     <Space size="small">
                                         <Button
                                             size="large"
@@ -298,6 +304,9 @@ function LxDownload() {
                                                 icon={<ChevronDownIcon />}></Button>
                                         </Dropdown>
                                     </Space>
+                                    <div className="pt-3 text-white opacity-50 text-sm">
+                                        <CodeIcon className="-translate-y-0.5 text-base" /> dot{latestToken.replace('net', "Net ")}
+                                    </div>
                                 </div>
                             )}
                             {isLoading === undefined && (
