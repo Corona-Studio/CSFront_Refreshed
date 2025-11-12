@@ -123,7 +123,6 @@ function LxDownload() {
 
         for (const fetchedBuild of builds) {
             const build = fetchedBuild as LauncherRawBuildModel;
-            console.log(fetchedBuild)
             if (!build.framework.startsWith(latestToken)) continue;
 
             const url = `${lxBackendUrl}/Build/get/${build.id}/${build.framework}.${build.runtime}.zip`;
@@ -162,7 +161,6 @@ function LxDownload() {
 
         const finalRecommendation = bestMatch ?? fallbackMatch;
         setRecommendedBuild(finalRecommendation);
-        console.log(downloadOptions, options)
         setIsLoading(false);
     }
 
