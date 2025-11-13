@@ -302,7 +302,7 @@ function LxDownload() {
                                                 icon={<ChevronDownIcon />}></Button>
                                         </Dropdown>
                                     </Space>
-                                    <div className="pt-3 text-white opacity-50 text-sm">
+                                    <div className="pt-3 text-black dark:text-white opacity-50 text-sm">
                                         <CodeIcon className="-translate-y-0.5 text-base" /> dot{latestToken.replace('net', "Net ")}
                                     </div>
                                 </div>
