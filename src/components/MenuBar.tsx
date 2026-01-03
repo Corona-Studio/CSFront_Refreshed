@@ -102,7 +102,6 @@ function MenuBar() {
 
         i18next.changeLanguage(value ?? "zhCN").then(() => {
             window.location.reload();
-            console.log("pp");
         });
     }
 
