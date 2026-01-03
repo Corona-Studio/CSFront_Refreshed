@@ -119,7 +119,7 @@ function LxDownload() {
         }
 
         const options: DropdownOption[] = [];
-        const buildsArray: { key: string; build: LauncherRawBuildModel }[] = [];
+        const buildsArray: { key: string; build: LauncherRawBuildModel; date: string }[] = [];
 
         for (const fetchedBuild of builds) {
             const build = fetchedBuild as LauncherRawBuildModel;
@@ -133,11 +133,12 @@ function LxDownload() {
                 value: url
             });
 
-            buildsArray.push({ key: buildName, build });
+            buildsArray.push({ key: buildName, build, date: fetchedBuild.releaseDate });
+            // console.log(fetchedBuild, 0);
         }
 
         setDownloadOptions(options);
-        setUpdatedAt(builds[0]!.releaseDate ?? null);
+        setUpdatedAt(buildsArray[0]!.date ?? null);
 
         const { os, arch } = detectPlatform();
         let bestMatch: RecommendedBuild | null = null;
