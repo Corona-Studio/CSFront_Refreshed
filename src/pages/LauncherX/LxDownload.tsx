@@ -132,9 +132,7 @@ function LxDownload() {
                 content: buildName,
                 value: url
             });
-
             buildsArray.push({ key: buildName, build, date: fetchedBuild.releaseDate });
-            // console.log(fetchedBuild, 0);
         }
 
         setDownloadOptions(options);
