@@ -155,9 +155,9 @@ function LxDownload() {
                 bestMatch = { name: key, url: url };
                 break;
             }
-            if (key === targetKeyFallback) {
+            if (key === targetKeyFallback)
                 fallbackMatch = { name: key, url: url };
-            }
+
         }
 
         const finalRecommendation = bestMatch ?? fallbackMatch;
