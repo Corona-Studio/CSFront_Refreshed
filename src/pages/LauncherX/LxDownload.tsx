@@ -119,11 +119,10 @@ function LxDownload() {
         }
 
         const options: DropdownOption[] = [];
-        const buildsArray: { key: string; build: LauncherRawBuildModel }[] = [];
+        const buildsArray: { key: string; build: LauncherRawBuildModel; date: string }[] = [];
 
         for (const fetchedBuild of builds) {
             const build = fetchedBuild as LauncherRawBuildModel;
-            console.log(fetchedBuild)
             if (!build.framework.startsWith(latestToken)) continue;
 
             const url = `${lxBackendUrl}/Build/get/${build.id}/${build.framework}.${build.runtime}.zip`;
@@ -133,12 +132,11 @@ function LxDownload() {
                 content: buildName,
                 value: url
             });
-
-            buildsArray.push({ key: buildName, build });
+            buildsArray.push({ key: buildName, build, date: fetchedBuild.releaseDate });
         }
 
         setDownloadOptions(options);
-        setUpdatedAt(builds[0]!.releaseDate ?? null);
+        setUpdatedAt(buildsArray[0]!.date ?? null);
 
         const { os, arch } = detectPlatform();
         let bestMatch: RecommendedBuild | null = null;
@@ -155,14 +153,13 @@ function LxDownload() {
                 bestMatch = { name: key, url: url };
                 break;
             }
-            if (key === targetKeyFallback) {
+            if (key === targetKeyFallback)
                 fallbackMatch = { name: key, url: url };
-            }
+
         }
 
         const finalRecommendation = bestMatch ?? fallbackMatch;
         setRecommendedBuild(finalRecommendation);
-        console.log(downloadOptions, options)
         setIsLoading(false);
     }
 
@@ -304,7 +301,7 @@ function LxDownload() {
                                                 icon={<ChevronDownIcon />}></Button>
                                         </Dropdown>
                                     </Space>
-                                    <div className="pt-3 text-white opacity-50 text-sm">
+                                    <div className="pt-3 text-black dark:text-white opacity-50 text-sm">
                                         <CodeIcon className="-translate-y-0.5 text-base" /> dot{latestToken.replace('net', "Net ")}
                                     </div>
                                 </div>
