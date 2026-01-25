@@ -265,6 +265,7 @@ export const zhCN = {
         deleteAccountSucceededDescription:
             "删除账号成功，您的账号信息已经被删除，您将无法再使用该账号登录日冕工作室的任何服务。期待与您的再次相遇。",
 
-        sponsorBadgeText: "荣誉股东"
+        sponsorBadgeText: "荣誉股东",
+        talkIsCheap: "闲话少说"
     }
 };

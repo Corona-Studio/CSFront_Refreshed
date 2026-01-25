@@ -5,8 +5,8 @@ import { useNavigate } from "react-router";
 import { ArrowRightIcon } from "tdesign-icons-react";
 import { Button, Col, Row, Statistic } from "tdesign-react";
 
-import styles from "./LxHome.module.css";
 import MagicBento, { BentoCardProps } from "../../ReactBits/Components/MagicBento/MagicBento.tsx";
+import styles from "./LxHome.module.css";
 
 const LetterGlitch = lazy(() => import("../../ReactBits/Backgrounds/LetterGlitch/LetterGlitch.tsx"));
 const BounceCards = lazy(() => import("../../ReactBits/Components/BounceCards/BounceCards.tsx"));
@@ -24,50 +24,50 @@ const launcherImages = Array(13)
 
 const cardData: BentoCardProps[] = [
     {
-        bgImage: '#fecaca',
+        bgImage: "#fecaca",
         bgStyle: {
             opacity: 0,
-            transform: 'scale(300%)',
+            transform: "scale(300%)",
             top: 3
         },
-        title: 'ConnectX',
-        description: '多人游戏更便利',
-        label: 'P2P/中继双模'
+        title: "ConnectX",
+        description: "多人游戏更便利",
+        label: "P2P/中继双模"
     },
     {
-        bgImage: '#05050555',
+        bgImage: "#05050555",
         bgStyle: { opacity: 0 },
-        title: '跨平台',
-        description: 'Linux/Windows/macOS 几乎一致的体验',
-        label: 'x64+ARM64'
+        title: "跨平台",
+        description: "Linux/Windows/macOS 几乎一致的体验",
+        label: "x64+ARM64"
     },
     {
-        bgImage: '#39c5bb1f',
+        bgImage: "#39c5bb1f",
         bgStyle: { opacity: 0 },
-        title: '整合包',
-        description: '主流平台整合包导入导出和资源安装支持',
-        label: 'Curseforge/Modrinth'
+        title: "整合包",
+        description: "主流平台整合包导入导出和资源安装支持",
+        label: "Curseforge/Modrinth"
     },
     {
-        bgImage: '#33229955',
+        bgImage: "#33229955",
         bgStyle: { opacity: 0 },
-        title: 'ProjBobcat',
-        description: '自研启动核心',
-        label: '安全 稳定 开源'
+        title: "ProjBobcat",
+        description: "自研启动核心",
+        label: "安全 稳定 开源"
     },
     {
-        bgImage: '#11451419',
+        bgImage: "#11451419",
         bgStyle: { opacity: 0 },
-        title: '简洁美观',
-        description: '即便放在桌面也是件艺术品',
-        label: '极简外观 暗藏玄机'
+        title: "简洁美观",
+        description: "即便放在桌面也是件艺术品",
+        label: "极简外观 暗藏玄机"
     },
     {
-        bgImage: '#19810033',
+        bgImage: "#19810033",
         bgStyle: { opacity: 0 },
-        title: '多线下载',
-        description: '最大化利用上下游带宽以高速下载',
-        label: '高效便捷'
+        title: "多线下载",
+        description: "最大化利用上下游带宽以高速下载",
+        label: "高效便捷"
     }
 ];
 
@@ -90,8 +90,6 @@ function LxHome() {
                 />
             )
         }));
-
-
 
     const usages = [
         t("modPackInstallation"),
@@ -161,9 +159,10 @@ function LxHome() {
                     </div>
                 </BannerContainer>
 
-                <div className="w-full px-[12.5%]">
-                    <h3 className="text-3xl!">闲话<b>少说</b></h3>
-                    <MagicBento cardData={cardData}
+                <div className="w-full py-20 px-[12.5%]">
+                    <h2 className="font-bold">{t("talkIsCheap")}</h2>
+                    <MagicBento
+                        cardData={cardData}
                         textAutoHide={true}
                         enableStars={true}
                         enableSpotlight={true}

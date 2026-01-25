@@ -197,7 +197,8 @@ export const enUS = {
         failedToLoadBuilds: "Failed to load build list.",
         retry: "Retry",
         downloadThanks: "Thank You for Downloading",
-        downloadThanksDescription: "Your download should have started. Please refer to the setup guides below if you encounter issues.",
+        downloadThanksDescription:
+            "Your download should have started. Please refer to the setup guides below if you encounter issues.",
         downloadThanksFollowGuide: "Please follow the guide below to complete the installation.",
         setupGuides: "Setup Guides",
         recommendedGuide: "Recommended Guide",
@@ -208,5 +209,23 @@ export const enUS = {
         linuxSetupGuide: "Linux Setup Guide",
         guideFor: "Guide for",
         viewGuide: "View Guide",
+        revokeCsAccountTitle: "Complete delete Corona Studio account and related data",
+        revokeCsAccountMessage:
+            "This operation will delete all the data related to you, including your account info, device info, sponsor info, friend relations. This operation can not be reverted, do with extra caution!",
+        logoutAndDelete: "Logout and delete",
+
+        confirmDelete: "Confirm Delete?",
+        deleteAccountFailed: "Failed to delete account.",
+        deleteAccountFailedDescription1:
+            "Failed to delete account, session token has been revoked, please re-login and try again later. If issue persist, please contact admin.",
+        deleteAccountFailedDescription2:
+            "Failed to delete account, please try again later. If issue persist, please contact admin. Might be backend error.",
+
+        deleteAccountSucceeded: "Account deleted.",
+        deleteAccountSucceededDescription:
+            "Account deleted, all the info has been deleted. You can not use any service anymore.",
+
+        sponsorBadgeText: "Sponsor",
+        talkIsCheap: "Talk is cheap"
     }
 };
