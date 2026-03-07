@@ -199,17 +199,15 @@ function LxDownload() {
                     <div className="fixed inset-0 z-0">
                         <Waves
                             lineColor={envVal("oklch(50% 0.15 200)", "#6c4b00")}
-                            waveSpeedX={envVal(0, 0.015)}
-                            waveSpeedY={envVal(0, 0.008)}
-                            waveAmpX={envVal(0, 35)}
-                            waveAmpY={envVal(0, 15)}
-                            friction={envVal(0, 0.92)}
-                            tension={envVal(0, 0.015)}
-                            maxCursorMove={envVal(0, 100)}
-                            xGap={envVal(20, 15)}
-                            yGap={envVal(20, 40)}
-                            slantFactor={0.4}
-                            lineOpacity={envVal(0.3, 0.5)}
+                            waveSpeedX={envVal(0, 0.0125)}
+                            waveSpeedY={envVal(0, 0.01)}
+                            waveAmpX={envVal(0, 40)}
+                            waveAmpY={envVal(0, 20)}
+                            friction={envVal(0, 0.9)}
+                            tension={envVal(0, 0.01)}
+                            maxCursorMove={envVal(0, 120)}
+                            xGap={envVal(20, 12)}
+                            yGap={envVal(20, 36)}
                         />
                     </div>
 

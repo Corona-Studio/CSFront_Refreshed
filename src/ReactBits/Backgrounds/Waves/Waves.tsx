@@ -1,6 +1,3 @@
-/*
-	Installed from https://reactbits.dev/ts/tailwind/
-*/
 import React, { CSSProperties, useEffect, useRef } from "react";
 
 class Grad {
@@ -118,8 +115,6 @@ interface Config {
     maxCursorMove: number;
     xGap: number;
     yGap: number;
-    slantFactor: number;
-    lineOpacity: number;
 }
 
 interface WavesProps {
@@ -134,8 +129,6 @@ interface WavesProps {
     friction?: number;
     tension?: number;
     maxCursorMove?: number;
-    slantFactor?: number;
-    lineOpacity?: number;
     style?: CSSProperties;
     className?: string;
 }
@@ -152,8 +145,6 @@ const Waves: React.FC<WavesProps> = ({
     friction = 0.925,
     tension = 0.005,
     maxCursorMove = 100,
-    slantFactor = 0,
-    lineOpacity = 1,
     style = {},
     className = ""
 }) => {
@@ -196,9 +187,7 @@ const Waves: React.FC<WavesProps> = ({
         tension,
         maxCursorMove,
         xGap,
-        yGap,
-        slantFactor,
-        lineOpacity
+        yGap
     });
 
     const frameIdRef = useRef<number | null>(null);
@@ -214,11 +203,9 @@ const Waves: React.FC<WavesProps> = ({
             tension,
             maxCursorMove,
             xGap,
-            yGap,
-            slantFactor,
-            lineOpacity
+            yGap
         };
-    }, [lineColor, waveSpeedX, waveSpeedY, waveAmpX, waveAmpY, friction, tension, maxCursorMove, xGap, yGap, slantFactor, lineOpacity]); // <-- 添加依赖
+    }, [lineColor, waveSpeedX, waveSpeedY, waveAmpX, waveAmpY, friction, tension, maxCursorMove, xGap, yGap]);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -242,27 +229,19 @@ const Waves: React.FC<WavesProps> = ({
         function setLines() {
             const { width, height } = boundingRef.current;
             linesRef.current = [];
-            const { xGap, yGap, slantFactor } = configRef.current;
-
-            const maxSlantOffset = Math.abs(slantFactor * height);
-
-            const oWidth = width + maxSlantOffset + 2 * xGap;
-            const oHeight = height + 2 * yGap;
-
+            const oWidth = width + 200,
+                oHeight = height + 30;
+            const { xGap, yGap } = configRef.current;
             const totalLines = Math.ceil(oWidth / xGap);
             const totalPoints = Math.ceil(oHeight / yGap);
-
-            const xStart = (width - (xGap * totalLines)) / 2 - maxSlantOffset / 2;
-            const yStart = (height - (yGap * totalPoints)) / 2;
-
+            const xStart = (width - xGap * totalLines) / 2;
+            const yStart = (height - yGap * totalPoints) / 2;
             for (let i = 0; i <= totalLines; i++) {
                 const pts: Point[] = [];
                 for (let j = 0; j <= totalPoints; j++) {
-                    const currentY = yStart + yGap * j;
-                    const currentX = xStart + xGap * i + slantFactor * currentY;
                     pts.push({
-                        x: currentX,
-                        y: currentY,
+                        x: xStart + xGap * i,
+                        y: yStart + yGap * j,
                         wave: { x: 0, y: 0 },
                         cursor: { x: 0, y: 0, vx: 0, vy: 0 }
                     });
@@ -319,8 +298,6 @@ const Waves: React.FC<WavesProps> = ({
             ctx.clearRect(0, 0, width, height);
             ctx.beginPath();
             ctx.strokeStyle = configRef.current.lineColor;
-            ctx.globalAlpha = configRef.current.lineOpacity;
-
             linesRef.current.forEach((points) => {
                 let p1 = moved(points[0], false);
                 ctx.moveTo(p1.x, p1.y);
@@ -333,7 +310,6 @@ const Waves: React.FC<WavesProps> = ({
                 });
             });
             ctx.stroke();
-            ctx.globalAlpha = 1;
         }
 
         function tick(t: number) {
@@ -363,7 +339,7 @@ const Waves: React.FC<WavesProps> = ({
             setLines();
         }
         function onMouseMove(e: MouseEvent) {
-            updateMouse(e.pageX, e.pageY);
+            updateMouse(e.clientX, e.clientY);
         }
         function onTouchMove(e: TouchEvent) {
             const touch = e.touches[0];
@@ -373,7 +349,7 @@ const Waves: React.FC<WavesProps> = ({
             const mouse = mouseRef.current;
             const b = boundingRef.current;
             mouse.x = x - b.left;
-            mouse.y = y - b.top + window.scrollY;
+            mouse.y = y - b.top;
             if (!mouse.set) {
                 mouse.sx = mouse.x;
                 mouse.sy = mouse.y;
