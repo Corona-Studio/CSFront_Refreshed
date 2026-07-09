@@ -4,6 +4,6 @@ export default interface IMatches {
     id: string;
     pathname: string;
     params: Params<string>;
-    data: unknown;
+    loaderData: unknown;
     handle: unknown;
 }

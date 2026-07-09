@@ -27,13 +27,13 @@ function AuthPageBaseElement() {
     const navigate = useNavigate();
 
     const matches = useMatches() as IMatches[];
-    const { handle, data } = matches[matches.length - 1];
+    const { handle, loaderData } = matches[matches.length - 1];
 
     const pageInfoHandle = !!handle && !!(handle as HandleType).pageInfo;
     const [scrollVelocityTexts, setScrollVelocityTexts] = useState([`Corona Studio ${t("corona_studio")}`]);
 
     useEffect(() => {
-        const pageInfo = (handle as HandleType).pageInfo(data as string | undefined);
+        const pageInfo = (handle as HandleType).pageInfo(loaderData as string | undefined);
 
         if (pageInfo) {
             if (pageInfo.pageKey === "Error") {
@@ -46,7 +46,7 @@ function AuthPageBaseElement() {
 
         setIridescenceColor(localStorage.theme === "dark" ? [0.2, 0.2, 0.2] : [0.8, 0.8, 0.8]);
         setScrollVelocityTexts([`${pageInfo.pageKey} ${pageInfo.pageTitle}`, `Corona Studio ${t("corona_studio")}`]);
-    }, [data, handle, navigate, pageInfoHandle]);
+    }, [loaderData, handle, navigate, pageInfoHandle]);
 
     function onThemeModeChanged(mutations: MutationRecord[]) {
         for (const mutation of mutations) {

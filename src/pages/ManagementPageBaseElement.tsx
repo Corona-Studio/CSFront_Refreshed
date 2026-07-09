@@ -53,7 +53,7 @@ function ManagementPageBaseElement({
     const { scrollTop } = useScroll({ target: scrollContainer });
 
     const matches = useMatches() as IMatches[];
-    const { handle, data } = matches[matches.length - 1];
+    const { handle, loaderData } = matches[matches.length - 1];
 
     const titleHandle = !!handle && !!(handle as HandleType).title;
     const menuLinks = links();
@@ -74,12 +74,12 @@ function ManagementPageBaseElement({
     }, [location.pathname]);
 
     useEffect(() => {
-        const title = (handle as HandleType).title(data as string | undefined);
+        const title = (handle as HandleType).title(loaderData as string | undefined);
 
         if (!title) return;
 
         setTitle(title);
-    }, [data, handle, titleHandle]);
+    }, [loaderData, handle, titleHandle]);
 
     useEffect(() => {
         const footer = document.getElementById("footer");

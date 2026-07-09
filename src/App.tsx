@@ -20,12 +20,12 @@ function App() {
     const navigation = useNavigation();
     const themeDetector = useThemeDetector();
     const matches = useMatches() as IMatches[];
-    const { handle, data } = matches[matches.length - 1];
+    const { handle, loaderData } = matches[matches.length - 1];
 
     const titleHandle = !!handle && !!(handle as HandleType).title;
 
     useEffect(() => {
-        const title = (handle as HandleType).title(data as string | undefined);
+        const title = (handle as HandleType).title(loaderData as string | undefined);
 
         if (title) document.title = title;
 
@@ -35,7 +35,7 @@ function App() {
         }
 
         document.documentElement.removeAttribute("theme-mode");
-    }, [data, handle, themeDetector, titleHandle]);
+    }, [loaderData, handle, themeDetector, titleHandle]);
 
     return (
         <>
