@@ -19,6 +19,22 @@
 .page {
     display: grid;
     gap: 24px;
+    min-width: 0;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+    gap: 12px;
+    min-width: 0;
+}
+
+.statsGrid > div {
+    min-width: 0;
+}
+
+.statsGrid :global(.t-card) {
+    height: 100%;
 }
 
 .links {

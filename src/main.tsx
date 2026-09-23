@@ -36,7 +36,7 @@ createRoot(document.getElementById("root")!).render(
             {vercelInsightsEnabled && <SpeedInsights />}
 
             <div className="shadow-lg">
-                <div className="shadow-md overflow-x-hidden ?overflow-y-auto bg-zinc-100 dark:bg-zinc-900" id="wrapper">
+                <div className="shadow-md overflow-x-clip bg-zinc-100 dark:bg-zinc-900" id="wrapper">
                     <RouterProvider router={router} />
                 </div>
 

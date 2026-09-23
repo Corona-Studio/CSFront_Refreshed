@@ -2,6 +2,8 @@
     --management-sidebar-width: 232px;
 
     box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
     min-height: 100vh;
     padding-top: var(--td-comp-size-xxxl, 64px);
     background: var(--td-bg-color-page);
@@ -34,11 +36,14 @@
 
 .adminMain {
     margin-left: var(--management-sidebar-width);
+    width: calc(100% - var(--management-sidebar-width));
     min-width: 0;
 }
 
 .adminContent {
-    width: min(100%, 1600px);
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1600px;
     margin: 0 auto;
     padding: 32px clamp(20px, 3vw, 48px) 56px;
 }
@@ -132,6 +137,7 @@
 @media (max-width: 767px) {
     .adminMain {
         margin-left: 0;
+        width: 100%;
     }
 
     .adminContent {

@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { lazy, useEffect } from "react";
-import { Outlet, useMatches, useNavigation } from "react-router";
+import { Outlet, useLocation, useMatches, useNavigation } from "react-router";
 
 import "./App.css";
 import { useThemeDetector } from "./helpers/ThemeDetector.ts";
@@ -18,6 +18,8 @@ interface HandleType {
 
 function App() {
     const navigation = useNavigation();
+    const location = useLocation();
+    const isManagementPage = /^\/(admin|user)(\/|$)/.test(location.pathname);
     const themeDetector = useThemeDetector();
     const matches = useMatches() as IMatches[];
     const { handle, loaderData } = matches[matches.length - 1];
@@ -37,6 +39,10 @@ function App() {
         document.documentElement.removeAttribute("theme-mode");
     }, [loaderData, handle, themeDetector, titleHandle]);
 
+    useEffect(() => {
+        if (isManagementPage) document.getElementById("wrapper")?.style.setProperty("margin-bottom", "0px");
+    }, [isManagementPage]);
+
     return (
         <>
             <QueryClientProvider client={queryClient}>
@@ -45,7 +51,7 @@ function App() {
                 {navigation.state === "loading" && <Fallback />}
                 {navigation.state !== "loading" && <Outlet />}
 
-                <Footer />
+                {!isManagementPage && <Footer />}
             </QueryClientProvider>
         </>
     );

@@ -11,7 +11,7 @@ import {
     UserBlockedIcon,
     UsergroupIcon
 } from "tdesign-icons-react";
-import { Alert, Col, Loading, Row, Skeleton } from "tdesign-react";
+import { Alert, Loading, Skeleton } from "tdesign-react";
 
 import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import { getDashboardDataAsync } from "../../requests/AdminRequests.ts";
@@ -103,11 +103,11 @@ function AdminHome() {
                 {dashboardItems.error && <Alert theme="error" message={t("backendServerError")} />}
 
                 {dashboardItems.isLoading && <Loading />}
-                <Row gutter={[12, 12]}>
+                <div className={styles.statsGrid}>
                     {!dashboardItems.isLoading &&
                         dashboardItems.data &&
                         dashboardItems.data.map((boardItem, i) => (
-                            <Col key={i} span={12} sm={12} md={6} lg={3}>
+                            <div key={i}>
                                 <Suspense fallback={<Skeleton theme="paragraph" />}>
                                     <Board
                                         title={boardItem.title}
@@ -116,9 +116,9 @@ function AdminHome() {
                                         Icon={boardItem.icon}
                                     />
                                 </Suspense>
-                            </Col>
+                            </div>
                         ))}
-                </Row>
+                </div>
 
                 <div className={styles.links}>
                     <div>
