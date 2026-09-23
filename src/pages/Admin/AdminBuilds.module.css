@@ -96,6 +96,26 @@
     gap: 12px;
 }
 
+.refreshButton {
+    box-shadow: none !important;
+    border-color: var(--td-component-border) !important;
+    border-radius: 8px !important;
+    background: var(--td-bg-color-container) !important;
+    color: var(--td-text-color-primary) !important;
+    font-weight: 500;
+}
+
+.refreshButton:hover {
+    box-shadow: none !important;
+    border-color: var(--td-text-color-secondary) !important;
+    background: var(--td-bg-color-secondarycontainer) !important;
+}
+
+.refreshButton:active {
+    box-shadow: none !important;
+    background: var(--td-bg-color-component) !important;
+}
+
 .searchInput {
     width: min(280px, 28vw);
 }
@@ -154,9 +174,11 @@
 }
 
 .targetInfo code {
+    box-shadow: none !important;
+    border: 0 !important;
     border-radius: 6px;
     background: var(--td-bg-color-secondarycontainer);
-    padding: 3px 7px;
+    padding: 4px 8px;
     color: var(--td-text-color-secondary);
     font-size: 12px;
 }
@@ -168,15 +190,55 @@
 .pushControl {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
 .pushControl span {
+    min-width: 28px;
+    font-weight: 500;
     font-size: 12px;
 }
 
+.deliverySwitch {
+    box-shadow: none !important;
+    border: 1px solid var(--td-component-border) !important;
+    background: var(--td-bg-color-component) !important;
+    width: 36px;
+    min-width: 36px !important;
+    height: 20px !important;
+}
+
+.deliverySwitch:hover {
+    border-color: var(--td-text-color-placeholder) !important;
+    background: var(--td-bg-color-component-hover) !important;
+}
+
+.deliverySwitch :global(.t-switch__handle) {
+    top: 3px !important;
+    left: 3px !important;
+    box-shadow: none !important;
+    width: 12px !important;
+    height: 12px !important;
+}
+
+.deliverySwitch:global(.t-is-checked) {
+    border-color: color-mix(in srgb, var(--td-success-color) 55%, transparent) !important;
+    background: var(--td-success-color) !important;
+}
+
+.deliverySwitch:global(.t-is-checked):hover {
+    background: var(--td-success-color-6) !important;
+}
+
+.deliverySwitch:global(.t-is-checked) :global(.t-switch__handle) {
+    top: 3px !important;
+    left: calc(100% - 3px) !important;
+    width: 12px !important;
+    height: 12px !important;
+}
+
 .enabledText {
-    color: var(--td-success-color);
+    color: var(--td-text-color-primary);
 }
 
 .disabledText {

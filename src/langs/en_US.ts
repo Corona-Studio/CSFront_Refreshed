@@ -211,7 +211,7 @@ export const enUS = {
         pushToUsers: "Push to users",
         enabled: "Enabled",
         disabled: "Disabled",
-        refreshBuildCacheNow: "Refresh Build Cache Now",
+        refreshBuildCacheNow: "Refresh cache",
         buildUpdateSucceeded: "Build Updated",
         buildEnabledDescription: "The build is marked for delivery. Refresh the build cache to apply it.",
         buildDisabledDescription: "The build is no longer marked for delivery. Refresh the build cache to apply it.",

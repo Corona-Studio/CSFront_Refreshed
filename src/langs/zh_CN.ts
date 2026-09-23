@@ -238,7 +238,7 @@ export const zhCN = {
         pushToUsers: "推送给用户",
         enabled: "开启",
         disabled: "关闭",
-        refreshBuildCacheNow: "立即刷新构建缓存",
+        refreshBuildCacheNow: "刷新缓存",
         buildUpdateSucceeded: "构建已更新",
         buildEnabledDescription: "该构建已标记为可推送，请刷新构建缓存使其生效。",
         buildDisabledDescription: "该构建已停止推送，请刷新构建缓存使其生效。",

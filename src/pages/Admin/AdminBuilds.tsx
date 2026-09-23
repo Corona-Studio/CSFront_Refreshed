@@ -207,7 +207,8 @@ function AdminBuilds() {
                 cell: ({ row }) => (
                     <div className={styles.pushControl}>
                         <Switch
-                            size="small"
+                            className={styles.deliverySwitch}
+                            aria-label={t("pushToUsers")}
                             value={row.isHotFix}
                             loading={updatingBuildIds.has(row.id)}
                             disabled={updatingBuildIds.has(row.id)}
@@ -275,7 +276,9 @@ function AdminBuilds() {
                             }}
                         />
                         <Button
-                            theme="primary"
+                            className={styles.refreshButton}
+                            theme="default"
+                            variant="outline"
                             icon={<RefreshIcon />}
                             loading={isRefreshing}
                             onClick={refreshCacheAsync}>
