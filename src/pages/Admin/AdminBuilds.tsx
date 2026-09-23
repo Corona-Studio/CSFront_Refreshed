@@ -11,7 +11,6 @@ import {
     PrimaryTable,
     type PrimaryTableCol,
     Space,
-    Switch,
     Tag
 } from "tdesign-react";
 
@@ -206,14 +205,16 @@ function AdminBuilds() {
                 fixed: "right",
                 cell: ({ row }) => (
                     <div className={styles.pushControl}>
-                        <Switch
-                            className={styles.deliverySwitch}
+                        <button
+                            type="button"
+                            role="switch"
                             aria-label={t("pushToUsers")}
-                            value={row.isHotFix}
-                            loading={updatingBuildIds.has(row.id)}
+                            aria-checked={row.isHotFix}
+                            className={`${styles.deliverySwitch} ${row.isHotFix ? styles.deliverySwitchEnabled : ""} ${updatingBuildIds.has(row.id) ? styles.deliverySwitchLoading : ""}`}
                             disabled={updatingBuildIds.has(row.id)}
-                            onChange={(value) => setHotFixAsync(row, Boolean(value))}
-                        />
+                            onClick={() => setHotFixAsync(row, !row.isHotFix)}>
+                            <span className={styles.deliverySwitchThumb} />
+                        </button>
                         <span className={row.isHotFix ? styles.enabledText : styles.disabledText}>
                             {t(row.isHotFix ? "enabled" : "disabled")}
                         </span>

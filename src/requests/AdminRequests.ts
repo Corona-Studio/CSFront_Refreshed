@@ -70,9 +70,17 @@ export async function setBuildHotFixAsync(
     build: AdminBuildInfo,
     isHotFix: boolean
 ): Promise<IResponse<AdminBuildInfo> | undefined> {
-    return await putAsync<AdminBuildInfo>(
-        `/Admin/builds/${build.id}/hotfix`,
-        { isHotFix, fileHash: build.fileHash },
+    return await postAsync<AdminBuildInfo>(
+        "/Admin/builds/hotfix",
+        {
+            id: build.id,
+            isHotFix,
+            fileHash: build.fileHash,
+            branch: build.branch,
+            framework: build.framework,
+            runtime: build.runtime,
+            releaseDate: build.releaseDate
+        },
         buildHeader(token)
     );
 }
