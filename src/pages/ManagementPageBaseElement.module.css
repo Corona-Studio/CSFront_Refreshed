@@ -1,27 +1,27 @@
 .adminShell {
-    display: flex;
+    --management-sidebar-width: 232px;
+
     box-sizing: border-box;
     min-height: 100vh;
     padding-top: var(--td-comp-size-xxxl, 64px);
     background: var(--td-bg-color-page);
 }
 
-.adminSidebar {
-    display: none;
-    position: sticky;
-    flex: 0 0 232px;
-    align-self: flex-start;
-    top: var(--td-comp-size-xxxl, 64px);
-    width: 232px;
-    height: calc(100vh - var(--td-comp-size-xxxl, 64px));
-    height: calc(100dvh - var(--td-comp-size-xxxl, 64px));
-    border-right: 1px solid var(--td-component-border);
-    background: var(--td-bg-color-container);
+.adminShellCollapsed {
+    --management-sidebar-width: 64px;
 }
 
-.adminSidebarCollapsed {
-    flex-basis: 64px;
-    width: 64px;
+.adminSidebar {
+    display: none;
+    position: fixed;
+    top: var(--td-comp-size-xxxl, 64px);
+    bottom: 0;
+    left: 0;
+    z-index: 20;
+    width: var(--management-sidebar-width);
+    border-right: 1px solid var(--td-component-border);
+    background: var(--td-bg-color-container);
+    overflow: hidden;
 }
 
 .adminMenu {
@@ -33,7 +33,7 @@
 }
 
 .adminMain {
-    flex: 1;
+    margin-left: var(--management-sidebar-width);
     min-width: 0;
 }
 
@@ -130,6 +130,10 @@
 }
 
 @media (max-width: 767px) {
+    .adminMain {
+        margin-left: 0;
+    }
+
     .adminContent {
         padding: 20px 16px 40px;
     }

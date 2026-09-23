@@ -1,13 +1,11 @@
-import { Suspense, lazy, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { Outlet, useLocation, useMatches, useNavigate } from "react-router";
 import { ViewListIcon } from "tdesign-icons-react";
-import { Button, Divider, Dropdown, DropdownOption, Menu, Skeleton } from "tdesign-react";
+import { Button, Dropdown, DropdownOption, Menu, Skeleton } from "tdesign-react";
 import type { MenuValue } from "tdesign-react";
-import useScroll from "tdesign-react/es/back-top/useScroll";
 import { TElement } from "tdesign-react/es/common";
 import MenuItem from "tdesign-react/es/menu/MenuItem";
 
-import { useWindowResize } from "../helpers/WindowResizeHelper.ts";
 import IMatches from "../interfaces/IMatches.ts";
 import styles from "./ManagementPageBaseElement.module.css";
 
@@ -43,18 +41,10 @@ function ManagementPageBaseElement({
     const isAdmin = variant === "admin";
     const [active, setActive] = useState<MenuValue>("/user");
     const [collapsed, setCollapsed] = useState(false);
-    const [menuHeight, setMenuHeight] = useState("100vh");
-    const [containerHeight, setContainerHeight] = useState("100vh");
     const [title, setTitle] = useState("");
-
-    const containerRef = useRef<HTMLDivElement | null>(null);
-    const windowBounds = useWindowResize();
 
     const navigate = useNavigate();
     const location = useLocation();
-
-    const scrollContainer = useMemo(() => document, []);
-    const { scrollTop } = useScroll({ target: scrollContainer });
 
     const matches = useMatches() as IMatches[];
     const { handle, loaderData } = matches[matches.length - 1];
@@ -85,31 +75,6 @@ function ManagementPageBaseElement({
         setTitle(title);
     }, [loaderData, handle, titleHandle]);
 
-    useEffect(() => {
-        const footer = document.getElementById("footer");
-
-        const footerHeight = footer?.offsetHeight ?? 0;
-        const htmlScrollableHeight = document.documentElement.offsetHeight - windowBounds[1];
-        const bodyScrollableHeightExpectFooter = htmlScrollableHeight - footerHeight - 10;
-        let footerShowedHeight = scrollTop - bodyScrollableHeightExpectFooter;
-
-        if (footerShowedHeight < 0) footerShowedHeight = 0;
-        if (footerShowedHeight - 10 === footerHeight && scrollTop === 0) footerShowedHeight = 0;
-
-        setMenuHeight(`calc(100vh - ${footerShowedHeight}px)`);
-    }, [scrollTop, windowBounds]);
-
-    useEffect(() => {
-        setTimeout(() => {
-            if (!containerRef.current || containerRef.current.clientHeight < windowBounds[1]) {
-                setContainerHeight("100vh");
-                return;
-            }
-
-            setContainerHeight("100%");
-        }, 100);
-    }, [location.pathname, containerRef, windowBounds]);
-
     function onMenuItemClicked(dropdownItem: DropdownOption) {
         if (!dropdownItem.value) return;
 
@@ -120,15 +85,14 @@ function ManagementPageBaseElement({
 
     return (
         <>
-            <div className={isAdmin ? styles.adminShell : "flex overflow-y-hidden"} style={isAdmin ? undefined : { height: containerHeight }}>
-                <div className={isAdmin ? `${styles.adminSidebar} ${collapsed ? styles.adminSidebarCollapsed : ""}` : "hidden md:flex"}>
+            <div className={`${styles.adminShell} ${collapsed ? styles.adminShellCollapsed : ""}`}>
+                <div className={styles.adminSidebar}>
                     <Menu
                         value={active}
                         logo={<div />}
                         collapsed={collapsed}
                         expandMutex={false}
-                        style={isAdmin ? undefined : { top: scrollTop, height: menuHeight }}
-                        className={isAdmin ? styles.adminMenu : "absolute h-full hover:shadow-lg active:shadow-md shadow transition"}
+                        className={styles.adminMenu}
                         onChange={(v) => setActive(v)}
                         operations={
                             <Button
@@ -150,15 +114,15 @@ function ManagementPageBaseElement({
                     </Menu>
                 </div>
 
-                <div className={isAdmin ? styles.adminMain : "relative w-screen h-full"}>
-                    <div ref={containerRef} className={isAdmin ? styles.adminContent : "px-[3%] py-[12%] md:py-[10%] lg:py-[6%]"}>
-                        <div className={isAdmin ? styles.adminHeading : "flex items-end"}>
+                <div className={styles.adminMain}>
+                    <div className={styles.adminContent}>
+                        <div className={styles.adminHeading}>
                             <div className="md:hidden">
                                 <Dropdown
                                     direction="right"
                                     hideAfterItemClick={true}
                                     placement="bottom"
-                                    trigger={isAdmin ? "click" : "hover"}
+                                    trigger="click"
                                     options={menuLinks
                                         .filter(
                                             (link) => link.visibleInDropDown === undefined || link.visibleInDropDown
@@ -173,9 +137,8 @@ function ManagementPageBaseElement({
                                     />
                                 </Dropdown>
                             </div>
-                            {isAdmin ? <h1 className={styles.adminTitle}>{title}</h1> : <h5 className="pt-4 font-bold">{title}</h5>}
+                            <h1 className={styles.adminTitle}>{title}</h1>
                         </div>
-                        {!isAdmin && <Divider align="center" layout="horizontal" />}
                         <div className={isAdmin ? styles.adminBody : "relative"}>
                             <Outlet />
                         </div>
