@@ -1,11 +1,12 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { t } from "i18next";
 import { useMemo, useState } from "react";
-import { RefreshIcon } from "tdesign-icons-react";
+import { CheckCircleFilledIcon, CloudIcon, LayersIcon, RefreshIcon, SearchIcon } from "tdesign-icons-react";
 import {
     Alert,
     Button,
     Card,
+    Input,
     NotificationPlugin,
     PrimaryTable,
     type PrimaryTableCol,
@@ -23,6 +24,7 @@ import {
     setBuildHotFixAsync
 } from "../../requests/AdminRequests.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
+import styles from "./AdminBuilds.module.css";
 
 const queryKey = ["adminBuilds"];
 
@@ -34,6 +36,8 @@ function AdminBuilds() {
     const queryClient = useQueryClient();
     const [updatingBuildIds, setUpdatingBuildIds] = useState<Set<string>>(new Set());
     const [isRefreshing, setIsRefreshing] = useState(false);
+    const [searchText, setSearchText] = useState("");
+    const [pagination, setPagination] = useState({ current: 1, pageSize: 15 });
 
     const buildsQuery = useQuery({
         queryKey,
@@ -50,7 +54,12 @@ function AdminBuilds() {
         setUpdatingBuildIds((ids) => new Set(ids).add(build.id));
 
         try {
-            const response = await setBuildHotFixAsync(await getAdminTokenAsync(), build.id, isHotFix);
+            const response = await setBuildHotFixAsync(await getAdminTokenAsync(), build, isHotFix);
+
+            if (response?.status === 404) {
+                await buildsQuery.refetch();
+                throw new Error(t("buildNoLongerExists"));
+            }
 
             if (!response || response.status !== 200 || !response.response)
                 throw new Error(t("buildUpdateFailedDescription"));
@@ -121,56 +130,93 @@ function AdminBuilds() {
         }
     }
 
+    const filteredBuilds = useMemo(() => {
+        const keyword = searchText.trim().toLocaleLowerCase();
+        if (!keyword) return buildsQuery.data ?? [];
+
+        return (buildsQuery.data ?? []).filter((build) =>
+            [build.id, build.branch, build.framework, build.runtime, build.releaseNote]
+                .join(" ")
+                .toLocaleLowerCase()
+                .includes(keyword)
+        );
+    }, [buildsQuery.data, searchText]);
+
+    const buildStats = useMemo(
+        () => ({
+            total: buildsQuery.data?.length ?? 0,
+            enabled: buildsQuery.data?.filter((build) => build.isHotFix).length ?? 0,
+            cached: buildsQuery.data?.filter((build) => build.isCached).length ?? 0
+        }),
+        [buildsQuery.data]
+    );
+
     const columns = useMemo<PrimaryTableCol<AdminBuildInfo>[]>(
         () => [
             {
-                colKey: "releaseDate",
-                title: t("releaseDate"),
-                width: 180,
-                cell: ({ row }) => new Date(row.releaseDate).toLocaleString()
-            },
-            { colKey: "branch", title: t("buildBranch"), width: 110 },
-            {
-                colKey: "channel",
-                title: t("buildChannel"),
-                width: 110,
-                cell: ({ row }) => t(row.channel === 0 ? "stable" : "preview")
-            },
-            { colKey: "framework", title: t("buildFramework"), width: 180 },
-            { colKey: "runtime", title: t("buildRuntime"), width: 130 },
-            {
-                colKey: "review",
-                title: t("buildReviewStatus"),
-                width: 130,
+                colKey: "build",
+                title: t("buildInfo"),
+                width: 260,
                 cell: ({ row }) => (
-                    <Tag theme={row.isApproved ? "success" : row.isReviewed ? "danger" : "warning"}>
-                        {t(row.isApproved ? "buildApproved" : row.isReviewed ? "buildRejected" : "buildUnreviewed")}
-                    </Tag>
+                    <div className={styles.buildInfo}>
+                        <div className={styles.buildTitle}>
+                            <span>{row.branch}</span>
+                            <Tag size="small" variant="light-outline" theme={row.channel === 0 ? "primary" : "warning"}>
+                                {t(row.channel === 0 ? "stable" : "preview")}
+                            </Tag>
+                        </div>
+                        <span className={styles.secondaryText}>{new Date(row.releaseDate).toLocaleString()}</span>
+                    </div>
                 )
             },
             {
-                colKey: "isCached",
-                title: t("buildCacheStatus"),
-                width: 110,
+                colKey: "target",
+                title: t("buildTarget"),
+                width: 240,
                 cell: ({ row }) => (
-                    <Tag theme={row.isCached ? "success" : "default"} variant="light">
-                        {t(row.isCached ? "buildCached" : "buildNotCached")}
-                    </Tag>
+                    <div className={styles.targetInfo}>
+                        <code>{row.framework}</code>
+                        <span className={styles.targetSeparator}>/</span>
+                        <code>{row.runtime}</code>
+                    </div>
+                )
+            },
+            {
+                colKey: "status",
+                title: t("buildStatus"),
+                width: 240,
+                cell: ({ row }) => (
+                    <Space size="small" breakLine>
+                        <Tag
+                            size="small"
+                            variant="light"
+                            theme={row.isApproved ? "success" : row.isReviewed ? "danger" : "warning"}>
+                            {t(row.isApproved ? "buildApproved" : row.isReviewed ? "buildRejected" : "buildUnreviewed")}
+                        </Tag>
+                        <Tag size="small" theme={row.isCached ? "success" : "default"} variant="light">
+                            {t(row.isCached ? "buildCached" : "buildNotCached")}
+                        </Tag>
+                    </Space>
                 )
             },
             {
                 colKey: "isHotFix",
                 title: t("pushToUsers"),
-                width: 140,
+                width: 128,
                 fixed: "right",
                 cell: ({ row }) => (
-                    <Switch
-                        value={row.isHotFix}
-                        loading={updatingBuildIds.has(row.id)}
-                        disabled={updatingBuildIds.has(row.id)}
-                        label={[t("enabled"), t("disabled")]}
-                        onChange={(value) => setHotFixAsync(row, Boolean(value))}
-                    />
+                    <div className={styles.pushControl}>
+                        <Switch
+                            size="small"
+                            value={row.isHotFix}
+                            loading={updatingBuildIds.has(row.id)}
+                            disabled={updatingBuildIds.has(row.id)}
+                            onChange={(value) => setHotFixAsync(row, Boolean(value))}
+                        />
+                        <span className={row.isHotFix ? styles.enabledText : styles.disabledText}>
+                            {t(row.isHotFix ? "enabled" : "disabled")}
+                        </span>
+                    </div>
                 )
             }
         ],
@@ -178,26 +224,85 @@ function AdminBuilds() {
     );
 
     return (
-        <Space direction="vertical" size="large" style={{ width: "100%" }}>
-            <Alert theme="warning" message={t("buildManagementDescription")} />
+        <Space direction="vertical" size="large" className={styles.page}>
+            <Alert className={styles.notice} theme="warning" message={t("buildManagementDescription")} />
             {buildsQuery.error && <Alert theme="error" message={t("backendServerError")} />}
-            <Card
-                title={t("allBuilds")}
-                subtitle={t("buildCount", { count: buildsQuery.data?.length ?? 0 })}
-                actions={
-                    <Button theme="primary" icon={<RefreshIcon />} loading={isRefreshing} onClick={refreshCacheAsync}>
-                        {t("refreshBuildCacheNow")}
-                    </Button>
-                }>
+            <div className={styles.statsGrid}>
+                <div className={styles.statCard}>
+                    <span className={styles.statIcon}>
+                        <LayersIcon />
+                    </span>
+                    <div>
+                        <strong>{buildStats.total}</strong>
+                        <span>{t("allBuilds")}</span>
+                    </div>
+                </div>
+                <div className={styles.statCard}>
+                    <span className={`${styles.statIcon} ${styles.enabledIcon}`}>
+                        <CheckCircleFilledIcon />
+                    </span>
+                    <div>
+                        <strong>{buildStats.enabled}</strong>
+                        <span>{t("pushEnabledBuilds")}</span>
+                    </div>
+                </div>
+                <div className={styles.statCard}>
+                    <span className={`${styles.statIcon} ${styles.cachedIcon}`}>
+                        <CloudIcon />
+                    </span>
+                    <div>
+                        <strong>{buildStats.cached}</strong>
+                        <span>{t("cachedBuilds")}</span>
+                    </div>
+                </div>
+            </div>
+            <Card className={styles.listCard}>
+                <div className={styles.toolbar}>
+                    <div>
+                        <h3>{t("allBuilds")}</h3>
+                        <p>{t("buildCount", { count: filteredBuilds.length })}</p>
+                    </div>
+                    <div className={styles.toolbarActions}>
+                        <Input
+                            className={styles.searchInput}
+                            value={searchText}
+                            clearable
+                            prefixIcon={<SearchIcon />}
+                            placeholder={t("searchBuilds")}
+                            onChange={(value) => {
+                                setSearchText(value);
+                                setPagination((current) => ({ ...current, current: 1 }));
+                            }}
+                        />
+                        <Button
+                            theme="primary"
+                            icon={<RefreshIcon />}
+                            loading={isRefreshing}
+                            onClick={refreshCacheAsync}>
+                            {t("refreshBuildCacheNow")}
+                        </Button>
+                    </div>
+                </div>
                 <PrimaryTable<AdminBuildInfo>
+                    className={styles.buildTable}
                     rowKey="id"
-                    bordered
                     hover
+                    stripe
                     loading={buildsQuery.isLoading}
-                    data={buildsQuery.data ?? []}
+                    data={filteredBuilds}
                     columns={columns}
-                    tableLayout="auto"
-                    pagination={{ defaultPageSize: 20, total: buildsQuery.data?.length ?? 0 }}
+                    maxHeight="clamp(320px, calc(100vh - 430px), 620px)"
+                    tableLayout="fixed"
+                    empty={t("noMatchingBuilds")}
+                    pagination={{
+                        current: pagination.current,
+                        pageSize: pagination.pageSize,
+                        total: filteredBuilds.length,
+                        pageSizeOptions: [10, 15, 20, 50],
+                        showPageSize: true,
+                        showJumper: true,
+                        onChange: ({ current, pageSize }) => setPagination({ current, pageSize })
+                    }}
                 />
             </Card>
         </Space>

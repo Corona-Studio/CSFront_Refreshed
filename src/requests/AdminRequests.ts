@@ -67,10 +67,14 @@ export async function getAdminBuildsAsync(token: string): Promise<IResponse<Admi
 
 export async function setBuildHotFixAsync(
     token: string,
-    buildId: string,
+    build: AdminBuildInfo,
     isHotFix: boolean
 ): Promise<IResponse<AdminBuildInfo> | undefined> {
-    return await putAsync<AdminBuildInfo>(`/Admin/builds/${buildId}/hotfix`, { isHotFix }, buildHeader(token));
+    return await putAsync<AdminBuildInfo>(
+        `/Admin/builds/${build.id}/hotfix`,
+        { isHotFix, fileHash: build.fileHash },
+        buildHeader(token)
+    );
 }
 
 export async function refreshBuildCacheAsync(token: string): Promise<IResponse<BuildCacheRefreshResult> | undefined> {

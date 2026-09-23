@@ -19,6 +19,8 @@ const style: CSSProperties = {
     insetBlockEnd: 80
 };
 
+const vercelInsightsEnabled = import.meta.env.VITE_VERCEL_INSIGHTS === "true";
+
 localForage.config({
     driver: localForage.INDEXEDDB,
     name: "CSFront",
@@ -30,8 +32,8 @@ localForage.config({
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
         <HelmetProvider>
-            <Analytics />
-            <SpeedInsights />
+            {vercelInsightsEnabled && <Analytics />}
+            {vercelInsightsEnabled && <SpeedInsights />}
 
             <div className="shadow-lg">
                 <div className="shadow-md overflow-x-hidden ?overflow-y-auto bg-zinc-100 dark:bg-zinc-900" id="wrapper">

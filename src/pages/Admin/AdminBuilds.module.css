@@ -1,0 +1,204 @@
+.page {
+    padding-bottom: 32px;
+    width: 100%;
+}
+
+.notice {
+    border: 1px solid color-mix(in srgb, var(--td-warning-color) 32%, transparent);
+    border-radius: 12px;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.statCard {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border: 1px solid var(--td-component-border);
+    border-radius: 14px;
+    background: var(--td-bg-color-container);
+    padding: 16px 18px;
+}
+
+.statCard > div {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.statCard strong {
+    color: var(--td-text-color-primary);
+    font-size: 24px;
+    line-height: 1.1;
+}
+
+.statCard div span {
+    margin-top: 5px;
+    color: var(--td-text-color-secondary);
+    font-size: 13px;
+}
+
+.statIcon {
+    display: inline-flex;
+    flex: 0 0 42px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    background: var(--td-brand-color-light);
+    width: 42px;
+    height: 42px;
+    color: var(--td-brand-color);
+    font-size: 22px;
+}
+
+.enabledIcon {
+    background: var(--td-success-color-light);
+    color: var(--td-success-color);
+}
+
+.cachedIcon {
+    background: var(--td-warning-color-light);
+    color: var(--td-warning-color);
+}
+
+.listCard {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.toolbar h3 {
+    margin: 0;
+    color: var(--td-text-color-primary);
+    font-size: 18px;
+}
+
+.toolbar p {
+    margin: 4px 0 0;
+    color: var(--td-text-color-secondary);
+    font-size: 13px;
+}
+
+.toolbarActions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.searchInput {
+    width: min(280px, 28vw);
+}
+
+.buildTable {
+    border: 1px solid var(--td-component-border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.buildTable :global(.t-table__header) {
+    background: var(--td-bg-color-secondarycontainer);
+}
+
+.buildTable :global(.t-table th) {
+    color: var(--td-text-color-secondary);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+}
+
+.buildTable :global(.t-table td) {
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+
+.buildTable :global(.t-pagination) {
+    border-top: 1px solid var(--td-component-border);
+    padding: 14px 16px;
+}
+
+.buildInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.buildTitle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--td-text-color-primary);
+    font-weight: 600;
+}
+
+.secondaryText {
+    color: var(--td-text-color-placeholder);
+    font-size: 12px;
+}
+
+.targetInfo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.targetInfo code {
+    border-radius: 6px;
+    background: var(--td-bg-color-secondarycontainer);
+    padding: 3px 7px;
+    color: var(--td-text-color-secondary);
+    font-size: 12px;
+}
+
+.targetSeparator {
+    color: var(--td-text-color-placeholder);
+}
+
+.pushControl {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pushControl span {
+    font-size: 12px;
+}
+
+.enabledText {
+    color: var(--td-success-color);
+}
+
+.disabledText {
+    color: var(--td-text-color-placeholder);
+}
+
+@media (max-width: 768px) {
+    .statsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .toolbarActions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .searchInput {
+        width: 100%;
+    }
+}
