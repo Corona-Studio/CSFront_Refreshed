@@ -128,11 +128,11 @@ function AdminSponsor() {
                                         placeholder={t("pleaseInputEmail")}
                                     />
                                 </FormItem>
-                                <FormItem>
-                                    <Button loading={isLoading} theme="primary" type="submit" block>
+                                <div className={styles.formActions}>
+                                    <Button loading={isLoading} theme="primary" type="submit" size="medium">
                                         {t("query")}
                                     </Button>
-                                </FormItem>
+                                </div>
                             </Form>
                         </Card>
                     </Col>
@@ -151,11 +151,11 @@ function AdminSponsor() {
                                         placeholder={t("pleaseInputEmail")}
                                     />
                                 </FormItem>
-                                <FormItem>
-                                    <Button loading={isLoading} theme="danger" type="submit" block>
+                                <div className={styles.formActions}>
+                                    <Button loading={isLoading} theme="danger" type="submit" size="medium">
                                         {t("submit")}
                                     </Button>
-                                </FormItem>
+                                </div>
                             </Form>
                         </Card>
                     </Col>

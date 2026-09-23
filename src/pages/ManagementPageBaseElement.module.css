@@ -1,13 +1,20 @@
 .adminShell {
     display: flex;
-    min-height: calc(100vh - 64px);
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding-top: var(--td-comp-size-xxxl, 64px);
     background: var(--td-bg-color-page);
 }
 
 .adminSidebar {
     display: none;
+    position: sticky;
     flex: 0 0 232px;
+    align-self: flex-start;
+    top: var(--td-comp-size-xxxl, 64px);
     width: 232px;
+    height: calc(100vh - var(--td-comp-size-xxxl, 64px));
+    height: calc(100dvh - var(--td-comp-size-xxxl, 64px));
     border-right: 1px solid var(--td-component-border);
     background: var(--td-bg-color-container);
 }
@@ -18,10 +25,9 @@
 }
 
 .adminMenu {
-    position: sticky;
-    top: 0;
+    position: relative;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     border: 0;
     box-shadow: none;
 }

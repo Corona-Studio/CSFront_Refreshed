@@ -99,6 +99,16 @@
     line-height: 28px;
 }
 
+.loadingPanel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 180px;
+    border: 1px solid var(--td-component-border);
+    border-radius: 10px;
+    background: var(--td-bg-color-container);
+}
+
 .resourceCell code {
     width: fit-content;
     max-width: 100%;

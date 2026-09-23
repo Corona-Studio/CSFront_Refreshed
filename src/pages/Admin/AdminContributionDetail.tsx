@@ -9,6 +9,7 @@ import {
     Card,
     Dialog,
     Input,
+    Loading,
     NotificationPlugin,
     PrimaryTable,
     type PrimaryTableCol,
@@ -361,6 +362,22 @@ function AdminContributionDetail() {
         );
     }
 
+    if (!detailQuery.data) {
+        return (
+            <Space direction="vertical" size="large" className={styles.page}>
+                <div className={styles.detailHeader}>
+                    <h2 className={styles.detailTitle}>{t("contributionDetail")}</h2>
+                    <Button icon={<RollbackIcon />} variant="outline" onClick={() => navigate("/admin/contributions")}>
+                        {t("backToContributionList")}
+                    </Button>
+                </div>
+                <div className={styles.loadingPanel} role="status" aria-label={t("contributionDetail")}>
+                    <Loading size="medium" />
+                </div>
+            </Space>
+        );
+    }
+
     const detail = detailQuery.data;
 
     return (
@@ -374,8 +391,6 @@ function AdminContributionDetail() {
                     {t("backToContributionList")}
                 </Button>
             </div>
-
-            {detailQuery.isLoading && <Card loading />}
 
             {detail && (
                 <>

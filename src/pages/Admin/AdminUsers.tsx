@@ -26,6 +26,7 @@ import {
     updateAdminUserTypeAsync
 } from "../../requests/AdminRequests.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
+import { lxBackendUrl } from "../../requests/ApiConstants.ts";
 import styles from "./AdminUsers.module.css";
 
 async function getAdminTokenAsync() {
@@ -39,6 +40,28 @@ const roleOptions = () =>
 
 function getInitial(user: AdminUserInfo) {
     return (user.userName.trim()[0] ?? user.email.trim()[0] ?? "?").toLocaleUpperCase();
+}
+
+function UserAvatar({ user }: { user: AdminUserInfo }) {
+    const [imageFailed, setImageFailed] = useState(false);
+
+    useEffect(() => setImageFailed(false), [user.id]);
+
+    return (
+        <span className={styles.avatar} aria-hidden="true">
+            {imageFailed ? (
+                getInitial(user)
+            ) : (
+                <img
+                    src={`${lxBackendUrl}/Avatar/${encodeURIComponent(user.id)}`}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    onError={() => setImageFailed(true)}
+                />
+            )}
+        </span>
+    );
 }
 
 function AdminUsers() {
@@ -138,27 +161,24 @@ function AdminUsers() {
             {
                 colKey: "user",
                 title: t("userAccount"),
-                width: 440,
+                width: 420,
                 cell: ({ row }) => (
                     <div className={styles.userCell}>
-                        <div className={styles.avatar} data-role={row.userType}>
-                            {getInitial(row)}
-                        </div>
+                        <UserAvatar user={row} />
                         <div className={styles.userDetails}>
-                            <strong>{row.userName || t("unnamedUser")}</strong>
-                            <span className={styles.email}>{row.email}</span>
-                            <div className={styles.userIdRow}>
-                                <code>{row.id}</code>
-                                <Button
-                                    className={styles.copyButton}
-                                    variant="text"
-                                    shape="circle"
-                                    size="small"
-                                    icon={<CopyIcon />}
-                                    title={t("copyUserId")}
-                                    onClick={() => copyUserIdAsync(row.id)}
-                                />
+                            <div className={styles.nameRow}>
+                                <strong title={row.userName}>{row.userName || t("unnamedUser")}</strong>
+                                <button
+                                    type="button"
+                                    className={styles.idButton}
+                                    title={`${t("copyUserId")}: ${row.id}`}
+                                    aria-label={`${t("copyUserId")}: ${row.id}`}
+                                    onClick={() => copyUserIdAsync(row.id)}>
+                                    <span>{row.id.slice(0, 8)}</span>
+                                    <CopyIcon />
+                                </button>
                             </div>
+                            <span className={styles.email}>{row.email}</span>
                         </div>
                     </div>
                 )
@@ -166,20 +186,20 @@ function AdminUsers() {
             {
                 colKey: "status",
                 title: t("accountStatus"),
-                width: 310,
+                width: 240,
                 cell: ({ row }) => (
                     <div className={styles.statusList}>
-                        <Tag size="small" theme={row.emailConfirmed ? "success" : "warning"} variant="light-outline">
+                        <span className={`${styles.emailStatus} ${row.emailConfirmed ? styles.verified : styles.unverified}`}>
                             {row.emailConfirmed ? <CheckCircleIcon /> : <CloseCircleIcon />}
                             {t(row.emailConfirmed ? "emailVerified" : "emailUnverified")}
-                        </Tag>
+                        </span>
                         {row.isPaid && (
-                            <Tag size="small" theme="primary" variant="light-outline">
+                            <Tag size="small" theme="primary" variant="light">
                                 {t("sponsorBadgeText")}
                             </Tag>
                         )}
                         {row.isLockedOut && (
-                            <Tag size="small" theme="danger" variant="light-outline">
+                            <Tag size="small" theme="danger" variant="light">
                                 <LockOnIcon />
                                 {t("accountLocked")}
                             </Tag>
@@ -190,11 +210,10 @@ function AdminUsers() {
             {
                 colKey: "userType",
                 title: t("userIdentity"),
-                width: 250,
+                width: 190,
                 fixed: "right",
                 cell: ({ row }) => (
                     <div className={styles.roleControl}>
-                        <span className={styles.roleDot} data-role={row.userType} />
                         <Select
                             className={styles.roleSelect}
                             value={row.userType}
@@ -284,9 +303,7 @@ function AdminUsers() {
                 onConfirm={confirmIdentityChangeAsync}
                 onClose={() => !isUpdating && setPendingChange(undefined)}>
                 <div className={styles.changeSummary}>
-                    <span className={styles.avatar} data-role={pendingChange?.user.userType}>
-                        {pendingChange ? getInitial(pendingChange.user) : "?"}
-                    </span>
+                    {pendingChange && <UserAvatar user={pendingChange.user} />}
                     <div>
                         <strong>{pendingChange?.user.userName}</strong>
                         <span>{pendingChange?.user.email}</span>
