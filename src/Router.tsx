@@ -1,10 +1,11 @@
 import i18next from "i18next";
 import { lazy } from "react";
-import { Route, createBrowserRouter, createRoutesFromElements, ScrollRestoration } from "react-router";
+import { Route, ScrollRestoration, createBrowserRouter, createRoutesFromElements } from "react-router";
 
 import { isAdminSessionValidAsync, isUserSessionValidAsync } from "./helpers/SessionHelper.ts";
 import { adminPageMenuLinks } from "./pages/Admin/AdminPageMenuLinks.tsx";
 import { userPageMenuLinks } from "./pages/User/UserPageMenuLinks.tsx";
+
 // import StaticEvent from "./pages/StaticEvent.tsx";
 
 const AdminHome = lazy(() => import("./pages/Admin/AdminHome.tsx"));
@@ -24,7 +25,16 @@ const t = i18next.t;
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
-        <Route path="/" element={<><ScrollRestoration /><App /></>} hydrateFallbackElement={<Fallback />} errorElement={<ErrorBoundary />}>
+        <Route
+            path="/"
+            element={
+                <>
+                    <ScrollRestoration />
+                    <App />
+                </>
+            }
+            hydrateFallbackElement={<Fallback />}
+            errorElement={<ErrorBoundary />}>
             <Route index element={<Home />} handle={{ title: () => "Corona Studio" }} />
             <Route path="lx">
                 <Route index element={<LxIndex />} handle={{ title: () => "LauncherX" }} />
@@ -126,6 +136,11 @@ export const router = createBrowserRouter(
                     path="sponsor"
                     handle={{ title: () => t("sponsorAdmin") }}
                     lazy={() => import("./pages/Admin/AdminSponsor.tsx")}
+                />
+                <Route
+                    path="builds"
+                    handle={{ title: () => t("buildManagement") }}
+                    lazy={() => import("./pages/Admin/AdminBuilds.tsx")}
                 />
             </Route>
         </Route>

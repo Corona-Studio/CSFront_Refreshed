@@ -1,4 +1,4 @@
-import { HomeIcon, MoneyIcon, UserTransmitIcon } from "tdesign-icons-react";
+import { HomeIcon, LayersIcon, MoneyIcon, UserTransmitIcon } from "tdesign-icons-react";
 
 import i18next from "../../i18n.ts";
 
@@ -14,6 +14,11 @@ export const adminPageMenuLinks = () => [
         icon: <MoneyIcon />,
         to: "/admin/sponsor",
         value: t("sponsorAdmin")
+    },
+    {
+        icon: <LayersIcon />,
+        to: "/admin/builds",
+        value: t("buildManagement")
     },
     {
         icon: <UserTransmitIcon />,

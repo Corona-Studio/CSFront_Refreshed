@@ -1,5 +1,7 @@
+import type { TableRowData } from "tdesign-react";
+
 import IResponse from "../interfaces/IResponse.ts";
-import { buildHeader, getAsync, putAsync } from "./ApiConstants.ts";
+import { buildHeader, getAsync, postAsync, putAsync } from "./ApiConstants.ts";
 
 interface DashboardData {
     type: string;
@@ -13,6 +15,26 @@ export interface UserSponsorInfo {
     email: string;
     id: string;
     isPaid: boolean;
+}
+
+export interface AdminBuildInfo extends TableRowData {
+    id: string;
+    branch: string;
+    channel: number;
+    releaseDate: string;
+    releaseNote: string;
+    fileHash: string;
+    isHotFix: boolean;
+    isApproved: boolean;
+    isReviewed: boolean;
+    isR2R: boolean;
+    framework: string;
+    runtime: string;
+    isCached: boolean;
+}
+
+export interface BuildCacheRefreshResult {
+    buildCount: number;
 }
 
 export async function getDashboardDataAsync(token: string): Promise<IResponse<DashboardData[]> | undefined> {
@@ -37,4 +59,20 @@ export async function setUserAsSponsorAsync(
     const endPoint = "/Admin/sponsor/set";
 
     return await putAsync<UserSponsorInfo>(endPoint, { email }, buildHeader(token));
+}
+
+export async function getAdminBuildsAsync(token: string): Promise<IResponse<AdminBuildInfo[]> | undefined> {
+    return await getAsync<AdminBuildInfo[]>("/Admin/builds", buildHeader(token));
+}
+
+export async function setBuildHotFixAsync(
+    token: string,
+    buildId: string,
+    isHotFix: boolean
+): Promise<IResponse<AdminBuildInfo> | undefined> {
+    return await putAsync<AdminBuildInfo>(`/Admin/builds/${buildId}/hotfix`, { isHotFix }, buildHeader(token));
+}
+
+export async function refreshBuildCacheAsync(token: string): Promise<IResponse<BuildCacheRefreshResult> | undefined> {
+    return await postAsync<BuildCacheRefreshResult>("/Admin/builds/cache/refresh", {}, buildHeader(token));
 }
