@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { t } from "i18next";
 import { useEffect, useMemo, useState } from "react";
-import { AddIcon, DeleteIcon, EditIcon, NotificationIcon, SearchIcon } from "tdesign-icons-react";
+import { AddIcon, DeleteIcon, EditIcon, SearchIcon } from "tdesign-icons-react";
 import {
     Alert,
     Button,
@@ -61,6 +61,7 @@ function AdminNotifications() {
 
     const notificationsQuery = useQuery({
         queryKey: ["adminNotifications", search, pagination.current, pagination.pageSize],
+        retry: false,
         queryFn: async () => {
             const response = await getAdminNotificationsAsync(
                 await getAdminTokenAsync(),
@@ -219,9 +220,7 @@ function AdminNotifications() {
             <Card>
                 <div className={styles.toolbar}>
                     <div>
-                        <h3>
-                            <NotificationIcon /> {t("notificationManagement")}
-                        </h3>
+                        <h2>{t("notification")}</h2>
                         <p>{t("notificationCount", { count: notificationsQuery.data?.totalCount ?? 0 })}</p>
                     </div>
                     <div className={styles.toolbarActions}>
@@ -239,9 +238,9 @@ function AdminNotifications() {
                     </div>
                 </div>
                 <PrimaryTable<AdminNotificationInfo>
+                    className={styles.managementTable}
                     rowKey="id"
                     hover
-                    stripe
                     loading={notificationsQuery.isLoading || notificationsQuery.isFetching}
                     data={notificationsQuery.data?.items ?? []}
                     columns={columns}

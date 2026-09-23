@@ -1,0 +1,147 @@
+.adminShell {
+    display: flex;
+    min-height: calc(100vh - 64px);
+    background: var(--td-bg-color-page);
+}
+
+.adminSidebar {
+    display: none;
+    flex: 0 0 232px;
+    width: 232px;
+    border-right: 1px solid var(--td-component-border);
+    background: var(--td-bg-color-container);
+}
+
+.adminSidebarCollapsed {
+    flex-basis: 64px;
+    width: 64px;
+}
+
+.adminMenu {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    border: 0;
+    box-shadow: none;
+}
+
+.adminMain {
+    flex: 1;
+    min-width: 0;
+}
+
+.adminContent {
+    width: min(100%, 1600px);
+    margin: 0 auto;
+    padding: 32px clamp(20px, 3vw, 48px) 56px;
+}
+
+.adminHeading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--td-component-border);
+}
+
+.adminTitle {
+    margin: 0;
+    color: var(--td-text-color-primary);
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 32px;
+    letter-spacing: -0.02em;
+}
+
+.adminBody {
+    min-width: 0;
+    color: var(--td-text-color-primary);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.adminBody :global(h2),
+.adminBody :global(h3),
+.adminBody :global(h4),
+.adminBody :global(h5) {
+    color: var(--td-text-color-primary);
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 26px;
+}
+
+.adminBody :global(.t-card) {
+    border: 1px solid var(--td-component-border);
+    border-radius: 10px;
+    box-shadow: none;
+}
+
+.adminBody :global(.t-card__body) {
+    padding: 20px;
+}
+
+.adminBody :global(.t-alert) {
+    border-radius: 8px;
+}
+
+.adminBody :global(.t-table) {
+    font-size: 13px;
+}
+
+.adminBody :global(.t-table th) {
+    color: var(--td-text-color-secondary);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.adminBody :global(.t-table td) {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.adminBody :global(.t-table .t-table__row--stripe) {
+    background: transparent;
+}
+
+.adminBody :global(.t-table tbody tr:not(:last-child) td) {
+    border-bottom: 1px solid var(--td-component-border);
+}
+
+.adminBody :global(.t-button) {
+    box-shadow: none !important;
+}
+
+.adminBody :global(.t-button:hover) {
+    box-shadow: none !important;
+}
+
+@media (min-width: 768px) {
+    .adminSidebar {
+        display: flex;
+    }
+}
+
+@media (max-width: 767px) {
+    .adminContent {
+        padding: 20px 16px 40px;
+    }
+
+    .adminHeading {
+        margin-bottom: 16px;
+    }
+
+    .adminTitle {
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    .adminBody :global(.t-card__body) {
+        padding: 16px;
+    }
+
+    .adminBody :global(.t-table__content) {
+        overflow-x: auto;
+    }
+}

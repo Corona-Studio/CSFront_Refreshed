@@ -23,6 +23,7 @@ function AdminContributions() {
 
     const contributionsQuery = useQuery({
         queryKey,
+        retry: false,
         queryFn: async () => {
             const response = await getPendingContributionsAsync(await getAdminTokenAsync());
 

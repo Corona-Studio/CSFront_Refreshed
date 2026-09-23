@@ -186,8 +186,14 @@ export const enUS = {
 
         buildManagement: "Build Management",
         userManagement: "User Management",
-        userManagementDescription:
-            "Search accounts and change user identities. Identity changes fully apply after the user signs in again and receives a new token.",
+        userManagementDescription: "Find accounts, review their status, and manage access identities in one place.",
+        accountDirectory: "Account Directory",
+        allUserAccounts: "All Accounts",
+        searchResults: "Search Results",
+        totalUsers: "Total users",
+        matchingUsers: "Matching users",
+        copyUserId: "Copy user ID",
+        userIdCopied: "User ID Copied",
         managedUserCount: "{{count}} users",
         searchUsers: "Search username, email, or user ID",
         userAccount: "User Account",

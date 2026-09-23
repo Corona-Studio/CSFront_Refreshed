@@ -90,6 +90,7 @@ function AdminContributionDetail() {
     const detailQuery = useQuery({
         queryKey: ["adminContribution", resourceId],
         enabled: resourceId.length > 0,
+        retry: false,
         queryFn: async () => {
             const response = await getPendingContributionDetailAsync(await getAdminTokenAsync(), resourceId);
 

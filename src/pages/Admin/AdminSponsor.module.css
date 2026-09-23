@@ -1,0 +1,74 @@
+.page {
+    display: grid;
+    gap: 20px;
+    max-width: 1120px;
+}
+
+.formGrid {
+    align-items: stretch;
+}
+
+.formCard {
+    height: 100%;
+}
+
+.formCard :global(.t-card__header),
+.resultCard :global(.t-card__header) {
+    padding: 18px 20px 12px;
+}
+
+.formCard :global(.t-card__title),
+.resultCard :global(.t-card__title) {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 26px;
+}
+
+.formCard :global(.t-card__subtitle) {
+    color: var(--td-text-color-secondary);
+    font-size: 13px;
+    line-height: 20px;
+}
+
+.userResult {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+}
+
+.userDetails {
+    display: grid;
+    flex: 1;
+    gap: 2px;
+    min-width: 0;
+}
+
+.userDetails strong {
+    color: var(--td-text-color-primary);
+    font-size: 15px;
+}
+
+.userDetails span,
+.userDetails code {
+    overflow: hidden;
+    color: var(--td-text-color-secondary);
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.userDetails code {
+    width: fit-content;
+    max-width: 100%;
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+    padding: 0;
+}
+
+@media (max-width: 600px) {
+    .userResult {
+        flex-wrap: wrap;
+    }
+}

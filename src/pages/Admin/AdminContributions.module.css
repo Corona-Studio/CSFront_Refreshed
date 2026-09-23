@@ -14,6 +14,9 @@
 .toolbar h3,
 .sectionTitle h3 {
     margin: 0;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 26px;
 }
 
 .toolbar p,
@@ -54,12 +57,12 @@
     border: 1px solid var(--td-component-border);
     border-radius: var(--td-radius-medium);
     background: var(--td-bg-color-container);
-    padding: 18px;
+    padding: 14px 16px;
 }
 
 .statCard svg {
-    width: 26px;
-    height: 26px;
+    width: 20px;
+    height: 20px;
     color: var(--td-brand-color);
 }
 
@@ -69,7 +72,16 @@
 }
 
 .statCard strong {
-    font-size: 24px;
+    color: var(--td-text-color-primary);
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 30px;
+}
+
+.statCard span {
+    color: var(--td-text-color-secondary);
+    font-size: 13px;
+    line-height: 20px;
 }
 
 .detailHeader {
@@ -82,6 +94,20 @@
 
 .detailTitle {
     margin: 0;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 28px;
+}
+
+.resourceCell code {
+    width: fit-content;
+    max-width: 100%;
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+    padding: 0;
+    color: var(--td-text-color-placeholder);
+    font-size: 11px;
 }
 
 .metadata {
@@ -146,6 +172,14 @@
 }
 
 @media (max-width: 768px) {
+    .page :global(.t-table) {
+        min-width: 720px;
+    }
+
+    .page :global(.t-table__content) {
+        overflow-x: auto;
+    }
+
     .statsGrid,
     .metadata,
     .acceptGrid {

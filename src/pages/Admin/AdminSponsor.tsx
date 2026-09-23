@@ -8,7 +8,6 @@ import {
     Button,
     Card,
     Col,
-    Divider,
     Form,
     type FormProps,
     Input,
@@ -22,6 +21,7 @@ import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import { UserSponsorInfo, querySponsorInfoAsync, setUserAsSponsorAsync } from "../../requests/AdminRequests.ts";
 import { lxBackendUrl } from "../../requests/ApiConstants.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
+import styles from "./AdminSponsor.module.css";
 
 interface FormData {
     email?: string;
@@ -110,10 +110,10 @@ function AdminSponsor() {
 
     return (
         <>
-            <div>
-                <Row gutter={[16, 16]}>
+            <div className={styles.page}>
+                <Row gutter={[16, 16]} className={styles.formGrid}>
                     <Col span={12} sm={12} md={6}>
-                        <Card title={t("querySponsorInfo")} subtitle={t("querySponsorInfoDescription")}>
+                        <Card className={styles.formCard} title={t("querySponsorInfo")} subtitle={t("querySponsorInfoDescription")}>
                             <Form statusIcon={true} colon={true} labelWidth={0} onSubmit={onQuerySponsorSubmit}>
                                 <FormItem
                                     name="email"
@@ -137,7 +137,7 @@ function AdminSponsor() {
                         </Card>
                     </Col>
                     <Col span={12} sm={12} md={6}>
-                        <Card title={t("setUserAsSponsor")} subtitle={t("setUserAsSponsorDescription")}>
+                        <Card className={styles.formCard} title={t("setUserAsSponsor")} subtitle={t("setUserAsSponsorDescription")}>
                             <Form statusIcon={true} colon={true} labelWidth={0} onSubmit={onSetSponsorSubmit}>
                                 <FormItem
                                     name="email"
@@ -162,43 +162,28 @@ function AdminSponsor() {
                 </Row>
 
                 {error && (
-                    <div className="mt-8">
+                    <div>
                         <Alert theme="error" message={error} />
                     </div>
                 )}
 
                 {userInfo && (
                     <div>
-                        <Divider align="center" layout="horizontal" />
-                        <Card title={t("queriedSponsorInfo")}>
-                            <Row align="middle" gutter={12}>
-                                <Col>
-                                    <Avatar
-                                        image={`${lxBackendUrl}/Avatar/${userInfo.id}`}
-                                        shape="round"
-                                        size="120px"
-                                    />
-                                </Col>
-                                <Col>
-                                    <Col>
-                                        <h5>{userInfo.userName}</h5>
-                                    </Col>
-                                    <Col>
-                                        <span>{userInfo.id}</span>
-                                    </Col>
-                                    <Col>
-                                        <span>{userInfo.email}</span>
-                                    </Col>
-                                    <Col>
-                                        <Badge
-                                            count={t(userInfo.isPaid ? "isPaid" : "notPay")}
-                                            shape="circle"
-                                            size="medium"
-                                            color={userInfo.isPaid ? "green" : "yellow"}
-                                        />
-                                    </Col>
-                                </Col>
-                            </Row>
+                        <Card className={styles.resultCard} title={t("queriedSponsorInfo")}>
+                            <div className={styles.userResult}>
+                                <Avatar image={`${lxBackendUrl}/Avatar/${userInfo.id}`} shape="round" size="56px" />
+                                <div className={styles.userDetails}>
+                                    <strong>{userInfo.userName}</strong>
+                                    <span>{userInfo.email}</span>
+                                    <code title={userInfo.id}>{userInfo.id}</code>
+                                </div>
+                                <Badge
+                                    count={t(userInfo.isPaid ? "isPaid" : "notPay")}
+                                    shape="circle"
+                                    size="medium"
+                                    color={userInfo.isPaid ? "green" : "yellow"}
+                                />
+                            </div>
                         </Card>
                     </div>
                 )}

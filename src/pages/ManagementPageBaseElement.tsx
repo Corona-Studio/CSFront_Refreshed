@@ -9,6 +9,7 @@ import MenuItem from "tdesign-react/es/menu/MenuItem";
 
 import { useWindowResize } from "../helpers/WindowResizeHelper.ts";
 import IMatches from "../interfaces/IMatches.ts";
+import styles from "./ManagementPageBaseElement.module.css";
 
 const AsyncVisibilityContainer = lazy(() => import("../components/AsyncVisibilityContainer.tsx"));
 
@@ -29,14 +30,17 @@ export interface ManagementPageBaseElementProps {
     userSessionValidation: boolean;
     userSessionValidator?: () => Promise<boolean>;
     invalidJumpPage?: string;
+    variant?: "admin";
 }
 
 function ManagementPageBaseElement({
     links = () => [],
     userSessionValidation = false,
     userSessionValidator = () => Promise.resolve(true),
-    invalidJumpPage = "/"
+    invalidJumpPage = "/",
+    variant
 }: ManagementPageBaseElementProps) {
+    const isAdmin = variant === "admin";
     const [active, setActive] = useState<MenuValue>("/user");
     const [collapsed, setCollapsed] = useState(false);
     const [menuHeight, setMenuHeight] = useState("100vh");
@@ -116,15 +120,15 @@ function ManagementPageBaseElement({
 
     return (
         <>
-            <div className="flex overflow-y-hidden" style={{ height: containerHeight }}>
-                <div className="hidden md:flex">
+            <div className={isAdmin ? styles.adminShell : "flex overflow-y-hidden"} style={isAdmin ? undefined : { height: containerHeight }}>
+                <div className={isAdmin ? `${styles.adminSidebar} ${collapsed ? styles.adminSidebarCollapsed : ""}` : "hidden md:flex"}>
                     <Menu
                         value={active}
                         logo={<div />}
                         collapsed={collapsed}
                         expandMutex={false}
-                        style={{ top: scrollTop, height: menuHeight }}
-                        className="absolute h-full hover:shadow-lg active:shadow-md shadow transition"
+                        style={isAdmin ? undefined : { top: scrollTop, height: menuHeight }}
+                        className={isAdmin ? styles.adminMenu : "absolute h-full hover:shadow-lg active:shadow-md shadow transition"}
                         onChange={(v) => setActive(v)}
                         operations={
                             <Button
@@ -146,15 +150,15 @@ function ManagementPageBaseElement({
                     </Menu>
                 </div>
 
-                <div className="relative w-screen h-full">
-                    <div ref={containerRef} className="px-[3%] py-[12%] md:py-[10%] lg:py-[6%]">
-                        <div className="flex items-end">
+                <div className={isAdmin ? styles.adminMain : "relative w-screen h-full"}>
+                    <div ref={containerRef} className={isAdmin ? styles.adminContent : "px-[3%] py-[12%] md:py-[10%] lg:py-[6%]"}>
+                        <div className={isAdmin ? styles.adminHeading : "flex items-end"}>
                             <div className="md:hidden">
                                 <Dropdown
                                     direction="right"
                                     hideAfterItemClick={true}
                                     placement="bottom"
-                                    trigger="hover"
+                                    trigger={isAdmin ? "click" : "hover"}
                                     options={menuLinks
                                         .filter(
                                             (link) => link.visibleInDropDown === undefined || link.visibleInDropDown
@@ -169,10 +173,10 @@ function ManagementPageBaseElement({
                                     />
                                 </Dropdown>
                             </div>
-                            <h5 className="pt-4 font-bold">{title}</h5>
+                            {isAdmin ? <h1 className={styles.adminTitle}>{title}</h1> : <h5 className="pt-4 font-bold">{title}</h5>}
                         </div>
-                        <Divider align="center" layout="horizontal" />
-                        <div className="relative">
+                        {!isAdmin && <Divider align="center" layout="horizontal" />}
+                        <div className={isAdmin ? styles.adminBody : "relative"}>
                             <Outlet />
                         </div>
                     </div>

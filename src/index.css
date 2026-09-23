@@ -58,6 +58,20 @@
     --td-brand-color-light-hover: var(--brand-color-2);
 }
 
+html,
+body,
+#root {
+    font-family: var(
+        --td-font-family,
+        "PingFang SC",
+        "Microsoft YaHei UI",
+        "Microsoft YaHei",
+        "Noto Sans CJK SC",
+        system-ui,
+        sans-serif
+    );
+}
+
 #root {
     padding: 0;
 }
@@ -87,12 +101,12 @@ p {
     @apply dark:text-white;
 }
 
-button.t-button:not(div.flex-center>button) {
+button.t-button:not(div.flex-center > button) {
     @apply shadow hover:shadow-lg active:shadow-md transition;
 }
 
 div.t-notification__show--top-right {
-    @apply scale-[80%] sm:scale-100 translate-x-5 sm:translate-x-0.5 md:translate-x-0
+    @apply scale-[80%] sm:scale-100 translate-x-5 sm:translate-x-0.5 md:translate-x-0;
 }
 
 code {

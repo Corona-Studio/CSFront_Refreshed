@@ -99,7 +99,7 @@ function AdminHome() {
 
     return (
         <>
-            <div>
+            <div className={styles.page}>
                 {dashboardItems.error && <Alert theme="error" message={t("backendServerError")} />}
 
                 {dashboardItems.isLoading && <Loading />}
@@ -120,7 +120,7 @@ function AdminHome() {
                         ))}
                 </Row>
 
-                <div className="mt-8 space-y-4">
+                <div className={styles.links}>
                     <div>
                         <Alert
                             icon={<CopyIcon />}

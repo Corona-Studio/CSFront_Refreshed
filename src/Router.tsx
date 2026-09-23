@@ -125,6 +125,7 @@ export const router = createBrowserRouter(
                 element={
                     <ManagementPageBaseElement
                         links={adminPageMenuLinks}
+                        variant="admin"
                         userSessionValidation={true}
                         userSessionValidator={async () => await isAdminSessionValidAsync(true)}
                         invalidJumpPage="/"

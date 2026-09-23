@@ -1,4 +1,5 @@
 .page {
+    padding-bottom: 24px;
     width: 100%;
 }
 
@@ -11,9 +12,21 @@
     margin-bottom: 20px;
 }
 
-.toolbar h3,
+.toolbar h2,
 .toolbar p {
     margin: 0;
+}
+
+.toolbar h2 {
+    color: var(--td-text-color-primary);
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 26px;
+}
+
+.toolbar p {
+    margin-top: 4px;
+    font-size: 13px;
 }
 
 .toolbar p,
@@ -28,34 +41,49 @@
 }
 
 .searchInput {
-    width: min(360px, 100%);
+    width: min(320px, 100%);
 }
 
-.identityCell,
+.managementTable {
+    border: 1px solid var(--td-component-border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.managementTable :global(.t-table__header) {
+    background: var(--td-bg-color-secondarycontainer);
+}
+
+.managementTable :global(.t-pagination) {
+    border-top: 1px solid var(--td-component-border);
+    padding: 12px 16px;
+}
+
 .notificationCell {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
     min-width: 0;
 }
 
-.identityCell strong,
-.identityCell span,
+.notificationCell strong {
+    color: var(--td-text-color-primary);
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 20px;
+}
+
+.notificationCell span {
+    color: var(--td-text-color-secondary);
+    font-size: 12px;
+    line-height: 18px;
+}
+
 .notificationCell strong,
 .notificationCell span {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-
-.roleSelect {
-    width: 180px;
-}
-
-.statusList {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
 }
 
 .dialogForm {
@@ -90,6 +118,14 @@
 }
 
 @media (max-width: 768px) {
+    .managementTable :global(.t-table) {
+        min-width: 680px;
+    }
+
+    .managementTable :global(.t-pagination) {
+        overflow-x: auto;
+    }
+
     .searchInput,
     .toolbarActions {
         width: 100%;

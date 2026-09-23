@@ -1,17 +1,31 @@
 .iconWrap {
     display: inline-flex;
     position: absolute;
-    top: 32px;
-    right: 32px;
+    top: 18px;
+    right: 18px;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
     background: var(--td-brand-color-1);
-    width: 56px;
-    height: 56px;
+    width: 40px;
+    height: 40px;
 }
 
 .svgIcon {
     color: var(--td-brand-color);
-    font-size: 24px;
+    font-size: 20px;
+}
+
+.page {
+    display: grid;
+    gap: 24px;
+}
+
+.links {
+    display: grid;
+    gap: 10px;
+}
+
+.links :global(.t-alert) {
+    min-height: 48px;
 }
