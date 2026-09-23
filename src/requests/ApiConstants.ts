@@ -93,6 +93,31 @@ export async function putAsync<T>(
     }
 }
 
+export async function patchAsync<T>(
+    endPoint: string,
+    req: unknown,
+    axiosConfig: AxiosRequestConfig<unknown> = {}
+): Promise<IResponse<T> | undefined> {
+    try {
+        const response = await csBackend.patch<T>(endPoint, req, axiosConfig);
+
+        return {
+            status: response.status,
+            response: response.data
+        };
+    } catch (error) {
+        console.error(error);
+
+        if (axios.isAxiosError(error)) {
+            return {
+                status: error.status
+            };
+        }
+
+        return undefined;
+    }
+}
+
 export async function deleteAsync<T>(endPoint: string, axiosConfig: AxiosRequestConfig<unknown> = {}) {
     try {
         const response = await csBackend.delete<T>(endPoint, axiosConfig);

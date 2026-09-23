@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { t } from "i18next";
 import { Suspense, lazy } from "react";
+import { useNavigate } from "react-router";
 import {
     ChartLineMultiIcon,
     CopyIcon,
@@ -52,15 +53,18 @@ function getDashboardItemIcon(dataKey: string) {
 }
 
 function AdminHome() {
+    const navigate = useNavigate();
     const quickLinks = [
         {
             text: t("contributorAdminPanel"),
-            link: "https://admin.corona.studio/",
+            link: "/admin/contributions",
+            external: false,
             icon: <GitRepositoryCommitsIcon />
         },
         {
             text: "Azure Application Insights",
             link: "https://portal.azure.com/#browse/microsoft.insights%2Fcomponents",
+            external: true,
             icon: <ChartLineMultiIcon />
         }
     ];
@@ -137,7 +141,15 @@ function AdminHome() {
                                 theme="info"
                                 message={link.text}
                                 operation={
-                                    <a href={link.link} target="_blank">
+                                    <a
+                                        href={link.link}
+                                        target={link.external ? "_blank" : undefined}
+                                        rel={link.external ? "noopener noreferrer" : undefined}
+                                        onClick={(event) => {
+                                            if (link.external) return;
+                                            event.preventDefault();
+                                            navigate(link.link);
+                                        }}>
                                         {t("checkHere")}
                                     </a>
                                 }

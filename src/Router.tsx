@@ -142,6 +142,26 @@ export const router = createBrowserRouter(
                     handle={{ title: () => t("buildManagement") }}
                     lazy={() => import("./pages/Admin/AdminBuilds.tsx")}
                 />
+                <Route
+                    path="users"
+                    handle={{ title: () => t("userManagement") }}
+                    lazy={() => import("./pages/Admin/AdminUsers.tsx")}
+                />
+                <Route
+                    path="notifications"
+                    handle={{ title: () => t("notificationManagement") }}
+                    lazy={() => import("./pages/Admin/AdminNotifications.tsx")}
+                />
+                <Route
+                    path="contributions"
+                    handle={{ title: () => t("contributionManagement") }}
+                    lazy={() => import("./pages/Admin/AdminContributions.tsx")}
+                />
+                <Route
+                    path="contributions/:resourceId"
+                    handle={{ title: () => t("contributionReview") }}
+                    lazy={() => import("./pages/Admin/AdminContributionDetail.tsx")}
+                />
             </Route>
         </Route>
     )

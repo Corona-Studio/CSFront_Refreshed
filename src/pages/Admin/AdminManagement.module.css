@@ -1,0 +1,101 @@
+.page {
+    width: 100%;
+}
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.toolbar h3,
+.toolbar p {
+    margin: 0;
+}
+
+.toolbar p,
+.muted {
+    color: var(--td-text-color-secondary);
+}
+
+.toolbarActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.searchInput {
+    width: min(360px, 100%);
+}
+
+.identityCell,
+.notificationCell {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.identityCell strong,
+.identityCell span,
+.notificationCell strong,
+.notificationCell span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.roleSelect {
+    width: 180px;
+}
+
+.statusList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.dialogForm {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.fieldError {
+    margin-top: 6px;
+    color: var(--td-error-color);
+    font-size: 12px;
+}
+
+.contentPreview {
+    display: -webkit-box;
+    overflow: hidden;
+    color: var(--td-text-color-secondary);
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+@media (max-width: 768px) {
+    .searchInput,
+    .toolbarActions {
+        width: 100%;
+    }
+
+    .toolbarActions > :first-child {
+        flex: 1;
+    }
+}
