@@ -392,151 +392,136 @@ function AdminContributionDetail() {
                 </Button>
             </div>
 
-            {detail && (
-                <>
-                    <div className={styles.metadata}>
-                        <div className={styles.metadataItem}>
-                            <span>{t("resourceId")}</span>
-                            <strong className={styles.ellipsis}>{detail.resourceId}</strong>
-                        </div>
-                        <div className={styles.metadataItem}>
-                            <span>{t("userRating")}</span>
-                            <strong>{detail.rating >= 0 ? detail.rating.toFixed(1) : t("noRating")}</strong>
-                        </div>
-                        <div className={styles.metadataItem}>
-                            <span>{t("totalSubmissions")}</span>
-                            <strong>
-                                {detail.translations.length +
-                                    detail.links.length +
-                                    detail.tags.length +
-                                    detail.ratings.length}
-                            </strong>
-                        </div>
+            <div className={styles.metadata}>
+                <div className={styles.metadataItem}>
+                    <span>{t("resourceId")}</span>
+                    <strong className={styles.ellipsis}>{detail.resourceId}</strong>
+                </div>
+                <div className={styles.metadataItem}>
+                    <span>{t("userRating")}</span>
+                    <strong>{detail.rating >= 0 ? detail.rating.toFixed(1) : t("noRating")}</strong>
+                </div>
+                <div className={styles.metadataItem}>
+                    <span>{t("totalSubmissions")}</span>
+                    <strong>
+                        {detail.translations.length + detail.links.length + detail.tags.length + detail.ratings.length}
+                    </strong>
+                </div>
+            </div>
+
+            {detail.translations.length > 0 && (
+                <Card>
+                    <div className={styles.sectionTitle}>
+                        <h3>
+                            <TranslateIcon /> {t("translationContributions")}
+                        </h3>
+                        <p>{t("translationContributionDescription")}</p>
                     </div>
-
-                    <Card>
-                        <div className={styles.sectionTitle}>
-                            <h3>
-                                <TranslateIcon /> {t("translationContributions")}
-                            </h3>
-                            <p>{t("translationContributionDescription")}</p>
-                        </div>
-                        <PrimaryTable<UserContributedTranslation>
-                            rowKey="id"
-                            hover
-                            data={detail.translations}
-                            columns={translationColumns}
-                            empty={t("noTranslationContributions")}
-                        />
-                    </Card>
-
-                    <Card>
-                        <div className={styles.sectionTitle}>
-                            <h3>
-                                <LinkIcon /> {t("linkContributions")}
-                            </h3>
-                        </div>
-                        <PrimaryTable<UserContributedLink>
-                            rowKey="id"
-                            hover
-                            data={detail.links}
-                            columns={linkColumns}
-                            empty={t("noLinkContributions")}
-                        />
-                    </Card>
-
-                    <Card>
-                        <div className={styles.sectionTitle}>
-                            <h3>{t("tagContributions")}</h3>
-                        </div>
-                        <PrimaryTable<UserContributedTag>
-                            rowKey="id"
-                            hover
-                            data={detail.tags}
-                            columns={tagColumns}
-                            empty={t("noTagContributions")}
-                        />
-                    </Card>
-
-                    <Card>
-                        <div className={styles.sectionTitle}>
-                            <h3>
-                                <StarIcon /> {t("ratingContributions")}
-                            </h3>
-                        </div>
-                        <PrimaryTable<ThirdPartyInfoRatingRecord>
-                            rowKey="id"
-                            hover
-                            data={detail.ratings}
-                            columns={ratingColumns}
-                            empty={t("noRatingContributions")}
-                        />
-                    </Card>
-
-                    <Card>
-                        <div className={styles.sectionTitle}>
-                            <h3>{t("finalResourceInformation")}</h3>
-                            <p>{t("finalResourceInformationDescription")}</p>
-                        </div>
-                        <div className={styles.acceptGrid}>
-                            <label>
-                                <span className={styles.fieldLabel}>{t("finalTranslatedName")}</span>
-                                <Input
-                                    value={translatedName}
-                                    status={validationErrors.translatedName ? "error" : "default"}
-                                    onChange={(value) => setTranslatedName(String(value))}
-                                />
-                                {validationErrors.translatedName && (
-                                    <div className={styles.fieldError}>{validationErrors.translatedName}</div>
-                                )}
-                            </label>
-                            <label>
-                                <span className={styles.fieldLabel}>{t("finalResourceLink")}</span>
-                                <Input
-                                    value={link}
-                                    status={validationErrors.link ? "error" : "default"}
-                                    onChange={(value) => setLink(String(value))}
-                                />
-                                {validationErrors.link && (
-                                    <div className={styles.fieldError}>{validationErrors.link}</div>
-                                )}
-                            </label>
-                            <label className={styles.fieldFull}>
-                                <span className={styles.fieldLabel}>{t("finalResourceTags")}</span>
-                                <Textarea
-                                    value={tags}
-                                    status={validationErrors.tags ? "error" : "default"}
-                                    placeholder={t("resourceTagsPlaceholder")}
-                                    autosize={{ minRows: 2, maxRows: 5 }}
-                                    onChange={(value) => setTags(String(value))}
-                                />
-                                {validationErrors.tags && (
-                                    <div className={styles.fieldError}>{validationErrors.tags}</div>
-                                )}
-                            </label>
-                        </div>
-                        <div className={styles.submitRow}>
-                            <Button
-                                variant="outline"
-                                onClick={() => {
-                                    setTranslatedName("");
-                                    setLink("");
-                                    setTags("");
-                                    setValidationErrors({});
-                                }}>
-                                {t("clear")}
-                            </Button>
-                            <Button
-                                theme="primary"
-                                onClick={() => {
-                                    if (validateAcceptForm()) setPendingAction({ kind: "accept" });
-                                }}>
-                                {t("acceptAsOfficialResource")}
-                            </Button>
-                        </div>
-                    </Card>
-                </>
+                    <PrimaryTable<UserContributedTranslation>
+                        rowKey="id"
+                        hover
+                        data={detail.translations}
+                        columns={translationColumns}
+                    />
+                </Card>
             )}
+
+            {detail.links.length > 0 && (
+                <Card>
+                    <div className={styles.sectionTitle}>
+                        <h3>
+                            <LinkIcon /> {t("linkContributions")}
+                        </h3>
+                    </div>
+                    <PrimaryTable<UserContributedLink> rowKey="id" hover data={detail.links} columns={linkColumns} />
+                </Card>
+            )}
+
+            {detail.tags.length > 0 && (
+                <Card>
+                    <div className={styles.sectionTitle}>
+                        <h3>{t("tagContributions")}</h3>
+                    </div>
+                    <PrimaryTable<UserContributedTag> rowKey="id" hover data={detail.tags} columns={tagColumns} />
+                </Card>
+            )}
+
+            {detail.ratings.length > 0 && (
+                <Card>
+                    <div className={styles.sectionTitle}>
+                        <h3>
+                            <StarIcon /> {t("ratingContributions")}
+                        </h3>
+                    </div>
+                    <PrimaryTable<ThirdPartyInfoRatingRecord>
+                        rowKey="id"
+                        hover
+                        data={detail.ratings}
+                        columns={ratingColumns}
+                    />
+                </Card>
+            )}
+
+            <Card>
+                <div className={styles.sectionTitle}>
+                    <h3>{t("finalResourceInformation")}</h3>
+                    <p>{t("finalResourceInformationDescription")}</p>
+                </div>
+                <div className={styles.acceptForm}>
+                    <div className={styles.acceptGrid}>
+                        <label>
+                            <span className={styles.fieldLabel}>{t("finalTranslatedName")}</span>
+                            <Input
+                                value={translatedName}
+                                status={validationErrors.translatedName ? "error" : "default"}
+                                onChange={(value) => setTranslatedName(String(value))}
+                            />
+                            {validationErrors.translatedName && (
+                                <div className={styles.fieldError}>{validationErrors.translatedName}</div>
+                            )}
+                        </label>
+                        <label>
+                            <span className={styles.fieldLabel}>{t("finalResourceLink")}</span>
+                            <Input
+                                value={link}
+                                status={validationErrors.link ? "error" : "default"}
+                                onChange={(value) => setLink(String(value))}
+                            />
+                            {validationErrors.link && <div className={styles.fieldError}>{validationErrors.link}</div>}
+                        </label>
+                        <label className={styles.fieldFull}>
+                            <span className={styles.fieldLabel}>{t("finalResourceTags")}</span>
+                            <Textarea
+                                value={tags}
+                                status={validationErrors.tags ? "error" : "default"}
+                                placeholder={t("resourceTagsPlaceholder")}
+                                autosize={{ minRows: 2, maxRows: 5 }}
+                                onChange={(value) => setTags(String(value))}
+                            />
+                            {validationErrors.tags && <div className={styles.fieldError}>{validationErrors.tags}</div>}
+                        </label>
+                    </div>
+                    <div className={styles.submitRow}>
+                        <Button
+                            variant="outline"
+                            onClick={() => {
+                                setTranslatedName("");
+                                setLink("");
+                                setTags("");
+                                setValidationErrors({});
+                            }}>
+                            {t("clear")}
+                        </Button>
+                        <Button
+                            theme="primary"
+                            onClick={() => {
+                                if (validateAcceptForm()) setPendingAction({ kind: "accept" });
+                            }}>
+                            {t("acceptAsOfficialResource")}
+                        </Button>
+                    </div>
+                </div>
+            </Card>
 
             <Dialog
                 visible={!!pendingAction}
