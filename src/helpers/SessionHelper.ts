@@ -2,6 +2,7 @@ import { JwtPayload, jwtDecode } from "jwt-decode";
 import localForage from "localforage";
 
 import {
+    RawLoginResponse,
     StoredAuthEmail,
     StoredAuthExpired,
     StoredAuthPassword,
@@ -13,22 +14,17 @@ import { getStorageItemAsync } from "./StorageHelper.ts";
 
 export const JwtRoleKey = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
 
-async function resetCredentialsAsync() {
-    // Reset saved token
-    await localForage.setItem(StoredAuthToken, "");
-    await localForage.setItem(StoredAuthExpired, "");
-    await localForage.setItem(StoredAuthUserName, "");
-    await localForage.setItem(StoredAuthUserId, "");
-
-    sessionStorage.setItem(StoredAuthToken, "");
-    sessionStorage.setItem(StoredAuthExpired, "");
-    sessionStorage.setItem(StoredAuthUserName, "");
-    sessionStorage.setItem(StoredAuthUserId, "");
-}
+const credentialKeys = [
+    StoredAuthEmail,
+    StoredAuthPassword,
+    StoredAuthToken,
+    StoredAuthExpired,
+    StoredAuthUserName,
+    StoredAuthUserId
+] as const;
 
 function generalChecks(token: string | null, expireDate: string | null) {
     if (!token || !expireDate) {
-        console.log("No saved token, continue login...");
         return false;
     }
 
@@ -36,21 +32,36 @@ function generalChecks(token: string | null, expireDate: string | null) {
 }
 
 export function clearOldLocalStorageInfo() {
-    localStorage.removeItem(StoredAuthEmail);
-    localStorage.removeItem(StoredAuthPassword);
-    localStorage.removeItem(StoredAuthToken);
-    localStorage.removeItem(StoredAuthExpired);
-    localStorage.removeItem(StoredAuthUserName);
-    localStorage.removeItem(StoredAuthUserId);
+    credentialKeys.forEach((key) => localStorage.removeItem(key));
 }
 
 export async function clearForageStorageAsync() {
-    await localForage.setItem(StoredAuthEmail, "");
-    await localForage.setItem(StoredAuthPassword, "");
-    await localForage.setItem(StoredAuthToken, "");
-    await localForage.setItem(StoredAuthExpired, "");
-    await localForage.setItem(StoredAuthUserName, "");
-    await localForage.setItem(StoredAuthUserId, "");
+    await Promise.all(credentialKeys.map((key) => localForage.removeItem(key)));
+}
+
+export async function clearSessionAsync() {
+    await clearForageStorageAsync();
+    credentialKeys.forEach((key) => sessionStorage.removeItem(key));
+    clearOldLocalStorageInfo();
+}
+
+export async function saveSessionAsync(response: RawLoginResponse, email: string, persistent: boolean) {
+    await clearSessionAsync();
+
+    const values = new Map<string, string>([
+        [StoredAuthEmail, email],
+        [StoredAuthToken, response.token],
+        [StoredAuthExpired, new Date(response.expiration).toISOString()],
+        [StoredAuthUserName, response.username],
+        [StoredAuthUserId, response.id]
+    ]);
+
+    if (persistent) {
+        await Promise.all([...values].map(([key, value]) => localForage.setItem(key, value)));
+        return;
+    }
+
+    values.forEach((value, key) => sessionStorage.setItem(key, value));
 }
 
 // Check if the User session is valid
@@ -64,7 +75,7 @@ export async function isUserSessionValidAsync() {
 
     const result = generalChecks(token, expireDate);
 
-    if (!result) await resetCredentialsAsync();
+    if (!result) await clearSessionAsync();
 
     return result;
 }
@@ -76,25 +87,17 @@ export async function isAdminSessionValidAsync(isResetCredentials: boolean) {
     const expireDate = await getStorageItemAsync(StoredAuthExpired);
 
     if (!generalChecks(token, expireDate)) {
-        if (isResetCredentials) await resetCredentialsAsync();
+        if (isResetCredentials) await clearSessionAsync();
 
         return false;
     }
 
-    const decodedHeader = jwtDecode<JwtPayload>(token!);
-
-    for (const [key, value] of Object.entries(decodedHeader)) {
-        if (key !== JwtRoleKey) continue;
-        if (!value) continue;
-
-        const values = value as string[];
-
-        for (const v of values) {
-            if (v === "admin") {
-                return true;
-            }
-        }
+    try {
+        const roles = jwtDecode<JwtPayload & Record<string, unknown>>(token!)[JwtRoleKey];
+        const values = Array.isArray(roles) ? roles : [roles];
+        return values.includes("admin");
+    } catch {
+        if (isResetCredentials) await clearSessionAsync();
+        return false;
     }
-
-    return false;
 }

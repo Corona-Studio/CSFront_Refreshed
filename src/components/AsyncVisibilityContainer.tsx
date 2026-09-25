@@ -5,21 +5,21 @@ interface AsyncVisibilityContainerProps {
     visible?: () => Promise<boolean>;
 }
 
+const visibleByDefault = () => Promise.resolve(true);
+
 const AsyncVisibilityContainer: FC<AsyncVisibilityContainerProps> = ({
     children = null,
-    visible = () => Promise.resolve(true)
+    visible = visibleByDefault
 }) => {
     const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
-        async function setIsVisibleAsync() {
-            if (!visible) return;
-
-            setIsVisible(await visible());
-        }
-
-        setIsVisibleAsync().then();
-    }, []);
+        let active = true;
+        visible().then((result) => active && setIsVisible(result));
+        return () => {
+            active = false;
+        };
+    }, [visible]);
 
     return isVisible && <>{children}</>;
 };

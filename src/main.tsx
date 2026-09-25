@@ -10,6 +10,7 @@ import "tdesign-react/es/_util/react-19-adapter";
 import "tdesign-react/es/style/index.css";
 
 import { router } from "./Router.tsx";
+import { applyTheme, getTheme } from "./helpers/ThemeDetector.ts";
 import "./i18n";
 import "./index.css";
 
@@ -29,7 +30,15 @@ localForage.config({
     description: "This is the Key-Value store for CSFront."
 });
 
-createRoot(document.getElementById("root")!).render(
+// Remove credentials written by older versions. Passwords must never be persisted client-side.
+void localForage.removeItem("AUTH_PASSWORD");
+
+applyTheme(getTheme());
+
+const rootElement = document.getElementById("root");
+if (!rootElement) throw new Error("Missing #root element");
+
+createRoot(rootElement).render(
     <StrictMode>
         <HelmetProvider>
             {vercelInsightsEnabled && <Analytics />}

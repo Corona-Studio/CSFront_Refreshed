@@ -25,8 +25,8 @@ import {
     getAdminUsersAsync,
     updateAdminUserTypeAsync
 } from "../../requests/AdminRequests.ts";
-import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
 import { lxBackendUrl } from "../../requests/ApiConstants.ts";
+import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
 import styles from "./AdminUsers.module.css";
 
 async function getAdminTokenAsync() {
@@ -44,8 +44,6 @@ function getInitial(user: AdminUserInfo) {
 
 function UserAvatar({ user }: { user: AdminUserInfo }) {
     const [imageFailed, setImageFailed] = useState(false);
-
-    useEffect(() => setImageFailed(false), [user.id]);
 
     return (
         <span className={styles.avatar} aria-hidden="true">
@@ -164,7 +162,7 @@ function AdminUsers() {
                 width: 420,
                 cell: ({ row }) => (
                     <div className={styles.userCell}>
-                        <UserAvatar user={row} />
+                        <UserAvatar key={row.id} user={row} />
                         <div className={styles.userDetails}>
                             <div className={styles.nameRow}>
                                 <strong title={row.userName}>{row.userName || t("unnamedUser")}</strong>
@@ -189,7 +187,8 @@ function AdminUsers() {
                 width: 240,
                 cell: ({ row }) => (
                     <div className={styles.statusList}>
-                        <span className={`${styles.emailStatus} ${row.emailConfirmed ? styles.verified : styles.unverified}`}>
+                        <span
+                            className={`${styles.emailStatus} ${row.emailConfirmed ? styles.verified : styles.unverified}`}>
                             {row.emailConfirmed ? <CheckCircleIcon /> : <CloseCircleIcon />}
                             {t(row.emailConfirmed ? "emailVerified" : "emailUnverified")}
                         </span>
@@ -303,7 +302,7 @@ function AdminUsers() {
                 onConfirm={confirmIdentityChangeAsync}
                 onClose={() => !isUpdating && setPendingChange(undefined)}>
                 <div className={styles.changeSummary}>
-                    {pendingChange && <UserAvatar user={pendingChange.user} />}
+                    {pendingChange && <UserAvatar key={pendingChange.user.id} user={pendingChange.user} />}
                     <div>
                         <strong>{pendingChange?.user.userName}</strong>
                         <span>{pendingChange?.user.email}</span>

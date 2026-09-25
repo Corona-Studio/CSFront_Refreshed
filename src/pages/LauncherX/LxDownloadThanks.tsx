@@ -1,24 +1,11 @@
 import i18next from "i18next";
-import { lazy, useEffect, useMemo, useState } from "react";
+import { lazy, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { CheckCircleFilledIcon, LinkIcon } from "tdesign-icons-react";
 import { Alert, Button, Card, Divider } from "tdesign-react";
 
-
-
 import { envVal } from "../../helpers/EnvHelper.ts";
-
-
-
-
-
-
-
-
-
-
-
-
+import { detectPlatform, getSavedOperatingSystem, saveDetectedPlatform } from "../../helpers/PlatformHelper.ts";
 
 const Waves = lazy(() => import("../../ReactBits/Backgrounds/Waves/Waves.tsx"));
 const BannerContainer = lazy(() => import("../../components/BannerContainer.tsx"));
@@ -33,33 +20,14 @@ interface GuideLink {
 }
 
 function LxDownloadThanks() {
-    const [detectedOS, setDetectedOS] = useState<string | null>(() => {
-        return sessionStorage.getItem("detectedOS");
-    });
+    const detectedOS = useMemo(() => {
+        const savedOperatingSystem = getSavedOperatingSystem();
+        if (savedOperatingSystem) return savedOperatingSystem;
 
-    const [showAnimation, setShowAnimation] = useState(false);
-
-    useEffect(() => {
-        setShowAnimation(true);
-
-        if (!detectedOS) {
-            const platform = navigator.userAgent.toLowerCase();
-            let os = null;
-
-            if (platform.includes("win")) {
-                os = "Windows";
-            } else if (platform.includes("mac")) {
-                os = "macOS";
-            } else if (platform.includes("linux")) {
-                os = "Linux";
-            }
-
-            if (os) {
-                sessionStorage.setItem("detectedOS", os);
-                setDetectedOS(os);
-            }
-        }
-    }, [detectedOS]);
+        const platform = detectPlatform();
+        saveDetectedPlatform(platform);
+        return platform.os === "Unknown" ? null : platform.os;
+    }, []);
 
     const guideLinks: GuideLink[] = useMemo(
         () => [
@@ -113,8 +81,7 @@ function LxDownloadThanks() {
                     />
                 </div>
                 <div className="relative z-10 w-full h-full grid place-items-center">
-                    <div
-                        className={`text-center text-gray-900 dark:text-white space-y-6 transition-all duration-500 ${showAnimation ? "opacity-100 transform translate-y-0" : "opacity-0 transform -translate-y-10"}`}>
+                    <div className="text-center text-gray-900 dark:text-white space-y-6 animate-[fadeInUp_0.6s_ease_forwards]">
                         <div className="mt-20 mb-6 flex justify-center">
                             <CheckCircleFilledIcon className="text-green-500 text-6xl" />
                         </div>
@@ -174,7 +141,7 @@ function LxDownloadThanks() {
                                                 }`}
                                             style={{
                                                 animationDelay: `${index * 150}ms`,
-                                                animation: showAnimation ? "fadeInUp 0.6s ease forwards" : "none"
+                                                animation: "fadeInUp 0.6s ease forwards"
                                             }}>
                                             <div className="flex flex-col items-center text-center text-gray-900 dark:text-white p-4 h-full">
                                                 <div className="text-4xl mb-3 transition-transform duration-500 ease-out group-hover:scale-110 group-hover:rotate-[360deg]">

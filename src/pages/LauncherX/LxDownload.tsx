@@ -1,13 +1,15 @@
+import { useQuery } from "@tanstack/react-query";
 import i18next from "i18next";
-import { lazy, useEffect, useState } from "react";
+import { lazy, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router";
 import { ChevronDownIcon, CodeIcon, RocketIcon } from "tdesign-icons-react";
-import { Button, Dropdown, Loading, NotificationPlugin, Space } from "tdesign-react";
+import { Button, Dropdown, Loading, Space } from "tdesign-react";
 import { DropdownOption } from "tdesign-react/es/dropdown/type";
 
 import { getBuildName } from "../../helpers/BuildHelper.ts";
 import { envVal } from "../../helpers/EnvHelper.ts";
+import { detectPlatform, saveDetectedPlatform } from "../../helpers/PlatformHelper.ts";
 import { lxBackendUrl } from "../../requests/ApiConstants.ts";
 import { LauncherRawBuildModel, getAllStableBuildsAsync } from "../../requests/LxBuildRequests.ts";
 
@@ -26,103 +28,20 @@ interface RecommendedBuild {
 
 function LxDownload() {
     const navigate = useNavigate(); // Added hook usage
-    const [isLoading, setIsLoading] = useState<boolean | undefined>(true);
-    const [updatedAt, setUpdatedAt] = useState<string | null>(null);
-    const [downloadOptions, setDownloadOptions] = useState<DropdownOption[]>([]);
-    const [recommendedBuild, setRecommendedBuild] = useState<RecommendedBuild | null>(null);
-
-    function detectPlatform(): { os: string; arch: string } {
-        const uaLower = navigator.userAgent.toLowerCase();
-        let os = "Unknown";
-        let arch = "Unknown";
-
-        if (uaLower.includes("window")) {
-            os = "Windows";
-        } else if (uaLower.includes("mac")) {
-            os = "macOS";
-        } else if (uaLower.includes("linux")) {
-            os = "Linux";
+    const buildsQuery = useQuery({
+        queryKey: ["launcherBuilds", latestToken],
+        queryFn: async () => {
+            const builds = await getAllStableBuildsAsync();
+            if (!builds) throw new Error("Unable to load launcher builds");
+            return builds;
         }
+    });
 
-        if (os === "macOS") {
-            try {
-                const canvas = document.createElement("canvas");
-                const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-                if (gl) {
-                    const webgl = gl as WebGLRenderingContext;
-                    const debugInfo = webgl.getExtension("WEBGL_debug_renderer_info");
-                    const renderer = debugInfo ? webgl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "";
-
-                    if (typeof renderer === "string") {
-                        const rendererLower = renderer.toLowerCase();
-                        if (rendererLower.includes("apple") && !rendererLower.includes("apple gpu")) {
-                            arch = "Apple";
-                        } else if (rendererLower.includes("apple gpu")) {
-                            const supportedExtensions = webgl.getSupportedExtensions() || [];
-                            if (supportedExtensions.indexOf("WEBGL_compressed_texture_s3tc_srgb") === -1) {
-                                arch = "Apple";
-                            } else {
-                                arch = "Intel";
-                            }
-                        } else if (
-                            rendererLower.includes("intel") ||
-                            rendererLower.includes("amd") ||
-                            rendererLower.includes("nvidia")
-                        ) {
-                            arch = "Intel";
-                        }
-                    }
-                }
-            } catch (e) {
-                console.error("Error during WebGL detection:", e);
-            }
-
-            if (arch === "Unknown") {
-                if (uaLower.includes("arm64") || uaLower.includes("aarch64")) {
-                    arch = "Apple";
-                } else {
-                    arch = "Intel";
-                }
-            }
-        } else if (uaLower.includes("arm64") || uaLower.includes("aarch64")) {
-            arch = "Arm64";
-        } else if (uaLower.includes("win64") || uaLower.includes("wow64") || uaLower.includes("x64")) {
-            arch = "X64";
-        }
-
-        if (os !== "Unknown" && arch === "Unknown") {
-            arch = os === "macOS" ? "Intel" : "X64";
-        }
-
-        sessionStorage.setItem("detectedOS", os);
-        sessionStorage.setItem("detectedArch", arch);
-
-        return { os, arch };
-    }
-
-    async function getLauncherBuilds() {
-        const builds = await getAllStableBuildsAsync();
-
-        if (!builds) {
-            await NotificationPlugin.info({
-                title: "获取失败",
-                content: "无法获取构建列表",
-                placement: "top-right",
-                duration: 10000,
-                offset: [-36, "10rem"],
-                closeBtn: true,
-                attach: () => document
-            });
-
-            setIsLoading(undefined);
-            return;
-        }
-
+    const { downloadOptions, recommendedBuild, updatedAt } = useMemo(() => {
         const options: DropdownOption[] = [];
         const buildsArray: { key: string; build: LauncherRawBuildModel; date: string }[] = [];
 
-        for (const fetchedBuild of builds) {
-            const build = fetchedBuild as LauncherRawBuildModel;
+        for (const build of buildsQuery.data ?? []) {
             if (!build.framework.startsWith(latestToken)) continue;
 
             const url = `${lxBackendUrl}/Build/get/${build.id}/${build.framework}.${build.runtime}.zip`;
@@ -132,13 +51,11 @@ function LxDownload() {
                 content: buildName,
                 value: url
             });
-            buildsArray.push({ key: buildName, build, date: fetchedBuild.releaseDate });
+            buildsArray.push({ key: buildName, build, date: build.releaseDate });
         }
 
-        setDownloadOptions(options);
-        setUpdatedAt(buildsArray[0]!.date ?? null);
-
-        const { os, arch } = detectPlatform();
+        const platform = detectPlatform();
+        const { os, arch } = platform;
         let bestMatch: RecommendedBuild | null = null;
         let fallbackMatch: RecommendedBuild | null = null;
 
@@ -146,44 +63,35 @@ function LxDownload() {
         const targetKeyFallback = os === "macOS" ? `${os} Intel` : `${os} X64`;
 
         for (const { key, build } of buildsArray) {
-            // if (!build.framework.startsWith(latestToken)) continue;
             const url = `${lxBackendUrl}/Build/get/${build.id}/${build.framework}.${build.runtime}.zip`;
 
             if (key === targetKeyExact) {
                 bestMatch = { name: key, url: url };
                 break;
             }
-            if (key === targetKeyFallback)
-                fallbackMatch = { name: key, url: url };
-
+            if (key === targetKeyFallback) fallbackMatch = { name: key, url };
         }
 
-        const finalRecommendation = bestMatch ?? fallbackMatch;
-        setRecommendedBuild(finalRecommendation);
-        setIsLoading(false);
-    }
-
-    useEffect(() => {
-        getLauncherBuilds(); // eslint-disable-line
-    }, []); // eslint-disable-line
+        return {
+            downloadOptions: options,
+            recommendedBuild: bestMatch ?? fallbackMatch,
+            updatedAt: buildsArray[0]?.date ?? null
+        };
+    }, [buildsQuery.data]);
 
     function onMenuItemClicked(dropdownItem: DropdownOption) {
         if (!dropdownItem.value) return;
         const value = dropdownItem.value as string;
-        const { os, arch } = detectPlatform();
-        sessionStorage.setItem("detectedOS", os);
-        sessionStorage.setItem("detectedArch", arch);
+        saveDetectedPlatform(detectPlatform());
         navigate("/lx/download/thanks");
-        window.open(value, "_blank");
+        window.open(value, "_blank", "noopener,noreferrer");
     }
 
     function onRecommendedDownloadClick() {
         if (recommendedBuild?.url) {
-            const { os, arch } = detectPlatform();
-            sessionStorage.setItem("detectedOS", os);
-            sessionStorage.setItem("detectedArch", arch);
+            saveDetectedPlatform(detectPlatform());
             navigate("/lx/download/thanks");
-            window.open(recommendedBuild.url, "_blank");
+            window.open(recommendedBuild.url, "_blank", "noopener,noreferrer");
         }
     }
 
@@ -227,13 +135,12 @@ function LxDownload() {
                                 </div>
                                 <div className="flex justify-center flex-wrap gap-1 md:gap-2 lg:gap-3">
                                     {" "}
-                                    <span
-                                        className="inline-block align-middle relative text-black dark:text-white px-3 bg-zinc-300 dark:bg-zinc-700 overflow-hidden py-1 rounded-lg">
+                                    <span className="inline-block align-middle relative text-black dark:text-white px-3 bg-zinc-300 dark:bg-zinc-700 overflow-hidden py-1 rounded-lg">
                                         <div>
-                                            <RocketIcon className="inline-block -translate-y-0.5" /> {(updatedAt ?? "-").split("T")[0]}
+                                            <RocketIcon className="inline-block -translate-y-0.5" />{" "}
+                                            {(updatedAt ?? "-").split("T")[0]}
                                         </div>
                                     </span>
-
                                     <RotatingText
                                         texts={["Windows", "macOS", "Linux"]}
                                         mainClassName="text-black dark:text-white px-3 bg-amber-400 dark:bg-amber-600 overflow-hidden py-1 rounded-lg"
@@ -258,7 +165,7 @@ function LxDownload() {
                                     />
                                 </div>
                             </div>
-                            {isLoading && (
+                            {buildsQuery.isLoading && (
                                 <Loading
                                     className="w-full h-[100px] mt-5"
                                     indicator
@@ -267,7 +174,7 @@ function LxDownload() {
                                     showOverlay={false}
                                 />
                             )}
-                            {isLoading === false && (
+                            {buildsQuery.isSuccess && (
                                 <div className="pt-5">
                                     <Space size="small">
                                         <Button
@@ -300,11 +207,12 @@ function LxDownload() {
                                         </Dropdown>
                                     </Space>
                                     <div className="pt-3 text-black dark:text-white opacity-50 text-sm">
-                                        <CodeIcon className="-translate-y-0.5 text-base" /> dot{latestToken.replace('net', "Net ")}
+                                        <CodeIcon className="-translate-y-0.5 text-base" /> dot
+                                        {latestToken.replace("net", "Net ")}
                                     </div>
                                 </div>
                             )}
-                            {isLoading === undefined && (
+                            {buildsQuery.isError && (
                                 <div className="pt-8">
                                     <div className="bg-red-100 dark:bg-red-900/30 p-6 rounded-lg border border-red-300 dark:border-red-700 text-center">
                                         <div className="text-red-700 dark:text-red-400 text-lg font-medium mb-2">
@@ -317,7 +225,7 @@ function LxDownload() {
                                             size="large"
                                             variant="outline"
                                             theme="danger"
-                                            onClick={getLauncherBuilds}>
+                                            onClick={() => buildsQuery.refetch()}>
                                             {t("retry")}
                                         </Button>
                                     </div>

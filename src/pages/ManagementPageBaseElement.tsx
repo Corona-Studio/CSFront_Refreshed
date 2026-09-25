@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 import { Outlet, useLocation, useMatches, useNavigate } from "react-router";
 import { ViewListIcon } from "tdesign-icons-react";
 import { Button, Dropdown, DropdownOption, Menu, Skeleton } from "tdesign-react";
@@ -6,14 +6,10 @@ import type { MenuValue } from "tdesign-react";
 import { TElement } from "tdesign-react/es/common";
 import MenuItem from "tdesign-react/es/menu/MenuItem";
 
-import IMatches from "../interfaces/IMatches.ts";
+import { RouteHandle } from "../app/routeTypes.ts";
 import styles from "./ManagementPageBaseElement.module.css";
 
 const AsyncVisibilityContainer = lazy(() => import("../components/AsyncVisibilityContainer.tsx"));
-
-interface HandleType {
-    title: (param?: string) => string;
-}
 
 export interface MenuLinkModel {
     icon: TElement;
@@ -39,18 +35,16 @@ function ManagementPageBaseElement({
     variant
 }: ManagementPageBaseElementProps) {
     const isAdmin = variant === "admin";
-    const [active, setActive] = useState<MenuValue>("/user");
     const [collapsed, setCollapsed] = useState(false);
-    const [title, setTitle] = useState("");
 
     const navigate = useNavigate();
     const location = useLocation();
 
-    const matches = useMatches() as IMatches[];
-    const { handle, loaderData } = matches[matches.length - 1];
-
-    const titleHandle = !!handle && !!(handle as HandleType).title;
-    const menuLinks = links();
+    const matches = useMatches();
+    const currentMatch = matches[matches.length - 1];
+    const handle = currentMatch?.handle as RouteHandle | undefined;
+    const title = handle?.title?.(currentMatch?.loaderData) ?? "";
+    const menuLinks = useMemo(() => links(), [links]);
 
     useEffect(() => {
         async function checkAuthAsync() {
@@ -62,18 +56,6 @@ function ManagementPageBaseElement({
 
         checkAuthAsync().then();
     }, [invalidJumpPage, location.pathname, navigate, userSessionValidation, userSessionValidator]);
-
-    useEffect(() => {
-        setActive(location.pathname);
-    }, [location.pathname]);
-
-    useEffect(() => {
-        const title = (handle as HandleType).title(loaderData as string | undefined);
-
-        if (!title) return;
-
-        setTitle(title);
-    }, [loaderData, handle, titleHandle]);
 
     function onMenuItemClicked(dropdownItem: DropdownOption) {
         if (!dropdownItem.value) return;
@@ -88,12 +70,12 @@ function ManagementPageBaseElement({
             <div className={`${styles.adminShell} ${collapsed ? styles.adminShellCollapsed : ""}`}>
                 <div className={styles.adminSidebar}>
                     <Menu
-                        value={active}
+                        value={location.pathname as MenuValue}
                         logo={<div />}
                         collapsed={collapsed}
                         expandMutex={false}
                         className={styles.adminMenu}
-                        onChange={(v) => setActive(v)}
+                        onChange={(value) => typeof value === "string" && navigate(value)}
                         operations={
                             <Button
                                 variant="text"
@@ -102,8 +84,8 @@ function ManagementPageBaseElement({
                                 onClick={() => setCollapsed(!collapsed)}
                             />
                         }>
-                        {menuLinks.map((link, i) => (
-                            <Suspense key={i} fallback={<Skeleton loading={true} />}>
+                        {menuLinks.map((link) => (
+                            <Suspense key={link.to} fallback={<Skeleton loading={true} />}>
                                 <AsyncVisibilityContainer visible={link.visible}>
                                     <MenuItem value={link.to} icon={link.icon} onClick={() => navigate(link.to)}>
                                         <span>{link.value}</span>

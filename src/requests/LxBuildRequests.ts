@@ -1,4 +1,4 @@
-import { csBackend } from "./ApiConstants.ts";
+import { getAsync } from "./ApiConstants.ts";
 
 export interface LauncherRawBuildModel {
     id: string;
@@ -18,16 +18,6 @@ export interface LauncherRawBuildModel {
 }
 
 export async function getAllStableBuildsAsync(): Promise<LauncherRawBuildModel[] | undefined> {
-    const endPoint = "/Build/get/latest/all/stable";
-
-    try {
-        const response = await csBackend.get<LauncherRawBuildModel[]>(endPoint);
-
-        if (!response.data || response.data.length === 0) return undefined;
-
-        return response.data;
-    } catch (error) {
-        console.error(error);
-        return undefined;
-    }
+    const result = await getAsync<LauncherRawBuildModel[]>("/Build/get/latest/all/stable");
+    return result.status === 200 && result.response?.length ? result.response : undefined;
 }

@@ -4,21 +4,14 @@ import { useNavigate } from "react-router";
 import { LockOnIcon, MailIcon } from "tdesign-icons-react";
 import { Button, Checkbox, Form, Input, NotificationPlugin } from "tdesign-react";
 import type { FormProps } from "tdesign-react";
-import Constants from "./../../helpers/Constants.ts";
 import FormItem from "tdesign-react/es/form/FormItem";
 
-import { clearForageStorageAsync, isUserSessionValidAsync } from "../../helpers/SessionHelper.ts";
+import { getSafeRedirect } from "../../helpers/RouteHelper.ts";
+import { isUserSessionValidAsync, saveSessionAsync } from "../../helpers/SessionHelper.ts";
 import { useUrlQuery } from "../../helpers/UrlQueryHelper.ts";
 import i18next from "../../i18n.ts";
-import {
-    StoredAuthEmail,
-    StoredAuthExpired,
-    StoredAuthPassword,
-    StoredAuthToken,
-    StoredAuthUserId,
-    StoredAuthUserName,
-    loginAsync
-} from "../../requests/LxAuthRequests.ts";
+import { StoredAuthEmail, loginAsync } from "../../requests/LxAuthRequests.ts";
+import Constants from "./../../helpers/Constants.ts";
 
 const t = i18next.t;
 
@@ -32,21 +25,17 @@ function AuthLogin() {
     const navigate = useNavigate();
     const query = useUrlQuery();
 
-    const redirect = query.get("redirect");
+    const redirect = getSafeRedirect(query.get("redirect"), "/user");
 
     const [isLoading, setIsLoading] = useState(false);
     const [savedEmail, setSavedEmail] = useState<string | null>();
-    const [savedPassword, setSavedPassword] = useState<string | null>();
 
     const [form] = Form.useForm();
 
     useEffect(() => {
         async function setEmailAsync() {
             const email = await localForage.getItem<string>(StoredAuthEmail);
-            const password = await localForage.getItem<string>(StoredAuthPassword);
-
             setSavedEmail(email);
-            setSavedPassword(password);
 
             form.reset();
         }
@@ -58,7 +47,7 @@ function AuthLogin() {
     useEffect(() => {
         async function checkAuthAsync() {
             if (!(await isUserSessionValidAsync())) return;
-            navigate(redirect ? redirect : "/user");
+            navigate(redirect);
         }
 
         checkAuthAsync().then();
@@ -77,23 +66,7 @@ function AuthLogin() {
                 if (r.status === 401) throw new Error(t("incorrectEmailOrPassword"));
                 if (!r.response) throw new Error(t("unknownLoginErrorDescription"));
 
-                if (formData.rememberMe) {
-                    await localForage.setItem(StoredAuthEmail, formData.email!);
-                    await localForage.setItem(StoredAuthPassword, formData.password!);
-                    await localForage.setItem(StoredAuthToken, r.response.token);
-                    await localForage.setItem(StoredAuthExpired, new Date(r.response.expiration).toUTCString());
-                    await localForage.setItem(StoredAuthUserName, r.response.username);
-                    await localForage.setItem(StoredAuthUserId, r.response.id);
-                } else {
-                    // Reset localForage
-                    await clearForageStorageAsync();
-
-                    sessionStorage.setItem(StoredAuthEmail, formData.email!);
-                    sessionStorage.setItem(StoredAuthToken, r.response.token);
-                    sessionStorage.setItem(StoredAuthExpired, new Date(r.response.expiration).toUTCString());
-                    sessionStorage.setItem(StoredAuthUserName, r.response.username);
-                    sessionStorage.setItem(StoredAuthUserId, r.response.id);
-                }
+                await saveSessionAsync(r.response, formData.email!, formData.rememberMe);
 
                 await NotificationPlugin.success({
                     title: t("loginSucceeded"),
@@ -105,7 +78,7 @@ function AuthLogin() {
                     attach: () => document
                 });
 
-                navigate(redirect ? redirect : "/user");
+                navigate(redirect);
             })
             .catch(async (err) => {
                 await NotificationPlugin.error({
@@ -147,7 +120,7 @@ function AuthLogin() {
                             placeholder={t("pleaseInputEmail")}
                         />
                     </FormItem>
-                    <FormItem name="password" initialData={savedPassword}>
+                    <FormItem name="password">
                         <Input
                             disabled={isLoading}
                             type="password"
@@ -159,11 +132,7 @@ function AuthLogin() {
                             theme="danger"
                             type="reset"
                             style={{ marginLeft: 12 }}
-                            onClick={() =>
-                                navigate(
-                                    redirect ? `/auth/forgetPassword?redirect=${redirect}` : "/auth/forgetPassword"
-                                )
-                            }>
+                            onClick={() => navigate(`/auth/forgetPassword?redirect=${encodeURIComponent(redirect)}`)}>
                             {t("forgetPassword")}
                         </Button>
                     </FormItem>

@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { EarthIcon, LinkIcon, MoonIcon, SunnyIcon, User1Icon, ViewListIcon } from "tdesign-icons-react";
 import { Button, Dropdown, DropdownOption, MenuValue } from "tdesign-react";
@@ -7,7 +7,7 @@ import MenuItem from "tdesign-react/es/menu/MenuItem";
 
 import logo from "../assets/logo.png";
 import { I18NLangKey } from "../helpers/StorageHelper.ts";
-import { useThemeDetector } from "../helpers/ThemeDetector.ts";
+import { setTheme, useTheme } from "../helpers/ThemeDetector.ts";
 import i18next from "../i18n";
 import { MenuItemValue } from "../interfaces/MenuItemValue.ts";
 import "./MenuBar.css";
@@ -21,18 +21,17 @@ interface DropDownItemValue {
     menuValue: string;
 }
 
+const langCodeMapping: ReadonlyMap<string, string> = new Map([
+    ["zhCN", "zh"],
+    ["enUS", "en"]
+]);
+
 function MenuBar() {
-    const themeDetector = useThemeDetector();
-    const [active, setActive] = useState<MenuValue>("0");
-    const [isDarkMode, setDarkMode] = useState(true);
+    const theme = useTheme();
+    const isDarkMode = theme === "dark";
 
     const navigate = useNavigate();
     const location = useLocation();
-
-    const langCodeMapping: Map<string, string> = new Map([
-        ["zhCN", "zh"],
-        ["enUS", "en"]
-    ]);
 
     const languageOptions = [
         {
@@ -79,7 +78,7 @@ function MenuBar() {
             return;
         }
 
-        window.open(value.to, "_blank");
+        window.open(value.to, "_blank", "noopener,noreferrer");
     }
 
     function onMenuItemClicked(dropdownItem: DropdownOption) {
@@ -90,8 +89,9 @@ function MenuBar() {
         to(value);
     }
 
-    // eslint-disable-next-line react-hooks/immutability
-    document.documentElement.lang = langCodeMapping.get(i18next.language) ?? "zh";
+    useEffect(() => {
+        document.documentElement.lang = langCodeMapping.get(i18next.language) ?? "zh";
+    }, []);
 
     function onLanguageMenuItemClicked(dropdownItem: DropdownOption) {
         if (!dropdownItem.value) return;
@@ -135,20 +135,8 @@ function MenuBar() {
         </div>
     );
 
-    useEffect(() => {
-        setDarkMode(!themeDetector);
-        setActive(location.pathname);
-    }, [location.pathname, themeDetector]);
-
     function switchTheme() {
-        setDarkMode(!isDarkMode);
-
-        localStorage.theme = isDarkMode ? "dark" : "light";
-        if (isDarkMode) {
-            document.documentElement.setAttribute("theme-mode", "dark");
-            return;
-        }
-        document.documentElement.removeAttribute("theme-mode");
+        setTheme(isDarkMode ? "light" : "dark");
     }
 
     function onLogoClicked() {
@@ -161,8 +149,7 @@ function MenuBar() {
                 <HeadMenu
                     theme="light"
                     className="pl-2.5! pr-1! lg:px-5!"
-                    value={active}
-                    onChange={(v) => setActive(v)}
+                    value={location.pathname as MenuValue}
                     logo={<img className={`${styles.menuLogo} m-0!`} src={logo} alt="logo" onClick={onLogoClicked} />}
                     operations={operations()}>
                     <div className="hidden lg:flex">

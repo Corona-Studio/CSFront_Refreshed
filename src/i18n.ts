@@ -10,14 +10,16 @@ export const resources = {
     enUS: enUS
 } as const;
 
-i18n.use(initReactI18next)
-    .init({
-        lng: localStorage.getItem(I18NLangKey) ?? "zhCN",
-        resources,
-        interpolation: {
-            escapeValue: false // react already safes from xss
-        }
-    })
-    .then(() => {});
+const savedLanguage = localStorage.getItem(I18NLangKey);
+const initialLanguage = savedLanguage && savedLanguage in resources ? savedLanguage : "zhCN";
+
+i18n.use(initReactI18next).init({
+    lng: initialLanguage,
+    fallbackLng: "zhCN",
+    resources,
+    interpolation: {
+        escapeValue: false // react already safes from xss
+    }
+});
 
 export default i18n;

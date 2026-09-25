@@ -33,3 +33,12 @@ This is the renewed official website for Corona Studio!
 ## 😄 仓库活动
 
 ![Alt](https://repobeats.axiom.co/api/embed/0218d1839b4a887b0ae3a2be9edb1135240910d6.svg "Repobeats analytics image")
+
+## 🛠️ 本地开发
+
+```bash
+yarn install
+yarn dev
+```
+
+提交前运行 `yarn quality`，它会依次执行 ESLint、单元测试、TypeScript 检查与生产构建。

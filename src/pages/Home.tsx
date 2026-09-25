@@ -1,9 +1,9 @@
-import { lazy, useRef, useState } from "react";
+import { lazy } from "react";
 import { Helmet } from "react-helmet-async";
 import { BookOpenIcon, CatIcon, CoordinateSystemIcon, RocketIcon, TreeSquareDotIcon } from "tdesign-icons-react";
 import { Col, Row } from "tdesign-react";
 
-import { useMutationObserver } from "../helpers/MutationObserverHelper.ts";
+import { useTheme } from "../helpers/ThemeDetector.ts";
 import i18next from "../i18n";
 
 const Squares = lazy(() => import("../ReactBits/Backgrounds/Squares/Squares.tsx"));
@@ -16,8 +16,8 @@ const GridMotion = lazy(() => import("../ReactBits/Backgrounds/GridMotion/GridMo
 const t = i18next.t;
 
 function Home() {
-    const docRef = useRef(document.documentElement);
-    const [gradientColor, setGradientColor] = useState("lightgrey");
+    const theme = useTheme();
+    const gradientColor = theme === "dark" ? "DimGrey" : "LightGrey";
     const images = Array(23)
         .fill(1)
         .map((x, y) => x + y)
@@ -55,19 +55,6 @@ function Home() {
             link: "https://github.com/Corona-Studio/Hive.Framework"
         }
     ];
-
-    function onThemeModeChanged(mutations: MutationRecord[]) {
-        for (const mutation of mutations) {
-            if (mutation.attributeName !== "theme-mode") continue;
-
-            const value = docRef.current.getAttribute("theme-mode");
-            const color = value === "dark" ? "DimGrey" : "LightGrey";
-
-            setGradientColor(color);
-        }
-    }
-
-    useMutationObserver(docRef, onThemeModeChanged, { attributes: true, attributeFilter: ["theme-mode"] });
 
     return (
         <>

@@ -1,9 +1,9 @@
-import { lazy, useEffect, useRef, useState } from "react";
+import { lazy, useEffect } from "react";
 import { Outlet, useMatches, useNavigate } from "react-router";
 
-import { useMutationObserver } from "../../helpers/MutationObserverHelper.ts";
+import { RouteHandle } from "../../app/routeTypes.ts";
+import { useTheme } from "../../helpers/ThemeDetector.ts";
 import i18next from "../../i18n.ts";
-import IMatches from "../../interfaces/IMatches.ts";
 
 const t = i18next.t;
 
@@ -11,55 +11,22 @@ const ScrollVelocity = lazy(() => import("../../ReactBits/TextAnimations/ScrollV
 const Iridescence = lazy(() => import("../../ReactBits/Backgrounds/Iridescence/Iridescence.tsx"));
 const BannerContainer = lazy(() => import("../../components/BannerContainer.tsx"));
 
-interface PageInfo {
-    pageKey: string;
-    pageTitle: string;
-}
-
-interface HandleType {
-    pageInfo: (param?: string) => PageInfo;
-}
-
 function AuthPageBaseElement() {
-    const docRef = useRef(document.documentElement);
-    const [iridescenceColor, setIridescenceColor] = useState<[number, number, number]>([0, 0, 0]);
-
     const navigate = useNavigate();
+    const theme = useTheme();
 
-    const matches = useMatches() as IMatches[];
-    const { handle, loaderData } = matches[matches.length - 1];
-
-    const pageInfoHandle = !!handle && !!(handle as HandleType).pageInfo;
-    const [scrollVelocityTexts, setScrollVelocityTexts] = useState([`Corona Studio ${t("corona_studio")}`]);
+    const matches = useMatches();
+    const currentMatch = matches[matches.length - 1];
+    const handle = currentMatch?.handle as RouteHandle | undefined;
+    const pageInfo = handle?.pageInfo?.(currentMatch?.loaderData);
+    const iridescenceColor: [number, number, number] = theme === "dark" ? [0.2, 0.2, 0.2] : [0.8, 0.8, 0.8];
+    const scrollVelocityTexts = pageInfo
+        ? [`${pageInfo.pageKey} ${pageInfo.pageTitle}`, `Corona Studio ${t("corona_studio")}`]
+        : [`Corona Studio ${t("corona_studio")}`];
 
     useEffect(() => {
-        const pageInfo = (handle as HandleType).pageInfo(loaderData as string | undefined);
-
-        if (pageInfo) {
-            if (pageInfo.pageKey === "Error") {
-                navigate("/");
-                return;
-            }
-
-            document.title = pageInfo.pageTitle;
-        }
-
-        setIridescenceColor(localStorage.theme === "dark" ? [0.2, 0.2, 0.2] : [0.8, 0.8, 0.8]);
-        setScrollVelocityTexts([`${pageInfo.pageKey} ${pageInfo.pageTitle}`, `Corona Studio ${t("corona_studio")}`]);
-    }, [loaderData, handle, navigate, pageInfoHandle]);
-
-    function onThemeModeChanged(mutations: MutationRecord[]) {
-        for (const mutation of mutations) {
-            if (mutation.attributeName !== "theme-mode") continue;
-
-            const value = docRef.current.getAttribute("theme-mode");
-            const color: [number, number, number] = value === "dark" ? [0.2, 0.2, 0.2] : [0.8, 0.8, 0.8];
-
-            setIridescenceColor(color);
-        }
-    }
-
-    useMutationObserver(docRef, onThemeModeChanged, { attributes: true, attributeFilter: ["theme-mode"] });
+        if (pageInfo?.pageKey === "Error") navigate("/", { replace: true });
+    }, [navigate, pageInfo?.pageKey]);
 
     return (
         <>

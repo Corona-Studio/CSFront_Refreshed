@@ -1,11 +1,15 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse, Method } from "axios";
 
 import IResponse from "../interfaces/IResponse.ts";
 
 export const lxBackendUrl = import.meta.env.VITE_LX_BACKEND ?? "https://api.corona.studio";
 
 export const csBackend = axios.create({
-    baseURL: lxBackendUrl
+    baseURL: lxBackendUrl,
+    timeout: 15_000,
+    headers: {
+        Accept: "application/json"
+    }
 });
 
 export function buildHeader(
@@ -17,124 +21,72 @@ export function buildHeader(
         headers: {
             Authorization: `Bearer ${token}`
         },
-        data: data,
+        data,
         params: query
     };
 }
 
-export async function getAsync<T>(endPoint: string, axiosConfig: AxiosRequestConfig<unknown> = {}) {
-    try {
-        const response = await csBackend.get<T>(endPoint, axiosConfig);
-
-        return {
-            status: 200,
-            response: response.data
-        };
-    } catch (error) {
-        console.error(error);
-
-        if (axios.isAxiosError(error)) {
-            return {
-                status: error.status
-            };
-        }
-
-        return undefined;
-    }
-}
-
-export async function postAsync<T>(
+async function requestAsync<T>(
+    method: Method,
     endPoint: string,
-    req: unknown,
+    data?: unknown,
     axiosConfig: AxiosRequestConfig<unknown> = {}
-): Promise<IResponse<T> | undefined> {
+): Promise<IResponse<T>> {
     try {
-        const response = await csBackend.post<T>(endPoint, req, axiosConfig);
-
-        return {
-            status: 200,
-            response: response.data
-        };
-    } catch (error) {
-        console.error(error);
-
-        if (axios.isAxiosError(error)) {
-            return {
-                status: error.status
-            };
-        }
-
-        return undefined;
-    }
-}
-
-export async function putAsync<T>(
-    endPoint: string,
-    req: unknown,
-    axiosConfig: AxiosRequestConfig<unknown> = {}
-): Promise<IResponse<T> | undefined> {
-    try {
-        const response = await csBackend.put<T>(endPoint, req, axiosConfig);
-
-        return {
-            status: 200,
-            response: response.data
-        };
-    } catch (error) {
-        console.error(error);
-
-        if (axios.isAxiosError(error)) {
-            return {
-                status: error.status
-            };
-        }
-
-        return undefined;
-    }
-}
-
-export async function patchAsync<T>(
-    endPoint: string,
-    req: unknown,
-    axiosConfig: AxiosRequestConfig<unknown> = {}
-): Promise<IResponse<T> | undefined> {
-    try {
-        const response = await csBackend.patch<T>(endPoint, req, axiosConfig);
+        const response: AxiosResponse<T> = await csBackend.request<T>({
+            ...axiosConfig,
+            method,
+            url: endPoint,
+            data: data ?? axiosConfig.data
+        });
 
         return {
             status: response.status,
             response: response.data
         };
     } catch (error) {
-        console.error(error);
-
         if (axios.isAxiosError(error)) {
             return {
-                status: error.status
+                status: error.response?.status ?? 0,
+                message: error.message
             };
         }
 
-        return undefined;
+        return {
+            status: 0,
+            message: error instanceof Error ? error.message : "Unknown request error"
+        };
     }
 }
 
+export function getAsync<T>(endPoint: string, axiosConfig: AxiosRequestConfig<unknown> = {}) {
+    return requestAsync<T>("GET", endPoint, undefined, axiosConfig);
+}
+
+export async function postAsync<T>(
+    endPoint: string,
+    req: unknown,
+    axiosConfig: AxiosRequestConfig<unknown> = {}
+): Promise<IResponse<T>> {
+    return requestAsync<T>("POST", endPoint, req, axiosConfig);
+}
+
+export async function putAsync<T>(
+    endPoint: string,
+    req: unknown,
+    axiosConfig: AxiosRequestConfig<unknown> = {}
+): Promise<IResponse<T>> {
+    return requestAsync<T>("PUT", endPoint, req, axiosConfig);
+}
+
+export async function patchAsync<T>(
+    endPoint: string,
+    req: unknown,
+    axiosConfig: AxiosRequestConfig<unknown> = {}
+): Promise<IResponse<T>> {
+    return requestAsync<T>("PATCH", endPoint, req, axiosConfig);
+}
+
 export async function deleteAsync<T>(endPoint: string, axiosConfig: AxiosRequestConfig<unknown> = {}) {
-    try {
-        const response = await csBackend.delete<T>(endPoint, axiosConfig);
-
-        return {
-            status: 200,
-            response: response.data
-        };
-    } catch (error) {
-        console.error(error);
-
-        if (axios.isAxiosError(error)) {
-            return {
-                status: error.status
-            };
-        }
-
-        return undefined;
-    }
+    return requestAsync<T>("DELETE", endPoint, undefined, axiosConfig);
 }

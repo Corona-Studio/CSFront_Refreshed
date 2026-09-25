@@ -19,7 +19,7 @@ interface RegisterRequest {
     password: string;
 }
 
-interface RawLoginResponse {
+export interface RawLoginResponse {
     username: string;
     id: string;
     isPaid: boolean;

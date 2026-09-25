@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { t } from "i18next";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { CheckCircleFilledIcon, CloudIcon, LayersIcon, RefreshIcon, SearchIcon } from "tdesign-icons-react";
 import {
     Alert,
@@ -49,51 +49,56 @@ function AdminBuilds() {
         }
     });
 
-    async function setHotFixAsync(build: AdminBuildInfo, isHotFix: boolean) {
-        setUpdatingBuildIds((ids) => new Set(ids).add(build.id));
+    const refetchBuilds = buildsQuery.refetch;
 
-        try {
-            const response = await setBuildHotFixAsync(await getAdminTokenAsync(), build, isHotFix);
+    const setHotFixAsync = useCallback(
+        async (build: AdminBuildInfo, isHotFix: boolean) => {
+            setUpdatingBuildIds((ids) => new Set(ids).add(build.id));
 
-            if (response?.status === 404) {
-                await buildsQuery.refetch();
-                throw new Error(t("buildNoLongerExists"));
+            try {
+                const response = await setBuildHotFixAsync(await getAdminTokenAsync(), build, isHotFix);
+
+                if (response?.status === 404) {
+                    await refetchBuilds();
+                    throw new Error(t("buildNoLongerExists"));
+                }
+
+                if (!response || response.status !== 200 || !response.response)
+                    throw new Error(t("buildUpdateFailedDescription"));
+
+                queryClient.setQueryData<AdminBuildInfo[]>(queryKey, (builds) =>
+                    builds?.map((item) => (item.id === build.id ? response.response! : item))
+                );
+
+                await NotificationPlugin.success({
+                    title: t("buildUpdateSucceeded"),
+                    content: isHotFix ? t("buildEnabledDescription") : t("buildDisabledDescription"),
+                    placement: "top-right",
+                    duration: 3000,
+                    offset: Constants.NotificationOffset,
+                    closeBtn: true,
+                    attach: () => document
+                });
+            } catch (error) {
+                await NotificationPlugin.error({
+                    title: t("buildUpdateFailed"),
+                    content: (error as Error).message,
+                    placement: "top-right",
+                    duration: 3000,
+                    offset: Constants.NotificationOffset,
+                    closeBtn: true,
+                    attach: () => document
+                });
+            } finally {
+                setUpdatingBuildIds((ids) => {
+                    const nextIds = new Set(ids);
+                    nextIds.delete(build.id);
+                    return nextIds;
+                });
             }
-
-            if (!response || response.status !== 200 || !response.response)
-                throw new Error(t("buildUpdateFailedDescription"));
-
-            queryClient.setQueryData<AdminBuildInfo[]>(queryKey, (builds) =>
-                builds?.map((item) => (item.id === build.id ? response.response! : item))
-            );
-
-            await NotificationPlugin.success({
-                title: t("buildUpdateSucceeded"),
-                content: isHotFix ? t("buildEnabledDescription") : t("buildDisabledDescription"),
-                placement: "top-right",
-                duration: 3000,
-                offset: Constants.NotificationOffset,
-                closeBtn: true,
-                attach: () => document
-            });
-        } catch (error) {
-            await NotificationPlugin.error({
-                title: t("buildUpdateFailed"),
-                content: (error as Error).message,
-                placement: "top-right",
-                duration: 3000,
-                offset: Constants.NotificationOffset,
-                closeBtn: true,
-                attach: () => document
-            });
-        } finally {
-            setUpdatingBuildIds((ids) => {
-                const nextIds = new Set(ids);
-                nextIds.delete(build.id);
-                return nextIds;
-            });
-        }
-    }
+        },
+        [queryClient, refetchBuilds]
+    );
 
     async function refreshCacheAsync() {
         setIsRefreshing(true);
@@ -222,7 +227,7 @@ function AdminBuilds() {
                 )
             }
         ],
-        [updatingBuildIds]
+        [setHotFixAsync, updatingBuildIds]
     );
 
     return (

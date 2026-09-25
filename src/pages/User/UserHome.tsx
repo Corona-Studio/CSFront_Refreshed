@@ -18,21 +18,19 @@ import {
 } from "tdesign-react";
 import { TElement } from "tdesign-react/lib/common";
 
-import Constants from "./../../helpers/Constants.ts";
 import { checkIsPaidImpl } from "../../helpers/PaymentHelper.ts";
-import { clearForageStorageAsync } from "../../helpers/SessionHelper.ts";
+import { clearSessionAsync } from "../../helpers/SessionHelper.ts";
 import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import i18next from "../../i18n.ts";
 import { lxBackendUrl } from "../../requests/ApiConstants.ts";
 import {
     StoredAuthEmail,
-    StoredAuthExpired,
-    StoredAuthPassword,
     StoredAuthToken,
     StoredAuthUserId,
     StoredAuthUserName
 } from "../../requests/LxAuthRequests.ts";
 import { getUserCurrentChannelAsync, revokeUserAccountAsync } from "../../requests/LxUserRequests.ts";
+import Constants from "./../../helpers/Constants.ts";
 
 const t = i18next.t;
 
@@ -130,18 +128,11 @@ function UserHome() {
             offset: Constants.NotificationOffset,
             closeBtn: true,
             attach: () => document
-        }).then(() => { });
+        }).then(() => {});
     }
 
     async function logout() {
-        await clearForageStorageAsync();
-
-        sessionStorage.setItem(StoredAuthEmail, "");
-        sessionStorage.setItem(StoredAuthPassword, "");
-        sessionStorage.setItem(StoredAuthToken, "");
-        sessionStorage.setItem(StoredAuthExpired, "");
-        sessionStorage.setItem(StoredAuthUserName, "");
-        sessionStorage.setItem(StoredAuthUserId, "");
+        await clearSessionAsync();
 
         await NotificationPlugin.info({
             title: t("loggedOut"),
@@ -153,7 +144,6 @@ function UserHome() {
             attach: () => document
         });
 
-        console.log("User logged out...");
         navigate("/");
     }
 
@@ -161,9 +151,7 @@ function UserHome() {
         setIsDeleteUserVisible(false);
     };
 
-    const onConfirm: DialogProps["onConfirm"] = async (context) => {
-        console.log("User confirmed to revoke account", context);
-
+    const onConfirm: DialogProps["onConfirm"] = async () => {
         setIsDeleting(true);
         setIsDeleteUserVisible(false);
 
@@ -178,7 +166,7 @@ function UserHome() {
                 offset: Constants.NotificationOffset,
                 closeBtn: true,
                 attach: () => document
-            }).then(() => { });
+            }).then(() => {});
             setIsDeleting(false);
 
             return;
@@ -199,7 +187,7 @@ function UserHome() {
                 offset: Constants.NotificationOffset,
                 closeBtn: true,
                 attach: () => document
-            }).then(() => { });
+            }).then(() => {});
             setIsDeleting(false);
 
             return;
@@ -215,7 +203,7 @@ function UserHome() {
             offset: Constants.NotificationOffset,
             closeBtn: true,
             attach: () => document
-        }).then(() => { });
+        }).then(() => {});
 
         setIsDeleting(false);
     };

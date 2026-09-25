@@ -6,6 +6,7 @@ import { verifyEmail } from "../../helpers/EmailVerificationHelper.ts";
 import { useUrlQuery } from "../../helpers/UrlQueryHelper.ts";
 import i18next from "../../i18n.ts";
 import Constants from "./../../helpers/Constants.ts";
+
 const t = i18next.t;
 
 function AuthConfirmEmail() {
@@ -30,28 +31,28 @@ function AuthConfirmEmail() {
             offset: Constants.NotificationOffset,
             closeBtn: true,
             attach: () => document
-        }).then(() => { });
+        }).then(() => {});
 
-        setTimeout(() => {
+        const timeout = window.setTimeout(() => {
             navigate("/");
         }, 3000);
+        return () => window.clearTimeout(timeout);
     }, [navigate, queryToken, queryEmail, queryVerifyFor]);
 
     useEffect(() => {
         if (!queryToken || !queryEmail || !queryVerifyFor) return;
 
         verifyEmail(
-            queryToken!,
-            queryEmail!,
+            queryToken,
+            queryEmail,
             "none",
-            queryVerifyFor!,
+            queryVerifyFor,
             "/auth/login",
             navigate,
             setIsLoading,
             setIsFaulted
         );
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [queryToken, queryEmail, queryVerifyFor]);
+    }, [navigate, queryEmail, queryToken, queryVerifyFor]);
 
     return (
         <>

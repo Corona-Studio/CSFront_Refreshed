@@ -8,7 +8,7 @@ import Constants from "./Constants.ts";
 
 const t = i18next.t;
 
-export function verifyEmail(
+export async function verifyEmail(
     code: string,
     email: string,
     val: string,
@@ -20,36 +20,36 @@ export function verifyEmail(
 ) {
     setIsLoading(true);
 
-    emailVerifyAsync(code!, email!, val!, verifyFor!)
-        .then(async (r) => {
-            if (!r || !r.status) throw new Error(t("backendServerError"));
-            if (r.status === 401) throw new Error(t("emailVerificationExpired"));
-            if (r.status === 404) throw new Error(t("emailVerificationNotFound"));
-            if (!r.response) throw new Error(t("backendServerError"));
+    try {
+        const r = await emailVerifyAsync(code, email, val, verifyFor);
+        if (!r || !r.status) throw new Error(t("backendServerError"));
+        if (r.status === 401) throw new Error(t("emailVerificationExpired"));
+        if (r.status === 404) throw new Error(t("emailVerificationNotFound"));
+        if (!r.response) throw new Error(t("backendServerError"));
 
-            await NotificationPlugin.success({
-                title: t("emailVerified"),
-                content: t("emailVerifiedDescription"),
-                placement: "top-right",
-                duration: 3000,
-                offset: Constants.NotificationOffset,
-                closeBtn: true,
-                attach: () => document
-            });
+        await NotificationPlugin.success({
+            title: t("emailVerified"),
+            content: t("emailVerifiedDescription"),
+            placement: "top-right",
+            duration: 3000,
+            offset: Constants.NotificationOffset,
+            closeBtn: true,
+            attach: () => document
+        });
 
-            navigate(navigateUrl);
-        })
-        .catch(async (err) => {
-            setIsFaulted(true);
-            await NotificationPlugin.error({
-                title: t("emailVerificationFailed"),
-                content: (err as Error).message,
-                placement: "top-right",
-                duration: 3000,
-                offset: Constants.NotificationOffset,
-                closeBtn: true,
-                attach: () => document
-            });
-        })
-        .finally(() => setIsLoading(false));
+        navigate(navigateUrl);
+    } catch (error) {
+        setIsFaulted(true);
+        await NotificationPlugin.error({
+            title: t("emailVerificationFailed"),
+            content: error instanceof Error ? error.message : t("backendServerError"),
+            placement: "top-right",
+            duration: 3000,
+            offset: Constants.NotificationOffset,
+            closeBtn: true,
+            attach: () => document
+        });
+    } finally {
+        setIsLoading(false);
+    }
 }

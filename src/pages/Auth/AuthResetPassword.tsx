@@ -11,15 +11,15 @@ import {
     NotificationPlugin,
     Tooltip
 } from "tdesign-react";
-import Constants from "./../../helpers/Constants.ts";
 import FormItem from "tdesign-react/es/form/FormItem";
 
 import { verifyEmail } from "../../helpers/EmailVerificationHelper.ts";
+import { getCurrentPageTheme } from "../../helpers/ThemeDetector.ts";
 import { useUrlQuery } from "../../helpers/UrlQueryHelper.ts";
 import { PasswordPattern } from "../../helpers/ValidationRules.ts";
 import i18next from "../../i18n.ts";
+import Constants from "./../../helpers/Constants.ts";
 import AllowedChars from "./AllowedChars.tsx";
-import { getCurrentPageTheme } from "../../helpers/ThemeDetector.ts";
 
 const t = i18next.t;
 
@@ -39,7 +39,6 @@ function AuthResetPassword() {
     const [isLoading, setIsLoading] = useState(false);
     const [isFaulted, setIsFaulted] = useState(false);
 
-    const tooltip = useRef(null);
     const form = useRef<InternalFormInstance>(null);
 
     useEffect(() => {
@@ -53,20 +52,15 @@ function AuthResetPassword() {
             offset: Constants.NotificationOffset,
             closeBtn: true,
             attach: () => document
-        }).then(() => { });
+        }).then(() => {});
 
-        setTimeout(() => {
+        const timeout = window.setTimeout(() => {
             navigate("/");
         }, 3000);
+        return () => window.clearTimeout(timeout);
     }, [navigate, queryToken, queryEmail, queryVerifyFor]);
 
-    const rePassword: CustomValidator = (val) =>
-        new Promise((resolve) => {
-            const timer = setTimeout(() => {
-                resolve(form.current?.getFieldValue("password") === val);
-                clearTimeout(timer);
-            });
-        });
+    const rePassword: CustomValidator = async (value) => form.current?.getFieldValue("password") === value;
 
     const onSubmit: FormProps["onSubmit"] = (e) => {
         if (!queryToken || !queryEmail || !queryVerifyFor) return;
@@ -77,10 +71,10 @@ function AuthResetPassword() {
         setIsLoading(true);
 
         verifyEmail(
-            queryToken!,
-            queryEmail!,
+            queryToken,
+            queryEmail,
             formData.password!,
-            queryVerifyFor!,
+            queryVerifyFor,
             "/auth/login",
             navigate,
             setIsLoading,
@@ -102,8 +96,14 @@ function AuthResetPassword() {
                     <FormItem className="h-px! p-0! m-0!">
                         <div className="INTERNAL___WHERE_TOOLTIP_ATTACHES h-px! p-0! m-0!"></div>
                     </FormItem>
-                    <Tooltip zIndex={1000} ref={tooltip} attach="div.INTERNAL___WHERE_TOOLTIP_ATTACHES" content={<AllowedChars />}
-                        trigger="focus" theme={getCurrentPageTheme() ? "default" : "light"} placement="top" overlayClassName="-translate-y-[108px] md:-translate-y-[78px]" >
+                    <Tooltip
+                        zIndex={1000}
+                        attach="div.INTERNAL___WHERE_TOOLTIP_ATTACHES"
+                        content={<AllowedChars />}
+                        trigger="focus"
+                        theme={getCurrentPageTheme() ? "default" : "light"}
+                        placement="top"
+                        overlayClassName="-translate-y-[108px] md:-translate-y-[78px]">
                         <FormItem
                             name="password"
                             rules={[
@@ -111,9 +111,6 @@ function AuthResetPassword() {
                                 { pattern: PasswordPattern, message: t("passwordRuleDescription"), type: "error" }
                             ]}>
                             <Input
-                                onFocus={() => {
-                                    (tooltip.current! as any).setVisible(true); // eslint-disable-line
-                                }}
                                 disabled={isLoading}
                                 type="password"
                                 prefixIcon={<KeyIcon />}

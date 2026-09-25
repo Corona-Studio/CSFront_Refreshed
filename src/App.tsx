@@ -1,47 +1,30 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { lazy, useEffect } from "react";
 import { Outlet, useLocation, useMatches, useNavigation } from "react-router";
 
 import "./App.css";
-import { useThemeDetector } from "./helpers/ThemeDetector.ts";
-import IMatches from "./interfaces/IMatches.ts";
-
-const queryClient = new QueryClient();
+import { queryClient } from "./app/queryClient.ts";
+import { RouteHandle } from "./app/routeTypes.ts";
+import { applyTheme, useTheme } from "./helpers/ThemeDetector.ts";
 
 const Fallback = lazy(() => import("./pages/Fallback.tsx"));
 const Footer = lazy(() => import("./components/Footer.tsx"));
 const MenuBar = lazy(() => import("./components/MenuBar.tsx"));
 
-interface HandleType {
-    title: (param?: string) => string;
-}
-
 function App() {
     const navigation = useNavigation();
     const location = useLocation();
     const isManagementPage = /^\/(admin|user)(\/|$)/.test(location.pathname);
-    const themeDetector = useThemeDetector();
-    const matches = useMatches() as IMatches[];
-    const { handle, loaderData } = matches[matches.length - 1];
-
-    const titleHandle = !!handle && !!(handle as HandleType).title;
+    const theme = useTheme();
+    const matches = useMatches();
+    const currentMatch = matches[matches.length - 1];
+    const handle = currentMatch?.handle as RouteHandle | undefined;
 
     useEffect(() => {
-        const title = (handle as HandleType).title(loaderData as string | undefined);
-
+        const title = handle?.title?.(currentMatch?.loaderData);
         if (title) document.title = title;
-
-        if (themeDetector) {
-            document.documentElement.setAttribute("theme-mode", "dark");
-            return;
-        }
-
-        document.documentElement.removeAttribute("theme-mode");
-    }, [loaderData, handle, themeDetector, titleHandle]);
-
-    useEffect(() => {
-        if (isManagementPage) document.getElementById("wrapper")?.style.setProperty("margin-bottom", "0px");
-    }, [isManagementPage]);
+        applyTheme(theme);
+    }, [currentMatch?.loaderData, handle, theme]);
 
     return (
         <>

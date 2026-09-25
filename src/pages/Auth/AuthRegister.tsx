@@ -1,7 +1,6 @@
 import localForage from "localforage";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import Constants from "./../../helpers/Constants.ts";
 import { KeyIcon, MailIcon, User1Icon } from "tdesign-icons-react";
 import {
     Button,
@@ -15,12 +14,14 @@ import {
 } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
+import { getSafeRedirect } from "../../helpers/RouteHelper.ts";
+import { getCurrentPageTheme } from "../../helpers/ThemeDetector.ts";
 import { useUrlQuery } from "../../helpers/UrlQueryHelper.ts";
 import { PasswordPattern, UsernamePattern } from "../../helpers/ValidationRules.ts";
 import i18next from "../../i18n.ts";
-import { StoredAuthEmail, StoredAuthPassword, registerAsync } from "../../requests/LxAuthRequests.ts";
+import { StoredAuthEmail, registerAsync } from "../../requests/LxAuthRequests.ts";
+import Constants from "./../../helpers/Constants.ts";
 import AllowedChars from "./AllowedChars.tsx";
-import { getCurrentPageTheme } from "../../helpers/ThemeDetector.ts";
 
 const t = i18next.t;
 
@@ -35,24 +36,12 @@ function AuthRegister() {
     const navigate = useNavigate();
     const query = useUrlQuery();
 
-    const redirect = query.get("redirect");
+    const redirect = getSafeRedirect(query.get("redirect"), "/user");
 
     const form = useRef<InternalFormInstance>(null);
-    const tooltip = useRef(null);
-
-    useEffect(() => {
-        console.log(tooltip.current)
-    }, [tooltip])
-
     const [isLoading, setIsLoading] = useState(false);
 
-    const rePassword: CustomValidator = (val) =>
-        new Promise((resolve) => {
-            const timer = setTimeout(() => {
-                resolve(form.current?.getFieldValue("password") === val);
-                clearTimeout(timer);
-            });
-        });
+    const rePassword: CustomValidator = async (value) => form.current?.getFieldValue("password") === value;
 
     const onSubmit: FormProps["onSubmit"] = (e) => {
         if (e.validateResult !== true) return;
@@ -69,8 +58,7 @@ function AuthRegister() {
                 if (!r.response) throw new Error(t("unknownLoginErrorDescription"));
                 if (!r.response.succeeded) throw new Error(JSON.stringify(r.response.errors));
 
-                localForage.setItem(StoredAuthEmail, formData.email!);
-                localForage.setItem(StoredAuthPassword, formData.password!);
+                await localForage.setItem(StoredAuthEmail, formData.email!);
 
                 await NotificationPlugin.success({
                     title: t("registerSucceeded"),
@@ -82,7 +70,7 @@ function AuthRegister() {
                     attach: () => document
                 });
 
-                navigate(redirect ? `/auth/login?redirect=${redirect}` : "/auth/login");
+                navigate(`/auth/login?redirect=${encodeURIComponent(redirect)}`);
             })
             .catch(async (err) => {
                 await NotificationPlugin.error({
@@ -123,32 +111,33 @@ function AuthRegister() {
                         />
                     </FormItem>
                     <FormItem
-
                         name="username"
                         rules={[
                             { required: true, message: t("usernameRequired"), type: "error" },
                             { pattern: UsernamePattern, message: t("usernameRuleDescription"), type: "error" }
                         ]}>
-                        <Input className="INTERNAL___WHERE_TOOLTIP_ATTACHES"
+                        <Input
+                            className="INTERNAL___WHERE_TOOLTIP_ATTACHES"
                             disabled={isLoading}
                             clearable={true}
                             prefixIcon={<User1Icon />}
                             placeholder={t("pleaseInputUserName")}
                         />
                     </FormItem>
-                    <Tooltip ref={tooltip} attach="div.INTERNAL___WHERE_TOOLTIP_ATTACHES" content={<AllowedChars />}
-                        trigger="focus" theme={getCurrentPageTheme() ? "default" : "light"} placement="bottom" overlayClassName="-translate-y-[48px] md:-translate-y-[24px]" >
+                    <Tooltip
+                        attach="div.INTERNAL___WHERE_TOOLTIP_ATTACHES"
+                        content={<AllowedChars />}
+                        trigger="focus"
+                        theme={getCurrentPageTheme() ? "default" : "light"}
+                        placement="bottom"
+                        overlayClassName="-translate-y-[48px] md:-translate-y-[24px]">
                         <FormItem
                             name="password"
                             rules={[
                                 { required: true, message: t("passwordRequired"), type: "error" },
                                 { pattern: PasswordPattern, message: t("passwordRuleDescription"), type: "error" }
                             ]}>
-
                             <Input
-                                onFocus={() => {
-                                    (tooltip.current! as any).setVisible(true); // eslint-disable-line
-                                }}
                                 name="password"
                                 disabled={isLoading}
                                 type="password"
@@ -156,10 +145,8 @@ function AuthRegister() {
                                 clearable={true}
                                 placeholder={t("pleaseInputPassword")}
                             />
-
                         </FormItem>
                     </Tooltip>
-
 
                     <FormItem
                         name="confirmPassword"
@@ -183,7 +170,7 @@ function AuthRegister() {
                             theme="default"
                             type="reset"
                             style={{ marginLeft: 12 }}
-                            onClick={() => navigate(redirect ? `/auth/login?redirect=${redirect}` : "/auth/login")}>
+                            onClick={() => navigate(`/auth/login?redirect=${encodeURIComponent(redirect)}`)}>
                             {t("login")}
                         </Button>
                     </FormItem>
