@@ -188,9 +188,9 @@ function AdminUsers() {
                 cell: ({ row }) => (
                     <div className={styles.statusList}>
                         <span
-                            className={`${styles.emailStatus} ${row.emailConfirmed ? styles.verified : styles.unverified}`}>
-                            {row.emailConfirmed ? <CheckCircleIcon /> : <CloseCircleIcon />}
-                            {t(row.emailConfirmed ? "emailVerified" : "emailUnverified")}
+                            className={`${styles.emailStatus} ${row.qqVerified ? styles.verified : styles.unverified}`}>
+                            {row.qqVerified ? <CheckCircleIcon /> : <CloseCircleIcon />}
+                            {t(row.qqVerified ? "qqVerified" : "qqUnverified")}
                         </span>
                         {row.isPaid && (
                             <Tag size="small" theme="primary" variant="light">

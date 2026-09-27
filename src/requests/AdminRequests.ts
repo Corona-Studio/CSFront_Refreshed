@@ -51,7 +51,7 @@ export interface AdminUserInfo extends TableRowData {
     email: string;
     userType: AdminUserType;
     isPaid: boolean;
-    emailConfirmed: boolean;
+    qqVerified: boolean;
     isLockedOut: boolean;
 }
 

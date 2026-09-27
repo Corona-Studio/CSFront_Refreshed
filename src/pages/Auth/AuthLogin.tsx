@@ -10,7 +10,11 @@ import { getSafeRedirect } from "../../helpers/RouteHelper.ts";
 import { isUserSessionValidAsync, saveSessionAsync } from "../../helpers/SessionHelper.ts";
 import { useUrlQuery } from "../../helpers/UrlQueryHelper.ts";
 import i18next from "../../i18n.ts";
-import { StoredAuthEmail, loginAsync } from "../../requests/LxAuthRequests.ts";
+import {
+    StoredAuthEmail,
+    StoredRegistrationVerification,
+    loginAsync
+} from "../../requests/LxAuthRequests.ts";
 import Constants from "./../../helpers/Constants.ts";
 
 const t = i18next.t;
@@ -64,9 +68,11 @@ function AuthLogin() {
             .then(async (r) => {
                 if (!r || !r.status) throw new Error(t("unknownLoginErrorDescription"));
                 if (r.status === 401) throw new Error(t("incorrectEmailOrPassword"));
+                if (r.status === 403) throw new Error(t("accountNotVerified"));
                 if (!r.response) throw new Error(t("unknownLoginErrorDescription"));
 
                 await saveSessionAsync(r.response, formData.email!, formData.rememberMe);
+                await localForage.removeItem(StoredRegistrationVerification);
 
                 await NotificationPlugin.success({
                     title: t("loginSucceeded"),
@@ -128,13 +134,6 @@ function AuthLogin() {
                             clearable={true}
                             placeholder={t("pleaseInputPassword")}
                         />
-                        <Button
-                            theme="danger"
-                            type="reset"
-                            style={{ marginLeft: 12 }}
-                            onClick={() => navigate(`/auth/forgetPassword?redirect=${encodeURIComponent(redirect)}`)}>
-                            {t("forgetPassword")}
-                        </Button>
                     </FormItem>
                     <FormItem>
                         <Button theme="primary" type="submit" loading={isLoading} block>
@@ -153,6 +152,14 @@ function AuthLogin() {
                     <FormItem name="rememberMe">
                         <Checkbox disabled={isLoading}>{t("rememberPassword")}</Checkbox>
                     </FormItem>
+                    <Button
+                        variant="text"
+                        disabled={isLoading}
+                        onClick={() =>
+                            navigate(redirect ? `/auth/forgetPassword?redirect=${encodeURIComponent(redirect)}` : "/auth/forgetPassword")
+                        }>
+                        {t("forgetPassword")}
+                    </Button>
                 </Form>
             </div>
         </>

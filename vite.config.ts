@@ -13,7 +13,16 @@ export default defineConfig(({ mode }) => {
     }
 
     const hostName = config.VITE_HOST_NAME || "http://localhost:5173";
-    const pages = ["lx", "lx/download", "cmfs", "auth/login", "auth/register"];
+    const pages = [
+        "lx",
+        "lx/download",
+        "cmfs",
+        "auth/login",
+        "auth/register",
+        "auth/register/complete",
+        "auth/forgetPassword",
+        "auth/resetPassword"
+    ];
     const externalUrls = ["https://kb.corona.studio/", "https://github.com/Corona-Studio/"];
 
     return {

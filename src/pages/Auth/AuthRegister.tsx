@@ -19,7 +19,11 @@ import { getCurrentPageTheme } from "../../helpers/ThemeDetector.ts";
 import { useUrlQuery } from "../../helpers/UrlQueryHelper.ts";
 import { PasswordPattern, UsernamePattern } from "../../helpers/ValidationRules.ts";
 import i18next from "../../i18n.ts";
-import { StoredAuthEmail, registerAsync } from "../../requests/LxAuthRequests.ts";
+import {
+    StoredAuthEmail,
+    StoredRegistrationVerification,
+    registerAsync
+} from "../../requests/LxAuthRequests.ts";
 import Constants from "./../../helpers/Constants.ts";
 import AllowedChars from "./AllowedChars.tsx";
 
@@ -59,6 +63,10 @@ function AuthRegister() {
                 if (!r.response.succeeded) throw new Error(JSON.stringify(r.response.errors));
 
                 await localForage.setItem(StoredAuthEmail, formData.email!);
+                await localForage.setItem(StoredRegistrationVerification, {
+                    verificationCode: r.response.verificationCode,
+                    qqGroups: r.response.qqGroups
+                });
 
                 await NotificationPlugin.success({
                     title: t("registerSucceeded"),
@@ -70,7 +78,7 @@ function AuthRegister() {
                     attach: () => document
                 });
 
-                navigate(`/auth/login?redirect=${encodeURIComponent(redirect)}`);
+                navigate(`/auth/register/complete?redirect=${encodeURIComponent(redirect)}`);
             })
             .catch(async (err) => {
                 await NotificationPlugin.error({

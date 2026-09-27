@@ -37,8 +37,8 @@ This is the renewed official website for Corona Studio!
 ## 🛠️ 本地开发
 
 ```bash
-yarn install
-yarn dev
+pnpm install
+pnpm dev
 ```
 
-提交前运行 `yarn quality`，它会依次执行 ESLint、单元测试、TypeScript 检查与生产构建。
+提交前运行 `pnpm quality`，它会依次执行 ESLint、单元测试、TypeScript 检查与生产构建。
