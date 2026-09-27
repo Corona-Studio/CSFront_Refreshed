@@ -6,6 +6,7 @@ import { Button, NotificationPlugin } from "tdesign-react";
 
 import { getSafeRedirect } from "../../helpers/RouteHelper.ts";
 import { useUrlQuery } from "../../helpers/UrlQueryHelper.ts";
+import { isVerificationCodeExpired } from "../../helpers/VerificationHelper.ts";
 import i18next from "../../i18n.ts";
 import {
     type RegistrationVerificationInfo,
@@ -20,10 +21,19 @@ function AuthRegisterComplete() {
     const query = useUrlQuery();
     const redirect = getSafeRedirect(query.get("redirect"), "/user");
     const [verification, setVerification] = useState<RegistrationVerificationInfo | null>();
+    const [now, setNow] = useState(0);
 
     useEffect(() => {
         localForage.getItem<RegistrationVerificationInfo>(StoredRegistrationVerification).then(setVerification);
+        const initialTimer = window.setTimeout(() => setNow(Date.now()), 0);
+        const timer = window.setInterval(() => setNow(Date.now()), 1000);
+        return () => {
+            window.clearTimeout(initialTimer);
+            window.clearInterval(timer);
+        };
     }, []);
+
+    const expired = isVerificationCodeExpired(verification?.verificationCodeExpiresAt, now);
 
     const copyAsync = async (value: string) => {
         await navigator.clipboard.writeText(value);
@@ -37,7 +47,7 @@ function AuthRegisterComplete() {
         });
     };
 
-    if (verification === undefined) return null;
+    if (verification === undefined || now === 0) return null;
 
     return (
         <div className="p-5 sm:p-8 space-y-6 bg-zinc-50/50 dark:bg-zinc-900/80 rounded-2xl shadow-lg w-[330px] md:w-[520px]">
@@ -49,7 +59,7 @@ function AuthRegisterComplete() {
                 </div>
             </div>
 
-            {verification ? (
+            {verification && !expired ? (
                 <>
                     <section className="space-y-2 text-center">
                         <p className="text-sm opacity-70">{t("yourVerificationCode")}</p>
@@ -80,21 +90,24 @@ function AuthRegisterComplete() {
                         <li>{t("verificationStepJoin")}</li>
                         <li>{t("verificationStepPrivateChat")}</li>
                         <li>
-                            {t("verificationStepCommand")} <code>/verify {verification.verificationCode}</code>
+                            {t("verificationStepCommand")} <code>/verify {verification.username} {verification.verificationCode}</code>
                         </li>
                     </ol>
                 </>
             ) : (
-                <p>{t("verificationInfoMissing")}</p>
+                <p>{verification ? t("verificationCodeExpired") : t("verificationInfoMissing")}</p>
             )}
 
             <Button
                 theme="primary"
                 block
-                disabled={!verification}
+                disabled={!verification || expired}
                 onClick={() => navigate(`/auth/login?redirect=${encodeURIComponent(redirect)}`)}>
                 {t("verifiedGoLogin")}
             </Button>
+            {expired && <Button block onClick={() => navigate(`/auth/login?redirect=${encodeURIComponent(redirect)}`)}>
+                {t("requestNewVerificationCode")}
+            </Button>}
         </div>
     );
 }

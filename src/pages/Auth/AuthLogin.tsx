@@ -1,20 +1,24 @@
 import localForage from "localforage";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { LockOnIcon, MailIcon } from "tdesign-icons-react";
+import { LockOnIcon, UserIcon } from "tdesign-icons-react";
 import { Button, Checkbox, Form, Input, NotificationPlugin } from "tdesign-react";
 import type { FormProps } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
 import { getSafeRedirect } from "../../helpers/RouteHelper.ts";
-import { isUserSessionValidAsync, saveSessionAsync } from "../../helpers/SessionHelper.ts";
+import { clearSessionAsync, isUserSessionValidAsync, saveSessionAsync } from "../../helpers/SessionHelper.ts";
+import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import { useUrlQuery } from "../../helpers/UrlQueryHelper.ts";
 import i18next from "../../i18n.ts";
 import {
     StoredAuthEmail,
+    StoredAuthToken,
     StoredRegistrationVerification,
-    loginAsync
+    loginAsync,
+    startVerificationAsync
 } from "../../requests/LxAuthRequests.ts";
+import { checkUserIsPaidAsync } from "../../requests/LxUserRequests.ts";
 import Constants from "./../../helpers/Constants.ts";
 
 const t = i18next.t;
@@ -51,6 +55,13 @@ function AuthLogin() {
     useEffect(() => {
         async function checkAuthAsync() {
             if (!(await isUserSessionValidAsync())) return;
+            const token = await getStorageItemAsync(StoredAuthToken);
+            const status = await checkUserIsPaidAsync(token ?? "");
+            if (status?.status === 401 || status?.status === 403) {
+                await clearSessionAsync();
+                return;
+            }
+            if (status?.status !== 200) return;
             navigate(redirect);
         }
 
@@ -68,10 +79,28 @@ function AuthLogin() {
             .then(async (r) => {
                 if (!r || !r.status) throw new Error(t("unknownLoginErrorDescription"));
                 if (r.status === 401) throw new Error(t("incorrectEmailOrPassword"));
-                if (r.status === 403) throw new Error(t("accountNotVerified"));
+                if (r.status === 403) {
+                    const verification = await startVerificationAsync({ email: formData.email!, password: formData.password! });
+                    if (verification.status !== 200 || !verification.response)
+                        throw new Error(t("accountNotVerified"));
+                    await localForage.setItem(StoredRegistrationVerification, verification.response);
+                    navigate(`/auth/register/complete?redirect=${encodeURIComponent(redirect)}`);
+                    return;
+                }
                 if (!r.response) throw new Error(t("unknownLoginErrorDescription"));
 
-                await saveSessionAsync(r.response, formData.email!, formData.rememberMe);
+                if (r.response.verificationRequired && r.response.verificationCode && r.response.verificationCodeExpiresAt) {
+                    await localForage.setItem(StoredRegistrationVerification, {
+                        username: r.response.username,
+                        verificationCode: r.response.verificationCode,
+                        verificationCodeExpiresAt: r.response.verificationCodeExpiresAt,
+                        qqGroups: r.response.qqGroups ?? []
+                    });
+                    navigate(`/auth/register/complete?redirect=${encodeURIComponent(redirect)}`);
+                    return;
+                }
+
+                await saveSessionAsync(r.response, r.response.email ?? formData.email!, formData.rememberMe);
                 await localForage.removeItem(StoredRegistrationVerification);
 
                 await NotificationPlugin.success({
@@ -117,13 +146,13 @@ function AuthLogin() {
                         initialData={savedEmail}
                         rules={[
                             { required: true, message: t("emailRequired"), type: "error" },
-                            { email: true, message: t("emailIncorrectMessage") }
+                            { whitespace: true, message: t("emailRequired") }
                         ]}>
                         <Input
                             disabled={isLoading}
                             clearable={true}
-                            prefixIcon={<MailIcon />}
-                            placeholder={t("pleaseInputEmail")}
+                            prefixIcon={<UserIcon />}
+                            placeholder={t("userNameOrEmail")}
                         />
                     </FormItem>
                     <FormItem name="password">

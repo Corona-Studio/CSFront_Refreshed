@@ -84,6 +84,7 @@ export const zhCN = {
 
         login: "登录",
         pleaseInputEmail: "请输入邮箱",
+        userNameOrEmail: "用户名或邮箱",
         pleaseInputPassword: "请输入密码",
         pleaseInputUserName: "请输入用户名",
         confirmPassword: "确认密码",
@@ -162,6 +163,8 @@ export const zhCN = {
         registerSucceeded: "注册成功",
         registerSucceededDescription: "账号已创建，请继续完成 QQ 机器人验证。",
         registrationComplete: "注册完成",
+        verificationCodeExpired: "验证码已过期。请返回登录页重新登录，申请新的验证码。",
+        requestNewVerificationCode: "重新登录申请验证码",
         verificationRequired: "完成 QQ 机器人验证后即可登录",
         yourVerificationCode: "你的 6 位验证码（点击复制）",
         joinQqGroup: "加入任一 QQ 群",

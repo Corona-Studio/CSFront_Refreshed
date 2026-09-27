@@ -89,6 +89,7 @@ export const enUS = {
 
         login: "Login",
         pleaseInputEmail: "Enter Email",
+        userNameOrEmail: "Username or email",
         pleaseInputPassword: "Enter Password",
         pleaseInputUserName: "Enter Username",
         confirmPassword: "Confirm Password",
@@ -169,6 +170,8 @@ export const enUS = {
         registerSucceeded: "Registration Successful",
         registerSucceededDescription: "Your account was created. Complete verification through the QQ bot.",
         registrationComplete: "Registration Complete",
+        verificationCodeExpired: "This code has expired. Return to login to request a new one.",
+        requestNewVerificationCode: "Log in for a new code",
         verificationRequired: "Verify through the QQ bot before signing in",
         yourVerificationCode: "Your 6-character code (click to copy)",
         joinQqGroup: "Join either QQ group",

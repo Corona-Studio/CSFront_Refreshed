@@ -29,12 +29,17 @@ interface PasswordResetConfirmRequest {
 
 export interface RawLoginResponse {
     username: string;
+    email?: string;
     id: string;
     isPaid: boolean;
     branch: string;
     channel: number;
     token: string;
     expiration: string;
+    verificationRequired?: boolean;
+    verificationCode?: string;
+    verificationCodeExpiresAt?: string;
+    qqGroups?: string[];
 }
 
 interface IdentityError {
@@ -46,11 +51,14 @@ export interface RegisterResponse {
     succeeded: boolean;
     errors?: IdentityError[];
     verificationCode: string;
+    verificationCodeExpiresAt: string;
     qqGroups: string[];
 }
 
 export interface RegistrationVerificationInfo {
+    username: string;
     verificationCode: string;
+    verificationCodeExpiresAt: string;
     qqGroups: string[];
 }
 
@@ -58,6 +66,10 @@ export async function loginAsync(req: LoginRequest): Promise<IResponse<RawLoginR
     const endPoint = "/User/login";
 
     return await postAsync(endPoint, req);
+}
+
+export async function startVerificationAsync(req: LoginRequest): Promise<IResponse<RegistrationVerificationInfo>> {
+    return await postAsync("/User/verification/start", req);
 }
 
 export async function registerAsync(req: RegisterRequest): Promise<IResponse<RegisterResponse> | undefined> {

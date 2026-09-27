@@ -64,7 +64,9 @@ function AuthRegister() {
 
                 await localForage.setItem(StoredAuthEmail, formData.email!);
                 await localForage.setItem(StoredRegistrationVerification, {
+                    username: formData.username!,
                     verificationCode: r.response.verificationCode,
+                    verificationCodeExpiresAt: r.response.verificationCodeExpiresAt,
                     qqGroups: r.response.qqGroups
                 });
 
