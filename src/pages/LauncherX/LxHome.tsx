@@ -7,6 +7,7 @@ import { Button, Col, Row, Statistic } from "tdesign-react";
 
 import MagicBento, { BentoCardProps } from "../../ReactBits/Components/MagicBento/MagicBento.tsx";
 import styles from "./LxHome.module.css";
+import Loading from "../../components/Loading.tsx";
 
 const LetterGlitch = lazy(() => import("../../ReactBits/Backgrounds/LetterGlitch/LetterGlitch.tsx"));
 const BounceCards = lazy(() => import("../../ReactBits/Components/BounceCards/BounceCards.tsx"));
@@ -301,6 +302,7 @@ function LxHome() {
                     </div>
                 </div>
             </div>
+            <Loading />
         </>
     );
 }

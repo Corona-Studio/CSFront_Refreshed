@@ -14,6 +14,8 @@ import { applyTheme, getTheme } from "./helpers/ThemeDetector.ts";
 import "./i18n";
 import "./index.css";
 
+import TopLoadingBar from "./components/TopLoadingBar.tsx";
+
 const style: CSSProperties = {
     position: "fixed",
     insetInlineEnd: 24,
@@ -31,7 +33,7 @@ localForage.config({
 });
 
 // Remove credentials written by older versions. Passwords must never be persisted client-side.
-void localForage.removeItem("AUTH_PASSWORD");
+void localForage.removeItem("AUTH_PASSWORD"); // 笑死了当时是谁给密码写本地的
 
 applyTheme(getTheme());
 
@@ -44,7 +46,9 @@ createRoot(rootElement).render(
             {vercelInsightsEnabled && <Analytics />}
             {vercelInsightsEnabled && <SpeedInsights />}
 
-            <div className="shadow-lg">
+            <div className="shadow-lg z-auto relative">
+                <TopLoadingBar hide autoStop />
+
                 <div className="shadow-md overflow-x-clip bg-zinc-100 dark:bg-zinc-900" id="wrapper">
                     <RouterProvider router={router} />
                 </div>

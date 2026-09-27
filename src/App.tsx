@@ -6,6 +6,7 @@ import "./App.css";
 import { queryClient } from "./app/queryClient.ts";
 import { RouteHandle } from "./app/routeTypes.ts";
 import { applyTheme, useTheme } from "./helpers/ThemeDetector.ts";
+import Loading from "./components/Loading.tsx";
 
 const Fallback = lazy(() => import("./pages/Fallback.tsx"));
 const Footer = lazy(() => import("./components/Footer.tsx"));
@@ -29,11 +30,13 @@ function App() {
     return (
         <>
             <QueryClientProvider client={queryClient}>
+
                 <MenuBar />
 
                 {navigation.state === "loading" && <Fallback />}
                 {navigation.state !== "loading" && <Outlet />}
 
+                <Loading />
                 {!isManagementPage && <Footer />}
             </QueryClientProvider>
         </>

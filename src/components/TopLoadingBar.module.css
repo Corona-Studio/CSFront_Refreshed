@@ -1,0 +1,35 @@
+.seedInTopLoadingBar {
+    animation: 1.9s ease-in-out infinite lbt !important;
+}
+
+@keyframes lbt {
+    0% {
+        transform: translateX(-150%);
+        opacity: 0.5;
+    }
+
+    40% {
+        transform: translateX(500%);
+        opacity: 0.5;
+    }
+
+    49% {
+        transform: translateX(500%);
+        opacity: 0;
+    }
+
+    51% {
+        transform: translateX(-75%);
+        opacity: 0;
+    }
+
+    60% {
+        transform: translateX(-150%);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: translateX(500%);
+        opacity: 0.5;
+    }
+}

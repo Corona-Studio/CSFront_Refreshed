@@ -5,6 +5,7 @@ import { Col, Row } from "tdesign-react";
 
 import { useTheme } from "../helpers/ThemeDetector.ts";
 import i18next from "../i18n";
+import Loading from "../components/Loading.tsx";
 
 const Squares = lazy(() => import("../ReactBits/Backgrounds/Squares/Squares.tsx"));
 const DecryptedText = lazy(() => import("../ReactBits/TextAnimations/DecryptedText/DecryptedText.tsx"));
@@ -149,6 +150,8 @@ function Home() {
                     </div>
                 </div>
             </div>
+            <Loading />
+
         </>
     );
 }

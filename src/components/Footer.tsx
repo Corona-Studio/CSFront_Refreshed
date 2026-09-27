@@ -23,7 +23,7 @@ export default function Footer() {
             <div className="p-3 w-screen fixed -z-10 left-0 right-0 bottom-0 text-black dark:text-white " id="footer">
                 <div className="grow">
                     <p className="">
-                        2016 - 2025 © Corona Studio |
+                        2016 - {(new Date()).getFullYear()} © Corona Studio |
                         <span style={sty1}>
                             日冕工作室保留对其提供的一切内容的解释权.
                         </span>

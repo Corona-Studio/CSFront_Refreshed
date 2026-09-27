@@ -146,6 +146,7 @@ function MenuBar() {
     return (
         <>
             <div className="fixed flex gap-1.5 top-0 w-screen z-1000 hover:shadow-lg active:shadow-md shadow transition">
+
                 <HeadMenu
                     theme="light"
                     className="pl-2.5! pr-1! lg:px-5!"
