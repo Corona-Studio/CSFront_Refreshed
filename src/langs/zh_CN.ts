@@ -413,6 +413,18 @@ export const zhCN = {
         notPay: "未支付",
 
         queriedSponsorInfo: "查询到的用户信息",
+        redeemOrderNumber: "兑换订单号",
+        redeemTime: "兑换时间",
+        noRedeemRecord: "无兑换记录",
+        manualSponsorGrant: "管理员手动授予",
+        sponsoredUsers: "已赞助用户",
+        sponsorCount: "共 {{count}} 位赞助用户",
+        searchSponsors: "搜索用户名、邮箱或用户 ID",
+        noSponsors: "没有符合条件的赞助用户",
+        sponsorListLoadFailed: "加载赞助用户失败",
+        sponsorListLoadFailedDescription: "无法获取赞助用户列表，请检查网络连接或管理员权限。",
+        copyOrderNumber: "复制兑换订单号",
+        orderNumberCopied: "订单号已复制",
 
         copy: "复制",
         copyAdminUserToken: "快速复制管理员 JWT Token",

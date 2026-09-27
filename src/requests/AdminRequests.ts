@@ -10,11 +10,13 @@ interface DashboardData {
     count: string;
 }
 
-export interface UserSponsorInfo {
+export interface UserSponsorInfo extends TableRowData {
     userName: string;
     email: string;
     id: string;
     isPaid: boolean;
+    orderNumber?: string | null;
+    redeemTime?: string | null;
 }
 
 export interface AdminBuildInfo extends TableRowData {
@@ -151,6 +153,18 @@ export async function setUserAsSponsorAsync(
     const endPoint = "/Admin/sponsor/set";
 
     return await putAsync<UserSponsorInfo>(endPoint, { email }, buildHeader(token));
+}
+
+export async function getSponsorUsersAsync(
+    token: string,
+    search: string,
+    page: number,
+    pageSize: number
+): Promise<IResponse<PagedResult<UserSponsorInfo>> | undefined> {
+    return await getAsync<PagedResult<UserSponsorInfo>>(
+        "/Admin/sponsor/users",
+        buildHeader(token, undefined, { search: search || undefined, page, pageSize })
+    );
 }
 
 export async function getAdminBuildsAsync(token: string): Promise<IResponse<AdminBuildInfo[]> | undefined> {
