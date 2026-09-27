@@ -98,7 +98,7 @@ export const zhCN = {
         resetPassword: "重置密码",
         sendQqResetCode: "通过 QQ 获取邀请码",
         passwordResetRequestDescription:
-            "提交注册邮箱后，机器人会向该账号通过 /verify 绑定的 QQ 私聊发送一次性邀请码。",
+            "提交用户名或旧账户邮箱后，机器人会向该账号通过 /verify 绑定的 QQ 私聊发送一次性邀请码。",
         passwordResetRequestAccepted: "请求已受理",
         passwordResetRequestAcceptedDescription:
             "如果账号存在、已完成验证并绑定 QQ，机器人会发送一次性邀请码，请检查 QQ 私聊。",
@@ -115,6 +115,7 @@ export const zhCN = {
         passwordResetFailedDescription: "暂时无法重置密码，请稍后再试。",
 
         email: "邮箱",
+        noEmail: "未设置邮箱",
         username: "用户名",
         userId: "用户 ID",
 
@@ -157,7 +158,7 @@ export const zhCN = {
         loginSucceeded: "登陆成功",
         loginSucceededDescription: "成功登录，即将跳转至用户中心...",
 
-        emailOrUsernameUsed: "注册时使用的邮箱或用户名已经被占用",
+        usernameUsed: "用户名已被占用",
         backendServerError: "后端服务器故障，请联系管理员",
         registerFailed: "注册失败",
         registerSucceeded: "注册成功",
@@ -407,7 +408,7 @@ export const zhCN = {
 
         setUserAsSponsor: "将用户设置为赞助者",
         setUserAsSponsorDescription:
-            "输入用户的邮箱来将用户设置为赞助者。注意：请勿滥用该功能，一经发现可能会被吊销管理员权限！",
+            "输入用户名或旧账户邮箱来将用户设置为赞助者。注意：请勿滥用该功能，一经发现可能会被吊销管理员权限！",
 
         isPaid: "已支付",
         notPay: "未支付",

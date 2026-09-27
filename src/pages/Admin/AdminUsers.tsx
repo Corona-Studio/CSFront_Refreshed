@@ -40,7 +40,7 @@ const roleOptions = () =>
         .map((value) => ({ label: t(`userRole${AdminUserType[value]}`), value }));
 
 function getInitial(user: AdminUserInfo) {
-    return (user.userName.trim()[0] ?? user.email.trim()[0] ?? "?").toLocaleUpperCase();
+    return (user.userName.trim()[0] ?? user.email?.trim()[0] ?? "?").toLocaleUpperCase();
 }
 
 function UserAvatar({ user }: { user: AdminUserInfo }) {
@@ -177,7 +177,7 @@ function AdminUsers() {
                                     <CopyIcon />
                                 </button>
                             </div>
-                            <span className={styles.email}>{row.email}</span>
+                            <span className={styles.email}>{row.email?.trim() || t("noEmail")}</span>
                         </div>
                     </div>
                 )
@@ -306,7 +306,7 @@ function AdminUsers() {
                     {pendingChange && <UserAvatar key={pendingChange.user.id} user={pendingChange.user} />}
                     <div>
                         <strong>{pendingChange?.user.userName}</strong>
-                        <span>{pendingChange?.user.email}</span>
+                        <span>{pendingChange?.user.email?.trim() || t("noEmail")}</span>
                     </div>
                 </div>
                 <p>

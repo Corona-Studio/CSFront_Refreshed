@@ -24,6 +24,7 @@ import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import i18next from "../../i18n.ts";
 import { lxBackendUrl } from "../../requests/ApiConstants.ts";
 import {
+    StoredAccountEmail,
     StoredAuthEmail,
     StoredAuthToken,
     StoredAuthUserId,
@@ -33,6 +34,15 @@ import { getUserCurrentChannelAsync, revokeUserAccountAsync } from "../../reques
 import Constants from "./../../helpers/Constants.ts";
 
 const t = i18next.t;
+
+async function getAccountEmailAsync() {
+    const accountEmail = await getStorageItemAsync(StoredAccountEmail);
+    if (accountEmail) return accountEmail;
+
+    // Sessions created before ACCOUNT_EMAIL existed stored the account email in AUTH_EMAIL.
+    const previousValue = await getStorageItemAsync(StoredAuthEmail);
+    return previousValue?.includes("@") ? previousValue : null;
+}
 
 interface TipModel {
     icon: TElement;
@@ -53,7 +63,7 @@ function UserHome() {
     useEffect(() => {
         async function getStoredUserInfoAsync() {
             const storedUserName = await getStorageItemAsync(StoredAuthUserName);
-            const storedUserEmail = await getStorageItemAsync(StoredAuthEmail);
+            const storedUserEmail = await getAccountEmailAsync();
             const storedUserId = await getStorageItemAsync(StoredAuthUserId);
             const avatarUrl = storedUserId
                 ? `${lxBackendUrl}/Avatar/${storedUserId}`
@@ -96,7 +106,7 @@ function UserHome() {
                 if (!r.response) throw new Error(t("backendServerError"));
 
                 const storedUserName = await getStorageItemAsync(StoredAuthUserName);
-                const storedUserEmail = await getStorageItemAsync(StoredAuthEmail);
+                const storedUserEmail = await getAccountEmailAsync();
 
                 return [
                     {
@@ -105,7 +115,7 @@ function UserHome() {
                     },
                     {
                         title: t("email"),
-                        value: storedUserEmail
+                        value: storedUserEmail || t("noEmail")
                     },
                     {
                         title: t("userBranch"),
@@ -225,7 +235,7 @@ function UserHome() {
                             <h5>{userName}</h5>
                         </Col>
                         <Col>
-                            <span>{userEmail}</span>
+                            <span>{userEmail || t("noEmail")}</span>
                         </Col>
                         <Col>
                             {isPaid.isLoading && <Loading />}

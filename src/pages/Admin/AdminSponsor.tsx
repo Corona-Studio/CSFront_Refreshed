@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { t } from "i18next";
 import { useEffect, useMemo, useState } from "react";
-import { CopyIcon, MailIcon, SearchIcon } from "tdesign-icons-react";
+import { CopyIcon, SearchIcon, UserIcon } from "tdesign-icons-react";
 import {
     Alert,
     Avatar,
@@ -163,7 +163,7 @@ function AdminSponsor() {
                         />
                         <div className={styles.userDetails}>
                             <strong>{row.userName || t("unnamedUser")}</strong>
-                            <span>{row.email}</span>
+                            <span>{row.email?.trim() || t("noEmail")}</span>
                             <code title={row.id}>{row.id}</code>
                         </div>
                     </div>
@@ -213,14 +213,14 @@ function AdminSponsor() {
                             <FormItem
                                 name="email"
                                 rules={[
-                                    { required: true, message: t("emailRequired"), type: "error" },
-                                    { email: true, message: t("emailIncorrectMessage") }
+                                    { required: true, message: t("userNameOrEmail"), type: "error" },
+                                    { whitespace: true, message: t("userNameOrEmail") }
                                 ]}>
                                 <Input
                                     disabled={isQuerying}
                                     clearable
-                                    prefixIcon={<MailIcon />}
-                                    placeholder={t("pleaseInputEmail")}
+                                    prefixIcon={<UserIcon />}
+                                    placeholder={t("userNameOrEmail")}
                                 />
                             </FormItem>
                             <div className={styles.formActions}>
@@ -240,10 +240,10 @@ function AdminSponsor() {
                             <FormItem
                                 name="email"
                                 rules={[
-                                    { required: true, message: t("emailRequired"), type: "error" },
-                                    { email: true, message: t("emailIncorrectMessage") }
+                                    { required: true, message: t("userNameOrEmail"), type: "error" },
+                                    { whitespace: true, message: t("userNameOrEmail") }
                                 ]}>
-                                <Input clearable prefixIcon={<MailIcon />} placeholder={t("pleaseInputEmail")} />
+                                <Input clearable prefixIcon={<UserIcon />} placeholder={t("userNameOrEmail")} />
                             </FormItem>
                             <div className={styles.formActions}>
                                 <Button loading={isSetting} theme="danger" type="submit">
@@ -267,7 +267,7 @@ function AdminSponsor() {
                         />
                         <div className={styles.userDetails}>
                             <strong>{userInfo.userName}</strong>
-                            <span>{userInfo.email}</span>
+                            <span>{userInfo.email?.trim() || t("noEmail")}</span>
                             <code title={userInfo.id}>{userInfo.id}</code>
                         </div>
                         <div className={styles.queryMetadata}>

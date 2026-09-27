@@ -1,7 +1,7 @@
 import localForage from "localforage";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { KeyIcon, MailIcon } from "tdesign-icons-react";
+import { KeyIcon, UserIcon } from "tdesign-icons-react";
 import {
     Button,
     type CustomValidator,
@@ -98,10 +98,10 @@ function AuthResetPassword() {
                     name="email"
                     initialData={savedEmail}
                     rules={[
-                        { required: true, message: t("emailRequired"), type: "error" },
-                        { email: true, message: t("emailIncorrectMessage") }
+                        { required: true, message: t("userNameOrEmail"), type: "error" },
+                        { whitespace: true, message: t("userNameOrEmail") }
                     ]}>
-                    <Input disabled={isLoading} clearable prefixIcon={<MailIcon />} placeholder={t("pleaseInputEmail")} />
+                    <Input disabled={isLoading} clearable prefixIcon={<UserIcon />} placeholder={t("userNameOrEmail")} />
                 </FormItem>
                 <FormItem
                     name="code"

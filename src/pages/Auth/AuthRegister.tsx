@@ -1,7 +1,7 @@
 import localForage from "localforage";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { KeyIcon, MailIcon, User1Icon } from "tdesign-icons-react";
+import { KeyIcon, User1Icon } from "tdesign-icons-react";
 import {
     Button,
     CustomValidator,
@@ -30,7 +30,6 @@ import AllowedChars from "./AllowedChars.tsx";
 const t = i18next.t;
 
 interface FormData {
-    email?: string;
     password?: string;
     confirmPassword?: string;
     username?: string;
@@ -54,15 +53,15 @@ function AuthRegister() {
 
         setIsLoading(true);
 
-        registerAsync({ email: formData.email!, password: formData.password!, username: formData.username! })
+        registerAsync({ password: formData.password!, username: formData.username! })
             .then(async (r) => {
                 if (!r || !r.status) throw new Error(t("backendServerError"));
                 if (r.status === 400) throw new Error(t("backendServerError"));
-                if (r.status === 403) throw new Error(t("emailOrUsernameUsed"));
+                if (r.status === 403) throw new Error(t("usernameUsed"));
                 if (!r.response) throw new Error(t("unknownLoginErrorDescription"));
                 if (!r.response.succeeded) throw new Error(JSON.stringify(r.response.errors));
 
-                await localForage.setItem(StoredAuthEmail, formData.email!);
+                await localForage.setItem(StoredAuthEmail, formData.username!);
                 await localForage.setItem(StoredRegistrationVerification, {
                     username: formData.username!,
                     verificationCode: r.response.verificationCode,
@@ -107,19 +106,6 @@ function AuthRegister() {
                     statusIcon={true}
                     colon={true}
                     labelWidth={0}>
-                    <FormItem
-                        name="email"
-                        rules={[
-                            { required: true, message: t("emailRequired"), type: "error" },
-                            { email: true, message: t("emailIncorrectMessage") }
-                        ]}>
-                        <Input
-                            disabled={isLoading}
-                            clearable={true}
-                            prefixIcon={<MailIcon />}
-                            placeholder={t("pleaseInputEmail")}
-                        />
-                    </FormItem>
                     <FormItem
                         name="username"
                         rules={[

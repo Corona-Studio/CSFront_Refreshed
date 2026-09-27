@@ -12,7 +12,7 @@ interface DashboardData {
 
 export interface UserSponsorInfo extends TableRowData {
     userName: string;
-    email: string;
+    email: string | null;
     id: string;
     isPaid: boolean;
     orderNumber?: string | null;
@@ -46,7 +46,7 @@ export enum AdminUserType {
 export interface AdminUserInfo extends TableRowData {
     id: string;
     userName: string;
-    email: string;
+    email: string | null;
     userType: AdminUserType;
     isPaid: boolean;
     qqVerified: boolean;

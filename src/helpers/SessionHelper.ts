@@ -3,6 +3,7 @@ import localForage from "localforage";
 
 import {
     RawLoginResponse,
+    StoredAccountEmail,
     StoredAuthEmail,
     StoredAuthExpired,
     StoredAuthPassword,
@@ -15,6 +16,7 @@ import { getStorageItemAsync } from "./StorageHelper.ts";
 export const JwtRoleKey = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
 
 const credentialKeys = [
+    StoredAccountEmail,
     StoredAuthEmail,
     StoredAuthPassword,
     StoredAuthToken,
@@ -55,6 +57,7 @@ export async function saveSessionAsync(response: RawLoginResponse, email: string
         [StoredAuthUserName, response.username],
         [StoredAuthUserId, response.id]
     ]);
+    if (response.email?.trim()) values.set(StoredAccountEmail, response.email.trim());
 
     if (persistent) {
         await Promise.all([...values].map(([key, value]) => localForage.setItem(key, value)));

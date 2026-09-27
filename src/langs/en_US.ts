@@ -103,7 +103,7 @@ export const enUS = {
         resetPassword: "Reset Password",
         sendQqResetCode: "Get Code through QQ",
         passwordResetRequestDescription:
-            "Enter your registration email. The bot will privately message the QQ account linked through /verify with a one-time code.",
+            "Enter your username or existing account email. The bot will privately message the QQ account linked through /verify with a one-time code.",
         passwordResetRequestAccepted: "Request Accepted",
         passwordResetRequestAcceptedDescription:
             "If the account exists, is verified, and has a linked QQ account, the bot will send a one-time code in a private message.",
@@ -121,6 +121,7 @@ export const enUS = {
         passwordResetFailedDescription: "Unable to reset your password right now. Please try again later.",
 
         email: "Email",
+        noEmail: "No email set",
         username: "Username",
         userId: "User ID",
 
@@ -165,7 +166,7 @@ export const enUS = {
         loginSucceeded: "Login Successful",
         loginSucceededDescription: "Login successful, redirecting to user center...",
 
-        emailOrUsernameUsed: "Email or username already in use",
+        usernameUsed: "Username already in use",
         backendServerError: "Backend server error, please contact admin",
         registerFailed: "Registration Failed",
         registerSucceeded: "Registration Successful",
@@ -243,7 +244,7 @@ export const enUS = {
             "Look up an account and its sponsorship and redemption details. This information is sensitive.",
         setUserAsSponsor: "Grant Sponsor Status",
         setUserAsSponsorDescription:
-            "Enter an account email to grant sponsor status manually. This administrative action is logged.",
+            "Enter a username or existing account email to grant sponsor status manually. This administrative action is logged.",
         isPaid: "Sponsored",
         notPay: "Not Sponsored",
         queriedSponsorInfo: "Account Details",

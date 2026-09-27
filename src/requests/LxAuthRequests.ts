@@ -2,6 +2,7 @@ import IResponse from "../interfaces/IResponse.ts";
 import { postAsync } from "./ApiConstants.ts";
 
 export const StoredAuthEmail = "AUTH_EMAIL";
+export const StoredAccountEmail = "ACCOUNT_EMAIL";
 export const StoredAuthPassword = "AUTH_PASSWORD";
 export const StoredAuthToken = "AUTH_TOKEN";
 export const StoredAuthExpired = "AUTH_EXPIRED";
@@ -16,7 +17,6 @@ interface LoginRequest {
 }
 
 interface RegisterRequest {
-    email: string;
     username: string;
     password: string;
 }

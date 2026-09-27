@@ -1,7 +1,7 @@
 import localForage from "localforage";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { MailIcon } from "tdesign-icons-react";
+import { UserIcon } from "tdesign-icons-react";
 import { Button, Form, type FormProps, Input, NotificationPlugin } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
@@ -29,13 +29,13 @@ function AuthForgetPassword() {
     const onSubmit: FormProps["onSubmit"] = (event) => {
         if (event.validateResult !== true) return;
 
-        const email = (event.fields as FormData).email!;
+        const identifier = (event.fields as FormData).email!;
         setIsLoading(true);
-        requestPasswordResetAsync(email)
+        requestPasswordResetAsync(identifier)
             .then(async (response) => {
                 if (response.status !== 202) throw new Error(t("passwordResetRequestFailedDescription"));
 
-                await localForage.setItem(StoredPasswordResetEmail, email);
+                await localForage.setItem(StoredPasswordResetEmail, identifier);
                 await NotificationPlugin.success({
                     title: t("passwordResetRequestAccepted"),
                     content: t("passwordResetRequestAcceptedDescription"),
@@ -71,10 +71,10 @@ function AuthForgetPassword() {
                 <FormItem
                     name="email"
                     rules={[
-                        { required: true, message: t("emailRequired"), type: "error" },
-                        { email: true, message: t("emailIncorrectMessage") }
+                        { required: true, message: t("userNameOrEmail"), type: "error" },
+                        { whitespace: true, message: t("userNameOrEmail") }
                     ]}>
-                    <Input disabled={isLoading} clearable prefixIcon={<MailIcon />} placeholder={t("pleaseInputEmail")} />
+                    <Input disabled={isLoading} clearable prefixIcon={<UserIcon />} placeholder={t("userNameOrEmail")} />
                 </FormItem>
                 <FormItem>
                     <Button loading={isLoading} theme="primary" type="submit" block>
