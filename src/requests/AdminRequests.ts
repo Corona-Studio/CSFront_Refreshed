@@ -26,13 +26,9 @@ export interface AdminBuildInfo extends TableRowData {
     releaseDate: string;
     releaseNote: string;
     fileHash: string;
-    isHotFix: boolean;
-    isApproved: boolean;
-    isReviewed: boolean;
-    isR2R: boolean;
+    isPublished: boolean;
     framework: string;
     runtime: string;
-    isCached: boolean;
 }
 
 export interface BuildCacheRefreshResult {
@@ -171,16 +167,16 @@ export async function getAdminBuildsAsync(token: string): Promise<IResponse<Admi
     return await getAsync<AdminBuildInfo[]>("/Admin/builds", buildHeader(token));
 }
 
-export async function setBuildHotFixAsync(
+export async function setBuildPublishedAsync(
     token: string,
     build: AdminBuildInfo,
-    isHotFix: boolean
+    isPublished: boolean
 ): Promise<IResponse<AdminBuildInfo> | undefined> {
     return await postAsync<AdminBuildInfo>(
-        "/Admin/builds/hotfix",
+        "/Admin/builds/published",
         {
             id: build.id,
-            isHotFix,
+            isPublished,
             fileHash: build.fileHash,
             branch: build.branch,
             framework: build.framework,

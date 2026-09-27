@@ -27,6 +27,7 @@ import {
 } from "../../requests/AdminRequests.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
 import styles from "./AdminManagement.module.css";
+import tableStyles from "./AdminTable.module.css";
 
 interface NotificationDraft {
     title: string;
@@ -238,7 +239,7 @@ function AdminNotifications() {
                     </div>
                 </div>
                 <PrimaryTable<AdminNotificationInfo>
-                    className={styles.managementTable}
+                    className={`${styles.managementTable} ${tableStyles.table}`}
                     rowKey="id"
                     hover
                     loading={notificationsQuery.isLoading || notificationsQuery.isFetching}

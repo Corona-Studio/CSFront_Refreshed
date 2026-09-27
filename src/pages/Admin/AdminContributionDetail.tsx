@@ -33,6 +33,7 @@ import {
 } from "../../requests/AdminRequests.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
 import styles from "./AdminContributions.module.css";
+import tableStyles from "./AdminTable.module.css";
 
 type ContributionType = "translation" | "link" | "tag";
 
@@ -418,6 +419,7 @@ function AdminContributionDetail() {
                         <p>{t("translationContributionDescription")}</p>
                     </div>
                     <PrimaryTable<UserContributedTranslation>
+                        className={tableStyles.table}
                         rowKey="id"
                         hover
                         data={detail.translations}
@@ -433,7 +435,13 @@ function AdminContributionDetail() {
                             <LinkIcon /> {t("linkContributions")}
                         </h3>
                     </div>
-                    <PrimaryTable<UserContributedLink> rowKey="id" hover data={detail.links} columns={linkColumns} />
+                    <PrimaryTable<UserContributedLink>
+                        className={tableStyles.table}
+                        rowKey="id"
+                        hover
+                        data={detail.links}
+                        columns={linkColumns}
+                    />
                 </Card>
             )}
 
@@ -442,7 +450,13 @@ function AdminContributionDetail() {
                     <div className={styles.sectionTitle}>
                         <h3>{t("tagContributions")}</h3>
                     </div>
-                    <PrimaryTable<UserContributedTag> rowKey="id" hover data={detail.tags} columns={tagColumns} />
+                    <PrimaryTable<UserContributedTag>
+                        className={tableStyles.table}
+                        rowKey="id"
+                        hover
+                        data={detail.tags}
+                        columns={tagColumns}
+                    />
                 </Card>
             )}
 
@@ -454,6 +468,7 @@ function AdminContributionDetail() {
                         </h3>
                     </div>
                     <PrimaryTable<ThirdPartyInfoRatingRecord>
+                        className={tableStyles.table}
                         rowKey="id"
                         hover
                         data={detail.ratings}

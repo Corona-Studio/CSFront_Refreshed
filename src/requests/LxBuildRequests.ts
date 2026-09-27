@@ -8,10 +8,7 @@ export interface LauncherRawBuildModel {
     releaseNote: string;
     fileHash: string;
 
-    isHotFix: boolean;
-    isApproved: boolean;
-    isReviewed: boolean;
-    isR2R: boolean;
+    isPublished: boolean;
 
     framework: string;
     runtime: string;

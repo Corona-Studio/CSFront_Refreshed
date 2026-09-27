@@ -120,13 +120,13 @@
     color: var(--td-text-color-secondary);
     font-weight: 600;
     font-size: 12px;
-    letter-spacing: 0.04em;
+    letter-spacing: 0;
 }
 
 .usersTable :global(.t-table__body td) {
     border-bottom: 1px solid var(--td-component-stroke);
     background: var(--td-bg-color-container);
-    height: 66px;
+    height: 58px;
 }
 
 .usersTable :global(.t-table__body tr:hover td) {
@@ -135,7 +135,7 @@
 
 .usersTable :global(.t-table__pagination) {
     margin: 0;
-    padding: 18px 22px;
+    padding: 12px 20px;
 }
 
 .userCell {
@@ -209,6 +209,7 @@
     flex: 0 0 auto;
     align-items: center;
     gap: 4px;
+    cursor: pointer;
     border: 0;
     border-radius: 4px;
     background: transparent;
@@ -216,7 +217,6 @@
     color: var(--td-text-color-placeholder);
     font-size: 11px;
     font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
-    cursor: pointer;
 }
 
 .idButton svg {

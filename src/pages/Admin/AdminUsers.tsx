@@ -27,6 +27,7 @@ import {
 } from "../../requests/AdminRequests.ts";
 import { lxBackendUrl } from "../../requests/ApiConstants.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
+import tableStyles from "./AdminTable.module.css";
 import styles from "./AdminUsers.module.css";
 
 async function getAdminTokenAsync() {
@@ -273,7 +274,7 @@ function AdminUsers() {
                     />
                 </div>
                 <PrimaryTable<AdminUserInfo>
-                    className={styles.usersTable}
+                    className={`${styles.usersTable} ${tableStyles.table}`}
                     rowKey="id"
                     hover
                     loading={usersQuery.isLoading || usersQuery.isFetching}

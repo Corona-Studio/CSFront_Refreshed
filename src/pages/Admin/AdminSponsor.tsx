@@ -32,6 +32,7 @@ import { lxBackendUrl } from "../../requests/ApiConstants.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
 import Constants from "./../../helpers/Constants.ts";
 import styles from "./AdminSponsor.module.css";
+import tableStyles from "./AdminTable.module.css";
 
 interface FormData {
     email?: string;
@@ -318,7 +319,7 @@ function AdminSponsor() {
                     />
                 </div>
                 <PrimaryTable<UserSponsorInfo>
-                    className={styles.sponsorsTable}
+                    className={`${styles.sponsorsTable} ${tableStyles.table}`}
                     rowKey="id"
                     hover
                     loading={sponsorsQuery.isLoading || sponsorsQuery.isFetching}

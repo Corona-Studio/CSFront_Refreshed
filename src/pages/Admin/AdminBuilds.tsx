@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { t } from "i18next";
 import { useCallback, useMemo, useState } from "react";
-import { CheckCircleFilledIcon, CloudIcon, LayersIcon, RefreshIcon, SearchIcon } from "tdesign-icons-react";
+import { RefreshIcon, SearchIcon } from "tdesign-icons-react";
 import {
     Alert,
     Button,
@@ -10,8 +10,7 @@ import {
     NotificationPlugin,
     PrimaryTable,
     type PrimaryTableCol,
-    Space,
-    Tag
+    Space
 } from "tdesign-react";
 
 import Constants from "../../helpers/Constants.ts";
@@ -20,7 +19,7 @@ import {
     type AdminBuildInfo,
     getAdminBuildsAsync,
     refreshBuildCacheAsync,
-    setBuildHotFixAsync
+    setBuildPublishedAsync
 } from "../../requests/AdminRequests.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
 import styles from "./AdminBuilds.module.css";
@@ -51,12 +50,12 @@ function AdminBuilds() {
 
     const refetchBuilds = buildsQuery.refetch;
 
-    const setHotFixAsync = useCallback(
-        async (build: AdminBuildInfo, isHotFix: boolean) => {
+    const setPublishedAsync = useCallback(
+        async (build: AdminBuildInfo, isPublished: boolean) => {
             setUpdatingBuildIds((ids) => new Set(ids).add(build.id));
 
             try {
-                const response = await setBuildHotFixAsync(await getAdminTokenAsync(), build, isHotFix);
+                const response = await setBuildPublishedAsync(await getAdminTokenAsync(), build, isPublished);
 
                 if (response?.status === 404) {
                     await refetchBuilds();
@@ -72,7 +71,7 @@ function AdminBuilds() {
 
                 await NotificationPlugin.success({
                     title: t("buildUpdateSucceeded"),
-                    content: isHotFix ? t("buildEnabledDescription") : t("buildDisabledDescription"),
+                    content: isPublished ? t("buildEnabledDescription") : t("buildDisabledDescription"),
                     placement: "top-right",
                     duration: 3000,
                     offset: Constants.NotificationOffset,
@@ -80,6 +79,7 @@ function AdminBuilds() {
                     attach: () => document
                 });
             } catch (error) {
+                await refetchBuilds();
                 await NotificationPlugin.error({
                     title: t("buildUpdateFailed"),
                     content: (error as Error).message,
@@ -146,15 +146,6 @@ function AdminBuilds() {
         );
     }, [buildsQuery.data, searchText]);
 
-    const buildStats = useMemo(
-        () => ({
-            total: buildsQuery.data?.length ?? 0,
-            enabled: buildsQuery.data?.filter((build) => build.isHotFix).length ?? 0,
-            cached: buildsQuery.data?.filter((build) => build.isCached).length ?? 0
-        }),
-        [buildsQuery.data]
-    );
-
     const columns = useMemo<PrimaryTableCol<AdminBuildInfo>[]>(
         () => [
             {
@@ -165,9 +156,7 @@ function AdminBuilds() {
                     <div className={styles.buildInfo}>
                         <div className={styles.buildTitle}>
                             <span>{row.branch}</span>
-                            <Tag size="small" variant="light-outline" theme={row.channel === 0 ? "primary" : "warning"}>
-                                {t(row.channel === 0 ? "stable" : "preview")}
-                            </Tag>
+                            <span className={styles.channel}>{t(row.channel === 0 ? "stable" : "preview")}</span>
                         </div>
                         <span className={styles.secondaryText}>{new Date(row.releaseDate).toLocaleString()}</span>
                     </div>
@@ -180,31 +169,13 @@ function AdminBuilds() {
                 cell: ({ row }) => (
                     <div className={styles.targetInfo}>
                         <code>{row.framework}</code>
-                        <span className={styles.targetSeparator}>/</span>
+                        <span className={styles.targetSeparator}>·</span>
                         <code>{row.runtime}</code>
                     </div>
                 )
             },
             {
-                colKey: "status",
-                title: t("buildStatus"),
-                width: 240,
-                cell: ({ row }) => (
-                    <Space size="small" breakLine>
-                        <Tag
-                            size="small"
-                            variant="light"
-                            theme={row.isApproved ? "success" : row.isReviewed ? "danger" : "warning"}>
-                            {t(row.isApproved ? "buildApproved" : row.isReviewed ? "buildRejected" : "buildUnreviewed")}
-                        </Tag>
-                        <Tag size="small" theme={row.isCached ? "success" : "default"} variant="light">
-                            {t(row.isCached ? "buildCached" : "buildNotCached")}
-                        </Tag>
-                    </Space>
-                )
-            },
-            {
-                colKey: "isHotFix",
+                colKey: "isPublished",
                 title: t("pushToUsers"),
                 width: 128,
                 fixed: "right",
@@ -214,60 +185,32 @@ function AdminBuilds() {
                             type="button"
                             role="switch"
                             aria-label={t("pushToUsers")}
-                            aria-checked={row.isHotFix}
-                            className={`${styles.deliverySwitch} ${row.isHotFix ? styles.deliverySwitchEnabled : ""} ${updatingBuildIds.has(row.id) ? styles.deliverySwitchLoading : ""}`}
+                            aria-checked={row.isPublished}
+                            className={`${styles.deliverySwitch} ${row.isPublished ? styles.deliverySwitchEnabled : ""} ${updatingBuildIds.has(row.id) ? styles.deliverySwitchLoading : ""}`}
                             disabled={updatingBuildIds.has(row.id)}
-                            onClick={() => setHotFixAsync(row, !row.isHotFix)}>
+                            onClick={() => setPublishedAsync(row, !row.isPublished)}>
                             <span className={styles.deliverySwitchThumb} />
                         </button>
-                        <span className={row.isHotFix ? styles.enabledText : styles.disabledText}>
-                            {t(row.isHotFix ? "enabled" : "disabled")}
+                        <span className={row.isPublished ? styles.enabledText : styles.disabledText}>
+                            {t(row.isPublished ? "enabled" : "disabled")}
                         </span>
                     </div>
                 )
             }
         ],
-        [setHotFixAsync, updatingBuildIds]
+        [setPublishedAsync, updatingBuildIds]
     );
 
     return (
         <Space direction="vertical" size="large" className={styles.page}>
-            <Alert className={styles.notice} theme="warning" message={t("buildManagementDescription")} />
             {buildsQuery.error && <Alert theme="error" message={t("backendServerError")} />}
-            <div className={styles.statsGrid}>
-                <div className={styles.statCard}>
-                    <span className={styles.statIcon}>
-                        <LayersIcon />
-                    </span>
-                    <div>
-                        <strong>{buildStats.total}</strong>
-                        <span>{t("allBuilds")}</span>
-                    </div>
-                </div>
-                <div className={styles.statCard}>
-                    <span className={`${styles.statIcon} ${styles.enabledIcon}`}>
-                        <CheckCircleFilledIcon />
-                    </span>
-                    <div>
-                        <strong>{buildStats.enabled}</strong>
-                        <span>{t("pushEnabledBuilds")}</span>
-                    </div>
-                </div>
-                <div className={styles.statCard}>
-                    <span className={`${styles.statIcon} ${styles.cachedIcon}`}>
-                        <CloudIcon />
-                    </span>
-                    <div>
-                        <strong>{buildStats.cached}</strong>
-                        <span>{t("cachedBuilds")}</span>
-                    </div>
-                </div>
-            </div>
             <Card className={styles.listCard}>
                 <div className={styles.toolbar}>
                     <div>
                         <h3>{t("allBuilds")}</h3>
-                        <p>{t("buildCount", { count: filteredBuilds.length })}</p>
+                        <p>
+                            {t("buildCount", { count: filteredBuilds.length })} · {t("buildManagementDescription")}
+                        </p>
                     </div>
                     <div className={styles.toolbarActions}>
                         <Input
@@ -296,11 +239,9 @@ function AdminBuilds() {
                     className={styles.buildTable}
                     rowKey="id"
                     hover
-                    stripe
                     loading={buildsQuery.isLoading}
                     data={filteredBuilds}
                     columns={columns}
-                    maxHeight="clamp(320px, calc(100vh - 430px), 620px)"
                     tableLayout="fixed"
                     empty={t("noMatchingBuilds")}
                     pagination={{

@@ -9,6 +9,7 @@ import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import { type PendingContributionSummary, getPendingContributionsAsync } from "../../requests/AdminRequests.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
 import styles from "./AdminContributions.module.css";
+import tableStyles from "./AdminTable.module.css";
 
 const queryKey = ["adminContributions"];
 
@@ -165,9 +166,9 @@ function AdminContributions() {
                     />
                 </div>
                 <PrimaryTable<PendingContributionSummary>
+                    className={tableStyles.table}
                     rowKey="id"
                     hover
-                    stripe
                     loading={contributionsQuery.isLoading}
                     data={filteredContributions}
                     columns={columns}

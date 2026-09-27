@@ -155,13 +155,13 @@
     color: var(--td-text-color-secondary);
     font-weight: 600;
     font-size: 12px;
-    letter-spacing: 0.04em;
+    letter-spacing: 0;
 }
 
 .sponsorsTable :global(.t-table__body td) {
     border-bottom: 1px solid var(--td-component-stroke);
     background: var(--td-bg-color-container);
-    height: 76px;
+    height: 58px;
 }
 
 .sponsorsTable :global(.t-table__body tr:hover td) {
@@ -170,7 +170,7 @@
 
 .sponsorsTable :global(.t-table__pagination) {
     margin: 0;
-    padding: 18px 22px;
+    padding: 12px 20px;
 }
 
 .tableUser {
