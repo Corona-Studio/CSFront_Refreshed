@@ -1,5 +1,6 @@
 import IResponse from "../interfaces/IResponse.ts";
-import { buildHeader, deleteAsync, getAsync } from "./ApiConstants.ts";
+import type { RegistrationVerificationInfo } from "./LxAuthRequests.ts";
+import { buildHeader, deleteAsync, getAsync, postAsync } from "./ApiConstants.ts";
 
 interface UserChannelInfo {
     branch: string;
@@ -37,6 +38,10 @@ export async function checkUserIsPaidAsync(token: string): Promise<IResponse<boo
     const endPoint = "/User/isPaid";
 
     return await getAsync(endPoint, buildHeader(token));
+}
+
+export async function getCurrentVerificationAsync(token: string): Promise<IResponse<RegistrationVerificationInfo>> {
+    return await postAsync("/User/verification/current", {}, buildHeader(token));
 }
 
 export async function revokeUserAccountAsync(token: string): Promise<IResponse<string> | undefined> {

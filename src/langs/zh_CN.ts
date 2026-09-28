@@ -172,7 +172,7 @@ export const zhCN = {
         yourVerificationCode: "你的 6 位验证码（点击复制）",
         joinQqGroup: "加入任一 QQ 群",
         verificationStepJoin: "在 QQ 中搜索并加入上方任一群聊。",
-        verificationStepPrivateChat: "找到群内的 Corona Studio 验证机器人并发起私聊。",
+        verificationStepPrivateChat: "在群内找到 Corona Studio 验证机器人，必要时先 @机器人。",
         verificationStepCommand: "向机器人发送命令：",
         verificationInfoMissing: "未找到注册验证码，请返回注册页面重新注册或联系管理员。",
         verifiedGoLogin: "我已完成验证，前往登录",
@@ -206,6 +206,13 @@ export const zhCN = {
         sponsorThanksDescription:
             "感谢您对日冕工作室的支持！我们会继续改进我们的产品并取得更大的进步，我们今天的成就离不开每一位赞助者的贡献。",
         sponsorThanksDescription2: "您可以加入我们的内测群以获得最新的更新通知！群号：956810404",
+        sponsorQqVerificationTitle: "完成 QQ 账号验证",
+        sponsorQqVerificationDescription: "订单已核销。请在 QQ 群内发送验证命令，绑定您的 Corona Studio 账号。",
+        sponsorQqVerificationDone: "我已发送验证命令，检查验证状态",
+        sponsorQqVerificationRefresh: "刷新验证码",
+        sponsorQqVerificationExpired: "验证码已过期，请刷新后再发送验证命令。",
+        sponsorQqVerificationFailed: "暂时无法获取 QQ 验证码，请点击重试。",
+        sponsorQqVerificationComplete: "QQ 账号验证已完成。",
         failedToGetIsPaid: "无法获取赞助状态",
         failedToGetIsPaidDescription: "无法获取赞助状态，可能是服务器错误",
 
