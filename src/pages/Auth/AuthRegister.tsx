@@ -19,12 +19,10 @@ import { getCurrentPageTheme } from "../../helpers/ThemeDetector.ts";
 import { useUrlQuery } from "../../helpers/UrlQueryHelper.ts";
 import { PasswordPattern, UsernamePattern } from "../../helpers/ValidationRules.ts";
 import i18next from "../../i18n.ts";
-import {
-    StoredAuthEmail,
-    registerAsync
-} from "../../requests/LxAuthRequests.ts";
+import { StoredAuthEmail, registerAsync } from "../../requests/LxAuthRequests.ts";
 import Constants from "./../../helpers/Constants.ts";
 import AllowedChars from "./AllowedChars.tsx";
+import layout from "./AuthFormLayout.module.css";
 
 const t = i18next.t;
 const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
@@ -145,16 +143,17 @@ function AuthRegister() {
     return (
         <>
             <div className="w-[calc(100vw-2rem)] max-w-[520px] rounded-2xl bg-zinc-50/30 p-5 shadow transition hover:shadow-lg active:shadow-md dark:bg-zinc-900/80 sm:p-8">
-                <h5>{t("register")}</h5>
+                <h5 className={layout.title}>{t("register")}</h5>
                 <Form
                     ref={form}
                     onSubmit={onSubmit}
-                    className="mt-5 w-full min-w-0"
+                    className="w-full min-w-0"
                     statusIcon={true}
                     colon={true}
                     labelWidth={0}>
                     <FormItem
                         name="username"
+                        className={layout.field}
                         rules={[
                             { required: true, message: t("usernameRequired"), type: "error" },
                             { pattern: UsernamePattern, message: t("usernameRuleDescription"), type: "error" }
@@ -176,6 +175,7 @@ function AuthRegister() {
                         overlayClassName="-translate-y-[48px] md:-translate-y-[24px]">
                         <FormItem
                             name="password"
+                            className={layout.field}
                             rules={[
                                 { required: true, message: t("passwordRequired"), type: "error" },
                                 { pattern: PasswordPattern, message: t("passwordRuleDescription"), type: "error" }
@@ -193,6 +193,7 @@ function AuthRegister() {
 
                     <FormItem
                         name="confirmPassword"
+                        className={layout.field}
                         rules={[
                             { required: true, message: t("passwordRequired"), type: "error" },
                             { validator: rePassword, message: t("passwordIsNotSame") }
@@ -205,11 +206,13 @@ function AuthRegister() {
                             placeholder={t("confirmPassword")}
                         />
                     </FormItem>
-                    <div className="mt-5 mb-6 w-full min-w-0">
+                    <div className={layout.turnstile}>
                         <div ref={turnstileContainer} className="w-full min-w-0" />
-                        {(!siteKey || turnstileLoadFailed) && <p className="mt-2 text-sm text-red-500">{t("turnstileUnavailable")}</p>}
+                        {(!siteKey || turnstileLoadFailed) && (
+                            <p className="mt-2 text-sm text-red-500">{t("turnstileUnavailable")}</p>
+                        )}
                     </div>
-                    <div className="flex w-full items-center gap-3">
+                    <div className={layout.actions}>
                         <Button
                             className="min-w-0 flex-1"
                             loading={isLoading}

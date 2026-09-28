@@ -1,0 +1,33 @@
+.title {
+    margin: 0 0 24px;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.field {
+    margin-bottom: 24px !important;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.optionField {
+    margin: 0 !important;
+}
+
+.turnstile {
+    margin-bottom: 28px;
+    width: 100%;
+    min-width: 0;
+}

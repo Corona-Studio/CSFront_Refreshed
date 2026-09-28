@@ -16,11 +16,8 @@ function App() {
     const location = useLocation();
     const [requestedPath, setRequestedPath] = useState<string>();
     useEffect(() => {
-        if (!requestedPath || navigation.state !== "idle") return;
-        const timer = window.setTimeout(
-            () => setRequestedPath(undefined),
-            location.pathname === requestedPath ? 400 : 600
-        );
+        if (!requestedPath || navigation.state !== "idle" || location.pathname !== requestedPath) return;
+        const timer = window.setTimeout(() => setRequestedPath(undefined), 400);
         return () => window.clearTimeout(timer);
     }, [location.pathname, navigation.state, requestedPath]);
 

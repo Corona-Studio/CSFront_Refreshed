@@ -20,6 +20,7 @@ import {
 } from "../../requests/LxAuthRequests.ts";
 import { checkUserIsPaidAsync } from "../../requests/LxUserRequests.ts";
 import Constants from "./../../helpers/Constants.ts";
+import layout from "./AuthFormLayout.module.css";
 
 const t = i18next.t;
 
@@ -138,8 +139,8 @@ function AuthLogin() {
 
     return (
         <>
-            <div className="p-5 sm:p-8 space-y-4 bg-zinc-50/30 dark:bg-zinc-900/80 bg-opacity-25 rounded-2xl hover:shadow-lg active:shadow-md shadow transition">
-                <h5>{t("login")}</h5>
+            <div className="p-5 sm:p-8 bg-zinc-50/30 dark:bg-zinc-900/80 bg-opacity-25 rounded-2xl hover:shadow-lg active:shadow-md shadow transition">
+                <h5 className={layout.title}>{t("login")}</h5>
                 <Form
                     resetType="initial"
                     form={form}
@@ -150,6 +151,7 @@ function AuthLogin() {
                     onSubmit={onSubmit}>
                     <FormItem
                         name="email"
+                        className={layout.field}
                         initialData={savedEmail}
                         rules={[
                             { required: true, message: t("emailRequired"), type: "error" },
@@ -162,7 +164,7 @@ function AuthLogin() {
                             placeholder={t("userNameOrEmail")}
                         />
                     </FormItem>
-                    <FormItem name="password">
+                    <FormItem name="password" className={layout.field}>
                         <Input
                             disabled={isLoading}
                             type="password"
@@ -171,22 +173,22 @@ function AuthLogin() {
                             placeholder={t("pleaseInputPassword")}
                         />
                     </FormItem>
-                    <FormItem>
-                        <Button theme="primary" type="submit" loading={isLoading} block>
+                    <div className={layout.actions}>
+                        <Button theme="primary" type="submit" loading={isLoading} className="min-w-0 flex-1" block>
                             {t("login")}
                         </Button>
                         <Button
                             theme="default"
                             type="reset"
-                            style={{ marginLeft: 12 }}
+                            className="shrink-0"
                             onClick={() =>
                                 navigate(redirect ? `/auth/register?redirect=${redirect}` : "/auth/register")
                             }>
                             {t("register")}
                         </Button>
-                    </FormItem>
-                    <div className="flex items-center justify-between gap-3">
-                        <FormItem name="rememberMe" className="mb-0!">
+                    </div>
+                    <div className={layout.options}>
+                        <FormItem name="rememberMe" className={layout.optionField}>
                             <Checkbox disabled={isLoading || isOpeningPasswordReset}>{t("rememberPassword")}</Checkbox>
                         </FormItem>
                         <Button
