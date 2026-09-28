@@ -69,6 +69,7 @@ function AuthRegister() {
             widgetId.current = window.turnstile.render(container, {
                 sitekey: siteKey,
                 action: "register",
+                size: "flexible",
                 callback: (token: string) => setTurnstileToken(token),
                 "expired-callback": () => setTurnstileToken(""),
                 "error-callback": () => setTurnstileToken("")
@@ -143,12 +144,12 @@ function AuthRegister() {
 
     return (
         <>
-            <div className="p-5 sm:p-8 space-y-4 bg-zinc-50/30 dark:bg-zinc-900/80 bg-opacity-25 rounded-2xl hover:shadow-lg active:shadow-md shadow transition">
+            <div className="w-[calc(100vw-2rem)] max-w-[520px] rounded-2xl bg-zinc-50/30 p-5 shadow transition hover:shadow-lg active:shadow-md dark:bg-zinc-900/80 sm:p-8">
                 <h5>{t("register")}</h5>
                 <Form
                     ref={form}
                     onSubmit={onSubmit}
-                    className="w-[300px] md:w-[400px] lg:w-[450px]"
+                    className="mt-5 w-full min-w-0"
                     statusIcon={true}
                     colon={true}
                     labelWidth={0}>
@@ -204,20 +205,28 @@ function AuthRegister() {
                             placeholder={t("confirmPassword")}
                         />
                     </FormItem>
-                    <div ref={turnstileContainer} className="mb-4" />
-                    {(!siteKey || turnstileLoadFailed) && <p className="mb-4 text-sm text-red-500">{t("turnstileUnavailable")}</p>}
-                    <FormItem>
-                        <Button loading={isLoading} disabled={!turnstileToken} theme="primary" type="submit" block>
+                    <div className="mt-5 mb-6 w-full min-w-0">
+                        <div ref={turnstileContainer} className="w-full min-w-0" />
+                        {(!siteKey || turnstileLoadFailed) && <p className="mt-2 text-sm text-red-500">{t("turnstileUnavailable")}</p>}
+                    </div>
+                    <div className="flex w-full items-center gap-3">
+                        <Button
+                            className="min-w-0 flex-1"
+                            loading={isLoading}
+                            disabled={!turnstileToken}
+                            theme="primary"
+                            type="submit"
+                            block>
                             {t("register")}
                         </Button>
                         <Button
+                            className="shrink-0"
                             theme="default"
                             type="reset"
-                            style={{ marginLeft: 12 }}
                             onClick={() => navigate(`/auth/login?redirect=${encodeURIComponent(redirect)}`)}>
                             {t("login")}
                         </Button>
-                    </FormItem>
+                    </div>
                 </Form>
             </div>
         </>
