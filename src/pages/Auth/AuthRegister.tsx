@@ -1,5 +1,5 @@
 import localForage from "localforage";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { KeyIcon, User1Icon } from "tdesign-icons-react";
 import {
@@ -21,13 +21,25 @@ import { PasswordPattern, UsernamePattern } from "../../helpers/ValidationRules.
 import i18next from "../../i18n.ts";
 import {
     StoredAuthEmail,
-    StoredRegistrationVerification,
     registerAsync
 } from "../../requests/LxAuthRequests.ts";
 import Constants from "./../../helpers/Constants.ts";
 import AllowedChars from "./AllowedChars.tsx";
 
 const t = i18next.t;
+const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+
+interface TurnstileApi {
+    render: (container: HTMLElement, options: Record<string, unknown>) => string;
+    reset: (widgetId: string) => void;
+    remove: (widgetId: string) => void;
+}
+
+declare global {
+    interface Window {
+        turnstile?: TurnstileApi;
+    }
+}
 
 interface FormData {
     password?: string;
@@ -43,32 +55,62 @@ function AuthRegister() {
 
     const form = useRef<InternalFormInstance>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [turnstileToken, setTurnstileToken] = useState("");
+    const [turnstileLoadFailed, setTurnstileLoadFailed] = useState(false);
+    const turnstileContainer = useRef<HTMLDivElement>(null);
+    const widgetId = useRef<string | null>(null);
+
+    useEffect(() => {
+        if (!siteKey || !turnstileContainer.current) return;
+        const container = turnstileContainer.current;
+        let disposed = false;
+        const renderWidget = () => {
+            if (disposed || !window.turnstile) return;
+            widgetId.current = window.turnstile.render(container, {
+                sitekey: siteKey,
+                action: "register",
+                callback: (token: string) => setTurnstileToken(token),
+                "expired-callback": () => setTurnstileToken(""),
+                "error-callback": () => setTurnstileToken("")
+            });
+        };
+        const script = document.createElement("script");
+        if (window.turnstile) {
+            renderWidget();
+        } else {
+            script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+            script.async = true;
+            script.onload = renderWidget;
+            script.onerror = () => setTurnstileLoadFailed(true);
+            document.head.appendChild(script);
+        }
+        return () => {
+            disposed = true;
+            script.remove();
+            if (widgetId.current && window.turnstile) window.turnstile.remove(widgetId.current);
+            widgetId.current = null;
+        };
+    }, []);
 
     const rePassword: CustomValidator = async (value) => form.current?.getFieldValue("password") === value;
 
     const onSubmit: FormProps["onSubmit"] = (e) => {
         if (e.validateResult !== true) return;
+        if (!turnstileToken) return;
 
         const formData = e.fields as FormData;
 
         setIsLoading(true);
 
-        registerAsync({ password: formData.password!, username: formData.username! })
+        registerAsync({ password: formData.password!, username: formData.username!, turnstileToken })
             .then(async (r) => {
                 if (!r || !r.status) throw new Error(t("backendServerError"));
-                if (r.status === 400) throw new Error(t("backendServerError"));
+                if (r.status === 400) throw new Error(t("turnstileFailed"));
                 if (r.status === 403) throw new Error(t("usernameUsed"));
                 if (!r.response) throw new Error(t("unknownLoginErrorDescription"));
                 if (!r.response.succeeded) throw new Error(JSON.stringify(r.response.errors));
 
                 await localForage.setItem(StoredAuthEmail, formData.username!);
-                await localForage.setItem(StoredRegistrationVerification, {
-                    username: formData.username!,
-                    verificationCode: r.response.verificationCode,
-                    verificationCodeExpiresAt: r.response.verificationCodeExpiresAt,
-                    qqGroups: r.response.qqGroups
-                });
-
                 await NotificationPlugin.success({
                     title: t("registerSucceeded"),
                     content: t("registerSucceededDescription"),
@@ -79,7 +121,7 @@ function AuthRegister() {
                     attach: () => document
                 });
 
-                navigate(`/auth/register/complete?redirect=${encodeURIComponent(redirect)}`);
+                navigate(`/auth/login?redirect=${encodeURIComponent(redirect)}`);
             })
             .catch(async (err) => {
                 await NotificationPlugin.error({
@@ -92,7 +134,11 @@ function AuthRegister() {
                     attach: () => document
                 });
             })
-            .finally(() => setIsLoading(false));
+            .finally(() => {
+                setIsLoading(false);
+                setTurnstileToken("");
+                if (widgetId.current && window.turnstile) window.turnstile.reset(widgetId.current);
+            });
     };
 
     return (
@@ -158,8 +204,10 @@ function AuthRegister() {
                             placeholder={t("confirmPassword")}
                         />
                     </FormItem>
+                    <div ref={turnstileContainer} className="mb-4" />
+                    {(!siteKey || turnstileLoadFailed) && <p className="mb-4 text-sm text-red-500">{t("turnstileUnavailable")}</p>}
                     <FormItem>
-                        <Button loading={isLoading} theme="primary" type="submit" block>
+                        <Button loading={isLoading} disabled={!turnstileToken} theme="primary" type="submit" block>
                             {t("register")}
                         </Button>
                         <Button

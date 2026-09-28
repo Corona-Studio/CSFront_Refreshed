@@ -42,3 +42,5 @@ pnpm dev
 ```
 
 提交前运行 `pnpm quality`，它会依次执行 ESLint、单元测试、TypeScript 检查与生产构建。
+
+注册页使用 Cloudflare Turnstile。请在 Cloudflare 控制台创建 **Managed** widget，允许站点域名，并在前端构建环境设置 `VITE_TURNSTILE_SITE_KEY`。后端另需设置 `Turnstile__SecretKey` 为同一 widget 的私钥。未配置时注册会被拒绝。

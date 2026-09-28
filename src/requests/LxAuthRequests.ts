@@ -19,6 +19,7 @@ interface LoginRequest {
 interface RegisterRequest {
     username: string;
     password: string;
+    turnstileToken: string;
 }
 
 interface PasswordResetConfirmRequest {
@@ -50,9 +51,6 @@ interface IdentityError {
 export interface RegisterResponse {
     succeeded: boolean;
     errors?: IdentityError[];
-    verificationCode: string;
-    verificationCodeExpiresAt: string;
-    qqGroups: string[];
 }
 
 export interface RegistrationVerificationInfo {
