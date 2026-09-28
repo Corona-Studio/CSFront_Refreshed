@@ -205,14 +205,15 @@ export const zhCN = {
         sponsorThanks: "感谢您的赞助！",
         sponsorThanksDescription:
             "感谢您对日冕工作室的支持！我们会继续改进我们的产品并取得更大的进步，我们今天的成就离不开每一位赞助者的贡献。",
-        sponsorThanksDescription2: "您可以加入我们的内测群以获得最新的更新通知！群号：956810404",
+        sponsorInsiderGroupTitle: "内测群",
+        sponsorInsiderGroupDescription: "加入内测群，获取最新的更新通知。点击群号即可复制。",
         sponsorQqVerificationTitle: "完成 QQ 账号验证",
         sponsorQqVerificationDescription: "订单已核销。请在 QQ 群内发送验证命令，绑定您的 Corona Studio 账号。",
         sponsorQqVerificationDone: "我已发送验证命令，检查验证状态",
         sponsorQqVerificationRefresh: "刷新验证码",
         sponsorQqVerificationExpired: "验证码已过期，请刷新后再发送验证命令。",
-        sponsorQqVerificationFailed: "暂时无法获取 QQ 验证码，请点击重试。",
-        sponsorQqVerificationComplete: "QQ 账号验证已完成。",
+        sponsorQqVerificationLoginHint: "验证码暂时无法在此显示。请重新登录，按登录页的提示获取验证码并完成 QQ 验证。",
+        sponsorQqVerificationLogin: "重新登录获取验证码",
         failedToGetIsPaid: "无法获取赞助状态",
         failedToGetIsPaidDescription: "无法获取赞助状态，可能是服务器错误",
 

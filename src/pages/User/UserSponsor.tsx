@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { CopyIcon } from "tdesign-icons-react";
+import { useNavigate } from "react-router";
+import { CheckCircleIcon, CopyIcon, UsergroupIcon } from "tdesign-icons-react";
 import {
     Alert,
     Button,
@@ -13,13 +14,13 @@ import {
     Input,
     Loading,
     NotificationPlugin,
-    Row,
-    Space
+    Row
 } from "tdesign-react";
 import FormItem from "tdesign-react/es/form/FormItem";
 
 import Constants from "./../../helpers/Constants.ts";
 import { checkIsPaidImpl } from "../../helpers/PaymentHelper.ts";
+import { clearSessionAsync } from "../../helpers/SessionHelper.ts";
 import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import { AfdOrderNumberPattern } from "../../helpers/ValidationRules.ts";
 import { isVerificationCodeExpired } from "../../helpers/VerificationHelper.ts";
@@ -34,7 +35,9 @@ interface FormData {
 }
 
 function UserSponsor() {
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
+    const [recentlyRedeemed, setRecentlyRedeemed] = useState(false);
     const [now, setNow] = useState(0);
 
     useEffect(() => {
@@ -137,6 +140,7 @@ function UserSponsor() {
                         attach: () => document
                     });
 
+                    setRecentlyRedeemed(true);
                     await isPaid.refetch();
                 })
                 .catch(async (err) => {
@@ -159,7 +163,7 @@ function UserSponsor() {
     return (
         <>
             <div>
-                <Space direction="vertical" className="w-full">
+                {!isPaid.data && (
                     <Alert
                         theme="info"
                         message={t("howToCheckSponsorOrderNumber")}
@@ -170,52 +174,65 @@ function UserSponsor() {
                         }
                         close
                     />
-                    {isPaid.data && <Alert theme="success" message={t("sponsorThanksDescription")} />}
-                    {isPaid.data && <Alert theme="success" message={t("sponsorThanksDescription2")} />}
-                </Space>
+                )}
 
                 {isPaid.data && (
-                    <Card className="mt-6 max-w-2xl" title={t("sponsorQqVerificationTitle")} bordered>
-                        {verification.isLoading && <Loading />}
-                        {verification.isError && (
-                            <Space direction="vertical">
-                                <Alert theme="error" message={t("sponsorQqVerificationFailed")} />
-                                <Button onClick={() => verification.refetch()}>{t("retry")}</Button>
-                            </Space>
-                        )}
-                        {verificationInfo === null && (
-                            <Alert theme="success" message={t("sponsorQqVerificationComplete")} />
-                        )}
-                        {verificationInfo && (
-                            <Space direction="vertical" className="w-full">
-                                <p>{t("sponsorQqVerificationDescription")}</p>
-                                <p>{t("joinQqGroup")}</p>
-                                <div className="flex flex-wrap gap-2">
+                    <section className="rounded-2xl border border-zinc-200 bg-zinc-50/70 p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900/70 sm:p-8">
+                        <div className="flex items-start gap-4">
+                            <CheckCircleIcon size="32px" className="shrink-0 text-emerald-600 dark:text-emerald-400" />
+                            <div className="space-y-2">
+                                <h2 className="text-xl font-semibold">{t("sponsorThanks")}</h2>
+                                <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-300">
+                                    {t("sponsorThanksDescription")}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="mt-6 border-t border-zinc-200 pt-6 dark:border-zinc-700">
+                            <div className="flex flex-wrap items-center gap-3">
+                                <UsergroupIcon className="text-emerald-600 dark:text-emerald-400" />
+                                <span className="font-medium">{t("sponsorInsiderGroupTitle")}</span>
+                                <Button variant="outline" size="small" onClick={() => copyAsync("956810404")}>
+                                    956810404 <CopyIcon className="ml-2" />
+                                </Button>
+                            </div>
+                            <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
+                                {t("sponsorInsiderGroupDescription")}
+                            </p>
+                        </div>
+
+                        {verificationInfo && !verification.isError && (
+                            <div className="mt-6 border-t border-zinc-200 pt-6 dark:border-zinc-700">
+                                <h3 className="text-lg font-semibold">{t("sponsorQqVerificationTitle")}</h3>
+                                <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
+                                    {t("sponsorQqVerificationDescription")}
+                                </p>
+                                <div className="mt-4 flex flex-wrap gap-2">
                                     {verificationInfo.qqGroups.map((group) => (
                                         <Button key={group} variant="outline" onClick={() => copyAsync(group)}>
                                             QQ {group} <CopyIcon className="ml-2" />
                                         </Button>
                                     ))}
                                 </div>
-                                <ol className="list-decimal space-y-2 pl-5 text-sm leading-6">
+                                <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm leading-6">
                                     <li>{t("verificationStepJoin")}</li>
                                     <li>{t("verificationStepPrivateChat")}</li>
-                                    <li>
-                                        {t("verificationStepCommand")}{" "}
-                                        <button
-                                            type="button"
-                                            disabled={verificationExpired}
-                                            className="rounded border px-2 py-1 font-mono"
-                                            onClick={() => copyAsync(`/verify ${verificationInfo.username} ${verificationInfo.verificationCode}`)}>
-                                            /verify {verificationInfo.username} {verificationInfo.verificationCode}
-                                            <CopyIcon className="ml-2" />
-                                        </button>
-                                    </li>
+                                    <li>{t("verificationStepCommand")}</li>
                                 </ol>
+                                <button
+                                    type="button"
+                                    disabled={verificationExpired}
+                                    className="mt-3 inline-flex max-w-full items-center rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-left font-mono text-sm break-all text-emerald-700 disabled:opacity-50 dark:text-emerald-300"
+                                    onClick={() => copyAsync(`/verify ${verificationInfo.username} ${verificationInfo.verificationCode}`)}>
+                                    /verify {verificationInfo.username} {verificationInfo.verificationCode}
+                                    <CopyIcon className="ml-3 shrink-0" />
+                                </button>
                                 {verificationExpired && (
-                                    <Alert theme="warning" message={t("sponsorQqVerificationExpired")} />
+                                    <div className="mt-4">
+                                        <Alert theme="warning" message={t("sponsorQqVerificationExpired")} />
+                                    </div>
                                 )}
-                                <div className="flex flex-wrap gap-2">
+                                <div className="mt-4 flex flex-wrap gap-2">
                                     <Button theme="primary" disabled={verificationExpired} onClick={() => verification.refetch()}>
                                         {t("sponsorQqVerificationDone")}
                                     </Button>
@@ -223,9 +240,27 @@ function UserSponsor() {
                                         {t("sponsorQqVerificationRefresh")}
                                     </Button>
                                 </div>
-                            </Space>
+                            </div>
                         )}
-                    </Card>
+
+                        {recentlyRedeemed && verification.isError && (
+                            <div className="mt-6 border-t border-zinc-200 pt-6 dark:border-zinc-700">
+                                <h3 className="text-lg font-semibold">{t("sponsorQqVerificationTitle")}</h3>
+                                <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
+                                    {t("sponsorQqVerificationLoginHint")}
+                                </p>
+                                <Button
+                                    className="mt-4"
+                                    theme="primary"
+                                    onClick={async () => {
+                                        await clearSessionAsync();
+                                        navigate("/auth/login?redirect=/user/sponsor");
+                                    }}>
+                                    {t("sponsorQqVerificationLogin")}
+                                </Button>
+                            </div>
+                        )}
+                    </section>
                 )}
 
                 {isPaid.isLoading && (
