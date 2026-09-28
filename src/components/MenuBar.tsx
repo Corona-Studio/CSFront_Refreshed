@@ -1,5 +1,5 @@
 import { memo, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate, useNavigation } from "react-router";
 import { EarthIcon, LinkIcon, MoonIcon, SunnyIcon, User1Icon, ViewListIcon } from "tdesign-icons-react";
 import { Button, Dropdown, DropdownOption, MenuValue } from "tdesign-react";
 import HeadMenu from "tdesign-react/es/menu/HeadMenu";
@@ -32,6 +32,17 @@ function MenuBar() {
 
     const navigate = useNavigate();
     const location = useLocation();
+    const navigation = useNavigation();
+    const pendingPath = navigation.state !== "idle" ? navigation.location?.pathname : undefined;
+    const activePath = pendingPath ?? location.pathname;
+    const selectedPath =
+        activePath === "/"
+            ? "/"
+            : activePath.startsWith("/lx") || activePath.startsWith("/launcherx")
+              ? "/lx"
+              : activePath.startsWith("/cmfs")
+                ? "/cmfs"
+                : "";
 
     const languageOptions = [
         {
@@ -130,7 +141,18 @@ function MenuBar() {
                 trigger="hover"
                 options={linkOptions}
                 onClick={onMenuItemClicked}>
-                <Button variant="text" shape="square" className="flex lg:hidden!" icon={<ViewListIcon />} />
+                <Button
+                    variant="text"
+                    shape="square"
+                    className="flex lg:hidden!"
+                    icon={
+                        pendingPath && selectedPath ? (
+                            <span className="nav-loading-spinner" aria-label="加载中" />
+                        ) : (
+                            <ViewListIcon />
+                        )
+                    }
+                />
             </Dropdown>
         </div>
     );
@@ -149,7 +171,7 @@ function MenuBar() {
                 <HeadMenu
                     theme="light"
                     className="pl-2.5! pr-1! lg:px-5!"
-                    value={location.pathname as MenuValue}
+                    value={selectedPath as MenuValue}
                     logo={<img className={`${styles.menuLogo} m-0!`} src={logo} alt="logo" onClick={onLogoClicked} />}
                     operations={operations()}>
                     <div className="hidden lg:flex">
@@ -157,6 +179,9 @@ function MenuBar() {
                             <MenuItem key={i} value={option.menuValue} onClick={() => to(option.value)}>
                                 <span>
                                     {option.content}
+                                    {pendingPath && selectedPath === option.menuValue && (
+                                        <span className="nav-loading-spinner" aria-label="加载中" />
+                                    )}
                                     {!option.value.isInSiteLink && <LinkIcon />}
                                 </span>
                             </MenuItem>

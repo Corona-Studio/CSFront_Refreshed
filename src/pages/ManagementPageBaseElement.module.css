@@ -2,11 +2,11 @@
     --management-sidebar-width: 232px;
 
     box-sizing: border-box;
+    background: var(--td-bg-color-page);
+    padding-top: var(--td-comp-size-xxxl, 64px);
     width: 100%;
     max-width: 100%;
     min-height: 100vh;
-    padding-top: var(--td-comp-size-xxxl, 64px);
-    background: var(--td-bg-color-page);
 }
 
 .adminShellCollapsed {
@@ -20,18 +20,18 @@
     bottom: 0;
     left: 0;
     z-index: 20;
-    width: var(--management-sidebar-width);
     border-right: 1px solid var(--td-component-border);
     background: var(--td-bg-color-container);
+    width: var(--management-sidebar-width);
     overflow: hidden;
 }
 
 .adminMenu {
     position: relative;
+    box-shadow: none;
+    border: 0;
     width: 100%;
     height: 100%;
-    border: 0;
-    box-shadow: none;
 }
 
 .adminMain {
@@ -42,10 +42,10 @@
 
 .adminContent {
     box-sizing: border-box;
-    width: 100%;
-    max-width: 1600px;
     margin: 0 auto;
     padding: 32px clamp(20px, 3vw, 48px) 56px;
+    width: 100%;
+    max-width: 1600px;
 }
 
 .adminHeading {
@@ -53,15 +53,15 @@
     align-items: center;
     gap: 12px;
     margin-bottom: 22px;
-    padding-bottom: 18px;
     border-bottom: 1px solid var(--td-component-border);
+    padding-bottom: 18px;
 }
 
 .adminTitle {
     margin: 0;
     color: var(--td-text-color-primary);
-    font-size: 24px;
     font-weight: 600;
+    font-size: 24px;
     line-height: 32px;
     letter-spacing: -0.02em;
 }
@@ -78,15 +78,15 @@
 .adminBody :global(h4),
 .adminBody :global(h5) {
     color: var(--td-text-color-primary);
-    font-size: 18px;
     font-weight: 600;
+    font-size: 18px;
     line-height: 26px;
 }
 
 .adminBody :global(.t-card) {
+    box-shadow: none;
     border: 1px solid var(--td-component-border);
     border-radius: 10px;
-    box-shadow: none;
 }
 
 .adminBody :global(.t-card__body) {
@@ -103,8 +103,8 @@
 
 .adminBody :global(.t-table th) {
     color: var(--td-text-color-secondary);
-    font-size: 12px;
     font-weight: 600;
+    font-size: 12px;
 }
 
 .adminBody :global(.t-table td) {
@@ -159,5 +159,30 @@
 
     .adminBody :global(.t-table__content) {
         overflow-x: auto;
+    }
+}
+.menuLabel {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.menuSpinner {
+    display: inline-block;
+    flex: none;
+    animation: menu-spin 0.7s linear infinite;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    width: 13px;
+    height: 13px;
+}
+@keyframes menu-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .menuSpinner {
+        animation-duration: 2s;
     }
 }

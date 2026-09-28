@@ -685,3 +685,24 @@ a.t-menu__item:active {
 .t-menu-is-nested .t-menu__popup {
     margin-top: calc(0px - var(--td-pop-padding-m)) !important;
 }
+.nav-loading-spinner {
+    display: inline-block;
+    vertical-align: -2px;
+    animation: nav-spin 0.7s linear infinite;
+    margin-left: 8px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    width: 13px;
+    height: 13px;
+}
+@keyframes nav-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .nav-loading-spinner {
+        animation-duration: 2s;
+    }
+}

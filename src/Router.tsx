@@ -4,6 +4,7 @@ import { Route, ScrollRestoration, createBrowserRouter, createRoutesFromElements
 
 import { isAdminSessionValidAsync, isUserSessionValidAsync } from "./helpers/SessionHelper.ts";
 import { adminPageMenuLinks } from "./pages/Admin/AdminPageMenuLinks.tsx";
+import Fallback from "./pages/Fallback.tsx";
 import { userPageMenuLinks } from "./pages/User/UserPageMenuLinks.tsx";
 
 // import StaticEvent from "./pages/StaticEvent.tsx";
@@ -11,7 +12,6 @@ import { userPageMenuLinks } from "./pages/User/UserPageMenuLinks.tsx";
 const AdminHome = lazy(() => import("./pages/Admin/AdminHome.tsx"));
 
 const App = lazy(() => import("./App.tsx"));
-const Fallback = lazy(() => import("./pages/Fallback.tsx"));
 const Home = lazy(() => import("./pages/Home.tsx"));
 const LxIndex = lazy(() => import("./pages/LauncherX/LxHome.tsx"));
 const CMFS = lazy(() => import("./pages/CMFS.tsx"));

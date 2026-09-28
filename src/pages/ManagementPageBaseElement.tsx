@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect, useMemo, useState } from "react";
-import { Outlet, useLocation, useMatches, useNavigate } from "react-router";
+import { Outlet, useLocation, useMatches, useNavigate, useNavigation } from "react-router";
 import { ViewListIcon } from "tdesign-icons-react";
 import { Button, Dropdown, DropdownOption, Menu, Skeleton } from "tdesign-react";
 import type { MenuValue } from "tdesign-react";
@@ -7,6 +7,7 @@ import { TElement } from "tdesign-react/es/common";
 import MenuItem from "tdesign-react/es/menu/MenuItem";
 
 import { RouteHandle } from "../app/routeTypes.ts";
+import Fallback from "./Fallback.tsx";
 import styles from "./ManagementPageBaseElement.module.css";
 
 const AsyncVisibilityContainer = lazy(() => import("../components/AsyncVisibilityContainer.tsx"));
@@ -39,6 +40,10 @@ function ManagementPageBaseElement({
 
     const navigate = useNavigate();
     const location = useLocation();
+    const navigation = useNavigation();
+    const pendingPath = navigation.state !== "idle" ? navigation.location?.pathname : undefined;
+    const activePath = pendingPath ?? location.pathname;
+    const selectedPath = activePath.startsWith("/admin/contributions/") ? "/admin/contributions" : activePath;
 
     const matches = useMatches();
     const currentMatch = matches[matches.length - 1];
@@ -70,7 +75,7 @@ function ManagementPageBaseElement({
             <div className={`${styles.adminShell} ${collapsed ? styles.adminShellCollapsed : ""}`}>
                 <div className={styles.adminSidebar}>
                     <Menu
-                        value={location.pathname as MenuValue}
+                        value={selectedPath as MenuValue}
                         logo={<div />}
                         collapsed={collapsed}
                         expandMutex={false}
@@ -87,8 +92,13 @@ function ManagementPageBaseElement({
                         {menuLinks.map((link) => (
                             <Suspense key={link.to} fallback={<Skeleton loading={true} />}>
                                 <AsyncVisibilityContainer visible={link.visible}>
-                                    <MenuItem value={link.to} icon={link.icon} onClick={() => navigate(link.to)}>
-                                        <span>{link.value}</span>
+                                    <MenuItem value={link.to} icon={link.icon}>
+                                        <span className={styles.menuLabel}>
+                                            {link.value}
+                                            {pendingPath === link.to && (
+                                                <span className={styles.menuSpinner} aria-label="加载中" />
+                                            )}
+                                        </span>
                                     </MenuItem>
                                 </AsyncVisibilityContainer>
                             </Suspense>
@@ -115,14 +125,24 @@ function ManagementPageBaseElement({
                                         variant="text"
                                         shape="square"
                                         className="flex lg:hidden"
-                                        icon={<ViewListIcon />}
+                                        icon={
+                                            pendingPath ? (
+                                                <span className={styles.menuSpinner} aria-label="加载中" />
+                                            ) : (
+                                                <ViewListIcon />
+                                            )
+                                        }
                                     />
                                 </Dropdown>
                             </div>
-                            <h1 className={styles.adminTitle}>{title}</h1>
+                            <h1 className={styles.adminTitle}>
+                                {pendingPath
+                                    ? (menuLinks.find((link) => link.to === selectedPath)?.value ?? title)
+                                    : title}
+                            </h1>
                         </div>
                         <div className={isAdmin ? styles.adminBody : "relative"}>
-                            <Outlet />
+                            {pendingPath ? <Fallback pathname={pendingPath} embedded /> : <Outlet />}
                         </div>
                     </div>
                 </div>
