@@ -36,6 +36,7 @@ function AuthLogin() {
     const redirect = getSafeRedirect(query.get("redirect"), "/user");
 
     const [isLoading, setIsLoading] = useState(false);
+    const [isOpeningPasswordReset, setIsOpeningPasswordReset] = useState(false);
     const [savedEmail, setSavedEmail] = useState<string | null>();
 
     const [form] = Form.useForm();
@@ -80,16 +81,22 @@ function AuthLogin() {
                 if (!r || !r.status) throw new Error(t("unknownLoginErrorDescription"));
                 if (r.status === 401) throw new Error(t("incorrectEmailOrPassword"));
                 if (r.status === 403) {
-                    const verification = await startVerificationAsync({ email: formData.email!, password: formData.password! });
-                    if (verification.status !== 200 || !verification.response)
-                        throw new Error(t("accountNotVerified"));
+                    const verification = await startVerificationAsync({
+                        email: formData.email!,
+                        password: formData.password!
+                    });
+                    if (verification.status !== 200 || !verification.response) throw new Error(t("accountNotVerified"));
                     await localForage.setItem(StoredRegistrationVerification, verification.response);
                     navigate(`/auth/register/complete?redirect=${encodeURIComponent(redirect)}`);
                     return;
                 }
                 if (!r.response) throw new Error(t("unknownLoginErrorDescription"));
 
-                if (r.response.verificationRequired && r.response.verificationCode && r.response.verificationCodeExpiresAt) {
+                if (
+                    r.response.verificationRequired &&
+                    r.response.verificationCode &&
+                    r.response.verificationCodeExpiresAt
+                ) {
                     await localForage.setItem(StoredRegistrationVerification, {
                         username: r.response.username,
                         verificationCode: r.response.verificationCode,
@@ -178,17 +185,24 @@ function AuthLogin() {
                             {t("register")}
                         </Button>
                     </FormItem>
-                    <FormItem name="rememberMe">
-                        <Checkbox disabled={isLoading}>{t("rememberPassword")}</Checkbox>
-                    </FormItem>
-                    <Button
-                        variant="text"
-                        disabled={isLoading}
-                        onClick={() =>
-                            navigate(redirect ? `/auth/forgetPassword?redirect=${encodeURIComponent(redirect)}` : "/auth/forgetPassword")
-                        }>
-                        {t("forgetPassword")}
-                    </Button>
+                    <div className="flex items-center justify-between gap-3">
+                        <FormItem name="rememberMe" className="mb-0!">
+                            <Checkbox disabled={isLoading || isOpeningPasswordReset}>{t("rememberPassword")}</Checkbox>
+                        </FormItem>
+                        <Button
+                            variant="text"
+                            theme="primary"
+                            type="button"
+                            loading={isOpeningPasswordReset}
+                            disabled={isLoading}
+                            className="shrink-0"
+                            onClick={() => {
+                                setIsOpeningPasswordReset(true);
+                                navigate(`/auth/forgetPassword?redirect=${encodeURIComponent(redirect)}`);
+                            }}>
+                            {t("forgetPassword")}
+                        </Button>
+                    </div>
                 </Form>
             </div>
         </>

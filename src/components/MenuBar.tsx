@@ -26,14 +26,19 @@ const langCodeMapping: ReadonlyMap<string, string> = new Map([
     ["enUS", "en"]
 ]);
 
-function MenuBar() {
+interface MenuBarProps {
+    requestedPath?: string;
+    onNavigationStart: (pathname: string) => void;
+}
+
+function MenuBar({ requestedPath, onNavigationStart }: MenuBarProps) {
     const theme = useTheme();
     const isDarkMode = theme === "dark";
 
     const navigate = useNavigate();
     const location = useLocation();
     const navigation = useNavigation();
-    const pendingPath = navigation.state !== "idle" ? navigation.location?.pathname : undefined;
+    const pendingPath = requestedPath ?? (navigation.state !== "idle" ? navigation.location?.pathname : undefined);
     const activePath = pendingPath ?? location.pathname;
     const selectedPath =
         activePath === "/"
@@ -42,7 +47,7 @@ function MenuBar() {
               ? "/lx"
               : activePath.startsWith("/cmfs")
                 ? "/cmfs"
-                : "";
+                : "__none__";
 
     const languageOptions = [
         {
@@ -85,6 +90,7 @@ function MenuBar() {
 
     function to(value: MenuItemValue) {
         if (value.isInSiteLink) {
+            if (location.pathname !== value.to) onNavigationStart(value.to);
             navigate(value.to);
             return;
         }
@@ -124,7 +130,18 @@ function MenuBar() {
                 icon={isDarkMode ? <MoonIcon /> : <SunnyIcon />}
                 onClick={switchTheme}
             />
-            <Button variant="text" shape="square" icon={<User1Icon />} onClick={() => navigate("/auth/login")} />
+            <Button
+                variant="text"
+                shape="square"
+                icon={
+                    pendingPath?.startsWith("/auth/") ? (
+                        <span className="nav-loading-spinner" aria-label="加载中" />
+                    ) : (
+                        <User1Icon />
+                    )
+                }
+                onClick={() => to({ to: "/auth/login", isInSiteLink: true })}
+            />
             <Dropdown
                 direction="right"
                 hideAfterItemClick={true}
@@ -162,7 +179,7 @@ function MenuBar() {
     }
 
     function onLogoClicked() {
-        navigate("/");
+        to({ to: "/", isInSiteLink: true });
     }
 
     return (
