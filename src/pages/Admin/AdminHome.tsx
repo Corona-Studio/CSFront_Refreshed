@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { t } from "i18next";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import {
     ChartLineMultiIcon,
@@ -11,17 +11,32 @@ import {
     UserBlockedIcon,
     UsergroupIcon
 } from "tdesign-icons-react";
-import { Alert, Loading, Skeleton } from "tdesign-react";
+import { Alert, Button, Select, Skeleton } from "tdesign-react";
 
 import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
-import { getDashboardDataAsync } from "../../requests/AdminRequests.ts";
+import { getDashboardOverviewAsync } from "../../requests/AdminRequests.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
 import styles from "./AdminHome.module.css";
+
+const DashboardCharts = lazy(() => import("./AdminDashboardCharts.tsx"));
+
+const metricTitles: Record<string, string> = {
+    users: "dashboardUsers",
+    sponsors: "dashboardSponsors",
+    qqVerified: "dashboardQqVerified",
+    devices: "dashboardDevices",
+    loginAttempts: "dashboardLoginAttempts",
+    failedLogins: "dashboardFailedLogins",
+    publishedBuilds: "dashboardPublishedBuilds",
+    pendingContributions: "dashboardPendingContributions",
+    acceptedContributions: "dashboardAcceptedContributions",
+    notifications: "dashboardNotifications"
+};
 
 const Board = lazy(() => import("../../components/Board.tsx"));
 
 function getDashboardItemIcon(dataKey: string) {
-    if (dataKey === "UserCount") {
+    if (["users", "qqVerified", "devices"].includes(dataKey)) {
         return (
             <div className={styles.iconWrap}>
                 <UsergroupIcon className={styles.svgIcon} />
@@ -29,7 +44,7 @@ function getDashboardItemIcon(dataKey: string) {
         );
     }
 
-    if (dataKey === "InsiderCount") {
+    if (dataKey === "sponsors") {
         return (
             <div className={styles.iconWrap}>
                 <MoneyIcon className={styles.svgIcon} />
@@ -37,7 +52,7 @@ function getDashboardItemIcon(dataKey: string) {
         );
     }
 
-    if (dataKey === "LoginCount") {
+    if (dataKey === "loginAttempts") {
         return (
             <div className={styles.iconWrap}>
                 <LoginIcon className={styles.svgIcon} />
@@ -47,13 +62,19 @@ function getDashboardItemIcon(dataKey: string) {
 
     return (
         <div className={styles.iconWrap}>
-            <UserBlockedIcon className={styles.svgIcon} />
+            {dataKey === "failedLogins" ? (
+                <UserBlockedIcon className={styles.svgIcon} />
+            ) : (
+                <ChartLineMultiIcon className={styles.svgIcon} />
+            )}
         </div>
     );
 }
 
 function AdminHome() {
     const navigate = useNavigate();
+    const { t, i18n } = useTranslation();
+    const [days, setDays] = useState(30);
     const quickLinks = [
         {
             text: t("contributorAdminPanel"),
@@ -72,22 +93,18 @@ function AdminHome() {
     async function getDashboardDataImplAsync() {
         const authToken = await getStorageItemAsync(StoredAuthToken);
 
-        return getDashboardDataAsync(authToken ?? "");
+        return getDashboardOverviewAsync(authToken ?? "", days);
     }
 
     const dashboardItems = useQuery({
-        queryKey: ["dashboardItems"],
+        queryKey: ["adminDashboardOverview", days],
+        staleTime: 60_000,
         queryFn: () =>
             getDashboardDataImplAsync().then(async (r) => {
                 if (!r || !r.status) throw new Error(t("backendServerError"));
                 if (!r.response) throw new Error(t("backendServerError"));
 
-                return r.response.map((data) => ({
-                    title: t(data.dataTitleKey),
-                    desc: t(data.dataDescKey),
-                    count: data.count,
-                    icon: getDashboardItemIcon(data.type)
-                }));
+                return r.response;
             })
     });
 
@@ -100,26 +117,65 @@ function AdminHome() {
     return (
         <>
             <div className={styles.page}>
+                <div className={styles.header}>
+                    <div>
+                        <h1>{t("dashboardTitle")}</h1>
+                        <p>{t("dashboardSubtitle")}</p>
+                    </div>
+                    <div className={styles.toolbar}>
+                        <Select
+                            aria-label={t("dashboardLoginTrend")}
+                            value={days}
+                            onChange={(value) => setDays(Number(value))}
+                            options={[7, 30, 90].map((value) => ({
+                                value,
+                                label: t("dashboardDays", { count: value })
+                            }))}
+                        />
+                        <Button loading={dashboardItems.isFetching} onClick={() => dashboardItems.refetch()}>
+                            {t("dashboardRefresh")}
+                        </Button>
+                    </div>
+                </div>
+                {dashboardItems.data && (
+                    <p className={styles.updated}>
+                        {t("dashboardUpdated", {
+                            time: new Date(dashboardItems.data.generatedAt).toLocaleString(
+                                i18n.language === "zhCN" ? "zh-CN" : "en-US"
+                            ),
+                            zone: dashboardItems.data.timeZone
+                        })}
+                    </p>
+                )}
                 {dashboardItems.error && <Alert theme="error" message={t("backendServerError")} />}
 
-                {dashboardItems.isLoading && <Loading />}
+                {dashboardItems.isLoading && <Skeleton theme="paragraph" />}
                 <div className={styles.statsGrid}>
                     {!dashboardItems.isLoading &&
                         dashboardItems.data &&
-                        dashboardItems.data.map((boardItem, i) => (
-                            <div key={i}>
+                        dashboardItems.data.metrics.map((boardItem) => (
+                            <div key={boardItem.key}>
                                 <Suspense fallback={<Skeleton theme="paragraph" />}>
                                     <Board
-                                        title={boardItem.title}
-                                        desc={boardItem.desc}
-                                        count={boardItem.count}
-                                        Icon={boardItem.icon}
+                                        title={t(metricTitles[boardItem.key] ?? boardItem.key)}
+                                        desc={t(
+                                            ["loginAttempts", "failedLogins"].includes(boardItem.key)
+                                                ? "dashboardPeriod"
+                                                : "dashboardAllTime"
+                                        )}
+                                        count={boardItem.count.toLocaleString()}
+                                        Icon={getDashboardItemIcon(boardItem.key)}
                                     />
                                 </Suspense>
                             </div>
                         ))}
                 </div>
 
+                {dashboardItems.data && (
+                    <Suspense fallback={<Skeleton theme="paragraph" />}>
+                        <DashboardCharts data={dashboardItems.data} />
+                    </Suspense>
+                )}
                 <div className={styles.links}>
                     <div>
                         <Alert

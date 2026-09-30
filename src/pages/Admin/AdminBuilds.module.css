@@ -169,7 +169,7 @@
         width: auto;
     }
     .buildTable :global(.t-table) {
-        min-width: 650px;
+        min-width: 780px;
     }
     .buildTable :global(.t-table__pagination) {
         overflow-x: auto;

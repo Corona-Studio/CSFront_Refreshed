@@ -328,6 +328,6 @@
     }
 
     .usersTable :global(.t-table) {
-        min-width: 760px;
+        min-width: 1070px;
     }
 }

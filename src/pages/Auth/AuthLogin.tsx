@@ -80,6 +80,7 @@ function AuthLogin() {
         loginAsync({ email: formData.email!, password: formData.password! })
             .then(async (r) => {
                 if (!r || !r.status) throw new Error(t("unknownLoginErrorDescription"));
+                if (r.status === 423) throw new Error(t("loginBannedDescription"));
                 if (r.status === 401) throw new Error(t("incorrectEmailOrPassword"));
                 if (r.status === 403) {
                     const verification = await startVerificationAsync({

@@ -1,6 +1,6 @@
 import IResponse from "../interfaces/IResponse.ts";
-import type { RegistrationVerificationInfo } from "./LxAuthRequests.ts";
 import { buildHeader, deleteAsync, getAsync, postAsync } from "./ApiConstants.ts";
+import type { RegistrationVerificationInfo } from "./LxAuthRequests.ts";
 
 interface UserChannelInfo {
     branch: string;
@@ -54,4 +54,10 @@ export async function redeemAsync(orderNumber: string, token: string): Promise<I
     const endPoint = `Afdian/redeem/${orderNumber}`;
 
     return await getAsync(endPoint, buildHeader(token));
+}
+
+export async function uploadUserAvatarAsync(image: Blob, token: string): Promise<IResponse<string>> {
+    const form = new FormData();
+    form.append("file", image, "avatar.png");
+    return await postAsync("/Avatar/upload", form, buildHeader(token));
 }

@@ -10,6 +10,32 @@ interface DashboardData {
     count: string;
 }
 
+export interface DashboardDistribution {
+    key: string;
+    count: number;
+}
+
+export interface DashboardLoginDay {
+    date: string;
+    succeeded: number;
+    failed: number;
+}
+
+export interface AdminDashboardOverview {
+    generatedAt: string;
+    timeZone: string;
+    days: number;
+    metrics: DashboardDistribution[];
+    loginTrend: DashboardLoginDay[];
+    accountDistribution: DashboardDistribution[];
+    buildRuntimes: DashboardDistribution[];
+    pendingContributions: DashboardDistribution[];
+}
+
+export async function getDashboardOverviewAsync(token: string, days: number) {
+    return getAsync<AdminDashboardOverview>("/Admin/dashboard/overview", buildHeader(token, undefined, { days }));
+}
+
 export interface UserSponsorInfo extends TableRowData {
     userName: string;
     email: string | null;
@@ -51,6 +77,7 @@ export interface AdminUserInfo extends TableRowData {
     isPaid: boolean;
     qqVerified: boolean;
     isLockedOut: boolean;
+    isLoginBanned: boolean;
 }
 
 export interface PagedResult<T> {
@@ -167,6 +194,14 @@ export async function getAdminBuildsAsync(token: string): Promise<IResponse<Admi
     return await getAsync<AdminBuildInfo[]>("/Admin/builds", buildHeader(token));
 }
 
+export async function downloadAdminBuildAsync(token: string, buildId: string) {
+    return getAsync<Blob>(`/Admin/builds/${encodeURIComponent(buildId)}/download`, {
+        ...buildHeader(token),
+        responseType: "blob",
+        timeout: 0
+    });
+}
+
 export async function setBuildPublishedAsync(
     token: string,
     build: AdminBuildInfo,
@@ -281,4 +316,16 @@ export async function acceptContributionAsync(
     request: AcceptContributionRequest
 ): Promise<IResponse<unknown> | undefined> {
     return await postAsync<unknown>(`/Admin/contributions/${resourceId}/accept`, request, buildHeader(token));
+}
+
+export async function resetAdminUserAvatarAsync(token: string, userId: string) {
+    return postAsync<unknown>(`/Admin/users/${encodeURIComponent(userId)}/avatar/reset`, {}, buildHeader(token));
+}
+
+export async function setAdminUserLoginBanAsync(token: string, userId: string, isLoginBanned: boolean) {
+    return patchAsync<AdminUserInfo>(
+        `/Admin/users/${encodeURIComponent(userId)}/login-ban`,
+        { isLoginBanned },
+        buildHeader(token)
+    );
 }

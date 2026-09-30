@@ -4,7 +4,8 @@ import {
     acceptContributionAsync,
     createAdminNotificationAsync,
     deleteAdminNotificationAsync,
-    deleteContributionItemAsync
+    deleteContributionItemAsync,
+    downloadAdminBuildAsync
 } from "./AdminRequests.ts";
 import { csBackend, isSuccessfulResponse } from "./ApiConstants.ts";
 import { removeDeviceAsync } from "./LxUserRequests.ts";
@@ -12,6 +13,23 @@ import { removeDeviceAsync } from "./LxUserRequests.ts";
 const originalAdapter = csBackend.defaults.adapter;
 afterEach(() => {
     csBackend.defaults.adapter = originalAdapter;
+});
+
+describe("admin build downloads", () => {
+    it("sends the admin token and receives ZIP data without the API timeout", async () => {
+        const archive = new Blob(["archive"], { type: "application/zip" });
+        csBackend.defaults.adapter = async (config) => {
+            expect(config.url).toBe("/Admin/builds/build-id/download");
+            expect(config.headers.Authorization).toBe("Bearer admin-token");
+            expect(config.responseType).toBe("blob");
+            expect(config.timeout).toBe(0);
+            return { config, status: 200, statusText: "OK", headers: {}, data: archive };
+        };
+
+        const result = await downloadAdminBuildAsync("admin-token", "build-id");
+        expect(result.status).toBe(200);
+        expect(result.response).toBe(archive);
+    });
 });
 
 describe("mutation HTTP responses", () => {

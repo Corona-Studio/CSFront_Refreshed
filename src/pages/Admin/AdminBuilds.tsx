@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { t } from "i18next";
 import { useCallback, useMemo, useState } from "react";
-import { RefreshIcon, SearchIcon } from "tdesign-icons-react";
+import { DownloadIcon, RefreshIcon, SearchIcon } from "tdesign-icons-react";
 import {
     Alert,
     Button,
@@ -17,6 +17,7 @@ import Constants from "../../helpers/Constants.ts";
 import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import {
     type AdminBuildInfo,
+    downloadAdminBuildAsync,
     getAdminBuildsAsync,
     refreshBuildCacheAsync,
     setBuildPublishedAsync
@@ -33,6 +34,7 @@ async function getAdminTokenAsync() {
 function AdminBuilds() {
     const queryClient = useQueryClient();
     const [updatingBuildIds, setUpdatingBuildIds] = useState<Set<string>>(new Set());
+    const [downloadingBuildIds, setDownloadingBuildIds] = useState<Set<string>>(new Set());
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [searchText, setSearchText] = useState("");
     const [pagination, setPagination] = useState({ current: 1, pageSize: 15 });
@@ -49,6 +51,42 @@ function AdminBuilds() {
     });
 
     const refetchBuilds = buildsQuery.refetch;
+
+    const downloadBuildAsync = useCallback(async (build: AdminBuildInfo) => {
+        setDownloadingBuildIds((ids) => new Set(ids).add(build.id));
+
+        try {
+            const response = await downloadAdminBuildAsync(await getAdminTokenAsync(), build.id);
+
+            if (response.status === 404) throw new Error(t("buildDownloadNotFound"));
+            if (response.status !== 200 || !response.response) throw new Error(t("buildDownloadFailedDescription"));
+
+            const url = URL.createObjectURL(response.response);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `${build.framework}.${build.runtime}.${build.id}.zip`.replace(/[\\/:*?"<>|]/g, "_");
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.setTimeout(() => URL.revokeObjectURL(url), 60_000);
+        } catch (error) {
+            await NotificationPlugin.error({
+                title: t("buildDownloadFailed"),
+                content: (error as Error).message,
+                placement: "top-right",
+                duration: 3000,
+                offset: Constants.NotificationOffset,
+                closeBtn: true,
+                attach: () => document
+            });
+        } finally {
+            setDownloadingBuildIds((ids) => {
+                const nextIds = new Set(ids);
+                nextIds.delete(build.id);
+                return nextIds;
+            });
+        }
+    }, []);
 
     const setPublishedAsync = useCallback(
         async (build: AdminBuildInfo, isPublished: boolean) => {
@@ -175,6 +213,23 @@ function AdminBuilds() {
                 )
             },
             {
+                colKey: "download",
+                title: t("download"),
+                width: 120,
+                fixed: "right",
+                cell: ({ row }) => (
+                    <Button
+                        theme="primary"
+                        variant="text"
+                        icon={<DownloadIcon />}
+                        loading={downloadingBuildIds.has(row.id)}
+                        disabled={downloadingBuildIds.has(row.id)}
+                        onClick={() => downloadBuildAsync(row)}>
+                        {t("download")}
+                    </Button>
+                )
+            },
+            {
                 colKey: "isPublished",
                 title: t("pushToUsers"),
                 width: 128,
@@ -198,7 +253,7 @@ function AdminBuilds() {
                 )
             }
         ],
-        [setPublishedAsync, updatingBuildIds]
+        [downloadBuildAsync, downloadingBuildIds, setPublishedAsync, updatingBuildIds]
     );
 
     return (

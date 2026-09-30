@@ -110,6 +110,11 @@ export const router = createBrowserRouter(
                 handle={{ title: () => "Error", pageInfo: () => ({ pageKey: "Error", pageTitle: "Error" }) }}>
                 <Route index element={<UserHome />} handle={{ title: () => t("userCenter") }} />
                 <Route
+                    path="avatar"
+                    handle={{ title: () => t("changeAvatar") }}
+                    lazy={() => import("./pages/User/UserAvatar.tsx")}
+                />
+                <Route
                     path="device"
                     handle={{ title: () => t("deviceManage") }}
                     lazy={() => import("./pages/User/UserDeviceManagement.tsx")}

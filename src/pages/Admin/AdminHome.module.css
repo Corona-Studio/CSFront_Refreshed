@@ -45,3 +45,123 @@
 .links :global(.t-alert) {
     min-height: 48px;
 }
+
+.header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+.header h1 {
+    margin: 0;
+    color: var(--td-text-color-primary);
+    font-size: 24px;
+}
+.header p,
+.updated {
+    margin: 6px 0 0;
+    color: var(--td-text-color-secondary);
+    font-size: 13px;
+}
+.toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.toolbar :global(.t-select__wrap) {
+    width: 140px;
+}
+.chartsGrid {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: 16px;
+}
+.chartsGrid > * {
+    min-width: 0;
+}
+.chartsGrid :global(.t-card__subtitle) {
+    white-space: normal;
+}
+.trendCanvas {
+    height: 280px;
+}
+.rate {
+    color: var(--td-text-color-secondary);
+    font-size: 13px;
+}
+.rate strong {
+    color: var(--td-success-color);
+}
+.chartReadout {
+    min-height: 20px;
+    color: var(--td-text-color-secondary);
+    font-size: 12px;
+    text-align: center;
+}
+.legend {
+    display: grid;
+    gap: 12px;
+    font-size: 12px;
+}
+.legend span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.legend strong {
+    margin-left: auto;
+    font-weight: 500;
+}
+.legend i,
+.chartReadout i {
+    display: inline-block;
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+}
+.donutWrap {
+    margin: 0 auto 16px;
+    max-width: 220px;
+}
+.donutWrap svg {
+    display: block;
+    width: 100%;
+}
+.emptyChart {
+    display: grid;
+    place-items: center;
+    min-height: 150px;
+    color: var(--td-text-color-placeholder);
+}
+.chartDetails {
+    margin-top: 12px;
+    color: var(--td-text-color-secondary);
+    font-size: 12px;
+}
+.chartDetails summary {
+    cursor: pointer;
+}
+.tableScroll {
+    margin-top: 12px;
+    max-height: 240px;
+    overflow: auto;
+}
+.tableScroll table {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: left;
+}
+.tableScroll th,
+.tableScroll td {
+    border-bottom: 1px solid var(--td-component-stroke);
+    padding: 8px;
+}
+.chartsGrid circle:focus-visible {
+    outline: 2px solid var(--td-text-color-primary);
+}
+@media (max-width: 900px) {
+    .chartsGrid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

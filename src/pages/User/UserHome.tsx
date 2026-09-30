@@ -1,10 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { MoneyIcon, SecuredIcon } from "tdesign-icons-react";
+import { LogoutIcon, MoneyIcon, SecuredIcon } from "tdesign-icons-react";
 import {
     Alert,
-    Avatar,
     Badge,
     Button,
     Card,
@@ -32,6 +31,8 @@ import {
 } from "../../requests/LxAuthRequests.ts";
 import { getUserCurrentChannelAsync, revokeUserAccountAsync } from "../../requests/LxUserRequests.ts";
 import Constants from "./../../helpers/Constants.ts";
+import styles from "./UserHome.module.css";
+import UserNotifications from "./UserNotifications.tsx";
 
 const t = i18next.t;
 
@@ -56,7 +57,9 @@ function UserHome() {
 
     const [userName, setUserName] = useState<string | null>();
     const [userEmail, setUserEmail] = useState<string | null>();
-    const [userAvatarUrl, setUserAvatarUrl] = useState("https://tdesign.gtimg.com/site/avatar.jpg");
+    const [userAvatarUrl, setUserAvatarUrl] = useState<string | null>(null);
+    const [avatarState, setAvatarState] = useState<"loading" | "loaded" | "error">("loading");
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isDeleteUserVisible, setIsDeleteUserVisible] = useState(false);
 
@@ -66,12 +69,13 @@ function UserHome() {
             const storedUserEmail = await getAccountEmailAsync();
             const storedUserId = await getStorageItemAsync(StoredAuthUserId);
             const avatarUrl = storedUserId
-                ? `${lxBackendUrl}/Avatar/${storedUserId}`
-                : "https://tdesign.gtimg.com/site/avatar.jpg";
+                ? `${lxBackendUrl}/Avatar/${encodeURIComponent(storedUserId)}?v=${Date.now()}`
+                : null;
 
             setUserName(storedUserName);
             setUserEmail(storedUserEmail);
             setUserAvatarUrl(avatarUrl);
+            if (!avatarUrl) setAvatarState("error");
         }
 
         getStoredUserInfoAsync().then();
@@ -142,6 +146,7 @@ function UserHome() {
     }
 
     async function logout() {
+        setIsLoggingOut(true);
         await clearSessionAsync();
 
         await NotificationPlugin.info({
@@ -222,31 +227,44 @@ function UserHome() {
     return (
         <>
             <div>
-                <Row align="middle" gutter={12}>
-                    <Col>
-                        <Avatar image={userAvatarUrl} shape="round" size="120px" />
-                    </Col>
-                    <Col>
-                        <Col>
-                            <h5>{userName}</h5>
-                        </Col>
-                        <Col>
-                            <span>{userEmail || t("noEmail")}</span>
-                        </Col>
-                        <Col>
-                            {isPaid.isLoading && <Loading />}
-
-                            {isPaid.data && (
-                                <Badge count={t("sponsorBadgeText")} shape="circle" size="medium" color="#FF5721" />
+                <div className={styles.profile}>
+                    <div className={styles.avatarBlock}>
+                        <div className={styles.avatar} aria-busy={avatarState === "loading"}>
+                            {userAvatarUrl && (
+                                <img
+                                    src={userAvatarUrl}
+                                    alt={t("userAvatar")}
+                                    style={{ display: avatarState === "loaded" ? "block" : "none" }}
+                                    onLoad={() => setAvatarState("loaded")}
+                                    onError={() => setAvatarState("error")}
+                                />
                             )}
-                        </Col>
-                        <Col>
-                            <div className="mt-4">
-                                <Button onClick={logout}>{t("logout")}</Button>
-                            </div>
-                        </Col>
-                    </Col>
-                </Row>
+                            {avatarState === "loading" && <Loading />}
+                            {avatarState === "error" && <span>{t("avatarUnavailable")}</span>}
+                        </div>
+                        <Button variant="text" theme="primary" onClick={() => navigate("/user/avatar")}>
+                            {t("changeAvatar")}
+                        </Button>
+                    </div>
+                    <div className={styles.identity}>
+                        <h5>{userName}</h5>
+                        <span className={styles.email}>{userEmail || t("noEmail")}</span>
+                        {isPaid.isLoading && <Loading />}
+                        {isPaid.data && (
+                            <Badge count={t("sponsorBadgeText")} shape="circle" size="medium" color="#FF5721" />
+                        )}
+                    </div>
+                    <div className={styles.logout}>
+                        <Button
+                            theme="danger"
+                            variant="outline"
+                            icon={<LogoutIcon />}
+                            loading={isLoggingOut}
+                            onClick={logout}>
+                            {t("logout")}
+                        </Button>
+                    </div>
+                </div>
 
                 <Divider align="center" layout="horizontal" />
 
@@ -300,6 +318,9 @@ function UserHome() {
                         </div>
                     </Col>
                     <Col sm={12} md={4}>
+                        <div className="mb-4">
+                            <UserNotifications />
+                        </div>
                         {tips.map((tip, i) => (
                             <div key={i} className="mb-4">
                                 <Alert

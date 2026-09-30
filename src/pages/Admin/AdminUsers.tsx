@@ -23,9 +23,11 @@ import {
     AdminUserType,
     type PagedResult,
     getAdminUsersAsync,
+    resetAdminUserAvatarAsync,
+    setAdminUserLoginBanAsync,
     updateAdminUserTypeAsync
 } from "../../requests/AdminRequests.ts";
-import { lxBackendUrl } from "../../requests/ApiConstants.ts";
+import { isSuccessfulResponse, lxBackendUrl } from "../../requests/ApiConstants.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
 import tableStyles from "./AdminTable.module.css";
 import styles from "./AdminUsers.module.css";
@@ -43,7 +45,7 @@ function getInitial(user: AdminUserInfo) {
     return (user.userName.trim()[0] ?? user.email?.trim()[0] ?? "?").toLocaleUpperCase();
 }
 
-function UserAvatar({ user }: { user: AdminUserInfo }) {
+function UserAvatar({ user, version = 0 }: { user: AdminUserInfo; version?: number }) {
     const [imageFailed, setImageFailed] = useState(false);
 
     return (
@@ -52,7 +54,7 @@ function UserAvatar({ user }: { user: AdminUserInfo }) {
                 getInitial(user)
             ) : (
                 <img
-                    src={`${lxBackendUrl}/Avatar/${encodeURIComponent(user.id)}`}
+                    src={`${lxBackendUrl}/Avatar/${encodeURIComponent(user.id)}?v=${version}`}
                     alt=""
                     loading="lazy"
                     decoding="async"
@@ -70,6 +72,12 @@ function AdminUsers() {
     const [pagination, setPagination] = useState({ current: 1, pageSize: 20 });
     const [pendingChange, setPendingChange] = useState<{ user: AdminUserInfo; userType: AdminUserType }>();
     const [isUpdating, setIsUpdating] = useState(false);
+    const [pendingAction, setPendingAction] = useState<{
+        user: AdminUserInfo;
+        type: "resetAvatar" | "ban" | "unban";
+    }>();
+    const [actionLoading, setActionLoading] = useState(false);
+    const [avatarVersions, setAvatarVersions] = useState<Record<string, number>>({});
 
     useEffect(() => {
         const timeout = window.setTimeout(() => {
@@ -155,6 +163,43 @@ function AdminUsers() {
         }
     }
 
+    async function confirmUserActionAsync() {
+        if (!pendingAction || actionLoading) return;
+        setActionLoading(true);
+        try {
+            const token = await getAdminTokenAsync();
+            const response =
+                pendingAction.type === "resetAvatar"
+                    ? await resetAdminUserAvatarAsync(token, pendingAction.user.id)
+                    : await setAdminUserLoginBanAsync(token, pendingAction.user.id, pendingAction.type === "ban");
+            if (response.status === 409) throw new Error(t("userBanProtected"));
+            if (!isSuccessfulResponse(response)) throw new Error(t("userOperationFailed"));
+            if (pendingAction.type === "resetAvatar") {
+                setAvatarVersions((versions) => ({ ...versions, [pendingAction.user.id]: Date.now() }));
+            }
+            await queryClient.invalidateQueries({ queryKey: ["adminUsers"] });
+            void NotificationPlugin.success({
+                title: t("userOperationSucceeded"),
+                placement: "top-right",
+                duration: 3000,
+                offset: Constants.NotificationOffset,
+                attach: () => document
+            });
+            setPendingAction(undefined);
+        } catch (error) {
+            void NotificationPlugin.error({
+                title: t("userOperationFailed"),
+                content: (error as Error).message,
+                placement: "top-right",
+                duration: 4000,
+                offset: Constants.NotificationOffset,
+                attach: () => document
+            });
+        } finally {
+            setActionLoading(false);
+        }
+    }
+
     const columns = useMemo<PrimaryTableCol<AdminUserInfo>[]>(
         () => [
             {
@@ -163,7 +208,11 @@ function AdminUsers() {
                 width: 420,
                 cell: ({ row }) => (
                     <div className={styles.userCell}>
-                        <UserAvatar key={row.id} user={row} />
+                        <UserAvatar
+                            key={`${row.id}:${avatarVersions[row.id] ?? 0}`}
+                            user={row}
+                            version={avatarVersions[row.id]}
+                        />
                         <div className={styles.userDetails}>
                             <div className={styles.nameRow}>
                                 <strong title={row.userName}>{row.userName || t("unnamedUser")}</strong>
@@ -198,7 +247,13 @@ function AdminUsers() {
                                 {t("sponsorBadgeText")}
                             </Tag>
                         )}
-                        {row.isLockedOut && (
+                        {row.isLoginBanned && (
+                            <Tag size="small" theme="danger" variant="light">
+                                <LockOnIcon />
+                                {t("userLoginBanned")}
+                            </Tag>
+                        )}
+                        {!row.isLoginBanned && row.isLockedOut && (
                             <Tag size="small" theme="danger" variant="light">
                                 <LockOnIcon />
                                 {t("accountLocked")}
@@ -211,12 +266,12 @@ function AdminUsers() {
                 colKey: "userType",
                 title: t("userIdentity"),
                 width: 190,
-                fixed: "right",
                 cell: ({ row }) => (
                     <div className={styles.roleControl}>
                         <Select
                             className={styles.roleSelect}
                             value={row.userType}
+                            disabled={isUpdating || actionLoading}
                             options={roleOptions()}
                             onChange={(value) =>
                                 setPendingChange({ user: row, userType: Number(value) as AdminUserType })
@@ -224,9 +279,35 @@ function AdminUsers() {
                         />
                     </div>
                 )
+            },
+            {
+                colKey: "operations",
+                title: t("userOperations"),
+                width: 220,
+                fixed: "right",
+                cell: ({ row }) => (
+                    <Space size="small" breakLine>
+                        <Button
+                            size="small"
+                            variant="text"
+                            theme="primary"
+                            disabled={isUpdating || actionLoading}
+                            onClick={() => setPendingAction({ user: row, type: "resetAvatar" })}>
+                            {t("resetUserAvatar")}
+                        </Button>
+                        <Button
+                            size="small"
+                            variant="text"
+                            theme={row.isLoginBanned ? "primary" : "danger"}
+                            disabled={isUpdating || actionLoading}
+                            onClick={() => setPendingAction({ user: row, type: row.isLoginBanned ? "unban" : "ban" })}>
+                            {t(row.isLoginBanned ? "unbanUserLogin" : "banUserLogin")}
+                        </Button>
+                    </Space>
+                )
             }
         ],
-        []
+        [avatarVersions, isUpdating, actionLoading]
     );
 
     const totalCount = usersQuery.data?.totalCount ?? 0;
@@ -293,6 +374,36 @@ function AdminUsers() {
                     }}
                 />
             </Card>
+
+            <Dialog
+                visible={!!pendingAction}
+                theme="warning"
+                confirmLoading={actionLoading}
+                header={t(
+                    pendingAction?.type === "resetAvatar"
+                        ? "resetUserAvatar"
+                        : pendingAction?.type === "ban"
+                          ? "banUserLogin"
+                          : "unbanUserLogin"
+                )}
+                closeOnOverlayClick={!actionLoading}
+                onConfirm={confirmUserActionAsync}
+                onClose={() => !actionLoading && setPendingAction(undefined)}>
+                <div className={styles.changeSummary}>
+                    <strong>{pendingAction?.user.userName}</strong>
+                    <span>{pendingAction?.user.email?.trim() || t("noEmail")}</span>
+                </div>
+                <p>
+                    {t(
+                        pendingAction?.type === "resetAvatar"
+                            ? "confirmResetUserAvatar"
+                            : pendingAction?.type === "ban"
+                              ? "confirmBanUserLogin"
+                              : "confirmUnbanUserLogin",
+                        { user: pendingAction?.user.userName }
+                    )}
+                </p>
+            </Dialog>
 
             <Dialog
                 visible={!!pendingChange}
