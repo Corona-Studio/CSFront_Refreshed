@@ -90,3 +90,7 @@ export async function patchAsync<T>(
 export async function deleteAsync<T>(endPoint: string, axiosConfig: AxiosRequestConfig<unknown> = {}) {
     return requestAsync<T>("DELETE", endPoint, undefined, axiosConfig);
 }
+
+export function isSuccessfulResponse<T>(response: IResponse<T> | undefined): response is IResponse<T> {
+    return !!response && response.status >= 200 && response.status < 300;
+}

@@ -3,11 +3,12 @@ import { useState } from "react";
 import { Delete1Icon } from "tdesign-icons-react";
 import { Button, Card, Col, Empty, Loading, NotificationPlugin, Row } from "tdesign-react";
 
-import Constants from "./../../helpers/Constants.ts";
 import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import i18next from "../../i18n.ts";
+import { isSuccessfulResponse } from "../../requests/ApiConstants.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
 import { UserDeviceInfo, getUserAllDevicesAsync, removeDeviceAsync } from "../../requests/LxUserRequests.ts";
+import Constants from "./../../helpers/Constants.ts";
 
 const t = i18next.t;
 
@@ -40,7 +41,7 @@ function UserDeviceManagement() {
             offset: Constants.NotificationOffset,
             closeBtn: true,
             attach: () => document
-        }).then(() => { });
+        }).then(() => {});
     }
 
     async function deleteDeviceAsync(device: UserDeviceInfo) {
@@ -53,6 +54,7 @@ function UserDeviceManagement() {
             .then(async (r) => {
                 if (!r || !r.status) throw new Error(t("backendServerError"));
                 if (r.status === 404) throw new Error(t("deviceRemoveFailedDescription"));
+                if (!isSuccessfulResponse(r)) throw new Error(t("backendServerError"));
 
                 await NotificationPlugin.success({
                     title: t("deviceRemoved"),

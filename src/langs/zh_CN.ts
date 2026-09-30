@@ -332,7 +332,9 @@ export const zhCN = {
         contributedLink: "贡献链接",
         contributedTag: "贡献标签",
         translationContributions: "翻译贡献",
-        translationContributionDescription: "查看用户提交的候选译名，并删除无效记录或封禁恶意提交者。",
+        translationContributionDescription:
+            "查看用户提交的候选译名，采纳后自动填入下方表单，也可删除无效记录或封禁恶意提交者。",
+        adoptContribution: "采纳",
         linkContributions: "链接贡献",
         tagContributions: "标签贡献",
         ratingContributions: "评分记录",

@@ -25,6 +25,7 @@ import {
     getAdminNotificationsAsync,
     updateAdminNotificationAsync
 } from "../../requests/AdminRequests.ts";
+import { isSuccessfulResponse } from "../../requests/ApiConstants.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
 import styles from "./AdminManagement.module.css";
 import tableStyles from "./AdminTable.module.css";
@@ -101,7 +102,7 @@ function AdminNotifications() {
             const response = editing
                 ? await updateAdminNotificationAsync(token, editing.id, request)
                 : await createAdminNotificationAsync(token, request);
-            if (!response || response.status !== 200 || !response.response)
+            if (!isSuccessfulResponse(response) || !response.response)
                 throw new Error(t("notificationSaveFailedDescription"));
 
             setFormVisible(false);
@@ -133,7 +134,7 @@ function AdminNotifications() {
         setIsMutating(true);
         try {
             const response = await deleteAdminNotificationAsync(await getAdminTokenAsync(), deleting.id);
-            if (!response || response.status !== 200) throw new Error(t("notificationDeleteFailedDescription"));
+            if (!isSuccessfulResponse(response)) throw new Error(t("notificationDeleteFailedDescription"));
 
             setDeleting(undefined);
             if ((notificationsQuery.data?.items.length ?? 0) === 1 && pagination.current > 1)

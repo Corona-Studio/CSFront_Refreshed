@@ -31,6 +31,7 @@ import {
     deleteContributionItemAsync,
     getPendingContributionDetailAsync
 } from "../../requests/AdminRequests.ts";
+import { isSuccessfulResponse } from "../../requests/ApiConstants.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
 import styles from "./AdminContributions.module.css";
 import tableStyles from "./AdminTable.module.css";
@@ -160,14 +161,14 @@ function AdminContributionDetail() {
                     action.contributionType,
                     action.contributionId
                 );
-                if (!response || response.status !== 200) throw new Error(t("deleteContributionFailedDescription"));
+                if (!isSuccessfulResponse(response)) throw new Error(t("deleteContributionFailedDescription"));
 
                 await refreshQueriesAsync();
                 await showSuccessAsync(t("deleteContributionSucceeded"), t("deleteContributionSucceededDescription"));
             } else if (action.kind === "ban") {
                 const response = await banContributionUserAsync(token, action.userId);
                 if (response?.status === 400) throw new Error(t("userAlreadyBanned"));
-                if (!response || response.status !== 200) throw new Error(t("banUserFailedDescription"));
+                if (!isSuccessfulResponse(response)) throw new Error(t("banUserFailedDescription"));
 
                 await showSuccessAsync(
                     t("banUserSucceeded"),
@@ -186,7 +187,7 @@ function AdminContributionDetail() {
                         )
                     ]
                 });
-                if (!response || response.status !== 200) throw new Error(t("acceptContributionFailedDescription"));
+                if (!isSuccessfulResponse(response)) throw new Error(t("acceptContributionFailedDescription"));
 
                 await queryClient.invalidateQueries({ queryKey: ["adminContributions"] });
                 await showSuccessAsync(t("acceptContributionSucceeded"), t("acceptContributionSucceededDescription"));
@@ -206,9 +207,39 @@ function AdminContributionDetail() {
         }
     }
 
-    function contributionActions(row: UserContributionBase, type: ContributionType) {
+    function contributionActions(row: UserContributionBase, type: ContributionType, value?: string) {
         return (
             <div className={styles.actionGroup}>
+                <Button
+                    size="small"
+                    variant="outline"
+                    theme="primary"
+                    disabled={!value?.trim()}
+                    onClick={() => {
+                        const adoptedValue = value?.trim();
+                        if (!adoptedValue) return;
+
+                        if (type === "translation") {
+                            setTranslatedName(adoptedValue);
+                            setValidationErrors((errors) => ({ ...errors, translatedName: undefined }));
+                        } else if (type === "link") {
+                            setLink(adoptedValue);
+                            setValidationErrors((errors) => ({ ...errors, link: undefined }));
+                        } else {
+                            setTags((currentTags) =>
+                                [
+                                    ...new Set(
+                                        [...currentTags.split(","), adoptedValue]
+                                            .map((tag) => tag.trim())
+                                            .filter(Boolean)
+                                    )
+                                ].join(", ")
+                            );
+                            setValidationErrors((errors) => ({ ...errors, tags: undefined }));
+                        }
+                    }}>
+                    {t("adoptContribution")}
+                </Button>
                 <Button
                     size="small"
                     variant="outline"
@@ -239,9 +270,9 @@ function AdminContributionDetail() {
             {
                 colKey: "actions",
                 title: t("actions"),
-                width: 230,
+                width: 300,
                 fixed: "right",
-                cell: ({ row }) => contributionActions(row, "translation")
+                cell: ({ row }) => contributionActions(row, "translation", row.translatedName)
             }
         ],
         []
@@ -267,9 +298,9 @@ function AdminContributionDetail() {
             {
                 colKey: "actions",
                 title: t("actions"),
-                width: 230,
+                width: 300,
                 fixed: "right",
-                cell: ({ row }) => contributionActions(row, "link")
+                cell: ({ row }) => contributionActions(row, "link", row.link)
             }
         ],
         []
@@ -283,9 +314,9 @@ function AdminContributionDetail() {
             {
                 colKey: "actions",
                 title: t("actions"),
-                width: 230,
+                width: 300,
                 fixed: "right",
-                cell: ({ row }) => contributionActions(row, "tag")
+                cell: ({ row }) => contributionActions(row, "tag", row.value)
             }
         ],
         []

@@ -330,8 +330,9 @@ export const enUS = {
         contributedLink: "Contributed link",
         contributedTag: "Contributed tag",
         translationContributions: "Translation Contributions",
+        adoptContribution: "Adopt",
         translationContributionDescription:
-            "Review suggested translations, remove invalid entries, or ban abusive contributors.",
+            "Review suggested translations and adopt them into the form below, remove invalid entries, or ban abusive contributors.",
         linkContributions: "Link Contributions",
         tagContributions: "Tag Contributions",
         ratingContributions: "Rating Records",

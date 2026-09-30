@@ -22,7 +22,7 @@ import { checkIsPaidImpl } from "../../helpers/PaymentHelper.ts";
 import { clearSessionAsync } from "../../helpers/SessionHelper.ts";
 import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import i18next from "../../i18n.ts";
-import { lxBackendUrl } from "../../requests/ApiConstants.ts";
+import { isSuccessfulResponse, lxBackendUrl } from "../../requests/ApiConstants.ts";
 import {
     StoredAccountEmail,
     StoredAuthEmail,
@@ -184,11 +184,7 @@ function UserHome() {
 
         const revokeResult = await revokeUserAccountAsync(authToken);
 
-        if (
-            !revokeResult ||
-            !revokeResult.status ||
-            (revokeResult.status !== 200 && revokeResult.response !== "succeeded")
-        ) {
+        if (!isSuccessfulResponse(revokeResult)) {
             NotificationPlugin.error({
                 title: t("deleteAccountFailed"),
                 content: t("deleteAccountFailedDescription2"),
