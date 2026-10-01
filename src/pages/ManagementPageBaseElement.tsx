@@ -76,7 +76,6 @@ function ManagementPageBaseElement({
                 <div className={styles.adminSidebar}>
                     <Menu
                         value={selectedPath as MenuValue}
-                        logo={<div />}
                         collapsed={collapsed}
                         expandMutex={false}
                         className={styles.adminMenu}
