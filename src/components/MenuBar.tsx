@@ -31,10 +31,7 @@ export default function MenuBar() {
     return (
         <header className={styles.header}>
             <div className={styles.inner}>
-                <Link
-                    href="/"
-                    aria-label="Corona Studio 首页"
-                    className="group relative shrink-0 py-2 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-8 after:origin-left after:scale-x-0 after:bg-primary after:transition-transform hover:after:scale-x-100 focus-visible:after:scale-x-100 motion-reduce:after:transition-none">
+                <Link href="/" aria-label="Corona Studio 首页" className={`${styles.brand} group`}>
                     <Image
                         src="/assets/logo.png"
                         alt="Corona Studio"
@@ -42,7 +39,7 @@ export default function MenuBar() {
                         height={345}
                         sizes="(max-width: 360px) 100px, (max-width: 640px) 136px, 180px"
                         preload
-                        className="h-auto w-[136px] max-[360px]:w-[100px] sm:w-[180px] object-contain invert dark:invert-0 transition-opacity group-hover:opacity-80 motion-reduce:transition-none"
+                        className="block h-auto w-[136px] max-[360px]:w-[100px] sm:w-[180px] object-contain invert dark:invert-0 transition-opacity group-hover:opacity-80 motion-reduce:transition-none"
                     />
                 </Link>
                 <nav aria-label="主导航" className={styles.navigation}>

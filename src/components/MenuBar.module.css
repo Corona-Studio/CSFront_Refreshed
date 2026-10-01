@@ -9,14 +9,25 @@
 }
 
 .inner {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
     gap: 24px;
-    margin-inline: auto;
     padding-inline: 32px;
-    width: min(1440px, 100%);
+    width: 100%;
     height: 100%;
+}
+
+.brand {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-self: start;
+    height: 56px;
+}
+
+.brand:focus-visible {
+    outline-offset: 2px;
 }
 
 .navigation {
@@ -73,6 +84,7 @@
 .tools {
     display: flex;
     align-items: center;
+    justify-self: end;
     gap: 4px;
     border-left: 1px solid var(--border);
     padding-left: 20px;
@@ -125,6 +137,10 @@
 }
 
 @media (max-width: 1023px) {
+    .inner {
+        display: flex;
+        justify-content: space-between;
+    }
     .navigation {
         display: none;
     }
