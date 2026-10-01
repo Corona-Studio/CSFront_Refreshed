@@ -687,14 +687,21 @@ a.t-menu__item:active {
 }
 .nav-loading-spinner {
     display: inline-block;
+    flex: none;
     vertical-align: -2px;
     animation: nav-spin 0.7s linear infinite;
-    margin-left: 8px;
     border: 2px solid currentColor;
     border-right-color: transparent;
     border-radius: 50%;
     width: 13px;
     height: 13px;
+}
+.t-menu__item .nav-loading-spinner {
+    margin-left: 8px;
+}
+.t-button .nav-loading-spinner {
+    vertical-align: middle;
+    margin: 0;
 }
 @keyframes nav-spin {
     to {
