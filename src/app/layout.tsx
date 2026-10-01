@@ -12,7 +12,12 @@ export const metadata: Metadata = {
     metadataBase: new URL("https://corona.studio"),
     title: { default: "Corona Studio · 日冕工作室", template: "%s · Corona Studio" },
     description: "由 Minecraft 爱好者组建的开发团队。探索 LauncherX、ProjBobcat、ConnectX 与 CMFS。",
-    icons: { icon: "/assets/logo.png" }
+    icons: {
+        icon: [
+            { url: "/favicon.svg", type: "image/svg+xml" },
+            { url: "/favicon.ico", type: "image/x-icon", sizes: "any" }
+        ]
+    }
 };
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
