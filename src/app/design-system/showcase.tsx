@@ -15,8 +15,10 @@ import {
     Tag,
     notify
 } from "@/components/marathon";
+import PromoCard from "@/components/marathon/promo-card";
 import { ArrowUpRight, Rocket } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import ChartPreview from "./charts";
 
@@ -31,6 +33,7 @@ const columns: DataTableColumn<(typeof rows)[number]>[] = [
     { colKey: "state", title: "CHANNEL", cell: ({ row }) => <Tag>{row.state}</Tag> }
 ];
 export default function Showcase() {
+    const { t } = useTranslation();
     const [role, setRole] = useState<string | number>(0);
     const [dialog, setDialog] = useState(false);
     const [page, setPage] = useState({ current: 1, pageSize: 2 });
@@ -131,6 +134,29 @@ export default function Showcase() {
                     description="主题自适应图表：青绿、暖铜、灰蓝。以下使用模拟数据展示，与生产统计无关。"
                 />
                 <ChartPreview />
+            </section>
+            <section className="mt-16">
+                <SectionHeading
+                    code="06 / COMMUNITY"
+                    title="SUPPORT/"
+                    description="图片、说明与操作整合在同一张卡片内。"
+                />
+                <div className="grid md:grid-cols-2 gap-6">
+                    <PromoCard
+                        image="/assets/lx/LauncherX_Poster.webp"
+                        title={t("afdCardTitle")}
+                        description={t("afdCardDescription")}
+                        href="https://afdian.com/a/launcherx"
+                        actionLabel={t("goto")}
+                    />
+                    <PromoCard
+                        image="/assets/lx/LauncherX_Poster_Main.webp"
+                        title={t("minebbsCardTitle")}
+                        description={t("minebbsCardDescription")}
+                        href="https://www.minebbs.com/resources/launcherx.7182/"
+                        actionLabel={t("goto")}
+                    />
+                </div>
             </section>
             <Dialog
                 visible={dialog}

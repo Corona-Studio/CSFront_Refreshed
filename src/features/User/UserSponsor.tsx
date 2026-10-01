@@ -1,4 +1,5 @@
 "use client";
+import PromoCard from "@/components/marathon/promo-card";
 import { useQuery } from "@tanstack/react-query";
 import { CircleCheck as CheckCircleIcon, Copy as CopyIcon, Users as UsergroupIcon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -7,9 +8,7 @@ import { useTranslation } from "react-i18next";
 import {
     Alert,
     Button,
-    Card,
     Col,
-    Comment,
     Divider,
     Form,
     type FormProps,
@@ -306,18 +305,15 @@ function UserSponsor() {
 
                 <div>
                     <Row gutter={[16, 16]}>
-                        {posters.map((post, i) => (
-                            <Col sm={12} md={6} lg={4} key={i}>
-                                <Card
-                                    bordered
-                                    theme="poster2"
-                                    cover={post.imgLink}
-                                    actions={
-                                        <Button theme="primary" variant="base" href={post.link} target="_blank">
-                                            {t("goto")}
-                                        </Button>
-                                    }
-                                    footer={<Comment author={post.title} content={post.description}></Comment>}></Card>
+                        {posters.map((post) => (
+                            <Col md={6} lg={6} key={post.link}>
+                                <PromoCard
+                                    image={post.imgLink}
+                                    title={post.title}
+                                    description={post.description}
+                                    href={post.link}
+                                    actionLabel={t("goto")}
+                                />
                             </Col>
                         ))}
                     </Row>
