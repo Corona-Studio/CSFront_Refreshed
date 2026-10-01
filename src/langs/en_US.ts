@@ -1,5 +1,56 @@
 export const enUS = {
     translation: {
+        home: {
+            featureTitle: "Your next adventure starts here.",
+            featureDescription:
+                "Manage game versions, install modpacks, and explore new worlds with friends. LauncherX brings everyday tools together in a clean interface, so you can spend more time enjoying the game.",
+            download: "Download LauncherX",
+            explore: "Explore features",
+            previewAlt: "Preview of the LauncherX interface",
+            previewCaption: "Crafted for every launch",
+            ecosystemTitle: "Find your place in the ecosystem.",
+            ecosystemDescription:
+                "Great experiences are built one piece at a time. Our projects span launchers, launch engines, networking, and shared knowledge, opening different paths to exploration.",
+            playTitle: "Play",
+            playDescription: "Let LauncherX handle versions and resources as you prepare for your next adventure.",
+            buildTitle: "Build",
+            buildDescription: "Start with the open-source ProjBobcat launch engine to build your own Minecraft tools.",
+            connectTitle: "Connect",
+            connectDescription:
+                "Explore the networking capabilities of ConnectX and the technology behind multiplayer connections.",
+            learnTitle: "Learn",
+            learnDescription:
+                "Find guides and answers in CSKB, where shared experience helps the next player get started.",
+            valuesTitle: "Driven by passion. Crafted with care.",
+            experienceTitle: "Experience first",
+            experienceDescription:
+                "We care about how every click, screen, and step feels. We work through the complexity so everyday interactions can feel simple.",
+            openTitle: "Share what we learn",
+            openDescription:
+                "Open-source projects and our knowledge base make code accessible and experience reusable, giving new ideas room to grow.",
+            curiosityTitle: "Stay curious",
+            curiosityDescription:
+                "Minecraft is our starting point for exploring interfaces, networks, and developer tools. Ideas worth pursuing often begin with a simple “what if”.",
+            faqTitle: "A few more things to know",
+            faqDescription: "New here? Start with these answers to learn about our products and projects.",
+            startQuestion: "How do I get started with LauncherX?",
+            startAnswer:
+                "Use the download link above to choose a build for your device. CSKB has guides to help with installation and everyday use.",
+            sourceQuestion: "Where can I find your open-source projects?",
+            sourceAnswer:
+                "Project cards link to their repositories. Visit the Corona Studio GitHub organization to read code, documentation, and each project’s license.",
+            helpQuestion: "Where can I get help?",
+            helpAnswer:
+                "Check the knowledge base for guides and common questions. For open-source project issues, follow the repository’s reporting guidelines and include reproduction steps and environment details.",
+            contributeQuestion: "Can I contribute without writing code?",
+            contributeAnswer:
+                "Share feedback, help reproduce issues, improve documentation, or suggest features. Read the project’s contribution guidelines and start with something you know well.",
+            joinTitle: "The next spark could be yours.",
+            joinDescription:
+                "See what we are building. Try a product, read the source, or share a new idea — there is more than one way to take part.",
+            github: "Explore GitHub",
+            knowledge: "Visit the knowledge base"
+        },
         themeSettings: "Theme settings",
         themeLight: "Light",
         themeDark: "Dark",
@@ -139,7 +190,7 @@ export const enUS = {
         register: "Register",
         onlyAllowedChars: "Hint: Only these half-width special characters allowed in password: ",
 
-        rememberPassword: "Remember Password",
+        rememberPassword: "Keep me signed in",
         forgetPassword: "Forgot Password",
         resetPassword: "Reset Password",
         sendQqResetCode: "Get Code through QQ",
@@ -443,6 +494,14 @@ export const enUS = {
         resourceLinkRequired: "Enter the final resource link.",
         resourceLinkInvalid: "Enter a valid HTTP or HTTPS URL.",
         resourceTagsRequired: "Enter at least one tag.",
+        select: "Select",
+        noData: "No data",
+        loading: "Loading",
+        close: "Close",
+        confirm: "Confirm",
+        cancel: "Cancel",
+        otherBuilds: "Other platform builds",
+        learnMore: "Learn more",
         clear: "Clear",
         acceptAsOfficialResource: "Publish as Official Resource",
         confirmAcceptContribution: "Publish this resource?",

@@ -36,11 +36,19 @@ This is the renewed official website for Corona Studio!
 
 ## 🛠️ 本地开发
 
+前端已迁移至 **Next.js App Router + shadcn/ui + Tailwind CSS 4**，使用统一的 Marathon 组件系统。
+
 ```bash
 pnpm install
+cp .env.example .env.local
 pnpm dev
 ```
 
-提交前运行 `pnpm quality`，它会依次执行 ESLint、单元测试、TypeScript 检查与生产构建。
+- `pnpm quality`：ESLint、单元测试、TypeScript 与生产构建。
+- `pnpm build && pnpm start`：本地生产服务。
+- `/design-system`：交互式 Marathon 组件展示。
+- [架构、设计规则与部署迁移](docs/marathon.md)。
 
-注册页使用 Cloudflare Turnstile。请在 Cloudflare 控制台创建 **Managed** widget，允许站点域名，并在前端构建环境设置 `VITE_TURNSTILE_SITE_KEY`。后端另需设置 `Turnstile__SecretKey` 为同一 widget 的私钥。未配置时注册会被拒绝。
+注册使用 Cloudflare Turnstile：配置 `NEXT_PUBLIC_TURNSTILE_SITE_KEY` 公钥，后端配置 `Turnstile__SecretKey` 私钥。API 默认地址为 `https://api.corona.studio`，可用 `NEXT_PUBLIC_LX_BACKEND` 修改。
+
+旧 `VITE_*` 部署变量需要改名；Vercel 使用 Next.js preset，并清除旧 `dist` 输出目录和 SPA rewrite 设置。

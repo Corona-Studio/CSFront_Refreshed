@@ -1,3 +1,4 @@
+"use client";
 import { FC, ReactNode, memo } from "react";
 
 import SpotlightCard from "../ReactBits/Components/SpotlightCard/SpotlightCard.tsx";

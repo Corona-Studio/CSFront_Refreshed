@@ -1,3 +1,4 @@
+"use client";
 /*
 	Installed from https://reactbits.dev/ts/tailwind/
 */
@@ -21,7 +22,7 @@ interface VelocityMapping {
 interface VelocityTextProps {
     children: React.ReactNode;
     baseVelocity: number;
-    scrollContainerRef?: React.RefObject<HTMLElement>;
+    scrollContainerRef?: React.RefObject<HTMLElement | null>;
     className?: string;
     damping?: number;
     stiffness?: number;
@@ -34,7 +35,7 @@ interface VelocityTextProps {
 }
 
 interface ScrollVelocityProps {
-    scrollContainerRef?: React.RefObject<HTMLElement>;
+    scrollContainerRef?: React.RefObject<HTMLElement | null>;
     texts: string[];
     velocity?: number;
     className?: string;
@@ -48,7 +49,7 @@ interface ScrollVelocityProps {
     scrollerStyle?: React.CSSProperties;
 }
 
-function useElementWidth(ref: React.RefObject<HTMLElement>): number {
+function useElementWidth(ref: React.RefObject<HTMLElement | null>): number {
     const [width, setWidth] = useState(0);
 
     useLayoutEffect(() => {

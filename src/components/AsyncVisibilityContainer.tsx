@@ -1,3 +1,4 @@
+"use client";
 import { FC, ReactNode, useEffect, useState } from "react";
 
 interface AsyncVisibilityContainerProps {

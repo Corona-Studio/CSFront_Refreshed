@@ -1,4 +1,4 @@
-import localForage from "localforage";
+import localForage from "@/lib/storage";
 
 export const I18NLangKey = "I18N_LANG_KEY";
 

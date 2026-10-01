@@ -8,12 +8,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--td-text-color-placeholder);
+    color: var(--muted-foreground);
     line-height: 22px;
 }
 
 .boardTitle {
-    color: var(--td-text-color-secondary);
+    color: var(--muted-foreground);
     font-size: 14px;
     line-height: 22px;
 }
@@ -26,7 +26,7 @@
 
 .boardItemLeft {
     display: inline-block;
-    color: var(--td-text-color-primary);
+    color: var(--foreground);
     font-weight: bold;
     font-size: 30px;
     line-height: 16px;

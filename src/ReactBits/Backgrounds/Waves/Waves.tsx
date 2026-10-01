@@ -1,3 +1,4 @@
+"use client";
 import React, { CSSProperties, useEffect, useRef } from "react";
 
 class Grad {

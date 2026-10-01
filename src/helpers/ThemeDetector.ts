@@ -8,10 +8,12 @@ const DARK_MODE_QUERY = "(prefers-color-scheme: dark)";
 const THEME_CHANGE_EVENT = "csfront:theme-change";
 
 function getSystemTheme(): Theme {
+    if (typeof window === "undefined") return "light";
     return window.matchMedia(DARK_MODE_QUERY).matches ? "dark" : "light";
 }
 
 export function getThemePreference(): ThemePreference {
+    if (typeof window === "undefined" || typeof localStorage === "undefined") return "system";
     const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
     return storedTheme === "dark" || storedTheme === "light" ? storedTheme : "system";
 }

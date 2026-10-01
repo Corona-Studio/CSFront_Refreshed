@@ -1,3 +1,4 @@
+"use client";
 /*
     Installed from https://reactbits.dev/ts/tailwind/
 */
@@ -70,7 +71,7 @@ const GridMotion: FC<GridMotionProps> = ({ items = [], gradientColor = "black" }
                             key={rowIndex}
                             className="grid gap-4 grid-cols-7"
                             style={{ willChange: "transform, filter" }}
-                            ref={(el) => (rowRefs.current[rowIndex] = el)}>
+                            ref={(el) => { rowRefs.current[rowIndex] = el; }}>
                             {Array.from({ length: 7 }, (_, itemIndex) => {
                                 const content = combinedItems[rowIndex * 7 + itemIndex];
                                 return (

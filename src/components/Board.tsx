@@ -1,5 +1,6 @@
+"use client";
 import { FC, ReactElement, memo } from "react";
-import { Card } from "tdesign-react";
+import { Card } from "./marathon/index.tsx";
 
 import styles from "./Board.module.css";
 

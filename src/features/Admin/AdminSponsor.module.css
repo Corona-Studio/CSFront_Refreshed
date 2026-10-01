@@ -1,0 +1,242 @@
+.page {
+    width: 100%;
+}
+
+.formGrid {
+    align-items: stretch;
+}
+
+.formCard {
+    height: 100%;
+}
+
+.formCard :global([data-slot="form-item"]) {
+    margin-bottom: 0;
+}
+
+.formActions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+}
+
+.formActions :global(button) {
+    min-width: 104px;
+}
+
+.formCard :global([data-slot="card-header"]),
+.resultCard :global([data-slot="card-header"]) {
+    padding: 18px 20px 12px;
+}
+
+.formCard :global([data-slot="card-title"]),
+.resultCard :global([data-slot="card-title"]) {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 26px;
+}
+
+.formCard :global([data-slot="card-description"]) {
+    color: var(--muted-foreground);
+    font-size: 13px;
+    line-height: 20px;
+}
+
+.userResult {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+}
+
+.userDetails {
+    display: grid;
+    flex: 1;
+    gap: 2px;
+    min-width: 0;
+}
+
+.userDetails strong {
+    color: var(--foreground);
+    font-size: 15px;
+}
+
+.userDetails span,
+.userDetails code {
+    overflow: hidden;
+    color: var(--muted-foreground);
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.userDetails code {
+    box-shadow: none;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    width: fit-content;
+    max-width: 100%;
+}
+
+.queryMetadata {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(180px, 1fr));
+    gap: 12px;
+    min-width: min(440px, 45%);
+}
+
+.queryMetadata > div {
+    display: grid;
+    gap: 3px;
+    border-left: 1px solid var(--border);
+    padding-left: 16px;
+}
+
+.queryMetadata span {
+    color: var(--muted-foreground);
+    font-size: 12px;
+}
+
+.queryMetadata strong {
+    overflow: hidden;
+    font-size: 13px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sponsorsCard {
+    border-radius: 0;
+    overflow: hidden;
+}
+
+.sponsorsCard :global([data-slot="card-content"]) {
+    padding: 0;
+}
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid var(--border);
+    padding: 16px 20px;
+}
+
+.listTitle {
+    display: flex;
+    flex-direction: column;
+}
+
+.listTitle h3 {
+    margin: 0;
+    font-size: 17px;
+}
+
+.listTitle span {
+    margin-top: 4px;
+    color: var(--muted-foreground);
+    font-size: 13px;
+}
+
+.searchInput {
+    width: min(380px, 100%);
+}
+
+.searchInput :global(input) {
+    border-radius: 0;
+}
+
+.sponsorsTable :global(th) {
+    border-bottom: 1px solid var(--border);
+    background: var(--muted);
+    height: 40px;
+    color: var(--muted-foreground);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0;
+}
+
+.sponsorsTable :global(td) {
+    border-bottom: 1px solid var(--border);
+    background: var(--card);
+    height: 58px;
+}
+
+.sponsorsTable :global(tr:hover td) {
+    background: var(--muted);
+}
+
+.sponsorsTable :global(.m-pagination) {
+    margin: 0;
+    padding: 12px 20px;
+}
+
+.tableUser {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 0;
+}
+
+.copyValue {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    padding: 5px 7px;
+    color: var(--muted-foreground);
+}
+
+.copyValue:hover,
+.copyValue:focus-visible {
+    background: var(--muted);
+    color: var(--foreground);
+}
+
+.copyValue code {
+    max-width: 190px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.copyValue svg {
+    flex: 0 0 auto;
+    width: 13px;
+    height: 13px;
+}
+
+.redeemTime {
+    color: var(--muted-foreground);
+    font-size: 13px;
+}
+
+@media (max-width: 600px) {
+    .userResult {
+        flex-wrap: wrap;
+    }
+
+    .queryMetadata {
+        grid-template-columns: 1fr;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .queryMetadata > div {
+        border-left: 0;
+        padding-left: 0;
+    }
+
+    .searchInput {
+        width: 100%;
+    }
+
+    .sponsorsTable :global(table) {
+        min-width: 810px;
+    }
+}

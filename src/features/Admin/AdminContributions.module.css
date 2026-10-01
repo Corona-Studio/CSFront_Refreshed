@@ -1,0 +1,214 @@
+.page {
+    width: 100%;
+}
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.toolbar h3,
+.sectionTitle h3 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 26px;
+}
+
+.toolbar p,
+.sectionTitle p,
+.muted {
+    margin: 4px 0 0;
+    color: var(--muted-foreground);
+}
+
+.searchInput {
+    width: min(360px, 100%);
+}
+
+.resourceCell {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.resourceCell strong,
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.statCard {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid var(--border);
+    border-radius: 0;
+    background: var(--card);
+    padding: 14px 16px;
+}
+
+.statCard svg {
+    width: 20px;
+    height: 20px;
+    color: var(--primary);
+}
+
+.statCard strong,
+.statCard span {
+    display: block;
+}
+
+.statCard strong {
+    color: var(--foreground);
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 30px;
+}
+
+.statCard span {
+    color: var(--muted-foreground);
+    font-size: 13px;
+    line-height: 20px;
+}
+
+.detailHeader {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.detailTitle {
+    margin: 0;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 28px;
+}
+
+.loadingPanel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: 0;
+    background: var(--card);
+    min-height: 180px;
+}
+
+.resourceCell code {
+    box-shadow: none;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    width: fit-content;
+    max-width: 100%;
+    color: var(--muted-foreground);
+    font-size: 11px;
+}
+
+.metadata {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.metadataItem {
+    border-radius: 0;
+    background: var(--muted);
+    padding: 14px;
+    min-width: 0;
+}
+
+.metadataItem span,
+.metadataItem strong {
+    display: block;
+}
+
+.metadataItem span {
+    margin-bottom: 6px;
+    color: var(--muted-foreground);
+}
+
+.sectionTitle {
+    margin-bottom: 14px;
+}
+
+.actionGroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.acceptForm {
+    display: grid;
+    gap: 22px;
+}
+
+.acceptGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.fieldFull {
+    grid-column: 1 / -1;
+}
+
+.fieldLabel {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.fieldError {
+    margin-top: 6px;
+    color: var(--destructive);
+    font-size: 12px;
+}
+
+.submitRow {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 14px;
+    border-top: 1px solid var(--border);
+    padding-top: 18px;
+}
+
+@media (max-width: 768px) {
+    .page :global(table) {
+        min-width: 720px;
+    }
+
+    .page :global([data-slot="table-container"]) {
+        overflow-x: auto;
+    }
+
+    .statsGrid,
+    .metadata,
+    .acceptGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .fieldFull {
+        grid-column: auto;
+    }
+
+    .searchInput {
+        width: 100%;
+    }
+}

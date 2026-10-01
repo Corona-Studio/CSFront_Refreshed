@@ -1,0 +1,61 @@
+.background {
+    position: absolute;
+    inset: 0;
+    background: #020303;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.canvas {
+    position: absolute;
+    inset: 0;
+}
+.canvas canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.shade {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, #020303ec 0%, #020303e0 20%, #020303b0 38%, #02030315 56%, transparent 68%),
+        linear-gradient(0deg, #020303, transparent 12%, transparent 90%, #020303);
+    pointer-events: none;
+}
+.caption {
+    display: flex;
+    position: absolute;
+    right: 7%;
+    bottom: 6%;
+    left: 7%;
+    justify-content: space-between;
+    gap: 24px;
+    pointer-events: none;
+    font:
+        9px ui-monospace,
+        monospace;
+    letter-spacing: 0.15em;
+}
+.caption span {
+    color: #798387;
+}
+@media (max-width: 767px) {
+    .canvas {
+        left: -35%;
+        opacity: 0.7;
+        width: 135%;
+    }
+    .shade {
+        background:
+            linear-gradient(90deg, #020303e8, #020303b0 55%, #02030350),
+            linear-gradient(0deg, #020303, transparent 30%, transparent 75%, #020303);
+    }
+    .caption {
+        font-size: 8px;
+        letter-spacing: 0.08em;
+    }
+    .caption span:last-child {
+        display: none;
+    }
+}

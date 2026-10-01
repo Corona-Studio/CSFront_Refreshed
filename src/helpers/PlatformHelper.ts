@@ -9,6 +9,7 @@ const DETECTED_OS_KEY = "detectedOS";
 const DETECTED_ARCH_KEY = "detectedArch";
 
 export function detectPlatform(): PlatformInfo {
+    if (typeof navigator === "undefined") return { os: "Unknown", arch: "Unknown" };
     const userAgent = navigator.userAgent.toLowerCase();
     let os: PlatformInfo["os"] = "Unknown";
     let arch: PlatformInfo["arch"] = "Unknown";
@@ -29,10 +30,12 @@ export function detectPlatform(): PlatformInfo {
 }
 
 export function saveDetectedPlatform(platform: PlatformInfo): void {
+    if (typeof sessionStorage === "undefined") return;
     sessionStorage.setItem(DETECTED_OS_KEY, platform.os);
     sessionStorage.setItem(DETECTED_ARCH_KEY, platform.arch);
 }
 
 export function getSavedOperatingSystem(): string | null {
+    if (typeof sessionStorage === "undefined") return null;
     return sessionStorage.getItem(DETECTED_OS_KEY);
 }

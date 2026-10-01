@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse, Method } from "axios";
 
 import IResponse from "../interfaces/IResponse.ts";
 
-export const lxBackendUrl = import.meta.env.VITE_LX_BACKEND ?? "https://api.corona.studio";
+export const lxBackendUrl = process.env.NEXT_PUBLIC_LX_BACKEND ?? "https://api.corona.studio";
 
 export const csBackend = axios.create({
     baseURL: lxBackendUrl,

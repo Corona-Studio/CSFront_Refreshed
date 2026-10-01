@@ -1,8 +1,6 @@
-import { useMemo } from "react";
-import { useLocation } from "react-router";
+"use client";
+import { useSearchParams } from "next/navigation";
 
 export function useUrlQuery() {
-    const { search } = useLocation();
-
-    return useMemo(() => new URLSearchParams(search), [search]);
+    return useSearchParams();
 }

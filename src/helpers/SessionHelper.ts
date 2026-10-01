@@ -1,5 +1,5 @@
 import { JwtPayload, jwtDecode } from "jwt-decode";
-import localForage from "localforage";
+import localForage from "@/lib/storage";
 
 import {
     RawLoginResponse,

@@ -1,0 +1,35 @@
+.table :global(th) {
+    border-bottom: 1px solid var(--border);
+    background: var(--muted);
+    height: 40px;
+    color: var(--muted-foreground);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0;
+}
+
+.table :global(td) {
+    border-bottom: 1px solid var(--border);
+    background: var(--card);
+    height: 58px;
+}
+
+.table :global(tr:hover td) {
+    background: var(--muted);
+}
+
+.table :global(.m-pagination) {
+    margin: 0;
+    padding: 12px 20px;
+}
+
+.table :global([data-slot="badge"]) {
+    border-radius: 0;
+}
+
+@media (max-width: 768px) {
+    .table :global([data-slot="table-container"]),
+    .table :global(.m-pagination) {
+        overflow-x: auto;
+    }
+}

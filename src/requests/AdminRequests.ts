@@ -1,5 +1,3 @@
-import type { TableRowData } from "tdesign-react";
-
 import IResponse from "../interfaces/IResponse.ts";
 import { buildHeader, deleteAsync, getAsync, patchAsync, postAsync, putAsync } from "./ApiConstants.ts";
 
@@ -36,7 +34,7 @@ export async function getDashboardOverviewAsync(token: string, days: number) {
     return getAsync<AdminDashboardOverview>("/Admin/dashboard/overview", buildHeader(token, undefined, { days }));
 }
 
-export interface UserSponsorInfo extends TableRowData {
+export interface UserSponsorInfo {
     userName: string;
     email: string | null;
     id: string;
@@ -45,7 +43,7 @@ export interface UserSponsorInfo extends TableRowData {
     redeemTime?: string | null;
 }
 
-export interface AdminBuildInfo extends TableRowData {
+export interface AdminBuildInfo {
     id: string;
     branch: string;
     channel: number;
@@ -69,7 +67,7 @@ export enum AdminUserType {
     Admin
 }
 
-export interface AdminUserInfo extends TableRowData {
+export interface AdminUserInfo {
     id: string;
     userName: string;
     email: string | null;
@@ -88,7 +86,7 @@ export interface PagedResult<T> {
     totalPages: number;
 }
 
-export interface AdminNotificationInfo extends TableRowData {
+export interface AdminNotificationInfo {
     id: string;
     title: string;
     content: string;
@@ -102,7 +100,7 @@ export interface NotificationWriteRequest {
     author: string;
 }
 
-export interface PendingContributionSummary extends TableRowData {
+export interface PendingContributionSummary {
     id: string;
     originalName: string;
     translatedName?: string;
@@ -110,7 +108,7 @@ export interface PendingContributionSummary extends TableRowData {
     rating: number;
 }
 
-export interface UserContributionBase extends TableRowData {
+export interface UserContributionBase {
     id: string;
     userId: string;
     userName: string;
@@ -129,7 +127,7 @@ export interface UserContributedTag extends UserContributionBase {
     value?: string;
 }
 
-export interface ThirdPartyInfoRatingRecord extends TableRowData {
+export interface ThirdPartyInfoRatingRecord {
     id: string;
     userId: string;
     userName: string;

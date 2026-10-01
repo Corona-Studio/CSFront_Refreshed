@@ -1,3 +1,4 @@
+"use client";
 // @ts-nocheck
 import {
     AnimatePresence,

@@ -1,0 +1,177 @@
+.page {
+    padding-bottom: 24px;
+    width: 100%;
+}
+.listCard {
+    border-radius: 0;
+    overflow: hidden;
+}
+.listCard :global([data-slot="card-content"]) {
+    padding: 0;
+}
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid var(--border);
+    padding: 18px 20px;
+}
+.toolbar h3 {
+    margin: 0;
+    color: var(--foreground);
+    font-weight: 600;
+    font-size: 17px;
+}
+.toolbar p {
+    margin: 4px 0 0;
+    color: var(--muted-foreground);
+    font-size: 12px;
+}
+.toolbarActions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.searchInput {
+    width: min(300px, 30vw);
+}
+.refreshButton {
+    box-shadow: none;
+}
+.buildTable :global(th) {
+    background: var(--muted);
+    height: 40px;
+    color: var(--muted-foreground);
+    font-weight: 600;
+    font-size: 12px;
+}
+.buildTable :global(td) {
+    border-bottom: 1px solid var(--border);
+    background: var(--card);
+    height: 62px;
+}
+.buildTable :global(tr:hover td) {
+    background: var(--muted);
+}
+.buildTable :global(.m-pagination) {
+    margin: 0;
+    padding: 12px 20px;
+}
+.buildInfo {
+    display: grid;
+    gap: 4px;
+    min-width: 0;
+}
+.buildTitle {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--foreground);
+    font-weight: 600;
+    font-size: 14px;
+}
+.channel {
+    color: var(--muted-foreground);
+    font-weight: 400;
+    font-size: 12px;
+}
+.secondaryText {
+    color: var(--muted-foreground);
+    font-size: 12px;
+}
+.targetInfo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+.targetInfo code {
+    box-shadow: none;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    color: var(--muted-foreground);
+    font-size: 12px;
+}
+.targetSeparator {
+    color: var(--muted-foreground);
+}
+.pushControl {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.pushControl span {
+    min-width: 28px;
+    font-size: 12px;
+}
+.deliverySwitch {
+    position: relative;
+    flex: 0 0 34px;
+    transition: background-color 160ms ease;
+    cursor: pointer;
+    margin: 0;
+    box-shadow: none;
+    border: 0;
+    border-radius: 0;
+    background: var(--secondary);
+    padding: 0;
+    width: 34px;
+    height: 18px;
+}
+.deliverySwitch:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+}
+.deliverySwitch:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+.deliverySwitchEnabled {
+    box-shadow: none;
+    background: var(--success);
+}
+.deliverySwitchThumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    transition: transform 160ms ease;
+    box-shadow: none;
+    border-radius: 0;
+    background: #fff;
+    width: 12px;
+    min-width: 0 !important;
+    height: 12px;
+}
+.deliverySwitchEnabled .deliverySwitchThumb {
+    transform: translateX(16px);
+}
+.deliverySwitchLoading .deliverySwitchThumb {
+    opacity: 0.55;
+}
+.enabledText {
+    color: var(--foreground);
+}
+.disabledText {
+    color: var(--muted-foreground);
+}
+@media (max-width: 768px) {
+    .toolbar {
+        align-items: stretch;
+    }
+    .toolbarActions {
+        width: 100%;
+    }
+    .searchInput {
+        flex: 1;
+        width: auto;
+    }
+    .buildTable :global(table) {
+        min-width: 780px;
+    }
+    .buildTable :global(.m-pagination) {
+        overflow-x: auto;
+    }
+}

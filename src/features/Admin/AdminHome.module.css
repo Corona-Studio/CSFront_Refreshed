@@ -1,0 +1,158 @@
+.iconWrap {
+    display: inline-flex;
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0;
+    background: var(--muted-foreground);
+    width: 40px;
+    height: 40px;
+}
+
+.svgIcon {
+    color: var(--primary);
+    font-size: 20px;
+}
+
+.page {
+    display: grid;
+    gap: 24px;
+    min-width: 0;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+    gap: 12px;
+    min-width: 0;
+}
+
+.statsGrid > div {
+    min-width: 0;
+}
+
+.statsGrid :global([data-slot="card"]) {
+    height: 100%;
+}
+
+.header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+.header h1 {
+    margin: 0;
+    color: var(--foreground);
+    font-size: 24px;
+}
+.header p,
+.updated {
+    margin: 6px 0 0;
+    color: var(--muted-foreground);
+    font-size: 13px;
+}
+.toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.toolbar :global(select) {
+    width: 140px;
+}
+.chartsGrid {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: 16px;
+}
+.chartsGrid > * {
+    min-width: 0;
+}
+.chartsGrid :global([data-slot="card-description"]) {
+    white-space: normal;
+}
+.trendCanvas {
+    height: 280px;
+}
+.rate {
+    color: var(--muted-foreground);
+    font-size: 13px;
+}
+.rate strong {
+    color: var(--success);
+}
+.chartReadout {
+    min-height: 20px;
+    color: var(--muted-foreground);
+    font-size: 12px;
+    text-align: center;
+}
+.legend {
+    display: grid;
+    gap: 12px;
+    font-size: 12px;
+}
+.legend span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.legend strong {
+    margin-left: auto;
+    font-weight: 500;
+}
+.legend i,
+.chartReadout i {
+    display: inline-block;
+    border-radius: 0;
+    width: 8px;
+    height: 8px;
+}
+.donutWrap {
+    margin: 0 auto 16px;
+    max-width: 220px;
+}
+.donutWrap svg {
+    display: block;
+    width: 100%;
+}
+.emptyChart {
+    display: grid;
+    place-items: center;
+    min-height: 150px;
+    color: var(--muted-foreground);
+}
+.chartDetails {
+    margin-top: 12px;
+    color: var(--muted-foreground);
+    font-size: 12px;
+}
+.chartDetails summary {
+    cursor: pointer;
+}
+.tableScroll {
+    margin-top: 12px;
+    max-height: 240px;
+    overflow: auto;
+}
+.tableScroll table {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: left;
+}
+.tableScroll th,
+.tableScroll td {
+    border-bottom: 1px solid var(--border);
+    padding: 8px;
+}
+.chartsGrid circle:focus-visible {
+    outline: 2px solid var(--foreground);
+}
+@media (max-width: 900px) {
+    .chartsGrid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

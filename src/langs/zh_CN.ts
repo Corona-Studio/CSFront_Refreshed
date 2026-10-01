@@ -1,5 +1,54 @@
 export const zhCN = {
     translation: {
+        home: {
+            featureTitle: "下一次冒险，从这里开始。",
+            featureDescription:
+                "从管理游戏版本、安装整合包，到与朋友一起探索新世界。LauncherX 将常用工具汇聚在一个简洁的界面里，让准备工作更轻松，让游戏回归乐趣。",
+            download: "下载 LauncherX",
+            explore: "探索全部功能",
+            previewAlt: "LauncherX 启动器界面预览",
+            previewCaption: "为每一次启动，认真打磨",
+            ecosystemTitle: "从玩家到开发者，找到你的入口。",
+            ecosystemDescription:
+                "一个好的体验，离不开背后每一块积木。我们的项目从启动器延伸至启动核心、网络连接与知识分享，服务不同的探索方式。",
+            playTitle: "开始游戏",
+            playDescription: "用 LauncherX 管理版本和资源，把下一次探索的准备工作交给启动器。",
+            buildTitle: "构建工具",
+            buildDescription: "从开源启动核心 ProjBobcat 出发，为自己的 Minecraft 工具寻找基础。",
+            connectTitle: "连接彼此",
+            connectDescription: "了解 ConnectX 的网络连接能力，探索多人游戏背后的技术。",
+            learnTitle: "分享知识",
+            learnDescription: "在 CSKB 查阅使用指南与常见问题，让经验成为下一位玩家的捷径。",
+            valuesTitle: "热爱是起点，认真是日常。",
+            experienceTitle: "从体验出发",
+            experienceDescription:
+                "我们关心的不只是功能是否可用，也关心每一次点击、每一个界面和每一步操作是否自然。让复杂留在背后，让使用变得简单。",
+            openTitle: "让知识流动",
+            openDescription:
+                "通过开源项目与知识库分享积累，让代码可以被阅读，让经验可以被复用，也让新的想法有机会继续生长。",
+            curiosityTitle: "保持好奇",
+            curiosityDescription:
+                "从 Minecraft 出发，继续探索界面、网络与开发工具。我们相信，值得尝试的想法，往往来自一个简单的「如果可以」。",
+            faqTitle: "你可能还想知道",
+            faqDescription: "第一次来到这里？从这些问题开始，了解我们的产品与项目。",
+            startQuestion: "我想使用 LauncherX，该从哪里开始？",
+            startAnswer:
+                "点击上方「下载 LauncherX」，选择适合设备的版本。安装与使用过程中遇到问题，可以在 CSKB 知识库查阅相关指南。",
+            sourceQuestion: "在哪里查看开源项目？",
+            sourceAnswer:
+                "项目卡片会带你前往对应的仓库。你也可以访问 Corona Studio 的 GitHub 组织，阅读代码、文档以及各个项目的许可说明。",
+            helpQuestion: "遇到问题，怎样寻找帮助？",
+            helpAnswer:
+                "先在知识库中查找相关指南与常见问题。如果需要反馈开源项目的问题，请到对应仓库查看反馈要求，并提供复现步骤和相关环境信息。",
+            contributeQuestion: "除了写代码，还能怎样参与？",
+            contributeAnswer:
+                "你可以反馈使用体验、帮助复现问题、改进文档，或提出清晰的功能建议。参与前请查看对应项目的贡献说明，从你熟悉的一件小事开始。",
+            joinTitle: "下一份灵感，也许来自你。",
+            joinDescription:
+                "来看看我们正在构建什么。无论是体验产品、阅读源码，还是分享一个新想法，都可以成为探索的一部分。",
+            github: "探索 GitHub",
+            knowledge: "打开知识库"
+        },
         themeSettings: "主题设置",
         themeLight: "浅色",
         themeDark: "深色",
@@ -134,7 +183,7 @@ export const zhCN = {
         register: "注册",
         onlyAllowedChars: "提示: 密码中只允许下列半角特殊符号: ",
 
-        rememberPassword: "记住密码",
+        rememberPassword: "保持登录",
         forgetPassword: "忘记密码",
         resetPassword: "重置密码",
         sendQqResetCode: "通过 QQ 获取邀请码",
@@ -441,6 +490,14 @@ export const zhCN = {
         resourceLinkRequired: "请填写最终资源链接。",
         resourceLinkInvalid: "请输入有效的 HTTP 或 HTTPS 链接。",
         resourceTagsRequired: "请至少填写一个标签。",
+        select: "选择",
+        noData: "暂无数据",
+        loading: "加载中",
+        close: "关闭",
+        confirm: "确认",
+        cancel: "取消",
+        otherBuilds: "其他平台构建",
+        learnMore: "了解更多",
         clear: "清除",
         acceptAsOfficialResource: "转为正式资源",
         confirmAcceptContribution: "确认转为正式资源？",
