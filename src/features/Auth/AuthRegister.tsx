@@ -204,7 +204,7 @@ function AuthRegister() {
                     <div className={layout.turnstile}>
                         <div ref={turnstileContainer} className="w-full min-w-0" />
                         {(!siteKey || turnstileLoadFailed) && (
-                            <p className="mt-2 text-sm text-red-500">{t("turnstileUnavailable")}</p>
+                            <p className="mt-2 text-sm text-destructive">{t("turnstileUnavailable")}</p>
                         )}
                     </div>
                     <div className={layout.actions}>

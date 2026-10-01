@@ -10,7 +10,8 @@ import { Card } from "../../components/marathon/index.tsx";
 import type { AdminDashboardOverview, DashboardDistribution, DashboardLoginDay } from "../../requests/AdminRequests.ts";
 import styles from "./AdminHome.module.css";
 
-const colors = ["var(--primary)", "var(--warning)", "var(--success)"];
+const colors = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)", "var(--chart-4)", "var(--chart-5)"];
+const accountColors = [colors[0], colors[2]];
 const labelColor = "var(--muted-foreground)";
 
 function LoginTrend({ data, width }: { data: DashboardLoginDay[]; width: number }) {
@@ -38,7 +39,7 @@ function LoginTrend({ data, width }: { data: DashboardLoginDay[]; width: number 
                         x2={right}
                         y1={y(value)}
                         y2={y(value)}
-                        stroke="var(--border)"
+                        stroke="var(--chart-grid)"
                         strokeDasharray="3 4"
                     />
                 ))}
@@ -68,6 +69,7 @@ function LoginTrend({ data, width }: { data: DashboardLoginDay[]; width: number 
                             y={(d) => y(d[key])}
                             stroke={colors[i]}
                             strokeWidth={2.5}
+                            strokeDasharray={key === "failed" ? "6 4" : undefined}
                         />
                         {data.map((d) => (
                             <circle
@@ -76,15 +78,15 @@ function LoginTrend({ data, width }: { data: DashboardLoginDay[]; width: number 
                                 cy={y(d[key])}
                                 r={data.length > 30 ? 3 : 4}
                                 fill={colors[i]}
+                                stroke="var(--card)"
+                                strokeWidth={1.5}
                                 tabIndex={0}
                                 aria-label={`${d.date} ${t(i === 0 ? "dashboardSucceeded" : "dashboardFailed")}: ${d[key]}`}
                                 onMouseEnter={() => setSelected(d)}
                                 onFocus={() => setSelected(d)}
                                 onMouseLeave={() => setSelected(undefined)}
                                 onBlur={() => setSelected(undefined)}>
-                                <title>
-                                    {d.date}: {d[key]}
-                                </title>
+                                <title>{`${d.date}: ${d[key]}`}</title>
                             </circle>
                         ))}
                     </g>
@@ -133,11 +135,9 @@ function DistributionBars({ data, width, title }: { data: DashboardDistribution[
                         y={y(d.key)}
                         width={x(d.count)}
                         height={y.bandwidth()}
-                        rx={4}
+                        rx={0}
                         fill={colors[i % colors.length]}>
-                        <title>
-                            {d.key}: {d.count}
-                        </title>
+                        <title>{`${d.key}: ${d.count}`}</title>
                     </Bar>
                     <text
                         x={labelWidth + x(d.count) + 8}
@@ -227,11 +227,8 @@ export default function AdminDashboardCharts({ data }: { data: AdminDashboardOve
                                     padAngle={0.025}>
                                     {(pie) =>
                                         pie.arcs.map((arc, i) => (
-                                            <path key={arc.data.key} d={pie.path(arc) ?? ""} fill={colors[i]}>
-                                                <title>
-                                                    {arc.data.key}: {arc.data.count} (
-                                                    {((arc.data.count / total) * 100).toFixed(1)}%)
-                                                </title>
+                                            <path key={arc.data.key} d={pie.path(arc) ?? ""} fill={accountColors[i % accountColors.length]}>
+                                                <title>{`${arc.data.key}: ${arc.data.count} (${((arc.data.count / total) * 100).toFixed(1)}%)`}</title>
                                             </path>
                                         ))
                                     }
@@ -251,7 +248,7 @@ export default function AdminDashboardCharts({ data }: { data: AdminDashboardOve
                 <div className={styles.legend}>
                     {accounts.map((d, i) => (
                         <span key={d.key}>
-                            <i style={{ background: colors[i] }} />
+                            <i style={{ background: accountColors[i % accountColors.length] }} />
                             {d.key}
                             <strong>
                                 {d.count.toLocaleString()} · {total ? ((d.count / total) * 100).toFixed(1) : "0.0"}%

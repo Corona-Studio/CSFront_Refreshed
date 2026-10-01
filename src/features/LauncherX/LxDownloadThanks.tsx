@@ -19,7 +19,7 @@ function LxDownloadThanks() {
     return (
         <section className="m-section">
             <div className="m-container">
-                <CircleCheck className="size-12 mb-8 text-green-600" />
+                <CircleCheck className="size-12 mb-8 text-success" />
                 <SectionHeading
                     code="LX—003 / INSTALLATION"
                     title={t("downloadThanks")}

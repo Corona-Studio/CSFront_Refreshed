@@ -6,13 +6,13 @@
     justify-content: center;
     align-items: center;
     border-radius: 0;
-    background: var(--muted-foreground);
+    background: var(--accent);
     width: 40px;
     height: 40px;
 }
 
 .svgIcon {
-    color: var(--primary);
+    color: var(--primary-ink);
     font-size: 20px;
 }
 
@@ -82,7 +82,7 @@
     font-size: 13px;
 }
 .rate strong {
-    color: var(--success);
+    color: var(--chart-1);
 }
 .chartReadout {
     min-height: 20px;

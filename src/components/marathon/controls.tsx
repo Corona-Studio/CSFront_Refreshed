@@ -400,7 +400,7 @@ export function Tag({
                 theme === "danger" || theme === "error"
                     ? "text-destructive"
                     : theme === "success"
-                      ? "text-green-700 dark:text-green-400"
+                      ? "text-success"
                       : "",
                 className
             )}>

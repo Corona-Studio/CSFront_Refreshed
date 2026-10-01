@@ -12,9 +12,11 @@ CSFront uses Next.js App Router, React 19, Tailwind CSS 4 and source-owned shadc
 
 ## Visual rules
 
-Use `globals.css` semantic tokens (`background`, `card`, `foreground`, `muted`, `primary`, `border`) rather than vendor tokens or page-specific palettes. The light surface is warm off-white; the dark surface is charcoal. Acid yellow marks the primary action and selected navigation. Danger, warning and success retain semantic colors.
+Use `globals.css` semantic tokens (`background`, `card`, `foreground`, `muted`, `primary`, `border`) rather than vendor tokens or page-specific palettes. The light surface is ivory; the dark surface is warm charcoal. Bright amber orange marks the primary action and selected navigation. Danger, warning and success retain semantic colors.
 
 Use square corners, thin rules, large tightly tracked headings, monospace identifiers and generous section spacing. Use `SectionHeading` to introduce marketing sections; use `Card` and `DataTable` for operations. Data tables scroll horizontally on small screens, while the console navigation becomes horizontal.
+
+Bright amber orange `primary` is a fill, paired with `primary-foreground`. Use `primary-ink` for links and icons on ordinary surfaces; it is deep ochre in light mode and bright amber orange in dark mode. Hover surfaces use the quieter `accent` pair. Charts use independent `chart-1` through `chart-5` tokens (teal, copper, slate, violet, ochre), with lighter variants in dark mode and `chart-grid` for guides. Failed login trends use a dashed line as well as color. Do not use brand yellow for chart series on white cards. `/design-system` includes clearly labelled simulated chart data for visual review without authentication.
 
 `Button` provides disabled/loading states. `Dialog` uses Radix focus trapping and focus restoration, prevents dismissal while confirming, and includes a labelled heading. `Form` uses React Hook Form; fields have associated labels and errors. `DataTable` distinguishes local lists from API pages, exposes sorting and respects loading/empty states. Keep API mutations in feature components.
 

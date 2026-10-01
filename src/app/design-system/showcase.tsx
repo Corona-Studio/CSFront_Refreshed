@@ -16,6 +16,7 @@ import {
 } from "@/components/marathon";
 import { ArrowUpRight, Rocket } from "lucide-react";
 import { useState } from "react";
+import ChartPreview from "./charts";
 
 const rows = [
     { id: "LX—001", name: "LauncherX", state: "Stable" },
@@ -99,12 +100,16 @@ export default function Showcase() {
                         <Alert theme="error" title="操作失败" message="保留输入后重试。" />
                         <div className="m-rule m-kicker">
                             <span>TYPOGRAPHY / DISPLAY</span>
-                            <span>CS®</span>
+                            <span>CS</span>
                         </div>
                         <h3 className="text-4xl font-black tracking-tighter">BUILD WHAT’S NEXT.</h3>
                     </div>
                 </Card>
             </div>
+            <section className="mt-16">
+                <SectionHeading code="05 / DATA VISUALIZATION" title="CHARTS/" description="主题自适应图表：青绿、暖铜、灰蓝。以下使用模拟数据展示，与生产统计无关。" />
+                <ChartPreview />
+            </section>
             <Dialog
                 visible={dialog}
                 header="确认演示操作"

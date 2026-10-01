@@ -6,7 +6,7 @@ export default function Footer() {
             <div className="m-container py-10">
                 <div className="flex flex-wrap justify-between gap-8">
                     <Link href="/" className="font-black text-3xl tracking-tighter">
-                        CORONA STUDIO®
+                        CORONA STUDIO
                     </Link>
                     <div className="flex flex-wrap gap-6 text-xs font-mono">
                         <a href="https://github.com/Corona-Studio" target="_blank" rel="noopener noreferrer">

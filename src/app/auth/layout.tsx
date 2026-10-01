@@ -12,7 +12,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                     <br />
                     STARTS HERE.
                 </div>
-                <p className="font-mono text-xs">CORONA STUDIO® · PLAY / BUILD / CONNECT</p>
+                <p className="font-mono text-xs">CORONA STUDIO · PLAY / BUILD / CONNECT</p>
             </aside>
             <div className="m-auth-main">{children}</div>
         </div>

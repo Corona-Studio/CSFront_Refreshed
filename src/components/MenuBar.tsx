@@ -26,7 +26,7 @@ export default function MenuBar() {
                     <span className="font-black text-sm tracking-tight">
                         CORONA
                         <br />
-                        STUDIO®
+                        STUDIO
                     </span>
                 </Link>
                 <nav aria-label="主导航" className="hidden lg:flex h-full">

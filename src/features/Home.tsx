@@ -75,7 +75,7 @@ export default function Home() {
             <div className="m-ticker">
                 <span>PLAY / BUILD / CONNECT</span>
                 <span>INDEPENDENT SINCE 2016</span>
-                <span>CS® — CREATIVE SYSTEMS</span>
+                <span>CS — CREATIVE SYSTEMS</span>
             </div>
             <section className="m-section">
                 <div className="m-container">

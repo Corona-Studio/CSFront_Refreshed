@@ -93,7 +93,7 @@ export default function ConsoleShell({ children, admin = false }: { children: Re
                         <p className="m-kicker mb-3">{admin ? "CONTROL / OPERATIONS" : "ACCOUNT / OPERATIONS"}</p>
                         <h1>{path.startsWith("/admin/contributions/") ? t("contributionReview") : active?.[1]}</h1>
                     </div>
-                    <span className="m-kicker hidden sm:block">CORONA STUDIO®</span>
+                    <span className="m-kicker hidden sm:block">CORONA STUDIO</span>
                 </div>
                 {children}
             </div>
