@@ -42,13 +42,11 @@ createRoot(rootElement).render(
             <Analytics />
             <SpeedInsights />
 
-            <div className="shadow-lg">
-                <div className="shadow-md overflow-x-clip bg-zinc-100 dark:bg-zinc-900" id="wrapper">
-                    <RouterProvider router={router} />
-                </div>
-
-                <BackTop container={() => document} visibleHeight={100} style={style} />
+            <div className="flex min-h-dvh flex-col overflow-x-clip bg-zinc-100 dark:bg-zinc-900" id="wrapper">
+                <RouterProvider router={router} />
             </div>
+
+            <BackTop container={() => document} visibleHeight={100} style={style} />
         </HelmetProvider>
     </StrictMode>
 );
