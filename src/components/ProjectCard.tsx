@@ -18,7 +18,7 @@ const ProjectCard: FC<ProjectCardProps> = ({
 }) => {
     return (
         <>
-            <SpotlightCard spotlightColor={spotlightColor}>
+            <SpotlightCard className="h-full" spotlightColor={spotlightColor}>
                 <div className={styles.projIcon}>{icon}</div>
                 <article className="text-pretty pt-4">
                     <h4 className="font-bold">{title}</h4>

@@ -1,7 +1,6 @@
 import { lazy } from "react";
 import { Helmet } from "react-helmet-async";
 import { BookOpenIcon, CatIcon, CoordinateSystemIcon, RocketIcon, TreeSquareDotIcon } from "tdesign-icons-react";
-import { Col, Row } from "tdesign-react";
 
 import { useTheme } from "../helpers/ThemeDetector.ts";
 import i18next from "../i18n";
@@ -133,19 +132,22 @@ function Home() {
                 <div className="p-[12.5%] w-full">
                     <div className="m-auto">
                         <h2 className="font-bold pb-8 float-end?">{t("ourProjects")}</h2>
-                        <Row gutter={[16, 16]} className="w-full">
-                            {projectsArray.map((project, i) => (
-                                <Col sm={12} md={6} lg={4} xl={4} key={i}>
-                                    <a href={project.link} target="_blank">
-                                        <ProjectCard
-                                            icon={project.icon}
-                                            title={project.title}
-                                            description={project.description}
-                                        />
-                                    </a>
-                                </Col>
+                        <div className="grid auto-rows-fr grid-cols-1 gap-4 min-[992px]:grid-cols-2 min-[1200px]:grid-cols-3">
+                            {projectsArray.map((project) => (
+                                <a
+                                    className="block h-full min-w-0"
+                                    href={project.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    key={project.title}>
+                                    <ProjectCard
+                                        icon={project.icon}
+                                        title={project.title}
+                                        description={project.description}
+                                    />
+                                </a>
                             ))}
-                        </Row>
+                        </div>
                     </div>
                 </div>
             </div>
