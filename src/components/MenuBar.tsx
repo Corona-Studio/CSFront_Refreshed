@@ -3,6 +3,7 @@ import { Button, Dropdown } from "@/components/marathon";
 import { I18NLangKey } from "@/helpers/StorageHelper";
 import { setTheme, useThemePreference } from "@/helpers/ThemeDetector";
 import { ArrowUpRight, Globe, Menu, Monitor, Moon, Sun, User } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
@@ -20,14 +21,20 @@ export default function MenuBar() {
     ];
     return (
         <header className="sticky top-0 z-50 h-[72px] border-b border-border bg-background/95 backdrop-blur-md">
-            <div className="flex items-center justify-between h-full px-4 md:px-8 gap-4">
-                <Link href="/" aria-label="Corona Studio 首页" className="flex items-center gap-3 shrink-0">
-                    <span className="bg-primary text-primary-foreground font-black text-2xl px-2 py-1">C/</span>
-                    <span className="font-black text-sm tracking-tight">
-                        CORONA
-                        <br />
-                        STUDIO
-                    </span>
+            <div className="flex items-center justify-between h-full px-4 md:px-8 gap-3 md:gap-4">
+                <Link
+                    href="/"
+                    aria-label="Corona Studio 首页"
+                    className="group relative shrink-0 py-2 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-8 after:origin-left after:scale-x-0 after:bg-primary after:transition-transform hover:after:scale-x-100 focus-visible:after:scale-x-100 motion-reduce:after:transition-none">
+                    <Image
+                        src="/assets/logo.png"
+                        alt="Corona Studio"
+                        width={1235}
+                        height={345}
+                        sizes="(max-width: 360px) 100px, (max-width: 640px) 136px, 180px"
+                        preload
+                        className="h-auto w-[136px] max-[360px]:w-[100px] sm:w-[180px] object-contain invert dark:invert-0 transition-opacity group-hover:opacity-80 motion-reduce:transition-none"
+                    />
                 </Link>
                 <nav aria-label="主导航" className="hidden lg:flex h-full">
                     {links.map((link) => (
