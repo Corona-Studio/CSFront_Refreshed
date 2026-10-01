@@ -1,5 +1,9 @@
 export const zhCN = {
     translation: {
+        themeSettings: "主题设置",
+        themeLight: "浅色",
+        themeDark: "深色",
+        themeSystem: "跟随系统",
         dashboardTitle: "管理概览",
         dashboardSubtitle: "查看账户、登录安全与内容运营数据",
         dashboardDays: "近 {{count}} 天",

@@ -1,13 +1,13 @@
 import { memo, useEffect } from "react";
 import { useLocation, useNavigate, useNavigation } from "react-router";
-import { EarthIcon, LinkIcon, MoonIcon, SunnyIcon, User1Icon, ViewListIcon } from "tdesign-icons-react";
+import { DesktopIcon, EarthIcon, LinkIcon, MoonIcon, SunnyIcon, User1Icon, ViewListIcon } from "tdesign-icons-react";
 import { Button, Dropdown, DropdownOption, MenuValue } from "tdesign-react";
 import HeadMenu from "tdesign-react/es/menu/HeadMenu";
 import MenuItem from "tdesign-react/es/menu/MenuItem";
 
 import logo from "../assets/logo.png";
 import { I18NLangKey } from "../helpers/StorageHelper.ts";
-import { setTheme, useTheme } from "../helpers/ThemeDetector.ts";
+import { setTheme, useThemePreference } from "../helpers/ThemeDetector.ts";
 import i18next from "../i18n";
 import { MenuItemValue } from "../interfaces/MenuItemValue.ts";
 import "./MenuBar.css";
@@ -32,8 +32,13 @@ interface MenuBarProps {
 }
 
 function MenuBar({ requestedPath, onNavigationStart }: MenuBarProps) {
-    const theme = useTheme();
-    const isDarkMode = theme === "dark";
+    const themePreference = useThemePreference();
+    const themeOptions = [
+        { content: t("themeLight"), value: "light", prefixIcon: <SunnyIcon /> },
+        { content: t("themeDark"), value: "dark", prefixIcon: <MoonIcon /> },
+        { content: t("themeSystem"), value: "system", prefixIcon: <DesktopIcon /> }
+    ].map((option) => ({ ...option, active: option.value === themePreference }));
+    const selectedThemeLabel = themeOptions.find((option) => option.active)?.content;
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -124,12 +129,28 @@ function MenuBar({ requestedPath, onNavigationStart }: MenuBarProps) {
 
     const operations = () => (
         <div className="flex-center ">
-            <Button
-                variant="text"
-                shape="square"
-                icon={isDarkMode ? <MoonIcon /> : <SunnyIcon />}
-                onClick={switchTheme}
-            />
+            <Dropdown
+                hideAfterItemClick={true}
+                placement="bottom-right"
+                trigger="click"
+                options={themeOptions}
+                onClick={onThemeMenuItemClicked}>
+                <Button
+                    variant="text"
+                    shape="square"
+                    aria-label={`${t("themeSettings")}: ${selectedThemeLabel}`}
+                    title={`${t("themeSettings")}: ${selectedThemeLabel}`}
+                    icon={
+                        themePreference === "system" ? (
+                            <DesktopIcon />
+                        ) : themePreference === "dark" ? (
+                            <MoonIcon />
+                        ) : (
+                            <SunnyIcon />
+                        )
+                    }
+                />
+            </Dropdown>
             <Button
                 variant="text"
                 shape="square"
@@ -174,8 +195,9 @@ function MenuBar({ requestedPath, onNavigationStart }: MenuBarProps) {
         </div>
     );
 
-    function switchTheme() {
-        setTheme(isDarkMode ? "light" : "dark");
+    function onThemeMenuItemClicked(dropdownItem: DropdownOption) {
+        const value = dropdownItem.value;
+        if (value === "light" || value === "dark" || value === "system") setTheme(value);
     }
 
     function onLogoClicked() {

@@ -1,5 +1,9 @@
 export const enUS = {
     translation: {
+        themeSettings: "Theme settings",
+        themeLight: "Light",
+        themeDark: "Dark",
+        themeSystem: "Follow system",
         dashboardTitle: "Management overview",
         dashboardSubtitle: "Monitor accounts, login security and content operations",
         dashboardDays: "Last {{count}} days",
