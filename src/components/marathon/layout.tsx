@@ -14,7 +14,7 @@ import i18n from "@/i18n";
 import { cn } from "@/lib/utils";
 import { AlertCircle, Loader2, X } from "lucide-react";
 import type { CSSProperties, ReactNode } from "react";
-import { useState } from "react";
+import { Children, useState } from "react";
 
 export interface PanelProps {
     children?: ReactNode;
@@ -43,7 +43,7 @@ export function Card({ children, title, subtitle, actions, footer, cover, classN
                     {actions}
                 </CardHeader>
             )}
-            <CardContent className="p-6 min-w-0">{children}</CardContent>
+            {Children.toArray(children).length > 0 && <CardContent className="p-6 min-w-0">{children}</CardContent>}
             {footer && <CardFooter className="border-t border-border px-6 py-4">{footer}</CardFooter>}
         </CardRoot>
     );
