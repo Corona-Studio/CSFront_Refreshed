@@ -216,7 +216,7 @@
     padding: 2px 4px;
     color: var(--muted-foreground);
     font-size: 11px;
-    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+    font-family: var(--font-code);
 }
 
 .idButton svg {

@@ -186,7 +186,7 @@
     margin-bottom: 55px;
     color: #b77b15;
     font-size: 15px;
-    font-family: monospace;
+    font-family: var(--font-code);
 }
 .faqLayout {
     display: grid;
@@ -387,9 +387,7 @@
     gap: 22px;
     margin-bottom: 34px;
     color: #b9bfbb;
-    font:
-        11px ui-monospace,
-        monospace;
+    font: 11px var(--font-code);
     letter-spacing: 0.15em;
 }
 .heroKicker span {
@@ -414,9 +412,7 @@
 }
 .heroDevelop {
     color: #b5bdb4;
-    font:
-        12px ui-monospace,
-        monospace;
+    font: 12px var(--font-code);
     letter-spacing: 0.06em;
 }
 .heroRotating {
@@ -425,9 +421,7 @@
     padding: 7px 12px;
     overflow: hidden;
     color: #050705;
-    font:
-        700 14px ui-monospace,
-        monospace;
+    font: 700 14px var(--font-code);
 }
 .heroRotating span {
     color: #050705;

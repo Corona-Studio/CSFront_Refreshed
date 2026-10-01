@@ -133,7 +133,7 @@
 
 .linkNumber {
     color: var(--muted-foreground);
-    font: 11px monospace;
+    font: 11px var(--font-code);
 }
 
 @media (max-width: 1023px) {

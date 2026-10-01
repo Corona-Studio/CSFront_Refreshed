@@ -30,7 +30,12 @@
     --chart-4: #766098;
     --chart-5: #897025;
     --chart-grid: #e4ded2;
-    --font-sans: Arial, "PingFang SC", sans-serif;
+    --font-ui:
+        Arial, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei",
+        "Noto Sans CJK SC", "Noto Sans SC", sans-serif;
+    --font-code:
+        "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "PingFang SC", "Microsoft YaHei UI",
+        "Microsoft YaHei", "Noto Sans CJK SC", "Noto Sans SC", monospace;
 }
 :root[theme-mode="dark"] {
     --background: #151411;
@@ -61,6 +66,8 @@
     --chart-grid: #383329;
 }
 @theme inline {
+    --font-sans: var(--font-ui);
+    --font-mono: var(--font-code);
     --color-background: var(--background);
     --color-foreground: var(--foreground);
     --color-card: var(--card);
@@ -101,7 +108,7 @@
         margin: 0;
         background: var(--background);
         color: var(--foreground);
-        font-family: Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+        font-family: var(--font-ui);
     }
     html {
         scroll-behavior: smooth;
@@ -150,7 +157,7 @@
     }
     code {
         font-size: 0.85em;
-        font-family: monospace;
+        font-family: var(--font-code);
         overflow-wrap: anywhere;
     }
     svg {
@@ -172,7 +179,7 @@
     }
     .m-kicker {
         color: var(--muted-foreground);
-        font: 600 11px/1.5 monospace;
+        font: 600 11px/1.5 var(--font-code);
         letter-spacing: 0.12em;
         text-transform: uppercase;
     }
@@ -247,7 +254,7 @@
         background: var(--primary);
         padding: 16px 24px;
         color: var(--primary-foreground);
-        font: bold 12px monospace;
+        font: bold 12px var(--font-code);
         letter-spacing: 0.1em;
     }
     .m-auth {
@@ -338,7 +345,7 @@
         border-bottom: 1px solid var(--border);
         background: var(--muted);
         padding: 16px;
-        font: 600 11px monospace;
+        font: 600 11px var(--font-code);
         text-align: left;
         text-transform: uppercase;
     }
