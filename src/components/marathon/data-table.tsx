@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { type ReactNode, useState } from "react";
 
-import { Button } from "./controls";
+import { Button, Select } from "./controls";
 import { Loading } from "./layout";
 
 export interface DataTableColumn<T> {
@@ -134,18 +134,18 @@ export function DataTable<T>({
                         {pagination.total} ITEMS · {current} / {pages}
                     </span>
                     {pagination.showPageSize && (
-                        <select
-                            className="border border-input bg-background p-2 text-xs"
-                            aria-label="每页条数"
+                        <Select
+                            className="w-28 font-mono text-xs"
+                            size="small"
+                            ariaLabel="每页条数"
                             value={pagination.pageSize}
                             disabled={loading}
-                            onChange={(e) => pagination.onChange({ current: 1, pageSize: Number(e.target.value) })}>
-                            {(pagination.pageSizeOptions ?? [10, 20, 50]).map((size) => (
-                                <option key={size} value={size}>
-                                    {size} / PAGE
-                                </option>
-                            ))}
-                        </select>
+                            onChange={(value) => pagination.onChange({ current: 1, pageSize: Number(value) })}
+                            options={(pagination.pageSizeOptions ?? [10, 20, 50]).map((size) => ({
+                                value: size,
+                                label: `${size} / PAGE`
+                            }))}
+                        />
                     )}
                     <Button
                         variant="outline"

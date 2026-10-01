@@ -278,11 +278,6 @@
     width: 160px;
 }
 
-.roleSelect :global(input) {
-    border-radius: 0;
-    background: var(--card);
-}
-
 .changeSummary {
     display: flex;
     align-items: center;

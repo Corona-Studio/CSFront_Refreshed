@@ -17,6 +17,7 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { Input as ShadcnInput } from "@/components/ui/input";
+import { SelectContent, SelectItem, Select as SelectRoot, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea as ShadcnTextarea } from "@/components/ui/textarea";
 import { TooltipContent, Tooltip as TooltipRoot, TooltipTrigger } from "@/components/ui/tooltip";
 import i18n from "@/i18n";
@@ -332,7 +333,10 @@ export function Select({
     options,
     onChange,
     disabled,
-    className
+    className,
+    size = "medium",
+    ariaLabel,
+    placeholder
 }: {
     value?: string | number;
     options: { label: ReactNode; value: string | number }[];
@@ -340,23 +344,31 @@ export function Select({
     disabled?: boolean;
     className?: string;
     size?: string;
+    ariaLabel?: string;
+    placeholder?: string;
 }) {
     return (
-        <select
-            aria-label={i18n.t("select")}
-            value={value}
+        <SelectRoot
+            value={value == null ? "" : String(value)}
             disabled={disabled}
-            onChange={(e) => {
-                const option = options.find((o) => String(o.value) === e.target.value);
+            onValueChange={(selected) => {
+                const option = options.find((o) => String(o.value) === selected);
                 if (option) onChange?.(option.value);
-            }}
-            className={cn("h-11 border border-input bg-background px-3 text-sm", className)}>
-            {options.map((o) => (
-                <option key={o.value} value={o.value}>
-                    {o.label}
-                </option>
-            ))}
-        </select>
+            }}>
+            <SelectTrigger
+                aria-label={ariaLabel ?? i18n.t("select")}
+                size={size === "small" ? "sm" : "default"}
+                className={cn(size === "large" && "h-11", className)}>
+                <SelectValue placeholder={placeholder ?? i18n.t("select")} />
+            </SelectTrigger>
+            <SelectContent>
+                {options.map((o) => (
+                    <SelectItem key={o.value} value={String(o.value)}>
+                        {o.label}
+                    </SelectItem>
+                ))}
+            </SelectContent>
+        </SelectRoot>
     );
 }
 export function Tooltip({

@@ -11,11 +11,13 @@ import {
     FormItem,
     Input,
     SectionHeading,
+    Select,
     Tag,
     notify
 } from "@/components/marathon";
 import { ArrowUpRight, Rocket } from "lucide-react";
 import { useState } from "react";
+
 import ChartPreview from "./charts";
 
 const rows = [
@@ -29,6 +31,7 @@ const columns: DataTableColumn<(typeof rows)[number]>[] = [
     { colKey: "state", title: "CHANNEL", cell: ({ row }) => <Tag>{row.state}</Tag> }
 ];
 export default function Showcase() {
+    const [role, setRole] = useState<string | number>(0);
     const [dialog, setDialog] = useState(false);
     const [page, setPage] = useState({ current: 1, pageSize: 2 });
     return (
@@ -74,6 +77,21 @@ export default function Showcase() {
                             ]}>
                             <Input placeholder="邮箱" type="email" />
                         </FormItem>
+                        <div className="mb-6 space-y-2">
+                            <p id="role-demo-label" className="text-sm font-medium">
+                                身份选择（展示用）
+                            </p>
+                            <Select
+                                ariaLabel="身份选择（展示用）"
+                                value={role}
+                                onChange={setRole}
+                                options={[
+                                    { value: 0, label: "普通用户" },
+                                    { value: 1, label: "赞助用户" },
+                                    { value: 2, label: "管理员" }
+                                ]}
+                            />
+                        </div>
                         <FormItem name="agreement">
                             <Checkbox>订阅开发动态（展示用）</Checkbox>
                         </FormItem>
@@ -107,7 +125,11 @@ export default function Showcase() {
                 </Card>
             </div>
             <section className="mt-16">
-                <SectionHeading code="05 / DATA VISUALIZATION" title="CHARTS/" description="主题自适应图表：青绿、暖铜、灰蓝。以下使用模拟数据展示，与生产统计无关。" />
+                <SectionHeading
+                    code="05 / DATA VISUALIZATION"
+                    title="CHARTS/"
+                    description="主题自适应图表：青绿、暖铜、灰蓝。以下使用模拟数据展示，与生产统计无关。"
+                />
                 <ChartPreview />
             </section>
             <Dialog

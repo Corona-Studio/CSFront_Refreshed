@@ -275,6 +275,8 @@ function AdminUsers() {
             cell: ({ row }) => (
                 <div className={styles.roleControl}>
                     <Select
+                        ariaLabel={`${t("userIdentity")} · ${row.userName}`}
+                        size="small"
                         className={styles.roleSelect}
                         value={row.userType}
                         disabled={isUpdating || actionLoading}

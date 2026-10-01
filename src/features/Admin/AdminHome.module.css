@@ -60,7 +60,7 @@
     align-items: center;
     gap: 10px;
 }
-.toolbar :global(select) {
+.toolbar :global([data-slot="select-trigger"]) {
     width: 140px;
 }
 .chartsGrid {
