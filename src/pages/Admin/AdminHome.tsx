@@ -1,16 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Suspense, lazy, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
-import {
-    ChartLineMultiIcon,
-    CopyIcon,
-    GitRepositoryCommitsIcon,
-    LoginIcon,
-    MoneyIcon,
-    UserBlockedIcon,
-    UsergroupIcon
-} from "tdesign-icons-react";
+import { ChartLineMultiIcon, LoginIcon, MoneyIcon, UserBlockedIcon, UsergroupIcon } from "tdesign-icons-react";
 import { Alert, Button, Select, Skeleton } from "tdesign-react";
 
 import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
@@ -72,24 +63,8 @@ function getDashboardItemIcon(dataKey: string) {
 }
 
 function AdminHome() {
-    const navigate = useNavigate();
     const { t, i18n } = useTranslation();
     const [days, setDays] = useState(30);
-    const quickLinks = [
-        {
-            text: t("contributorAdminPanel"),
-            link: "/admin/contributions",
-            external: false,
-            icon: <GitRepositoryCommitsIcon />
-        },
-        {
-            text: "Azure Application Insights",
-            link: "https://portal.azure.com/#browse/microsoft.insights%2Fcomponents",
-            external: true,
-            icon: <ChartLineMultiIcon />
-        }
-    ];
-
     async function getDashboardDataImplAsync() {
         const authToken = await getStorageItemAsync(StoredAuthToken);
 
@@ -107,12 +82,6 @@ function AdminHome() {
                 return r.response;
             })
     });
-
-    function copyAdminUserTokenAsync() {
-        getStorageItemAsync(StoredAuthToken).then((value) => {
-            navigator.clipboard.writeText(value ?? "").then();
-        });
-    }
 
     return (
         <>
@@ -176,43 +145,6 @@ function AdminHome() {
                         <DashboardCharts data={dashboardItems.data} />
                     </Suspense>
                 )}
-                <div className={styles.links}>
-                    <div>
-                        <Alert
-                            icon={<CopyIcon />}
-                            theme="success"
-                            message={t("copyAdminUserToken")}
-                            operation={
-                                <a onClick={copyAdminUserTokenAsync} target="_blank">
-                                    {t("copy")}
-                                </a>
-                            }
-                        />
-                    </div>
-
-                    {quickLinks.map((link, i) => (
-                        <div key={i}>
-                            <Alert
-                                icon={link.icon}
-                                theme="info"
-                                message={link.text}
-                                operation={
-                                    <a
-                                        href={link.link}
-                                        target={link.external ? "_blank" : undefined}
-                                        rel={link.external ? "noopener noreferrer" : undefined}
-                                        onClick={(event) => {
-                                            if (link.external) return;
-                                            event.preventDefault();
-                                            navigate(link.link);
-                                        }}>
-                                        {t("checkHere")}
-                                    </a>
-                                }
-                            />
-                        </div>
-                    ))}
-                </div>
             </div>
         </>
     );

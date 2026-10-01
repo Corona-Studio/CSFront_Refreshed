@@ -298,7 +298,6 @@ export const zhCN = {
 
         adminCenter: "管理中心",
         returnToUserCenter: "返回用户中心",
-        contributorAdminPanel: "贡献者管理面板",
 
         userCount: "用户数",
         userCountDescription: "已注册日冕账号的用户数量",
@@ -517,7 +516,6 @@ export const zhCN = {
         orderNumberCopied: "订单号已复制",
 
         copy: "复制",
-        copyAdminUserToken: "快速复制管理员 JWT Token",
 
         setSponsorFailed: "设置赞助者失败",
         setSponsorSucceeded: "成功设置赞助者",
