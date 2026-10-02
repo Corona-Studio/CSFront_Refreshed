@@ -1,5 +1,9 @@
 export const enUS = {
     translation: {
+        authScene: {
+            loginDescription: "Return to your world. Continue your next adventure.",
+            registerDescription: "Start here. Create a world of your own."
+        },
         home: {
             featureTitle: "Your next adventure starts here.",
             featureDescription:

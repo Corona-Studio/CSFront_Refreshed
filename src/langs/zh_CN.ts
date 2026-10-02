@@ -1,5 +1,9 @@
 export const zhCN = {
     translation: {
+        authScene: {
+            loginDescription: "回到你的世界，继续下一场冒险。",
+            registerDescription: "从这里开始，创造属于你的世界。"
+        },
         home: {
             featureTitle: "下一次冒险，从这里开始。",
             featureDescription:
