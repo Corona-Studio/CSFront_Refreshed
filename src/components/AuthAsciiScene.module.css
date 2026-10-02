@@ -108,3 +108,11 @@
         48px 48px,
         48px 48px;
 }
+
+.fluidCanvas {
+    cursor: grab;
+    touch-action: none;
+}
+.fluidCanvas:active {
+    cursor: grabbing;
+}

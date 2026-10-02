@@ -5,12 +5,13 @@ import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Euler, TorusKnotGeometry, Vector3 } from "three";
 
+import AuthAsciiFluid from "./AuthAsciiFluid";
 import styles from "./AuthAsciiScene.module.css";
 
 type Face = { vertices: [Vector3, Vector3, Vector3]; normals: [Vector3, Vector3, Vector3] };
 
-function knotSurface(register: boolean): Face[] {
-    const geometry = new TorusKnotGeometry(0.64, register ? 0.17 : 0.21, 120, 16, 2, register ? 5 : 3);
+function knotSurface(): Face[] {
+    const geometry = new TorusKnotGeometry(0.64, 0.21, 120, 16, 2, 3);
     const position = geometry.getAttribute("position");
     const normal = geometry.getAttribute("normal");
     const index = geometry.getIndex()!;
@@ -31,10 +32,11 @@ export default function AuthAsciiScene() {
     const { t } = useTranslation();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     useEffect(() => {
+        if (register) return;
         const canvas = canvasRef.current;
         const context = canvas?.getContext("2d");
         if (!canvas || !context) return;
-        const faces = knotSurface(register);
+        const faces = knotSurface();
         const light = new Vector3(-0.4, 0.8, 1).normalize();
         const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
         let width = 0;
@@ -67,7 +69,7 @@ export default function AuthAsciiScene() {
             const rotation = new Euler(
                 -0.48 + Math.sin(elapsed * 0.11) * 0.12 + tiltY,
                 0.35 + Math.sin(elapsed * 0.16) * 0.38 + tiltX,
-                register ? 0.18 : -0.12
+                -0.12
             );
             const projected = faces.map((face) => ({
                 tones: face.normals.map(
@@ -169,7 +171,7 @@ export default function AuthAsciiScene() {
             context.font = "9px ui-monospace, monospace";
             context.fillStyle = "#6b8f96";
             context.textAlign = "left";
-            context.fillText(register ? "CINQUEFOIL / 02:05" : "TREFOIL / 02:03", 32, 24);
+            context.fillText("TREFOIL / 02:03", 32, 24);
         };
         const animate = (now: number) => {
             frame = 0;
@@ -239,11 +241,15 @@ export default function AuthAsciiScene() {
         <aside className={styles.scene}>
             <div className={styles.header}>
                 <p className={styles.code}>{register ? "CS—003 / CREATE ACCOUNT" : "CS—002 / ACCOUNT ACCESS"}</p>
-                <span className={styles.status}>FORM STUDY / {register ? "B" : "A"}</span>
+                <span className={styles.status}>{register ? "FLUID STUDY / B" : "FORM STUDY / A"}</span>
             </div>
             <div className={styles.drawing}>
-                <canvas ref={canvasRef} className={styles.canvas} aria-hidden="true" />
-                <span className={styles.drawingNote}>{register ? "02 / CONTINUOUS FORM" : "01 / CONNECTED FORM"}</span>
+                {register ? (
+                    <AuthAsciiFluid />
+                ) : (
+                    <canvas ref={canvasRef} className={styles.canvas} aria-hidden="true" />
+                )}
+                {!register && <span className={styles.drawingNote}>01 / CONNECTED FORM</span>}
             </div>
             <div className={styles.copy}>
                 <h2>
@@ -265,7 +271,7 @@ export default function AuthAsciiScene() {
             </div>
             <div className={styles.footer}>
                 <span>CORONA STUDIO · PLAY / BUILD / CONNECT</span>
-                <span>MOVE TO ROTATE / ASCII</span>
+                {!register && <span>MOVE TO ROTATE / ASCII</span>}
             </div>
         </aside>
     );
