@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { Button, Dropdown, Loading } from "../../components/marathon/index.tsx";
 import { DropdownOption } from "../../components/marathon/index.tsx";
 import { getBuildName } from "../../helpers/BuildHelper.ts";
-import { detectPlatform, saveDetectedPlatform } from "../../helpers/PlatformHelper.ts";
+import { detectPlatform, detectPlatformAsync, saveDetectedPlatform } from "../../helpers/PlatformHelper.ts";
 import { useNavigate } from "../../lib/navigation.ts";
 import { lxBackendUrl } from "../../requests/ApiConstants.ts";
 import { LauncherRawBuildModel, getAllStableBuildsAsync } from "../../requests/LxBuildRequests.ts";
@@ -32,6 +32,13 @@ function LxDownload() {
         }
     });
 
+    const platformQuery = useQuery({
+        queryKey: ["detectedPlatform"],
+        queryFn: detectPlatformAsync,
+        enabled: typeof window !== "undefined",
+        staleTime: Infinity
+    });
+
     const { downloadOptions, recommendedBuild, updatedAt } = useMemo(() => {
         const options: DropdownOption[] = [];
         const buildsArray: { key: string; build: LauncherRawBuildModel; date: string }[] = [];
@@ -49,13 +56,13 @@ function LxDownload() {
             buildsArray.push({ key: buildName, build, date: build.releaseDate });
         }
 
-        const platform = detectPlatform();
+        const platform = platformQuery.data ?? { os: "Unknown", arch: "Unknown" };
         const { os, arch } = platform;
         let bestMatch: RecommendedBuild | null = null;
         let fallbackMatch: RecommendedBuild | null = null;
 
         const targetKeyExact = `${os} ${arch}`;
-        const targetKeyFallback = os === "macOS" ? `${os} Intel` : `${os} X64`;
+        const targetKeyFallback = arch === "Unknown" ? null : os === "macOS" ? `${os} Intel` : `${os} X64`;
 
         for (const { key, build } of buildsArray) {
             const url = `${lxBackendUrl}/Build/get/${build.id}/${build.framework}.${build.runtime}.zip`;
@@ -72,19 +79,19 @@ function LxDownload() {
             recommendedBuild: bestMatch ?? fallbackMatch,
             updatedAt: buildsArray[0]?.date ?? null
         };
-    }, [buildsQuery.data]);
+    }, [buildsQuery.data, platformQuery.data]);
 
     function onMenuItemClicked(dropdownItem: DropdownOption) {
         if (!dropdownItem.value) return;
         const value = dropdownItem.value as string;
-        saveDetectedPlatform(detectPlatform());
+        saveDetectedPlatform(platformQuery.data ?? detectPlatform());
         navigate("/lx/download/thanks");
         window.open(value, "_blank", "noopener,noreferrer");
     }
 
     function onRecommendedDownloadClick() {
         if (recommendedBuild?.url) {
-            saveDetectedPlatform(detectPlatform());
+            saveDetectedPlatform(platformQuery.data ?? detectPlatform());
             navigate("/lx/download/thanks");
             window.open(recommendedBuild.url, "_blank", "noopener,noreferrer");
         }
@@ -119,7 +126,7 @@ function LxDownload() {
                         <p className="m-kicker mb-6">SELECT YOUR BUILD</p>
                         <h2 className="text-3xl">{t("download")} LauncherX</h2>
                         <p className="m-kicker my-6">RELEASE / {(updatedAt ?? "—").split("T")[0]}</p>
-                        {buildsQuery.isLoading && <Loading />}
+                        {(buildsQuery.isLoading || platformQuery.isLoading) && <Loading />}
                         {buildsQuery.isError && (
                             <div className="space-y-4">
                                 <p role="alert" className="text-destructive">
@@ -130,7 +137,7 @@ function LxDownload() {
                                 </Button>
                             </div>
                         )}
-                        {buildsQuery.isSuccess && (
+                        {buildsQuery.isSuccess && !platformQuery.isLoading && (
                             <>
                                 <Button
                                     size="large"
