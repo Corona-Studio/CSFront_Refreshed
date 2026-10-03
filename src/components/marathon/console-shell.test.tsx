@@ -24,6 +24,17 @@ afterEach(() => {
     state.path = "/admin/users";
 });
 describe("Console session gate", () => {
+    it("redirects a rejected user session to login without mounting account queries", async () => {
+        state.path = "/user";
+        state.user.mockResolvedValue(false);
+        render(
+            <ConsoleShell>
+                <div>Account data</div>
+            </ConsoleShell>
+        );
+        await waitFor(() => expect(state.replace).toHaveBeenCalledWith("/auth/login?redirect=%2Fuser"));
+        expect(screen.queryByText("Account data")).toBeNull();
+    });
     it("does not mount protected children while authorization is pending or denied", async () => {
         let resolve: (valid: boolean) => void = () => {};
         state.admin.mockReturnValue(

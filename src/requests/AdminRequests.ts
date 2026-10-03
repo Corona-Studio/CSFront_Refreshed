@@ -327,3 +327,11 @@ export async function setAdminUserLoginBanAsync(token: string, userId: string, i
         buildHeader(token)
     );
 }
+
+export async function transferAdminUserRedemptionsAsync(token: string, sourceUserId: string, targetUserId: string) {
+    return postAsync<{ source: AdminUserInfo; target: AdminUserInfo; transferredCount: number }>(
+        `/Admin/users/${encodeURIComponent(sourceUserId)}/redemptions/transfer`,
+        { targetUserId },
+        buildHeader(token)
+    );
+}

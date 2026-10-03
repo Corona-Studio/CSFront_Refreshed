@@ -1,6 +1,10 @@
 import { afterEach, expect, it } from "vitest";
 
-import { resetAdminUserAvatarAsync, setAdminUserLoginBanAsync } from "./AdminRequests.ts";
+import {
+    resetAdminUserAvatarAsync,
+    setAdminUserLoginBanAsync,
+    transferAdminUserRedemptionsAsync
+} from "./AdminRequests.ts";
 import { csBackend, isSuccessfulResponse } from "./ApiConstants.ts";
 
 const originalAdapter = csBackend.defaults.adapter;
@@ -28,4 +32,17 @@ it.each([true, false])("sets login ban to %s independently from contribution ban
     };
     const result = await setAdminUserLoginBanAsync("admin-token", "user", isLoginBanned);
     expect(result.response?.isLoginBanned).toBe(isLoginBanned);
+});
+
+it("transfers redemptions with an explicit target account and admin authentication", async () => {
+    csBackend.defaults.adapter = async (config) => {
+        expect(config.url).toBe("/Admin/users/old%2Fid/redemptions/transfer");
+        expect(config.method).toBe("post");
+        expect(JSON.parse(config.data as string)).toEqual({ targetUserId: "new-id" });
+        expect(config.headers.Authorization).toBe("Bearer admin-token");
+        return { config, status: 200, statusText: "", headers: {}, data: { transferredCount: 2 } };
+    };
+    expect(
+        (await transferAdminUserRedemptionsAsync("admin-token", "old/id", "new-id")).response?.transferredCount
+    ).toBe(2);
 });

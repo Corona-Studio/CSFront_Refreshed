@@ -33,6 +33,7 @@ import {
     getAdminUsersAsync,
     resetAdminUserAvatarAsync,
     setAdminUserLoginBanAsync,
+    transferAdminUserRedemptionsAsync,
     updateAdminUserTypeAsync
 } from "../../requests/AdminRequests.ts";
 import { isSuccessfulResponse, lxBackendUrl } from "../../requests/ApiConstants.ts";
@@ -84,6 +85,10 @@ function AdminUsers() {
         user: AdminUserInfo;
         type: "resetAvatar" | "ban" | "unban";
     }>();
+    const [transferSource, setTransferSource] = useState<AdminUserInfo>();
+    const [targetUserId, setTargetUserId] = useState("");
+    const [transferTarget, setTransferTarget] = useState<AdminUserInfo>();
+    const [transferLoading, setTransferLoading] = useState(false);
     const [actionLoading, setActionLoading] = useState(false);
     const [avatarVersions, setAvatarVersions] = useState<Record<string, number>>({});
 
@@ -208,6 +213,50 @@ function AdminUsers() {
         }
     }
 
+    async function confirmTransferAsync() {
+        if (!transferSource || transferLoading) return;
+        setTransferLoading(true);
+        try {
+            const token = await getAdminTokenAsync();
+            if (!transferTarget) {
+                const response = await getAdminUsersAsync(token, targetUserId.trim(), 1, 100);
+                const target = response?.response?.items.find((user) => user.id === targetUserId.trim());
+                if (
+                    response?.status !== 200 ||
+                    !target ||
+                    target.id === transferSource.id ||
+                    target.isPaid ||
+                    target.isLoginBanned
+                )
+                    throw new Error(t("transferTargetInvalid"));
+                setTransferTarget(target);
+                return;
+            }
+            const response = await transferAdminUserRedemptionsAsync(token, transferSource.id, transferTarget.id);
+            if (!isSuccessfulResponse(response)) throw new Error(t("transferRedemptionsFailed"));
+            await queryClient.invalidateQueries({ queryKey: ["adminUsers"] });
+            setTransferSource(undefined);
+            void notify.success({
+                title: t("userOperationSucceeded"),
+                placement: "top-right",
+                duration: 3000,
+                offset: Constants.NotificationOffset,
+                attach: () => document
+            });
+        } catch (error) {
+            void notify.error({
+                title: t("userOperationFailed"),
+                content: (error as Error).message,
+                placement: "top-right",
+                duration: 4000,
+                offset: Constants.NotificationOffset,
+                attach: () => document
+            });
+        } finally {
+            setTransferLoading(false);
+        }
+    }
+
     const columns = [
         {
             colKey: "user",
@@ -293,6 +342,20 @@ function AdminUsers() {
             fixed: "right",
             cell: ({ row }) => (
                 <Space size="small" breakLine>
+                    {row.isPaid && (
+                        <Button
+                            size="small"
+                            variant="text"
+                            theme="primary"
+                            disabled={isUpdating || actionLoading || transferLoading}
+                            onClick={() => {
+                                setTransferSource(row);
+                                setTargetUserId("");
+                                setTransferTarget(undefined);
+                            }}>
+                            {t("transferRedemptions")}
+                        </Button>
+                    )}
                     <Button
                         size="small"
                         variant="text"
@@ -378,6 +441,37 @@ function AdminUsers() {
                     }}
                 />
             </Card>
+
+            <Dialog
+                visible={!!transferSource}
+                header={t("transferRedemptions")}
+                theme="warning"
+                confirmLoading={transferLoading}
+                closeOnOverlayClick={!transferLoading}
+                onConfirm={confirmTransferAsync}
+                onClose={() => !transferLoading && setTransferSource(undefined)}>
+                <p>{t("transferRedemptionsDescription", { user: transferSource?.userName })}</p>
+                <Input
+                    aria-label={t("transferTargetUserId")}
+                    placeholder={t("transferTargetUserId")}
+                    value={targetUserId}
+                    disabled={transferLoading}
+                    onChange={(value) => {
+                        setTargetUserId(String(value));
+                        setTransferTarget(undefined);
+                    }}
+                />
+                {transferTarget && (
+                    <Alert
+                        theme="warning"
+                        message={t("confirmTransferRedemptions", {
+                            source: transferSource?.userName,
+                            target: transferTarget.userName,
+                            id: transferTarget.id
+                        })}
+                    />
+                )}
+            </Dialog>
 
             <Dialog
                 visible={!!pendingAction}

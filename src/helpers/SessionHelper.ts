@@ -1,5 +1,5 @@
-import { JwtPayload, jwtDecode } from "jwt-decode";
 import localForage from "@/lib/storage";
+import { JwtPayload, jwtDecode } from "jwt-decode";
 
 import {
     RawLoginResponse,
@@ -11,6 +11,7 @@ import {
     StoredAuthUserId,
     StoredAuthUserName
 } from "../requests/LxAuthRequests.ts";
+import { checkUserIsPaidAsync } from "../requests/LxUserRequests.ts";
 import { getStorageItemAsync } from "./StorageHelper.ts";
 
 export const JwtRoleKey = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
@@ -78,9 +79,19 @@ export async function isUserSessionValidAsync() {
 
     const result = generalChecks(token, expireDate);
 
-    if (!result) await clearSessionAsync();
+    if (!result) {
+        await clearSessionAsync();
+        return false;
+    }
 
-    return result;
+    // Read current account state; JWT expiry alone cannot detect bans or new grants.
+    const response = await checkUserIsPaidAsync(token!);
+    if ([401, 403, 423].includes(response?.status ?? 0)) {
+        await clearSessionAsync();
+        return false;
+    }
+    if (response?.status !== 200) throw new Error("Unable to validate account session");
+    return true;
 }
 
 // Check if the Admin session is valid
@@ -94,6 +105,8 @@ export async function isAdminSessionValidAsync(isResetCredentials: boolean) {
 
         return false;
     }
+
+    if (!(await isUserSessionValidAsync())) return false;
 
     try {
         const roles = jwtDecode<JwtPayload & Record<string, unknown>>(token!)[JwtRoleKey];

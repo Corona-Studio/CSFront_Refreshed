@@ -285,6 +285,14 @@ export const enUS = {
         accountNotVerified: "This account is not verified. Join a QQ group and send /verify CODE to the bot.",
         copied: "Copied",
 
+        transferRedemptions: "Transfer redemptions",
+        transferTargetUserId: "New account full user ID",
+        transferRedemptionsDescription:
+            "Transfer {{user}}'s redemptions and sponsor access and ban the old account. Enter the new account ID, review it, then confirm.",
+        transferTargetInvalid: "The target is missing, already sponsored, banned, or the same account.",
+        confirmTransferRedemptions:
+            "Transfer from {{source}} to {{target}} ({{id}})? The old account will be banned. Both must sign in again; the new account must complete its own QQ verification.",
+        transferRedemptionsFailed: "Transfer failed. Check the account status and retry.",
         userLoginBanned: "Login banned",
         userOperations: "Actions",
         resetUserAvatar: "Reset avatar",

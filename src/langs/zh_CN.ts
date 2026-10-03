@@ -273,6 +273,14 @@ export const zhCN = {
         accountNotVerified: "账号尚未验证，请加入 QQ 群并私聊机器人发送 /verify 验证码。",
         copied: "已复制",
 
+        transferRedemptions: "迁移兑换",
+        transferTargetUserId: "新账户完整用户 ID",
+        transferRedemptionsDescription:
+            "将 {{user}} 的兑换记录及赞助权限迁移到新账户，并封禁旧账户。输入新账户 ID 后先核对账户，再确认执行。",
+        transferTargetInvalid: "目标账户不存在、已拥有赞助权限、已被封禁，或与旧账户相同。",
+        confirmTransferRedemptions:
+            "确认从 {{source}} 迁移到 {{target}}（{{id}}）？旧账户将被封禁，双方需重新登录；新账户须完成自己的 QQ 验证。",
+        transferRedemptionsFailed: "迁移失败，请确认账户状态后重试。",
         userLoginBanned: "已封禁登录",
         userOperations: "操作",
         resetUserAvatar: "重置头像",
