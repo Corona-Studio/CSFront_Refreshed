@@ -148,31 +148,6 @@
     border-radius: 0;
 }
 
-.sponsorsTable :global(th) {
-    border-bottom: 1px solid var(--border);
-    background: var(--muted);
-    height: 40px;
-    color: var(--muted-foreground);
-    font-weight: 600;
-    font-size: 12px;
-    letter-spacing: 0;
-}
-
-.sponsorsTable :global(td) {
-    border-bottom: 1px solid var(--border);
-    background: var(--card);
-    height: 58px;
-}
-
-.sponsorsTable :global(tr:hover td) {
-    background: var(--muted);
-}
-
-.sponsorsTable :global(.m-pagination) {
-    margin: 0;
-    padding: 12px 20px;
-}
-
 .tableUser {
     display: flex;
     align-items: center;

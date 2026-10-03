@@ -11,14 +11,14 @@
 .table :global(td) {
     border-bottom: 1px solid var(--border);
     background: var(--card);
-    height: 58px;
+    height: var(--admin-table-row-height, 58px);
 }
 
 .table :global(tr:hover td) {
     background: var(--muted);
 }
 
-.table :global(.m-pagination) {
+.table :global([data-slot="pagination"]) {
     margin: 0;
     padding: 12px 20px;
 }
@@ -29,7 +29,7 @@
 
 @media (max-width: 768px) {
     .table :global([data-slot="table-container"]),
-    .table :global(.m-pagination) {
+    .table :global([data-slot="pagination"]) {
         overflow-x: auto;
     }
 }

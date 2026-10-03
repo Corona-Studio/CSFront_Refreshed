@@ -47,11 +47,11 @@ function AuthRegisterComplete() {
     if (verification === undefined || now === 0) return null;
 
     return (
-        <div className="p-5 sm:p-8 space-y-6 bg-card rounded-none  w-[330px] md:w-[520px]">
+        <div className="p-5 sm:p-8 space-y-6 bg-card rounded-none  w-full min-w-0">
             <div className="flex items-center gap-3">
                 <CheckCircleIcon size="32px" className="text-success" />
                 <div>
-                    <h1 className="!text-2xl !leading-normal">{t("registrationComplete")}</h1>
+                    <h1 className="text-2xl leading-normal">{t("registrationComplete")}</h1>
                     <p className="text-sm opacity-70">{t("verificationRequired")}</p>
                 </div>
             </div>

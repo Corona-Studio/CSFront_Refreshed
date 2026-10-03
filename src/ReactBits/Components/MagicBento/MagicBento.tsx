@@ -2,6 +2,8 @@
 import { gsap } from "gsap";
 import React, { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 
+import styles from "./MagicBento.module.css";
+
 export interface BentoCardProps {
     bgStyle: CSSProperties | undefined;
     bgImage?: string;
@@ -34,7 +36,7 @@ const MOBILE_BREAKPOINT = 768;
 
 const createParticleElement = (x: number, y: number, color: string = DEFAULT_GLOW_COLOR): HTMLDivElement => {
     const el = document.createElement("div");
-    el.className = "particle";
+    el.className = styles.particle;
     el.style.cssText = `
     position: absolute;
     width: 4px;
@@ -362,7 +364,7 @@ const GlobalSpotlight: React.FC<{
         const handleMouseMove = (e: MouseEvent) => {
             if (!spotlightRef.current || !gridRef.current) return;
 
-            const section = gridRef.current.closest(".bento-section");
+            const section = gridRef.current.closest(`.${styles["bento-section"]}`);
             const rect = section?.getBoundingClientRect();
             const mouseInside =
                 rect &&
@@ -372,7 +374,7 @@ const GlobalSpotlight: React.FC<{
                 e.clientY <= rect.bottom;
 
             isInsideSection.current = mouseInside || false;
-            const cards = gridRef.current.querySelectorAll(".card");
+            const cards = gridRef.current.querySelectorAll(`.${styles["card"]}`);
 
             if (!mouseInside) {
                 gsap.to(spotlightRef.current, {
@@ -434,7 +436,7 @@ const GlobalSpotlight: React.FC<{
 
         const handleMouseLeave = () => {
             isInsideSection.current = false;
-            gridRef.current?.querySelectorAll(".card").forEach((card) => {
+            gridRef.current?.querySelectorAll(`.${styles["card"]}`).forEach((card) => {
                 (card as HTMLElement).style.setProperty("--glow-intensity", "0");
             });
             if (spotlightRef.current) {
@@ -462,10 +464,11 @@ const GlobalSpotlight: React.FC<{
 const BentoCardGrid: React.FC<{
     children: React.ReactNode;
     gridRef?: React.RefObject<HTMLDivElement | null>;
-}> = ({ children, gridRef }) => (
+    glowColor: string;
+}> = ({ children, gridRef, glowColor }) => (
     <div
-        className="bento-section grid gap-2 p-0.5 mb-16 mt-3 md:mt-5 lg:mt-6 w-full ?max-w-[54rem] select-none relative"
-        style={{ fontSize: "clamp(1rem, 0.9rem + 0.5vw, 1.5rem)" }}
+        className={`${styles["bento-section"]} grid gap-2 p-0.5 mb-16 mt-3 md:mt-5 lg:mt-6 w-full ?max-w-[54rem] select-none relative`}
+        style={{ "--glow-color": glowColor, fontSize: "clamp(1rem, 0.9rem + 0.5vw, 1.5rem)" } as React.CSSProperties}
         ref={gridRef}>
         {children}
     </div>
@@ -506,133 +509,6 @@ const MagicBento: React.FC<BentoProps> = ({
 
     return (
         <>
-            <style>
-                {`
-          .bento-section {
-            --glow-x: 50%;
-            --glow-y: 50%;
-            --glow-intensity: 0;
-            --glow-radius: 200px;
-            --glow-color: ${glowColor};
-            --border-color: rgba(99, 69, 0, 0.8);
-            --background-dark: #030303;
-            --white: hsl(0, 0%, 100%);
-            --purple-primary: rgba(${glowColor}, 1);
-            --purple-glow: rgba(${glowColor}, 0.2);
-            --purple-border: rgba(${glowColor}, 0.8);
-          }
-          
-          .card-responsive {
-            grid-template-columns: 1fr;
-            width: 90%;
-            margin: 0 auto;
-            padding: 0.5rem;
-          }
-          
-          @media (min-width: 600px) {
-            .card-responsive {
-              grid-template-columns: repeat(2, 1fr);
-            }
-          }
-          
-          @media (min-width: 1024px) {
-            .card-responsive {
-              grid-template-columns: repeat(4, 1fr);
-            }
-            
-            .card-responsive .card:nth-child(3) {
-              grid-column: span 2;
-              grid-row: span 2;
-            }
-            
-            .card-responsive .card:nth-child(4) {
-              grid-column: 1 / span 2;
-              grid-row: 2 / span 2;
-            }
-            
-            .card-responsive .card:nth-child(6) {
-              grid-column: 4;
-              grid-row: 3;
-            }
-          }
-          
-          .card--border-glow::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            padding: 6px;
-            background: radial-gradient(var(--glow-radius) circle at var(--glow-x) var(--glow-y),
-                rgba(${glowColor}, calc(var(--glow-intensity) * 0.8)) 0%,
-                rgba(${glowColor}, calc(var(--glow-intensity) * 0.4)) 30%,
-                transparent 60%);
-            border-radius: inherit;
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask-composite: subtract;
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            z-index: 1;
-          }
-          
-          .card--border-glow:hover::after {
-            opacity: 1;
-          }
-          
-          .card--border-glow:hover {
-            box-shadow: 0 4px 20px rgba(46, 24, 78, 0.4), 0 0 30px rgba(${glowColor}, 0.2);
-          }
-          
-          .particle::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: rgba(${glowColor}, 0.2);
-            border-radius: 50%;
-            z-index: -1;
-          }
-          
-          .particle-container:hover {
-            box-shadow: 0 4px 20px rgba(46, 24, 78, 0.2), 0 0 30px rgba(${glowColor}, 0.2);
-          }
-          
-          .text-clamp-1 {
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 1;
-            line-clamp: 1;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-          
-          .text-clamp-2 {
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-            line-clamp: 2;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-          
-          @media (max-width: 599px) {
-            .card-responsive {
-              grid-template-columns: 1fr;
-              width: 90%;
-              margin: 0 auto;
-              padding: 0.5rem;
-            }
-            
-            .card-responsive .card {
-              width: 100%;
-              min-height: 180px;
-            }
-          }
-        `}
-            </style>
-
             {enableSpotlight && (
                 <GlobalSpotlight
                     gridRef={gridRef}
@@ -643,11 +519,11 @@ const MagicBento: React.FC<BentoProps> = ({
                 />
             )}
 
-            <BentoCardGrid gridRef={gridRef}>
-                <div className="card-responsive grid gap-2 w-full! p-0!">
+            <BentoCardGrid gridRef={gridRef} glowColor={glowColor}>
+                <div className={`${styles["card-responsive"]} grid gap-2 w-full! p-0!`}>
                     {cardData.map((card, index) => {
-                        const baseClassName = `card flex fade-in flex-col justify-between relative aspect-[4/3] min-h-[200px] w-full max-w-full p-5 rounded-[20px] border border-solid font-light overflow-hidden transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] ${
-                            enableBorderGlow ? "card--border-glow" : ""
+                        const baseClassName = `${styles["card"]} flex fade-in flex-col justify-between relative aspect-[4/3] min-h-[200px] w-full max-w-full p-5 rounded-[20px] border border-solid font-light overflow-hidden transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] ${
+                            enableBorderGlow ? styles["card--border-glow"] : ""
                         }`;
 
                         const cardStyle = {
@@ -677,11 +553,11 @@ const MagicBento: React.FC<BentoProps> = ({
                                     </div>
                                     <div className="card__content flex flex-col relative text-white">
                                         <h3
-                                            className={`card__title font-normal text-base text-shadow-lg text-shadow-zinc-200/30 m-0 -translate-y-1 pb-1  ${textAutoHide ? "text-clamp-1" : ""}`}>
+                                            className={`card__title font-normal text-base text-shadow-lg text-shadow-zinc-200/30 m-0 -translate-y-1 pb-1  ${textAutoHide ? styles["text-clamp-1"] : ""}`}>
                                             {card.title}
                                         </h3>
                                         <p
-                                            className={`card__description text-xs leading-5 text-shadow-lg text-shadow-zinc-200/30 opacity-90 ${textAutoHide ? "text-clamp-2" : ""}`}>
+                                            className={`card__description text-xs leading-5 text-shadow-lg text-shadow-zinc-200/30 opacity-90 ${textAutoHide ? styles["text-clamp-2"] : ""}`}>
                                             {card.description}
                                         </p>
                                     </div>
@@ -815,11 +691,11 @@ const MagicBento: React.FC<BentoProps> = ({
                                 </div>
                                 <div className="card__content flex flex-col relative text-white">
                                     <h3
-                                        className={`card__title font-normal text-base m-0 -translate-y-1  pb-1 ! ${textAutoHide ? "text-clamp-1" : ""}`}>
+                                        className={`card__title font-normal text-base m-0 -translate-y-1  pb-1 ! ${textAutoHide ? styles["text-clamp-1"] : ""}`}>
                                         {card.title}
                                     </h3>
                                     <p
-                                        className={`card__description text-xs leading-5 opacity-90 ${textAutoHide ? "text-clamp-2" : ""}`}>
+                                        className={`card__description text-xs leading-5 opacity-90 ${textAutoHide ? styles["text-clamp-2"] : ""}`}>
                                         {card.description}
                                     </p>
                                 </div>

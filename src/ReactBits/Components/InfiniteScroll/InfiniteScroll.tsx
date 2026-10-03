@@ -6,7 +6,7 @@ import { gsap } from "gsap";
 import { Observer } from "gsap/Observer";
 import React, { useEffect, useRef } from "react";
 
-import "./InfiniteScroll.css";
+import styles from "./InfiniteScroll.module.css";
 
 gsap.registerPlugin(Observer);
 
@@ -154,32 +154,19 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
 
     return (
         <>
-            <style>
-                {`
-          .infinite-scroll-wrapper {
-            max-height: ${maxHeight};
-          }
-
-          .infinite-scroll-container {
-            width: ${width};
-          }
-
-          .infinite-scroll-item {
-            height: ${itemMinHeight}px;
-            margin-top: ${negativeMargin};
-          }
-        `}
-            </style>
-
-            <div className="infinite-scroll-wrapper" ref={wrapperRef}>
+            <div className={styles["infinite-scroll-wrapper"]} ref={wrapperRef} style={{ maxHeight }}>
                 <div
-                    className="infinite-scroll-container"
+                    className={styles["infinite-scroll-container"]}
                     ref={containerRef}
                     style={{
+                        width,
                         transform: getTiltTransform()
                     }}>
                     {items.map((item, i) => (
-                        <div className="infinite-scroll-item" key={i}>
+                        <div
+                            className={styles["infinite-scroll-item"]}
+                            key={i}
+                            style={{ height: itemMinHeight, marginTop: negativeMargin }}>
                             {item.content}
                         </div>
                     ))}

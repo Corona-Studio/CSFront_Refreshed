@@ -25,6 +25,7 @@ import {
 } from "../../requests/AdminRequests.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
 import styles from "./AdminBuilds.module.css";
+import tableStyles from "./AdminTable.module.css";
 
 const queryKey = ["adminBuilds"];
 
@@ -293,7 +294,7 @@ function AdminBuilds() {
                     </div>
                 </div>
                 <DataTable<AdminBuildInfo>
-                    className={styles.buildTable}
+                    className={`${tableStyles.table} ${styles.buildTable}`}
                     rowKey="id"
                     hover
                     loading={buildsQuery.isLoading}

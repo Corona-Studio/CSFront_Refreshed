@@ -28,21 +28,6 @@
         linear-gradient(0deg, #020303, transparent 12%, transparent 90%, #020303);
     pointer-events: none;
 }
-.caption {
-    display: flex;
-    position: absolute;
-    right: 7%;
-    bottom: 6%;
-    left: 7%;
-    justify-content: space-between;
-    gap: 24px;
-    pointer-events: none;
-    font: 9px var(--font-code);
-    letter-spacing: 0.15em;
-}
-.caption span {
-    color: #798387;
-}
 @media (max-width: 767px) {
     .canvas {
         left: -35%;
@@ -54,11 +39,22 @@
             linear-gradient(90deg, #020303e8, #020303b0 55%, #02030350),
             linear-gradient(0deg, #020303, transparent 30%, transparent 75%, #020303);
     }
-    .caption {
-        font-size: 8px;
-        letter-spacing: 0.08em;
+}
+
+.login .canvas {
+    left: 0;
+    width: 100%;
+}
+.login .shade {
+    background: linear-gradient(0deg, #020303, transparent 15%, transparent 90%, #020303);
+}
+@media (max-width: 767px) {
+    .login .canvas {
+        opacity: 1;
     }
-    .caption span:last-child {
-        display: none;
-    }
+}
+
+.login {
+    mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+    background: transparent;
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import motionStyles from "@/components/motion/interactions.module.css";
 import { cn } from "@/lib/utils";
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { Select as SelectPrimitive } from "radix-ui";
@@ -54,6 +55,7 @@ function SelectContent({
             <SelectPrimitive.Content
                 data-slot="select-content"
                 className={cn(
+                    motionStyles.popover,
                     "relative z-50 max-h-(--radix-select-content-available-height) min-w-[8rem] overflow-x-hidden overflow-y-auto rounded-none border border-border bg-popover text-popover-foreground shadow-lg",
                     className
                 )}

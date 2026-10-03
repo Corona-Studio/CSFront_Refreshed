@@ -1,4 +1,5 @@
 "use client";
+import ProgressiveBlur from "@/components/motion/progressive-blur";
 import { Button, Dropdown } from "@/components/marathon";
 import {
     DropdownMenu,
@@ -30,6 +31,7 @@ export default function MenuBar() {
     const isCurrent = (href: string) => path === href || (href !== "/" && path.startsWith(`${href}/`));
     return (
         <header className={styles.header}>
+            <ProgressiveBlur className={styles.progressiveBlur} />
             <div className={styles.inner}>
                 <Link href="/" aria-label="Corona Studio 首页" className={`${styles.brand} group`}>
                     <Image

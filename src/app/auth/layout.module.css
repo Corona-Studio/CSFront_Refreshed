@@ -1,0 +1,43 @@
+/* Declare the complete order even when this CSS chunk loads before the global entry. */
+@layer theme, base, components, utilities;
+
+@layer components {
+    .auth {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        min-height: calc(100svh - 72px);
+    }
+    .authMain {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 48px 24px;
+        min-width: 0;
+    }
+    .authMain > div {
+        box-shadow: none;
+        border: 1px solid var(--border);
+        border-radius: 0;
+        background: var(--card);
+        padding: 32px;
+        width: 100%;
+        min-width: 0;
+        max-width: 520px;
+    }
+    .authMain form {
+        width: 100%;
+    }
+}
+@media (max-width: 900px) {
+    .auth {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+@media (max-width: 640px) {
+    .authMain {
+        padding: 24px 16px;
+    }
+    .authMain > div {
+        padding: 24px 16px;
+    }
+}

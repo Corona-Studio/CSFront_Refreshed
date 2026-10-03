@@ -54,7 +54,7 @@
     background: var(--muted);
 }
 
-.managementTable :global(.m-pagination) {
+.managementTable :global([data-slot="pagination"]) {
     border-top: 1px solid var(--border);
     padding: 12px 16px;
 }
@@ -122,7 +122,7 @@
         min-width: 680px;
     }
 
-    .managementTable :global(.m-pagination) {
+    .managementTable :global([data-slot="pagination"]) {
         overflow-x: auto;
     }
 

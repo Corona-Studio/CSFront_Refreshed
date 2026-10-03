@@ -1,0 +1,180 @@
+.button {
+    transition:
+        background-color 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease,
+        box-shadow 180ms ease,
+        translate 220ms cubic-bezier(0.22, 1, 0.36, 1),
+        scale 160ms ease;
+}
+.button:not(:disabled):not([aria-disabled="true"]):active {
+    scale: 0.98;
+}
+.card {
+    transition:
+        translate 260ms cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 260ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+    .button:not(:disabled):not([aria-disabled="true"]):hover {
+        translate: 0 -1px;
+    }
+    .card:hover {
+        translate: 0 -3px;
+        box-shadow: 0 12px 28px color-mix(in srgb, var(--foreground) 8%, transparent);
+    }
+}
+.overlay[data-state="open"] {
+    animation: fadeIn 200ms ease-out both;
+}
+.overlay[data-state="closed"] {
+    animation: fadeOut 150ms ease-in both;
+}
+.dialog[data-state="open"] {
+    animation: panelIn 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.dialog[data-state="closed"] {
+    animation: panelOut 150ms ease-in both;
+}
+.popover {
+    --enter-y: -6px;
+    transform-origin: var(
+        --radix-dropdown-menu-content-transform-origin,
+        var(--radix-select-content-transform-origin, var(--radix-tooltip-content-transform-origin, center))
+    );
+}
+.popover[data-side="top"] {
+    --enter-y: 6px;
+}
+.popover:not([data-state="closed"]) {
+    animation: popoverIn 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.popover[data-state="closed"] {
+    animation: popoverOut 120ms ease-in both;
+}
+.accordion[data-state="open"] {
+    animation: expand 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.accordion[data-state="closed"] {
+    animation: collapse 200ms ease-out;
+}
+.intro > * {
+    animation: introIn 650ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.intro > :nth-child(2) {
+    animation-delay: 40ms;
+}
+.intro > :nth-child(3) {
+    animation-delay: 80ms;
+}
+.intro > :nth-child(4) {
+    animation-delay: 120ms;
+}
+.intro > :nth-child(n + 5) {
+    animation-delay: 160ms;
+}
+@keyframes introIn {
+    from {
+        transform: translateY(14px);
+        opacity: 0.72;
+    }
+    to {
+        transform: none;
+        opacity: 1;
+    }
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+@keyframes panelIn {
+    from {
+        transform: translateY(10px) scale(0.985);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+@keyframes panelOut {
+    from {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(6px) scale(0.985);
+        opacity: 0;
+    }
+}
+@keyframes popoverIn {
+    from {
+        transform: translateY(var(--enter-y)) scale(0.98);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+@keyframes popoverOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        transform: scale(0.98);
+        opacity: 0;
+    }
+}
+@keyframes expand {
+    from {
+        opacity: 0;
+        height: 0;
+    }
+    to {
+        opacity: 1;
+        height: var(--radix-accordion-content-height);
+    }
+}
+@keyframes collapse {
+    from {
+        opacity: 1;
+        height: var(--radix-accordion-content-height);
+    }
+    to {
+        opacity: 0;
+        height: 0;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .button,
+    .card {
+        transition: none;
+    }
+    .button:not(:disabled):not([aria-disabled="true"]):active,
+    .button:not(:disabled):not([aria-disabled="true"]):hover,
+    .card:hover {
+        translate: none;
+        scale: none;
+    }
+    .intro > *,
+    .overlay[data-state],
+    .dialog[data-state],
+    .popover:not([data-state="closed"]),
+    .popover[data-state="closed"],
+    .accordion[data-state] {
+        animation: none;
+    }
+}

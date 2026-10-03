@@ -1,4 +1,6 @@
 "use client";
+import motionStyles from "@/components/motion/interactions.module.css";
+import { ScrollReveal } from "@/components/motion/scroll-reveal";
 import { SectionHeading } from "@/components/marathon";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
@@ -29,7 +31,7 @@ export default function CMFS() {
                     fetchPriority="high"
                     className="absolute inset-0 w-full h-full object-cover opacity-35"
                 />
-                <div className="m-container relative py-24 md:py-40">
+                <div className={`m-container relative py-24 md:py-40 ${motionStyles.intro}`}>
                     <p className="m-kicker text-white mb-10">CMFS—001 / COMMUNITY WORLDS</p>
                     <h1 className="m-display">
                         MAKE WORLDS.
@@ -57,28 +59,30 @@ export default function CMFS() {
                 <div className="m-container">
                     <SectionHeading code="01 / SERVER DIRECTORY" title={t("serverList")} />
                     <div className="m-grid">
-                        {servers.map((server) => (
-                            <a
-                                href={server.url}
-                                key={server.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="group !p-0">
-                                <Image
-                                    src={`/assets/landscapes/${server.image}.webp`}
-                                    alt={server.name}
-                                    width={640}
-                                    height={360}
-                                    sizes="(max-width: 640px) 100vw, 33vw"
-                                    loading="lazy"
-                                    className="aspect-video object-cover"
-                                />
-                                <div className="p-6 group-hover:bg-primary group-hover:text-primary-foreground">
-                                    <p className="m-kicker mb-6 group-hover:text-current">{server.label}</p>
-                                    <h3>{server.name}</h3>
-                                    <ArrowUpRight className="mt-6 size-5" />
-                                </div>
-                            </a>
+                        {servers.map((server, index) => (
+                            <ScrollReveal asChild key={server.url} index={index} zoom>
+                                <a
+                                    href={server.url}
+                                    key={server.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="group !p-0">
+                                    <Image
+                                        src={`/assets/landscapes/${server.image}.webp`}
+                                        alt={server.name}
+                                        width={640}
+                                        height={360}
+                                        sizes="(max-width: 640px) 100vw, 33vw"
+                                        loading="lazy"
+                                        className="aspect-video object-cover"
+                                    />
+                                    <div className="p-6 group-hover:bg-primary group-hover:text-primary-foreground">
+                                        <p className="m-kicker mb-6 group-hover:text-current">{server.label}</p>
+                                        <h3>{server.name}</h3>
+                                        <ArrowUpRight className="mt-6 size-5" />
+                                    </div>
+                                </a>
+                            </ScrollReveal>
                         ))}
                     </div>
                 </div>
@@ -98,15 +102,17 @@ export default function CMFS() {
                     />
                     <ol className="border-t border-border">
                         {Array.from({ length: 9 }, (_, index) => (
-                            <li key={index} className="grid grid-cols-[70px_1fr] gap-6 border-b border-border py-6">
-                                <span className="m-kicker">{2016 + index}</span>
-                                <div>
-                                    <h3>{t(`event${index + 1}`)}</h3>
-                                    <p className="text-muted-foreground text-sm mt-3 leading-7">
-                                        {t(`event${index + 1}Description`)}
-                                    </p>
-                                </div>
-                            </li>
+                            <ScrollReveal asChild key={index} index={0}>
+                                <li key={index} className="grid grid-cols-[70px_1fr] gap-6 border-b border-border py-6">
+                                    <span className="m-kicker">{2016 + index}</span>
+                                    <div>
+                                        <h3>{t(`event${index + 1}`)}</h3>
+                                        <p className="text-muted-foreground text-sm mt-3 leading-7">
+                                            {t(`event${index + 1}Description`)}
+                                        </p>
+                                    </div>
+                                </li>
+                            </ScrollReveal>
                         ))}
                     </ol>
                 </div>

@@ -12,7 +12,9 @@ CSFront uses Next.js App Router, React 19, Tailwind CSS 4 and source-owned shadc
 
 ## Visual rules
 
-Use `globals.css` semantic tokens (`background`, `card`, `foreground`, `muted`, `primary`, `border`) rather than vendor tokens or page-specific palettes. The light surface is ivory; the dark surface is warm charcoal. Bright amber orange marks the primary action and selected navigation. Danger, warning and success retain semantic colors.
+See [style architecture and maintenance rules](styles.md) for CSS ownership, cascade, and checks.
+
+Use `src/styles/theme.css` semantic tokens (`background`, `card`, `foreground`, `muted`, `primary`, `border`) rather than vendor tokens or page-specific palettes. The light surface is ivory; the dark surface is warm charcoal. Bright amber orange marks the primary action and selected navigation. Danger, warning and success retain semantic colors.
 
 Use square corners, thin rules, large tightly tracked headings, monospace identifiers and generous section spacing. Use `SectionHeading` to introduce marketing sections; use `Card` and `DataTable` for operations. Data tables scroll horizontally on small screens, while the console navigation becomes horizontal.
 

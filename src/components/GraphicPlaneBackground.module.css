@@ -1,0 +1,61 @@
+.background {
+    position: absolute;
+    inset: 0;
+    background: var(--background);
+    overflow: hidden;
+    pointer-events: none;
+}
+.canvas {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(130deg, #dce9eb, #acd8dd 65%, #20384c);
+}
+.canvas canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.shade {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, #d9f1ecb0 0%, #d9f1ec60 24%, #d9f1ec10 44%, transparent 67%),
+        linear-gradient(0deg, #b4e6df25, transparent 24%);
+}
+.caption {
+    position: absolute;
+    right: 40px;
+    bottom: 40px;
+    color: var(--foreground);
+    font: 10px/1.8 var(--font-code);
+    letter-spacing: 0.12em;
+    text-align: right;
+}
+@media (max-width: 767px) {
+    .canvas {
+        left: -45%;
+        width: 145%;
+    }
+    .shade {
+        background: linear-gradient(90deg, #d9f1ecc0, #d9f1ec80 60%, #d9f1ec25);
+    }
+    .caption {
+        right: 16px;
+        bottom: 20px;
+        font-size: 8px;
+    }
+}
+
+:global(:root[theme-mode="dark"]) .canvas {
+    background: linear-gradient(130deg, #07171d, #103744 65%, #172468);
+}
+:global(:root[theme-mode="dark"]) .shade {
+    background:
+        linear-gradient(90deg, #10171988, #10171940 30%, transparent 65%),
+        linear-gradient(0deg, #10171940, transparent 24%);
+}
+@media (max-width: 767px) {
+    :global(:root[theme-mode="dark"]) .shade {
+        background: linear-gradient(90deg, #101719b0, #10171970 60%, #10171930);
+    }
+}

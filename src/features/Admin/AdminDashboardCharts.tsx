@@ -176,11 +176,7 @@ export default function AdminDashboardCharts({ data }: { data: AdminDashboardOve
     const succeeded = data.loginTrend.reduce((sum, d) => sum + d.succeeded, 0);
     return (
         <div className={styles.chartsGrid}>
-            <Card
-                bordered={false}
-                className={styles.trendCard}
-                title={t("dashboardLoginTrend")}
-                subtitle={t("dashboardLoginNote")}>
+            <Card bordered={false} title={t("dashboardLoginTrend")} subtitle={t("dashboardLoginNote")}>
                 <div className={styles.rate}>
                     {t("dashboardSuccessRate")}:{" "}
                     <strong>{attempts ? `${((succeeded / attempts) * 100).toFixed(1)}%` : "—"}</strong>
@@ -227,7 +223,10 @@ export default function AdminDashboardCharts({ data }: { data: AdminDashboardOve
                                     padAngle={0.025}>
                                     {(pie) =>
                                         pie.arcs.map((arc, i) => (
-                                            <path key={arc.data.key} d={pie.path(arc) ?? ""} fill={accountColors[i % accountColors.length]}>
+                                            <path
+                                                key={arc.data.key}
+                                                d={pie.path(arc) ?? ""}
+                                                fill={accountColors[i % accountColors.length]}>
                                                 <title>{`${arc.data.key}: ${arc.data.count} (${((arc.data.count / total) * 100).toFixed(1)}%)`}</title>
                                             </path>
                                         ))

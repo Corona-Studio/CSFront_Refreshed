@@ -59,12 +59,10 @@ function AuthForgetPassword() {
     };
 
     return (
-        <div className="p-5 sm:p-8 space-y-4 bg-card bg-opacity-25 rounded-none    transition">
-            <h1 className="!text-2xl !leading-normal">{t("forgetPassword")}</h1>
-            <p className="max-w-[450px] text-sm text-muted-foreground text-muted-foreground">
-                {t("passwordResetRequestDescription")}
-            </p>
-            <Form className="w-[300px] md:w-[400px] lg:w-[450px]" onSubmit={onSubmit}>
+        <div className="p-5 sm:p-8 space-y-4 bg-card rounded-none    transition">
+            <h1 className="text-2xl leading-normal">{t("forgetPassword")}</h1>
+            <p className="max-w-[450px] text-sm text-muted-foreground">{t("passwordResetRequestDescription")}</p>
+            <Form className="w-full min-w-0" onSubmit={onSubmit}>
                 <FormItem
                     name="email"
                     rules={[
@@ -85,7 +83,7 @@ function AuthForgetPassword() {
                     <Button
                         theme="default"
                         type="button"
-                        style={{ marginLeft: 12 }}
+                        className="ml-3"
                         onClick={() => navigate(`/auth/login?redirect=${encodeURIComponent(redirect)}`)}>
                         {t("login")}
                     </Button>

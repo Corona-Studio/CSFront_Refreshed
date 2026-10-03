@@ -1,5 +1,5 @@
 "use client";
-import "./Fallback.css";
+import styles from "./Fallback.module.css";
 
 interface FallbackProps {
     pathname?: string;
@@ -8,7 +8,7 @@ interface FallbackProps {
 
 function Bars({ count = 3 }: { count?: number }) {
     return (
-        <div className="page-skeleton-bars">
+        <div className={styles["page-skeleton-bars"]}>
             {Array.from({ length: count }, (_, index) => (
                 <span key={index} />
             ))}
@@ -43,26 +43,26 @@ function Fallback({ pathname = "/", embedded = false }: FallbackProps) {
 
     return (
         <div
-            className={`page-skeleton page-skeleton--${type} ${embedded ? "page-skeleton--embedded" : ""}`}
+            className={`${styles["page-skeleton"]} ${type === "auth" ? styles["page-skeleton--auth"] : ""} ${embedded ? styles["page-skeleton--embedded"] : ""}`}
             aria-busy="true"
             aria-label="页面加载中">
             {type === "auth" ? (
-                <div className="page-skeleton-auth-card">
-                    <div className="page-skeleton-line page-skeleton-line--title" />
+                <div className={styles["page-skeleton-auth-card"]}>
+                    <div className={styles["page-skeleton-line"] + " " + styles["page-skeleton-line--title"]} />
                     <Bars count={4} />
-                    <div className="page-skeleton-line page-skeleton-line--button" />
+                    <div className={styles["page-skeleton-line"] + " " + styles["page-skeleton-line--button"]} />
                 </div>
             ) : type === "landing" ? (
                 <>
-                    <div className="page-skeleton-hero">
-                        <div className="page-skeleton-line page-skeleton-line--title" />
+                    <div className={styles["page-skeleton-hero"]}>
+                        <div className={styles["page-skeleton-line"] + " " + styles["page-skeleton-line--title"]} />
                         <Bars count={2} />
-                        <div className="page-skeleton-line page-skeleton-line--button" />
+                        <div className={styles["page-skeleton-line"] + " " + styles["page-skeleton-line--button"]} />
                     </div>
-                    <div className="page-skeleton-grid">
+                    <div className={styles["page-skeleton-grid"]}>
                         {[0, 1, 2].map((item) => (
-                            <div className="page-skeleton-card" key={item}>
-                                <div className="page-skeleton-media" />
+                            <div className={styles["page-skeleton-card"]} key={item}>
+                                <div className={styles["page-skeleton-media"]} />
                                 <Bars count={2} />
                             </div>
                         ))}
@@ -70,14 +70,14 @@ function Fallback({ pathname = "/", embedded = false }: FallbackProps) {
                 </>
             ) : type === "table" ? (
                 <>
-                    <div className="page-skeleton-toolbar">
-                        <div className="page-skeleton-line page-skeleton-line--wide" />
-                        <div className="page-skeleton-line page-skeleton-line--button" />
+                    <div className={styles["page-skeleton-toolbar"]}>
+                        <div className={styles["page-skeleton-line"] + " " + styles["page-skeleton-line--wide"]} />
+                        <div className={styles["page-skeleton-line"] + " " + styles["page-skeleton-line--button"]} />
                     </div>
-                    <div className="page-skeleton-table">
-                        <div className="page-skeleton-table-head" />
+                    <div className={styles["page-skeleton-table"]}>
+                        <div className={styles["page-skeleton-table-head"]} />
                         {Array.from({ length: 6 }, (_, index) => (
-                            <div className="page-skeleton-table-row" key={index}>
+                            <div className={styles["page-skeleton-table-row"]} key={index}>
                                 <span />
                                 <span />
                                 <span />
@@ -88,27 +88,33 @@ function Fallback({ pathname = "/", embedded = false }: FallbackProps) {
                 </>
             ) : type === "dashboard" || type === "cards" ? (
                 <>
-                    <div className="page-skeleton-grid page-skeleton-grid--four">
+                    <div className={styles["page-skeleton-grid"] + " " + styles["page-skeleton-grid--four"]}>
                         {[0, 1, 2, 3].map((item) => (
-                            <div className="page-skeleton-card" key={item}>
-                                <div className="page-skeleton-line page-skeleton-line--short" />
+                            <div className={styles["page-skeleton-card"]} key={item}>
+                                <div
+                                    className={styles["page-skeleton-line"] + " " + styles["page-skeleton-line--short"]}
+                                />
                                 <Bars count={2} />
                             </div>
                         ))}
                     </div>
-                    <div className="page-skeleton-card page-skeleton-card--large">
+                    <div className={styles["page-skeleton-card"] + " " + styles["page-skeleton-card--large"]}>
                         <Bars count={4} />
                     </div>
                 </>
             ) : (
                 <>
-                    <div className="page-skeleton-card page-skeleton-card--large">
-                        <div className="page-skeleton-line page-skeleton-line--title" />
+                    <div className={styles["page-skeleton-card"] + " " + styles["page-skeleton-card--large"]}>
+                        <div className={styles["page-skeleton-line"] + " " + styles["page-skeleton-line--title"]} />
                         <Bars count={type === "detail" ? 5 : 3} />
-                        {type === "download" && <div className="page-skeleton-line page-skeleton-line--button" />}
+                        {type === "download" && (
+                            <div
+                                className={styles["page-skeleton-line"] + " " + styles["page-skeleton-line--button"]}
+                            />
+                        )}
                     </div>
                     {type === "detail" && (
-                        <div className="page-skeleton-card">
+                        <div className={styles["page-skeleton-card"]}>
                             <Bars count={3} />
                         </div>
                     )}

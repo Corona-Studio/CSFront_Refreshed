@@ -143,8 +143,8 @@ function AuthRegister() {
 
     return (
         <>
-            <div className="w-[calc(100vw-2rem)] max-w-[520px] rounded-none bg-card p-5  transition   bg-card sm:p-8">
-                <h1 className={`${layout.title} !text-2xl !leading-normal`}>{t("register")}</h1>
+            <div className="w-full min-w-0 max-w-[520px] rounded-none bg-card p-5  transition   bg-card sm:p-8">
+                <h1 className={`${layout.title} text-2xl leading-normal`}>{t("register")}</h1>
                 <Form ref={form} onSubmit={onSubmit} className="w-full min-w-0">
                     <FormItem
                         name="username"

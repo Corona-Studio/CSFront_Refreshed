@@ -111,6 +111,63 @@ export const zhCN = {
         cskbDescription: "CSKB 是我们面向所有 MC 玩家与日冕工作室相关项目的公开知识库。",
         hiveDescription: "基于 C# 开发的高性能跨平台网络库实现，支持包括 TCP，UDP，KCP 等主流协议栈。",
 
+        lxLanding: {
+            headline: ["即刻启程", "探索无限", "可能 /"],
+            explore: "探索功能",
+            hint: "点击缩略图，探索更多界面",
+            home: "你的冒险，从这里开始",
+            versions: "所有版本，井然有序",
+            resources: "发现下一场冒险",
+            personalPreview: "让界面，成为你的风格",
+            capabilities: "为每一次冒险做好准备",
+            intro: "从安装游戏到管理资源，再到个性化设置，把准备工作交给 LauncherX。",
+            featureTitles: ["ConnectX", "跨平台", "整合包", "ProjBobcat", "简洁美观", "多线下载"],
+            featureDescriptions: [
+                "支持 P2P 与中继连接，让多人游戏更便利。",
+                "在 Windows、macOS 和 Linux 上，享受熟悉的使用体验。",
+                "导入、导出主流平台整合包，轻松安装游戏资源。",
+                "自研开源启动核心，为每次启动提供稳定支持。",
+                "从背景到配色，让启动器也有你的风格。",
+                "多任务调度、分片下载与断点续传，让等待更从容。"
+            ],
+            stories: [
+                {
+                    title: "一个入口，\n管理每个世界。",
+                    description:
+                        "原版、模组版与整合包，都有各自的位置。在游戏列表中整理不同版本，为每一次冒险准备独立的配置。",
+                    detail: "查看版本设置、管理模组与存档，把日常管理留在熟悉的界面里。",
+                    captions: ["游戏列表 / 版本管理", "版本设置 / 模组管理"]
+                },
+                {
+                    title: "下一场冒险，\n从发现开始。",
+                    description:
+                        "浏览 CurseForge 与 Modrinth 的资源，在启动器里发现模组、整合包和资源包，查看介绍与版本，再选择适合自己的内容。",
+                    detail: "从资源搜索到详情浏览，让安装之前的每一步都有据可循。",
+                    captions: ["资源浏览 / 整合包", "资源详情 / 介绍与版本"]
+                },
+                {
+                    title: "熟悉的界面，\n属于你的风格。",
+                    description: "选择喜欢的背景、调整主题与配色，让每次打开 LauncherX 都有自己的样子。",
+                    detail: "清晰的设置分类，把界面调整与游戏配置放在触手可及的位置。",
+                    captions: ["界面设置 / 背景", "界面设置 / 主题与配色"]
+                }
+            ],
+            workflowTitle: "从准备到出发，\n每一步都很清楚。",
+            steps: [
+                {
+                    title: "获取启动器",
+                    description: "前往下载页，选择适合系统的版本和更新通道。"
+                },
+                {
+                    title: "准备游戏与资源",
+                    description: "安装游戏版本，添加喜欢的模组或导入整合包。"
+                },
+                {
+                    title: "开启你的世界",
+                    description: "确认账户与游戏配置，开始游戏，或探索多人联机。"
+                }
+            ]
+        },
         lxSlogan: "功能强大、界面优美的下一代 MineCraft 启动器。",
         downloadNow: "立即下载",
         powerfulFeatures: "强大的功能",

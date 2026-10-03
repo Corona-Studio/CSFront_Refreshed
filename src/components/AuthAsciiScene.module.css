@@ -75,7 +75,7 @@
         display: none;
     }
 }
-@media (max-width: 640px) {
+@media (max-width: 900px) {
     .scene {
         border-right: 0;
         border-bottom: 1px solid #263936;

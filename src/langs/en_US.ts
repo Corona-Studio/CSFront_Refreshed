@@ -116,6 +116,71 @@ export const enUS = {
         hiveDescription:
             "A high-performance cross-platform network library in C#, supporting TCP, UDP, KCP, and other protocols.",
 
+        lxLanding: {
+            headline: ["LAUNCH", "WITHOUT", "LIMITS /"],
+            explore: "Explore features",
+            hint: "Select a preview to explore more",
+            home: "Your next adventure starts here",
+            versions: "Every version, in its place",
+            resources: "Discover your next adventure",
+            personalPreview: "Make the interface your own",
+            capabilities: "Ready for every adventure",
+            intro: "From installing games to managing resources and personalizing your setup, let LauncherX handle the preparation.",
+            featureTitles: [
+                "ConnectX",
+                "Cross platform",
+                "Modpacks",
+                "ProjBobcat",
+                "Made for you",
+                "Parallel downloads"
+            ],
+            featureDescriptions: [
+                "Multiplayer with P2P and relay connections.",
+                "A familiar experience on Windows, macOS and Linux.",
+                "Import and export modpacks from major platforms and install game resources.",
+                "An open-source launch core developed in house for dependable launches.",
+                "Make the launcher yours with backgrounds, themes and colors.",
+                "Task scheduling, segmented downloads and resumable transfers."
+            ],
+            stories: [
+                {
+                    title: "One place.\nEvery world.",
+                    description:
+                        "Keep vanilla, modded games and modpacks organized. Manage versions in your game list and prepare separate configurations for each adventure.",
+                    detail: "Review version settings, manage mods and saves, and keep everyday tasks in a familiar interface.",
+                    captions: ["Game list / Version management", "Version settings / Mod management"]
+                },
+                {
+                    title: "A new adventure.\nA new discovery.",
+                    description:
+                        "Explore CurseForge and Modrinth resources in the launcher. Find mods, modpacks and resource packs, review descriptions and versions, and choose what fits your game.",
+                    detail: "From search results to resource details, get the information you need before installing.",
+                    captions: ["Browse resources / Modpacks", "Resource details / Overview and versions"]
+                },
+                {
+                    title: "Your launcher.\nYour style.",
+                    description:
+                        "Choose a background and adjust themes and colors to make every visit to LauncherX feel your own.",
+                    detail: "Clearly organized settings keep interface preferences and game configuration close at hand.",
+                    captions: ["Interface settings / Background", "Interface settings / Theme and colors"]
+                }
+            ],
+            workflowTitle: "From setup\nto your next world.",
+            steps: [
+                {
+                    title: "Get the launcher",
+                    description: "Choose the version and release channel for your system on the download page."
+                },
+                {
+                    title: "Prepare your game",
+                    description: "Install a game version, add your favorite mods or import a modpack."
+                },
+                {
+                    title: "Enter your world",
+                    description: "Check your account and game settings, then launch or explore multiplayer."
+                }
+            ]
+        },
         lxSlogan: "A next-gen Minecraft launcher with powerful features and a sleek UI.",
         downloadNow: "Download Now",
         powerfulFeatures: "Powerful Features",

@@ -1,4 +1,5 @@
 "use client";
+import MotionProvider from "@/components/motion/provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { I18NLangKey } from "@/helpers/StorageHelper";
 import { applyTheme, getTheme, useTheme } from "@/helpers/ThemeDetector";
@@ -48,10 +49,12 @@ export default function Providers({ children }: { children: ReactNode }) {
     return (
         <I18nextProvider i18n={i18n}>
             <QueryClientProvider client={client}>
-                <TooltipProvider>
-                    <Preferences />
-                    {children}
-                </TooltipProvider>
+                <MotionProvider>
+                    <TooltipProvider>
+                        <Preferences />
+                        {children}
+                    </TooltipProvider>
+                </MotionProvider>
             </QueryClientProvider>
         </I18nextProvider>
     );

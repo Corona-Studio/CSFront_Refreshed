@@ -1,0 +1,87 @@
+.frame {
+    position: relative;
+    box-shadow: 8px 8px 0 color-mix(in srgb, var(--foreground) 5%, transparent);
+    border: 1px solid var(--border);
+    background: var(--card);
+    isolation: isolate;
+    min-width: 0;
+}
+.frame::before,
+.frame::after {
+    position: absolute;
+    z-index: 2;
+    border-style: solid;
+    border-color: var(--primary);
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+    content: "";
+}
+.frame::before {
+    top: -1px;
+    left: -1px;
+    border-width: 3px 0 0 3px;
+}
+.frame::after {
+    right: -1px;
+    bottom: -1px;
+    border-width: 0 3px 3px 0;
+}
+.media {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+.mediaBlur {
+    top: auto;
+    height: 36px;
+}
+.caption {
+    position: relative;
+    border-top: 1px solid var(--border);
+    background: var(--card);
+}
+.heading {
+    position: relative;
+}
+.headingRule {
+    position: relative;
+    align-items: center;
+}
+.headingRule::before {
+    flex-shrink: 0;
+    background: var(--primary);
+    width: 7px;
+    height: 7px;
+    content: "";
+}
+.headingCode {
+    flex: 1;
+    color: var(--primary-ink);
+}
+.headingMeta {
+    text-align: right;
+}
+.heroBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid currentColor;
+    padding: 8px 12px;
+    width: fit-content;
+}
+.heroBadge::before {
+    flex-shrink: 0;
+    background: var(--signal);
+    width: 6px;
+    height: 6px;
+    content: "";
+}
+@media (max-width: 640px) {
+    .headingMeta {
+        display: none;
+    }
+    .frame {
+        box-shadow: 4px 4px 0 color-mix(in srgb, var(--foreground) 5%, transparent);
+    }
+}

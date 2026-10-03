@@ -1,34 +1,80 @@
 "use client";
+import PreviewSwap from "@/components/motion/preview-swap";
+import motionStyles from "@/components/motion/interactions.module.css";
+import ProgressiveBlur from "@/components/motion/progressive-blur";
+import showcase from "@/components/motion/showcase.module.css";
+import { ScrollReveal } from "@/components/motion/scroll-reveal";
 import { SectionHeading } from "@/components/marathon";
 import { Button } from "@/components/ui/button";
+import type { zhCN } from "@/langs/zh_CN";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export default function LxHome() {
     const { t } = useTranslation();
-    const features = [
-        { title: "ConnectX", description: "多人游戏更便利", label: "P2P / RELAY" },
-        { title: "跨平台", description: "Linux、Windows、macOS 几乎一致的体验", label: "X64 / ARM64" },
-        { title: "整合包", description: "主流平台整合包导入导出和资源安装支持", label: "CURSEFORGE / MODRINTH" },
-        { title: "ProjBobcat", description: "安全、稳定、开源的自研启动核心", label: "LAUNCH CORE" },
-        { title: "简洁美观", description: "极简外观，暗藏玄机", label: "DESIGNED TO PLAY" },
-        { title: "多线下载", description: "最大化利用上下游带宽，高效便捷", label: "PARALLEL DOWNLOAD" }
+    const [activePreview, setActivePreview] = useState(0);
+    const copy = t("lxLanding", { returnObjects: true }) as typeof zhCN.translation.lxLanding;
+    const previews = [
+        { image: 1, caption: copy.home },
+        { image: 2, caption: copy.versions },
+        { image: 14, caption: copy.resources },
+        { image: 20, caption: copy.personalPreview }
     ];
+    const preview = previews[activePreview];
+    const labels = [
+        "P2P / RELAY",
+        "X64 / ARM64",
+        "CURSEFORGE / MODRINTH",
+        "LAUNCH CORE",
+        "DESIGNED TO PLAY",
+        "PARALLEL DOWNLOAD"
+    ];
+    const features = copy.featureTitles.map((title, index) => ({
+        title,
+        description: copy.featureDescriptions[index],
+        label: labels[index]
+    }));
+    const storyImages = [
+        [2, 4],
+        [13, 14],
+        [20, 21]
+    ];
+    const storyCodes = ["02 / YOUR WORLDS", "03 / DISCOVER MORE", "04 / MAKE IT YOURS"];
+    const screenshot = (index: number, caption: string) => (
+        <ScrollReveal asChild zoom>
+            <figure className={showcase.frame}>
+                <div className={showcase.media}>
+                    <Image
+                        src={`/assets/lx/LauncherX_${index}.webp`}
+                        alt={caption}
+                        width={1280}
+                        height={720}
+                        sizes="(max-width: 1023px) 100vw, 55vw"
+                        loading="lazy"
+                        className="w-full"
+                    />
+                    <ProgressiveBlur direction="bottom" className={showcase.mediaBlur} />
+                </div>
+                <figcaption className={`m-kicker p-4 ${showcase.caption}`}>{caption}</figcaption>
+            </figure>
+        </ScrollReveal>
+    );
     return (
         <>
             <section className="m-section">
                 <div className="m-container">
-                    <p className="m-kicker mb-8">LX—001 / MINECRAFT LAUNCHER</p>
-                    <div className="grid lg:grid-cols-2 items-center gap-12">
-                        <div>
-                            <h1>
-                                LAUNCH
+                    <p className={`m-kicker mb-8 ${showcase.heroBadge}`}>LX—001 / MINECRAFT LAUNCHER</p>
+                    <div className="grid lg:grid-cols-[0.9fr_1.1fr] items-center gap-12">
+                        <div className={motionStyles.intro}>
+                            <h1 className="leading-[1.12] text-[clamp(3.25rem,6.3vw,6.5rem)]">
+                                {copy.headline[0]}
                                 <br />
-                                WITHOUT
+                                {copy.headline[1]}
                                 <br />
-                                <span className="text-muted-foreground">LIMITS/</span>
+                                <span className="text-muted-foreground">{copy.headline[2]}</span>
                             </h1>
                             <p className="mt-8 text-2xl font-bold">LauncherX</p>
                             <p className="text-muted-foreground mt-4 leading-7">{t("lxSlogan")}</p>
@@ -39,78 +85,120 @@ export default function LxHome() {
                                         <ArrowRight />
                                     </Link>
                                 </Button>
+                                <Button asChild size="lg" variant="outline">
+                                    <a href="#lx-capabilities">
+                                        {copy.explore}
+                                        <ArrowRight />
+                                    </a>
+                                </Button>
                             </div>
                             <p className="m-kicker mt-8">WINDOWS / MACOS / LINUX</p>
                         </div>
-                        <figure className="border border-border">
-                            <Image
-                                src="/assets/lx/LauncherX_1.webp"
-                                alt="LauncherX 主界面"
-                                width={1280}
-                                height={720}
-                                sizes="(max-width: 900px) 100vw, 50vw"
-                                fetchPriority="high"
-                            />
-                            <figcaption className="m-kicker border-t border-border p-4">
-                                LX / BUILT FOR YOUR NEXT ADVENTURE
-                            </figcaption>
-                        </figure>
-                    </div>
-                </div>
-            </section>
-            <section className="m-section">
-                <div className="m-container">
-                    <SectionHeading code="01 / CAPABILITIES" title={t("talkIsCheap")} />
-                    <div className="m-grid">
-                        {features.map((feature, index) => (
-                            <article key={feature.title}>
-                                <div className="m-rule m-kicker">
-                                    <span>0{index + 1}</span>
-                                    <span>{feature.label}</span>
+                        <div className="min-w-0">
+                            <figure id="lx-preview" className={showcase.frame}>
+                                <div className={showcase.media}>
+                                    <PreviewSwap id={preview.image}>
+                                        <Image
+                                            src={`/assets/lx/LauncherX_${preview.image}.webp`}
+                                            alt={preview.caption}
+                                            width={1280}
+                                            height={720}
+                                            sizes="(max-width: 1023px) 100vw, 55vw"
+                                            fetchPriority="high"
+                                            loading="eager"
+                                            className="aspect-video w-full object-contain"
+                                        />
+                                    </PreviewSwap>
+                                    <ProgressiveBlur direction="bottom" className={showcase.mediaBlur} />
                                 </div>
-                                <h3 className="text-2xl">{feature.title}</h3>
-                                <p>{feature.description}</p>
-                            </article>
-                        ))}
-                    </div>
-                </div>
-            </section>
-            <section className="m-section">
-                <div className="m-container">
-                    <SectionHeading
-                        code="02 / INTERFACE"
-                        title={t("powerfulFeatures")}
-                        description={t("powerfulFeaturesDescription")}
-                    />
-                    <div className="grid md:grid-cols-2 gap-4">
-                        {[3, 7, 11, 17].map((index) => (
-                            <figure className="border border-border" key={index}>
-                                <Image
-                                    src={`/assets/lx/LauncherX_${index}.webp`}
-                                    alt={`LauncherX 功能界面 ${index}`}
-                                    loading="lazy"
-                                    width={1280}
-                                    height={720}
-                                    sizes="(max-width: 900px) 100vw, 50vw"
-                                />
-                                <figcaption className="m-kicker p-3 border-t border-border">
-                                    INTERFACE / {String(index).padStart(3, "0")}
+                                <figcaption
+                                    className={`flex justify-between gap-4 p-4 ${showcase.caption}`}
+                                    aria-live="polite">
+                                    <span className="m-kicker">{preview.caption}</span>
+                                    <span className="m-kicker">0{activePreview + 1} / 04</span>
                                 </figcaption>
                             </figure>
+                            <div
+                                className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3"
+                                role="group"
+                                aria-label="LauncherX">
+                                {previews.map((item, index) => (
+                                    <button
+                                        key={item.image}
+                                        type="button"
+                                        onClick={() => setActivePreview(index)}
+                                        aria-pressed={activePreview === index}
+                                        aria-controls="lx-preview"
+                                        className={`${motionStyles.button} min-w-0 border text-left transition-colors hover:border-primary ${activePreview === index ? "border-primary bg-accent" : "border-border bg-card"}`}>
+                                        <Image
+                                            src={`/assets/lx/LauncherX_${item.image}.webp`}
+                                            alt=""
+                                            width={320}
+                                            height={180}
+                                            sizes="(max-width: 639px) 45vw, (max-width: 1023px) 22vw, 14vw"
+                                            className="aspect-video w-full object-contain"
+                                        />
+                                        <span className="block px-2 py-3 text-xs leading-5">{item.caption}</span>
+                                    </button>
+                                ))}
+                            </div>
+                            <p className="m-kicker mt-4">{copy.hint}</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="lx-capabilities" className="m-section scroll-mt-24">
+                <div className="m-container">
+                    <SectionHeading code="01 / CAPABILITIES" title={copy.capabilities} description={copy.intro} />
+                    <div className="m-grid">
+                        {features.map((feature, index) => (
+                            <ScrollReveal asChild key={feature.label} index={index % 3}>
+                                <article>
+                                    <div className="m-rule m-kicker">
+                                        <span>0{index + 1}</span>
+                                        <span>{feature.label}</span>
+                                    </div>
+                                    <h3 className="text-2xl">{feature.title}</h3>
+                                    <p>{feature.description}</p>
+                                </article>
+                            </ScrollReveal>
                         ))}
                     </div>
                 </div>
             </section>
+            {copy.stories.map((story, index) => (
+                <section className="m-section" key={storyCodes[index]}>
+                    <div className="m-container grid lg:grid-cols-[0.9fr_1.1fr] items-start gap-12 lg:gap-20">
+                        <div className={`lg:sticky lg:top-28 ${index % 2 === 1 ? "lg:order-2" : ""}`}>
+                            <SectionHeading
+                                code={storyCodes[index]}
+                                title={<span className="whitespace-pre-line">{story.title}</span>}
+                                description={story.description}
+                            />
+                            <ScrollReveal asChild>
+                                <p className="text-muted-foreground leading-8 border-t border-border pt-6">
+                                    {story.detail}
+                                </p>
+                            </ScrollReveal>
+                        </div>
+                        <div className="grid gap-5 min-w-0">
+                            {storyImages[index].map((image, i) => (
+                                <div key={image}>{screenshot(image, story.captions[i])}</div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            ))}
             <section className="m-section">
                 <div className="m-container grid md:grid-cols-2 gap-12">
                     <SectionHeading
-                        code="03 / PERFORMANCE"
+                        code="05 / PERFORMANCE"
                         title={t("aggressiveOptimizing")}
                         description={t("aggressiveOptimizingDescription")}
                     />
                     <div>
                         <SectionHeading
-                            code="04 / RESOURCES"
+                            code="RESOURCE PARTNERS"
                             title={t("integratedWithThirdPartyResources")}
                             description={t("integratedWithThirdPartyResourcesDescription")}
                         />
@@ -130,18 +218,39 @@ export default function LxHome() {
                     </div>
                 </div>
             </section>
-            <section className="m-section bg-primary text-primary-foreground">
+            <section className="m-section">
                 <div className="m-container">
-                    <p className="m-kicker text-current mb-6">05 / CONTINUOUS DEVELOPMENT</p>
-                    <h2>{t("alwaysGetLatestUpdates")}</h2>
-                    <p className="my-6 max-w-2xl leading-8">{t("alwaysGetLatestUpdatesDescription")}</p>
-                    <Button asChild variant="outline" className="bg-transparent border-current text-current">
-                        <Link href="/lx/download">
-                            {t("downloadNow")}
-                            <ArrowRight />
-                        </Link>
-                    </Button>
+                    <SectionHeading
+                        code="06 / GET STARTED"
+                        title={<span className="whitespace-pre-line">{copy.workflowTitle}</span>}
+                    />
+                    <div className="m-grid">
+                        {copy.steps.map((step, index) => (
+                            <ScrollReveal asChild key={index} index={index}>
+                                <article>
+                                    <div className="m-rule m-kicker">STEP / 0{index + 1}</div>
+                                    <h3>{step.title}</h3>
+                                    <p>{step.description}</p>
+                                </article>
+                            </ScrollReveal>
+                        ))}
+                    </div>
                 </div>
+            </section>
+            <section className="m-section bg-primary text-primary-foreground">
+                <ScrollReveal asChild>
+                    <div className="m-container">
+                        <p className="m-kicker text-current mb-6">07 / CONTINUOUS DEVELOPMENT</p>
+                        <h2>{t("alwaysGetLatestUpdates")}</h2>
+                        <p className="my-6 max-w-2xl leading-8">{t("alwaysGetLatestUpdatesDescription")}</p>
+                        <Button asChild variant="outline" className="bg-transparent border-current text-current">
+                            <Link href="/lx/download">
+                                {t("downloadNow")}
+                                <ArrowRight />
+                            </Link>
+                        </Button>
+                    </div>
+                </ScrollReveal>
             </section>
         </>
     );

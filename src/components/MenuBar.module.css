@@ -2,17 +2,22 @@
     position: sticky;
     top: 0;
     z-index: 50;
-    backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
-    background: color-mix(in srgb, var(--background) 96%, transparent);
+    background: color-mix(in srgb, var(--background) 86%, transparent);
     height: 72px;
+}
+
+.progressiveBlur {
+    bottom: -28px;
 }
 
 .inner {
     display: grid;
+    position: relative;
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
     gap: 24px;
+    z-index: 1;
     padding-inline: 32px;
     width: 100%;
     height: 100%;
@@ -73,6 +78,8 @@
     color: var(--foreground);
 }
 
+.navLink:hover::after,
+.navLink:focus-visible::after,
 .navLink[aria-current="page"]::after {
     transform: scaleX(1);
 }
@@ -165,5 +172,16 @@
     .navLink::after,
     .tool {
         transition: none;
+    }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+    .header {
+        background: var(--background);
+    }
+}
+@supports not (backdrop-filter: blur(1px)) {
+    .header {
+        background: var(--background);
     }
 }

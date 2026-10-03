@@ -1,6 +1,5 @@
 "use client";
 import { FC, ReactElement, memo } from "react";
-import { Card } from "./marathon/index.tsx";
 
 import styles from "./Board.module.css";
 
@@ -13,21 +12,18 @@ interface BoardProps {
 }
 
 const Board: FC<BoardProps> = ({ title, count, desc, Icon, border = false }) => (
-    <>
-        <Card
-            title={<span className={styles.boardTitle}>{title}</span>}
-            bordered={border}
-            footer={
-                <div className={styles.boardItemBottom}>
-                    <div className={styles.boardItemDesc}>{desc}</div>
-                </div>
-            }>
-            <div className={styles.boardItem}>
-                <div className={styles.boardItemLeft}>{count}</div>
-                <div className={styles.boardItemRight}>{Icon}</div>
-            </div>
-        </Card>
-    </>
+    <article className={styles.board} data-bordered={border || undefined}>
+        <div className={styles.boardHeader}>
+            <h2 className={styles.boardTitle}>{title}</h2>
+            {Icon && (
+                <span className={styles.boardIcon} aria-hidden="true">
+                    {Icon}
+                </span>
+            )}
+        </div>
+        <p className={styles.boardCount}>{count}</p>
+        {desc && <p className={styles.boardDescription}>{desc}</p>}
+    </article>
 );
 
 export default memo(Board);

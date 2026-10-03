@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { type ReactNode, useState } from "react";
 
 import { Button, Select } from "./controls";
+import styles from "./data-table.module.css";
 import { Loading } from "./layout";
 
 export interface DataTableColumn<T> {
@@ -61,7 +62,7 @@ export function DataTable<T>({
             : sorted;
     return (
         <div className={cn("min-w-0", className)} aria-busy={loading}>
-            <Table className="m-table" style={{ tableLayout }}>
+            <Table className={styles.table} style={{ tableLayout }}>
                 <TableHeader>
                     <TableRow>
                         {columns.map((col) => (
@@ -129,7 +130,7 @@ export function DataTable<T>({
                 </TableBody>
             </Table>
             {pagination && (
-                <nav className="m-pagination" aria-label="分页">
+                <nav data-slot="pagination" className={styles.pagination} aria-label="分页">
                     <span className="m-kicker">
                         {pagination.total} ITEMS · {current} / {pages}
                     </span>

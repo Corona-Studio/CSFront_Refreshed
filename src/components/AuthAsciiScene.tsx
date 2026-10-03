@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
@@ -7,6 +8,8 @@ import { Euler, TorusKnotGeometry, Vector3 } from "three";
 
 import AuthAsciiFluid from "./AuthAsciiFluid";
 import styles from "./AuthAsciiScene.module.css";
+
+const KineticAsciiBackground = dynamic(() => import("./KineticAsciiBackground"), { ssr: false });
 
 type Face = { vertices: [Vector3, Vector3, Vector3]; normals: [Vector3, Vector3, Vector3] };
 
@@ -28,11 +31,13 @@ function knotSurface(): Face[] {
 }
 
 export default function AuthAsciiScene() {
-    const register = usePathname().startsWith("/auth/register");
+    const pathname = usePathname();
+    const register = pathname.startsWith("/auth/register");
+    const login = pathname === "/auth/login";
     const { t } = useTranslation();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     useEffect(() => {
-        if (register) return;
+        if (register || login) return;
         const canvas = canvasRef.current;
         const context = canvas?.getContext("2d");
         if (!canvas || !context) return;
@@ -235,21 +240,27 @@ export default function AuthAsciiScene() {
             document.removeEventListener("visibilitychange", sync);
             motion.removeEventListener("change", sync);
         };
-    }, [register]);
+    }, [register, login]);
 
     return (
         <aside className={styles.scene}>
             <div className={styles.header}>
                 <p className={styles.code}>{register ? "CS—003 / CREATE ACCOUNT" : "CS—002 / ACCOUNT ACCESS"}</p>
-                <span className={styles.status}>{register ? "FLUID STUDY / B" : "FORM STUDY / A"}</span>
+                <span className={styles.status}>
+                    {register ? "FLUID STUDY / B" : login ? "SEED STUDY / A" : "FORM STUDY / A"}
+                </span>
             </div>
             <div className={styles.drawing}>
                 {register ? (
                     <AuthAsciiFluid />
+                ) : login ? (
+                    <KineticAsciiBackground variant="login" />
                 ) : (
                     <canvas ref={canvasRef} className={styles.canvas} aria-hidden="true" />
                 )}
-                {!register && <span className={styles.drawingNote}>01 / CONNECTED FORM</span>}
+                {!register && (
+                    <span className={styles.drawingNote}>{login ? "01 / DANDELION FIELD" : "01 / CONNECTED FORM"}</span>
+                )}
             </div>
             <div className={styles.copy}>
                 <h2>
@@ -271,7 +282,7 @@ export default function AuthAsciiScene() {
             </div>
             <div className={styles.footer}>
                 <span>CORONA STUDIO · PLAY / BUILD / CONNECT</span>
-                {!register && <span>MOVE TO ROTATE / ASCII</span>}
+                {!register && <span>{login ? "MOVE TO SCATTER / ASCII" : "MOVE TO ROTATE / ASCII"}</span>}
             </div>
         </aside>
     );

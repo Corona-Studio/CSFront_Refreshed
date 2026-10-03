@@ -1,19 +1,16 @@
 .iconWrap {
     display: inline-flex;
-    position: absolute;
-    top: 18px;
-    right: 18px;
     justify-content: center;
     align-items: center;
     border-radius: 0;
-    background: var(--accent);
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
 }
 
 .svgIcon {
+    width: 18px;
+    height: 18px;
     color: var(--primary-ink);
-    font-size: 20px;
 }
 
 .page {
@@ -24,17 +21,13 @@
 
 .statsGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
     gap: 12px;
     min-width: 0;
 }
 
 .statsGrid > div {
     min-width: 0;
-}
-
-.statsGrid :global([data-slot="card"]) {
-    height: 100%;
 }
 
 .header {

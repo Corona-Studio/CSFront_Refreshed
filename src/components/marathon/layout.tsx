@@ -1,4 +1,7 @@
 "use client";
+import showcase from "@/components/motion/showcase.module.css";
+import motionStyles from "@/components/motion/interactions.module.css";
+import { ScrollReveal } from "@/components/motion/scroll-reveal";
 import { AvatarFallback, AvatarImage, Avatar as AvatarRoot } from "@/components/ui/avatar";
 import {
     CardContent,
@@ -30,9 +33,15 @@ export interface PanelProps {
     hoverShadow?: boolean;
     theme?: string;
 }
-export function Card({ children, title, subtitle, actions, footer, cover, className, style }: PanelProps) {
+export function Card({ children, title, subtitle, actions, footer, cover, className, style, hoverShadow }: PanelProps) {
     return (
-        <CardRoot className={cn("rounded-none shadow-none gap-0 py-0 border-border bg-card", className)} style={style}>
+        <CardRoot
+            className={cn(
+                "rounded-none shadow-none gap-0 py-0 border-border bg-card",
+                hoverShadow && motionStyles.card,
+                className
+            )}
+            style={style}>
             {typeof cover === "string" ? <img src={cover} alt="" loading="lazy" /> : cover}
             {(title || subtitle || actions) && (
                 <CardHeader className="flex flex-row justify-between gap-4 border-b border-border py-5">
@@ -240,13 +249,13 @@ export function SectionHeading({
     description?: ReactNode;
 }) {
     return (
-        <div className="mb-10">
-            <div className="m-rule m-kicker">
-                <span>{code}</span>
-                <span>CORONA STUDIO / SYSTEMS</span>
+        <ScrollReveal className={`mb-10 ${showcase.heading}`}>
+            <div className={`m-rule m-kicker ${showcase.headingRule}`}>
+                <span className={showcase.headingCode}>{code}</span>
+                <span className={showcase.headingMeta}>CORONA STUDIO / SYSTEMS</span>
             </div>
             <h2>{title}</h2>
             {description && <p className="mt-5 max-w-2xl text-muted-foreground leading-8">{description}</p>}
-        </div>
+        </ScrollReveal>
     );
 }

@@ -93,7 +93,7 @@ const fragmentShader = `
     }
 `;
 
-export default function KineticAsciiBackground() {
+export default function KineticAsciiBackground({ variant = "hero" }: { variant?: "hero" | "login" }) {
     const hostRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
         const host = hostRef.current;
@@ -175,9 +175,9 @@ export default function KineticAsciiBackground() {
         }
         // Three different-sized seed heads: dots form the radial structure, punctuation the tips.
         const flowers = [
-            { x: 0.42, y: 0.08, radius: 0.43, phase: 0.2 },
-            { x: 0.92, y: 0.54, radius: 0.25, phase: 2.1 },
-            { x: 0.96, y: -0.52, radius: 0.32, phase: 4.4 }
+            { x: variant === "login" ? -0.15 : 0.42, y: 0.08, radius: 0.43, phase: 0.2 },
+            { x: variant === "login" ? 0.62 : 0.92, y: 0.54, radius: 0.25, phase: 2.1 },
+            { x: variant === "login" ? 0.62 : 0.96, y: -0.52, radius: 0.32, phase: 4.4 }
         ];
         flowers.forEach(({ x, y, radius, phase }, flowerIndex) => {
             for (let ray = 0; ray < 28; ray++) {
@@ -565,15 +565,11 @@ export default function KineticAsciiBackground() {
             renderer.domElement.remove();
             flowCanvas.remove();
         };
-    }, []);
+    }, [variant]);
     return (
-        <div className={styles.background} aria-hidden="true">
+        <div className={`${styles.background} ${variant === "login" ? styles.login : ""}`} aria-hidden="true">
             <div ref={hostRef} className={styles.canvas} />
             <div className={styles.shade} />
-            <div className={styles.caption}>
-                <span>CS—001 / CREATIVE SYSTEMS</span>
-                <span>MOVE TO STIR · SWEEP TO RELEASE</span>
-            </div>
         </div>
     );
 }

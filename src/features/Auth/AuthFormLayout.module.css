@@ -5,17 +5,19 @@
 }
 
 .field {
-    margin-bottom: 24px !important;
+    margin-bottom: 24px;
 }
 
 .actions {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 12px;
 }
 
 .options {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     gap: 12px;
@@ -23,7 +25,7 @@
 }
 
 .optionField {
-    margin: 0 !important;
+    margin: 0;
 }
 
 .turnstile {

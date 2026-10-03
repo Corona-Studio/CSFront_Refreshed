@@ -6,6 +6,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { type ReactNode, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import styles from "./console-shell.module.css";
 import { Loading } from "./layout";
 
 export default function ConsoleShell({ children, admin = false }: { children: ReactNode; admin?: boolean }) {
@@ -66,8 +67,8 @@ export default function ConsoleShell({ children, admin = false }: { children: Re
             </div>
         );
     return (
-        <div className="m-console">
-            <aside className="m-sidebar">
+        <div className={styles.console}>
+            <aside className={styles.sidebar}>
                 <nav aria-label={admin ? "管理导航" : "用户导航"}>
                     <p className="m-kicker px-3 mb-6">{admin ? "CS / ADMIN CONTROL" : "CS / PERSONAL SPACE"}</p>
                     {links.map(([suffix, title, Icon]) => (
@@ -87,8 +88,8 @@ export default function ConsoleShell({ children, admin = false }: { children: Re
                     )}
                 </nav>
             </aside>
-            <div className="m-console-main">
-                <div className="m-console-heading">
+            <div className={styles.consoleMain}>
+                <div className={styles.consoleHeading}>
                     <div>
                         <p className="m-kicker mb-3">{admin ? "CONTROL / OPERATIONS" : "ACCOUNT / OPERATIONS"}</p>
                         <h1>{path.startsWith("/admin/contributions/") ? t("contributionReview") : active?.[1]}</h1>

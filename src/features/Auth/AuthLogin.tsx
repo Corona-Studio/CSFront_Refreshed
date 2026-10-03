@@ -136,9 +136,9 @@ function AuthLogin() {
 
     return (
         <>
-            <div className="p-5 sm:p-8 bg-card bg-opacity-25 rounded-none    transition">
-                <h1 className={`${layout.title} !text-2xl !leading-normal`}>{t("login")}</h1>
-                <Form className="w-[300px] md:w-[400px] lg:w-[450px]" onSubmit={onSubmit}>
+            <div className="p-5 sm:p-8 bg-card rounded-none    transition">
+                <h1 className={`${layout.title} text-2xl leading-normal`}>{t("login")}</h1>
+                <Form className="w-full min-w-0" onSubmit={onSubmit}>
                     <FormItem
                         name="email"
                         className={layout.field}

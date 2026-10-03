@@ -1,0 +1,78 @@
+/* Declare the complete order even when this CSS chunk loads before the global entry. */
+@layer theme, base, components, utilities;
+
+@layer components {
+    .console {
+        display: grid;
+        grid-template-columns: 240px minmax(0, 1fr);
+        min-height: calc(100svh - 72px);
+    }
+    .sidebar {
+        border-right: 1px solid var(--border);
+        background: var(--card);
+        padding: 28px 16px;
+    }
+    .sidebar nav {
+        position: sticky;
+        top: 100px;
+    }
+    .sidebar a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition:
+            background-color 180ms ease,
+            color 180ms ease;
+        border-bottom: 1px solid var(--border);
+        padding: 14px;
+        font-size: 13px;
+    }
+    .sidebar a:hover,
+    .sidebar a:focus-visible {
+        background: var(--accent);
+        color: var(--accent-foreground);
+    }
+    .sidebar a[aria-current="page"] {
+        background: var(--primary);
+        color: var(--primary-foreground);
+    }
+    .consoleMain {
+        padding: 32px clamp(16px, 3vw, 48px);
+        min-width: 0;
+    }
+    .consoleHeading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 32px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 24px;
+    }
+    .consoleHeading h1 {
+        font-size: clamp(1.8rem, 3vw, 3rem);
+        line-height: 1.1;
+    }
+}
+@media (max-width: 900px) {
+    .console {
+        grid-template-columns: 1fr;
+    }
+    .sidebar {
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+        padding: 12px;
+    }
+    .sidebar nav {
+        display: flex;
+        position: static;
+        overflow: auto;
+    }
+    .sidebar a {
+        flex-shrink: 0;
+        border: 0;
+    }
+    .sidebar :global(.m-kicker) {
+        display: none;
+    }
+}

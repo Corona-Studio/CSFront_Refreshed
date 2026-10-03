@@ -1,0 +1,34 @@
+/* Declare the complete order even when this CSS chunk loads before the global entry. */
+@layer theme, base, components, utilities;
+
+@layer components {
+    .table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 13px;
+    }
+    .table th {
+        border-bottom: 1px solid var(--border);
+        background: var(--muted);
+        padding: 16px;
+        font: 600 11px var(--font-code);
+        text-align: left;
+        text-transform: uppercase;
+    }
+    .table td {
+        vertical-align: middle;
+        border-bottom: 1px solid var(--border);
+        padding: 16px;
+    }
+    .table tbody tr:hover {
+        background: var(--muted);
+    }
+    .pagination {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 12px;
+        padding-top: 20px;
+    }
+}

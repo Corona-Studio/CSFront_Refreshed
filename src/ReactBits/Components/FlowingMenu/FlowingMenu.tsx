@@ -5,6 +5,8 @@
 import { gsap } from "gsap";
 import React from "react";
 
+import styles from "./FlowingMenu.module.css";
+
 interface MenuItemProps {
     link: string;
     text: string;
@@ -89,7 +91,8 @@ const MenuItem: React.FC<MenuItemProps> = ({ link, text, image }) => {
                 className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none bg-white dark:bg-zinc-900 translate-y-[101%]"
                 ref={marqueeRef}>
                 <div className="h-full w-[200%] flex" ref={marqueeInnerRef}>
-                    <div className="flex items-center relative h-full w-[200%] will-change-transform animate-marquee">
+                    <div
+                        className={`${styles.marquee} flex items-center relative h-full w-[200%] will-change-transform`}>
                         {repeatedMarqueeContent}
                     </div>
                 </div>
@@ -99,26 +102,3 @@ const MenuItem: React.FC<MenuItemProps> = ({ link, text, image }) => {
 };
 
 export default FlowingMenu;
-
-// Note: this is also needed
-// /** @type {import('tailwindcss').Config} */
-// export default {
-//   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
-//   theme: {
-//     extend: {
-//       translate: {
-//         '101': '101%',
-//       },
-//       keyframes: {
-//         marquee: {
-//           'from': { transform: 'translateX(0%)' },
-//           'to': { transform: 'translateX(-50%)' }
-//         }
-//       },
-//       animation: {
-//         marquee: 'marquee 15s linear infinite'
-//       }
-//     }
-//   },
-//   plugins: [],
-// };

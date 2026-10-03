@@ -40,24 +40,8 @@
 .refreshButton {
     box-shadow: none;
 }
-.buildTable :global(th) {
-    background: var(--muted);
-    height: 40px;
-    color: var(--muted-foreground);
-    font-weight: 600;
-    font-size: 12px;
-}
-.buildTable :global(td) {
-    border-bottom: 1px solid var(--border);
-    background: var(--card);
-    height: 62px;
-}
-.buildTable :global(tr:hover td) {
-    background: var(--muted);
-}
-.buildTable :global(.m-pagination) {
-    margin: 0;
-    padding: 12px 20px;
+.buildTable {
+    --admin-table-row-height: 62px;
 }
 .buildInfo {
     display: grid;
@@ -142,7 +126,7 @@
     border-radius: 0;
     background: #fff;
     width: 12px;
-    min-width: 0 !important;
+    min-width: 0;
     height: 12px;
 }
 .deliverySwitchEnabled .deliverySwitchThumb {
@@ -170,8 +154,5 @@
     }
     .buildTable :global(table) {
         min-width: 780px;
-    }
-    .buildTable :global(.m-pagination) {
-        overflow-x: auto;
     }
 }
