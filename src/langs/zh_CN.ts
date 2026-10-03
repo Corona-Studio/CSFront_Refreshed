@@ -9,6 +9,13 @@ export const zhCN = {
             featureDescription:
                 "从管理游戏版本、安装整合包，到与朋友一起探索新世界。LauncherX 将常用工具汇聚在一个简洁的界面里，让准备工作更轻松，让游戏回归乐趣。",
             download: "下载 LauncherX",
+            viewBobcat: "探索 ProjBobcat",
+            viewConnect: "探索 ConnectX",
+            carouselRole: "轮播",
+            carouselLabel: "项目快速介绍",
+            showIntro: "查看 {{project}} 介绍",
+            pauseCarousel: "暂停自动轮播",
+            resumeCarousel: "继续自动轮播",
             explore: "探索全部功能",
             previewAlt: "LauncherX 启动器界面预览",
             previewCaption: "为每一次启动，认真打磨",

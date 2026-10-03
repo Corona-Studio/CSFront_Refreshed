@@ -1,11 +1,11 @@
 "use client";
 import HomeSections from "@/components/HomeSections";
+import HomeIntroCarousel from "@/components/HomeIntroCarousel";
 import showcase from "@/components/motion/showcase.module.css";
 import motionStyles from "@/components/motion/interactions.module.css";
 import { ScrollReveal } from "@/components/motion/scroll-reveal";
 import { SectionHeading } from "@/components/marathon";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, ArrowUpRight, Axis3D, BookOpen, Cat, Network, Rocket } from "lucide-react";
+import { ArrowUpRight, Axis3D, BookOpen, Cat, Network, Rocket } from "lucide-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
@@ -53,29 +53,7 @@ export default function Home() {
                             STUDIO<span className="text-primary">/</span>
                         </h1>
                         <p className="text-2xl font-bold">{t("corona_studio")}</p>
-                        <p className="text-foreground leading-7">
-                            {t("weDevelop")} LauncherX / ProjBobcat / ConnectX
-                            <br />
-                            {t("home.featureDescription")}
-                        </p>
-                        <div className="m-actions">
-                            <Button asChild size="lg">
-                                <Link href="/lx/download">
-                                    {t("home.download")}
-                                    <ArrowRight />
-                                </Link>
-                            </Button>
-                            <Button
-                                asChild
-                                variant="outline"
-                                size="lg"
-                                className="bg-background/30 border-foreground/40 text-foreground hover:bg-primary hover:text-primary-foreground">
-                                <a href="#projects">
-                                    {t("ourProjects")}
-                                    <ArrowUpRight />
-                                </a>
-                            </Button>
-                        </div>
+                        <HomeIntroCarousel />
                     </div>
                 </div>
             </section>

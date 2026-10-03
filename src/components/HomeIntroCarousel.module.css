@@ -1,0 +1,94 @@
+@layer theme, base, components, utilities;
+
+@layer components {
+    .viewport {
+        display: grid;
+    }
+
+    .slide {
+        display: flex;
+        grid-area: 1 / 1;
+        flex-direction: column;
+        transform: translateY(-8px);
+        visibility: hidden;
+        opacity: 0;
+        filter: blur(6px);
+        transition:
+            opacity 420ms ease,
+            filter 420ms ease,
+            transform 420ms ease,
+            visibility 420ms;
+        pointer-events: none;
+    }
+
+    .slide[data-active="true"] {
+        transform: translateY(0);
+        visibility: visible;
+        opacity: 1;
+        filter: blur(0);
+        pointer-events: auto;
+    }
+
+    .actions {
+        margin-top: auto;
+        padding-top: 32px;
+    }
+
+    .controls {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 4px 16px;
+        margin-top: 20px;
+    }
+
+    .selector,
+    .playback {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        opacity: 0.6;
+        transition: opacity 180ms ease;
+        cursor: pointer;
+        min-height: 36px;
+        color: var(--foreground);
+        font-size: 12px;
+    }
+
+    .selector span {
+        background: currentColor;
+        width: 5px;
+        height: 5px;
+    }
+
+    .selector[aria-pressed="true"],
+    .selector:hover,
+    .playback:hover {
+        opacity: 1;
+    }
+
+    .selector[aria-pressed="true"] span {
+        background: var(--primary);
+    }
+
+    .playback {
+        min-width: 36px;
+    }
+
+    .selector:focus-visible,
+    .playback:focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 4px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .slide,
+        .selector,
+        .playback {
+            transform: none;
+            filter: none;
+            transition: none;
+        }
+    }
+}

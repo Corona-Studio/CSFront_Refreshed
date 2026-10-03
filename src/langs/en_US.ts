@@ -9,6 +9,13 @@ export const enUS = {
             featureDescription:
                 "Manage game versions, install modpacks, and explore new worlds with friends. LauncherX brings everyday tools together in a clean interface, so you can spend more time enjoying the game.",
             download: "Download LauncherX",
+            viewBobcat: "Explore ProjBobcat",
+            viewConnect: "Explore ConnectX",
+            carouselRole: "carousel",
+            carouselLabel: "Project introductions",
+            showIntro: "Show {{project}} introduction",
+            pauseCarousel: "Pause autoplay",
+            resumeCarousel: "Resume autoplay",
             explore: "Explore features",
             previewAlt: "Preview of the LauncherX interface",
             previewCaption: "Crafted for every launch",
