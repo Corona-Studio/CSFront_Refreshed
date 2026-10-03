@@ -5,7 +5,7 @@ import * as THREE from "three";
 
 import styles from "./GraphicPlaneBackground.module.css";
 
-// The atlas stores three inks: cyan substrate, cobalt blocks, and acid-green information.
+// The atlas encodes substrate, signal, panel and theme-primary inks independently.
 // These are continuous technical plates, with no card borders or rounded geometry.
 function createAtlas() {
     const canvas = document.createElement("canvas");
@@ -127,6 +127,16 @@ function createAtlas() {
             ctx.font = "10px monospace";
             for (let i = 0; i < 8; i++) ctx.fillText("01  SYSTEM  28  07  16  001  010  101", 16, 400 + i * 12);
         }
+        // Sparse yellow-coded accents take their displayed color from the site's --primary.
+        ctx.fillStyle = "#ffff00";
+        ctx.fillRect(12, 18, tile % 2 === 0 ? 148 : 76, 5);
+        ctx.fillRect(12, 28, 34, 3);
+        for (let n = 0; n < 5; n++) ctx.fillRect(466, 30 + n * 15, n % 2 === 0 ? 16 : 7, 5);
+        if (tile === 3 || tile === 6) {
+            ctx.fillRect(320, 192, 64, 64);
+            ctx.fillRect(256, 256, 64, 32);
+        }
+        if (tile === 4) ctx.fillRect(168, 0, 20, 512);
         ctx.restore();
     }
     const texture = new THREE.CanvasTexture(canvas);
@@ -157,19 +167,22 @@ const vertexShader = `
 const fragmentShader = `
     uniform sampler2D uAtlas;
     uniform float uDark;
+    uniform vec3 uPrimary;
     varying vec2 vUv;
     varying float vLayer;
     void main() {
         vec3 ink = texture2D(uAtlas, vUv).rgb;
         float paper = min(min(ink.r, ink.g), ink.b);
-        float orange = max(ink.r - ink.g, 0.0);
-        float violet = max(ink.b - ink.g, 0.0);
-        vec3 base = mix(vec3(0.67, 0.76, 0.79), vec3(0.025, 0.055, 0.075), uDark);
-        vec3 accent = mix(vec3(0.12, 0.63, 0.68), vec3(0.10, 0.44, 0.50), uDark);
-        vec3 secondary = mix(vec3(0.012, 0.035, 0.095), vec3(0.006, 0.018, 0.040), uDark);
-        vec3 color = vec3(0.005) + base * paper + accent * orange + secondary * violet;
+        float signal = max(ink.r - ink.g, 0.0);
+        float panel = max(ink.b - ink.g, 0.0);
+        float primary = max(min(ink.r, ink.g) - ink.b, 0.0);
+        // Both modes share porcelain, warm graphite and theme yellow, with inverted surface lightness.
+        vec3 base = mix(vec3(0.88, 0.85, 0.79), vec3(0.023, 0.022, 0.020), uDark);
+        vec3 accent = mix(vec3(0.45, 0.46, 0.43), vec3(0.26, 0.25, 0.22), uDark);
+        vec3 secondary = mix(vec3(0.11, 0.13, 0.14), vec3(0.007, 0.007, 0.006), uDark);
+        vec3 color = vec3(0.005) + base * paper + accent * signal + secondary * panel + uPrimary * primary;
         color *= 1.0 - max(vLayer, 0.0) * 0.018;
-        float colored = max(orange, violet);
+        float colored = max(primary, max(signal, panel));
         float opacity = vLayer < 0.0 ? 1.0 : vLayer < 0.5
             ? mix(0.78, 0.96, colored)
             : mix(0.11, 0.34, colored) * (1.0 - vLayer * 0.07);
@@ -250,7 +263,12 @@ export default function GraphicPlaneBackground() {
             fragmentShader,
             transparent: true,
             depthWrite: false,
-            uniforms: { uAtlas: { value: atlas }, uTime: { value: 0 }, uDark: { value: 0 } }
+            uniforms: {
+                uAtlas: { value: atlas },
+                uTime: { value: 0 },
+                uDark: { value: 0 },
+                uPrimary: { value: new THREE.Color("#ffb21a") }
+            }
         });
         const mesh = new THREE.Mesh(geometry, material);
         mesh.frustumCulled = false;
@@ -297,6 +315,7 @@ export default function GraphicPlaneBackground() {
             uniforms: {
                 uAtlas: { value: gridTexture },
                 uDark: material.uniforms.uDark,
+                uPrimary: material.uniforms.uPrimary,
                 uTime: material.uniforms.uTime
             }
         });
@@ -363,10 +382,14 @@ export default function GraphicPlaneBackground() {
         let visible = true,
             lost = false,
             disposed = false;
+        const updateTheme = () => {
+            material.uniforms.uDark.value = document.documentElement.getAttribute("theme-mode") === "dark" ? 1 : 0;
+            const primary = getComputedStyle(document.documentElement).getPropertyValue("--primary").trim();
+            material.uniforms.uPrimary.value.set(primary || "#ffb21a");
+        };
+        updateTheme();
         const draw = () => {
             material.uniforms.uTime.value = elapsed;
-            const dark = document.documentElement.getAttribute("theme-mode") === "dark";
-            material.uniforms.uDark.value = dark ? 1 : 0;
             field.rotation.set(-0.62, 0.12, -0.4);
             field.position.set(3, 0, 0);
             renderer.setRenderTarget(target);
@@ -428,6 +451,7 @@ export default function GraphicPlaneBackground() {
         });
         observer.observe(host);
         const themeObserver = new MutationObserver(() => {
+            updateTheme();
             if (!disposed && !lost) draw();
         });
         themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["theme-mode"] });

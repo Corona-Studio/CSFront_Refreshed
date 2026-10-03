@@ -1,5 +1,4 @@
 "use client";
-import ProgressiveBlur from "@/components/motion/progressive-blur";
 import showcase from "@/components/motion/showcase.module.css";
 import { ScrollReveal } from "@/components/motion/scroll-reveal";
 import { SectionHeading } from "@/components/marathon";
@@ -66,7 +65,6 @@ export default function HomeSections({ placement }: { placement: "featured" | "c
                                         sizes="(max-width: 900px) 100vw, 50vw"
                                         loading="lazy"
                                     />
-                                    <ProgressiveBlur direction="bottom" className={showcase.mediaBlur} />
                                 </div>
                                 <figcaption className={`m-kicker px-4 py-3 ${showcase.caption}`}>
                                     {t("home.previewCaption")}

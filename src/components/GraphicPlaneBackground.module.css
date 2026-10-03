@@ -8,7 +8,7 @@
 .canvas {
     position: absolute;
     inset: 0;
-    background: linear-gradient(130deg, #dce9eb, #acd8dd 65%, #20384c);
+    background: linear-gradient(130deg, #f3eee3, #d8d7cc 65%, #626967);
 }
 .canvas canvas {
     display: block;
@@ -19,8 +19,8 @@
     position: absolute;
     inset: 0;
     background:
-        linear-gradient(90deg, #d9f1ecb0 0%, #d9f1ec60 24%, #d9f1ec10 44%, transparent 67%),
-        linear-gradient(0deg, #b4e6df25, transparent 24%);
+        linear-gradient(90deg, #f8f4ead0 0%, #f8f4ea80 24%, #f8f4ea18 44%, transparent 67%),
+        linear-gradient(0deg, #f3eadb40, transparent 24%);
 }
 .caption {
     position: absolute;
@@ -37,7 +37,7 @@
         width: 145%;
     }
     .shade {
-        background: linear-gradient(90deg, #d9f1ecc0, #d9f1ec80 60%, #d9f1ec25);
+        background: linear-gradient(90deg, #f8f4eae0, #f8f4eaad 60%, #f8f4ea55);
     }
     .caption {
         right: 16px;
@@ -47,15 +47,15 @@
 }
 
 :global(:root[theme-mode="dark"]) .canvas {
-    background: linear-gradient(130deg, #07171d, #103744 65%, #172468);
+    background: linear-gradient(130deg, #171714, #30302a 65%, #45453c);
 }
 :global(:root[theme-mode="dark"]) .shade {
     background:
-        linear-gradient(90deg, #10171988, #10171940 30%, transparent 65%),
-        linear-gradient(0deg, #10171940, transparent 24%);
+        linear-gradient(90deg, #15151188, #15151140 30%, transparent 65%),
+        linear-gradient(0deg, #15151140, transparent 24%);
 }
 @media (max-width: 767px) {
     :global(:root[theme-mode="dark"]) .shade {
-        background: linear-gradient(90deg, #101719b0, #10171970 60%, #10171930);
+        background: linear-gradient(90deg, #151511b0, #15151170 60%, #15151130);
     }
 }

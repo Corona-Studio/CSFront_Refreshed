@@ -32,10 +32,6 @@
     isolation: isolate;
     overflow: hidden;
 }
-.mediaBlur {
-    top: auto;
-    height: 36px;
-}
 .caption {
     position: relative;
     border-top: 1px solid var(--border);

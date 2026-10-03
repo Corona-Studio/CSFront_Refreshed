@@ -1,7 +1,6 @@
 "use client";
 import PreviewSwap from "@/components/motion/preview-swap";
 import motionStyles from "@/components/motion/interactions.module.css";
-import ProgressiveBlur from "@/components/motion/progressive-blur";
 import showcase from "@/components/motion/showcase.module.css";
 import { ScrollReveal } from "@/components/motion/scroll-reveal";
 import { SectionHeading } from "@/components/marathon";
@@ -56,7 +55,6 @@ export default function LxHome() {
                         loading="lazy"
                         className="w-full"
                     />
-                    <ProgressiveBlur direction="bottom" className={showcase.mediaBlur} />
                 </div>
                 <figcaption className={`m-kicker p-4 ${showcase.caption}`}>{caption}</figcaption>
             </figure>
@@ -109,7 +107,6 @@ export default function LxHome() {
                                             className="aspect-video w-full object-contain"
                                         />
                                     </PreviewSwap>
-                                    <ProgressiveBlur direction="bottom" className={showcase.mediaBlur} />
                                 </div>
                                 <figcaption
                                     className={`flex justify-between gap-4 p-4 ${showcase.caption}`}
