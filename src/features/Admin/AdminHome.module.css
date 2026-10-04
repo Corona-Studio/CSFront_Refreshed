@@ -141,7 +141,10 @@
     border-bottom: 1px solid var(--border);
     padding: 8px;
 }
-.chartsGrid circle:focus-visible {
+.chartsGrid circle:focus-visible,
+.chartsGrid path:focus-visible,
+.chartsGrid g:focus-visible,
+.statsGrid [data-slot="tooltip-trigger"]:focus-visible {
     outline: 2px solid var(--foreground);
 }
 @media (max-width: 900px) {

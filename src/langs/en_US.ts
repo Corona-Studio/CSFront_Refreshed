@@ -101,6 +101,17 @@ export const enUS = {
         dashboardTranslations: "Translations",
         dashboardLinks: "Links",
         dashboardTags: "Tags",
+        dashboardVerification: "QQ verification coverage",
+        dashboardUnverified: "Unverified users",
+        dashboardPublication: "Build publication status",
+        dashboardUnpublished: "Unpublished builds",
+        dashboardLoginHours: "Logins by hour",
+        dashboardLoginHoursNote:
+            "Login attempts grouped by hour across the selected period, in the statistics timezone",
+        dashboardContributionTrend: "Accepted contribution trend",
+        dashboardContributionTrendNote:
+            "Daily accepted user contribution records; a resource may have multiple contributors. Includes today and fills missing days with zero",
+        dashboardHour: "Hour",
         dashboardUnknown: "Unspecified",
 
         indexPage: "Home",

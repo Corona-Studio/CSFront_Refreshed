@@ -3,9 +3,10 @@ import { AxisBottom, AxisLeft } from "@visx/axis";
 import { ParentSize } from "@visx/responsive";
 import { scaleBand, scaleLinear, scalePoint } from "@visx/scale";
 import { Bar, LinePath, Pie } from "@visx/shape";
-import { useState } from "react";
+import type { ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 
+import { Tooltip, TooltipContent, TooltipTrigger } from "../../components/ui/tooltip.tsx";
 import { Card } from "../../components/marathon/index.tsx";
 import type { AdminDashboardOverview, DashboardDistribution, DashboardLoginDay } from "../../requests/AdminRequests.ts";
 import styles from "./AdminHome.module.css";
@@ -14,9 +15,31 @@ const colors = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)", "var(--cha
 const accountColors = [colors[0], colors[2]];
 const labelColor = "var(--muted-foreground)";
 
-function LoginTrend({ data, width }: { data: DashboardLoginDay[]; width: number }) {
+function ChartTooltip({ children, content }: { children: ReactElement; content: string }) {
+    return (
+        <Tooltip>
+            <TooltipTrigger asChild>{children}</TooltipTrigger>
+            <TooltipContent sideOffset={8}>{content}</TooltipContent>
+        </Tooltip>
+    );
+}
+
+function LoginTrend({
+    data,
+    width,
+    title,
+    single = false,
+    hourly = false
+}: {
+    data: DashboardLoginDay[];
+    width: number;
+    title?: string;
+    single?: boolean;
+    hourly?: boolean;
+}) {
     const { t } = useTranslation();
-    const [selected, setSelected] = useState<DashboardLoginDay>();
+    const succeededLabel = single ? t("dashboardAcceptedContributions") : t("dashboardSucceeded");
+    const keys = single ? (["succeeded"] as const) : (["succeeded", "failed"] as const);
     const left = 44;
     const right = Math.max(left + 1, width - 18);
     const bottom = 214;
@@ -31,7 +54,7 @@ function LoginTrend({ data, width }: { data: DashboardLoginDay[]; width: number 
         .map((d) => d.date);
     return (
         <>
-            <svg width={width} height={250} role="img" aria-label={t("dashboardLoginTrend")}>
+            <svg width={width} height={250} role="img" aria-label={title ?? t("dashboardLoginTrend")}>
                 {y.ticks(4).map((value) => (
                     <line
                         key={value}
@@ -58,10 +81,10 @@ function LoginTrend({ data, width }: { data: DashboardLoginDay[]; width: number 
                     tickValues={ticks}
                     hideAxisLine
                     hideTicks
-                    tickFormat={(value) => String(value).slice(5)}
+                    tickFormat={(value) => (hourly ? String(value) : String(value).slice(5))}
                     tickLabelProps={() => ({ fill: labelColor, fontSize: 11, textAnchor: "middle" })}
                 />
-                {(["succeeded", "failed"] as const).map((key, i) => (
+                {keys.map((key, i) => (
                     <g key={key}>
                         <LinePath
                             data={data}
@@ -72,35 +95,34 @@ function LoginTrend({ data, width }: { data: DashboardLoginDay[]; width: number 
                             strokeDasharray={key === "failed" ? "6 4" : undefined}
                         />
                         {data.map((d) => (
-                            <circle
+                            <ChartTooltip
                                 key={d.date}
-                                cx={x(d.date)}
-                                cy={y(d[key])}
-                                r={data.length > 30 ? 3 : 4}
-                                fill={colors[i]}
-                                stroke="var(--card)"
-                                strokeWidth={1.5}
-                                tabIndex={0}
-                                aria-label={`${d.date} ${t(i === 0 ? "dashboardSucceeded" : "dashboardFailed")}: ${d[key]}`}
-                                onMouseEnter={() => setSelected(d)}
-                                onFocus={() => setSelected(d)}
-                                onMouseLeave={() => setSelected(undefined)}
-                                onBlur={() => setSelected(undefined)}>
-                                <title>{`${d.date}: ${d[key]}`}</title>
-                            </circle>
+                                content={`${d.date} · ${succeededLabel}: ${d.succeeded}${single ? "" : ` · ${t("dashboardFailed")}: ${d.failed}`}`}>
+                                <circle
+                                    cx={x(d.date)}
+                                    cy={y(d[key])}
+                                    r={data.length > 30 ? 3 : 4}
+                                    fill={colors[i]}
+                                    stroke="var(--card)"
+                                    strokeWidth={1.5}
+                                    tabIndex={0}
+                                    aria-label={`${d.date} ${i === 0 ? succeededLabel : t("dashboardFailed")}: ${d[key]}`}
+                                />
+                            </ChartTooltip>
                         ))}
                     </g>
                 ))}
             </svg>
             <div className={styles.chartReadout} aria-live="polite">
-                {selected ? (
-                    `${selected.date} · ${t("dashboardSucceeded")} ${selected.succeeded} · ${t("dashboardFailed")} ${selected.failed}`
-                ) : (
-                    <span>
-                        {t("dashboardSucceeded")} <i style={{ background: colors[0] }} /> &nbsp; {t("dashboardFailed")}{" "}
-                        <i style={{ background: colors[1] }} />
-                    </span>
-                )}
+                <span>
+                    {succeededLabel} <i style={{ background: colors[0] }} />
+                    {!single && (
+                        <>
+                            {" "}
+                            &nbsp; {t("dashboardFailed")} <i style={{ background: colors[1] }} />
+                        </>
+                    )}
+                </span>
             </div>
         </>
     );
@@ -130,15 +152,18 @@ function DistributionBars({ data, width, title }: { data: DashboardDistribution[
                         {d.key.length > 16 ? `${d.key.slice(0, 15)}…` : d.key}
                         <title>{d.key}</title>
                     </text>
-                    <Bar
-                        x={labelWidth}
-                        y={y(d.key)}
-                        width={x(d.count)}
-                        height={y.bandwidth()}
-                        rx={0}
-                        fill={colors[i % colors.length]}>
-                        <title>{`${d.key}: ${d.count}`}</title>
-                    </Bar>
+                    <ChartTooltip content={`${d.key}: ${d.count.toLocaleString()}`}>
+                        <g tabIndex={0} aria-label={`${d.key}: ${d.count}`}>
+                            <Bar
+                                x={labelWidth}
+                                y={y(d.key)}
+                                width={x(d.count)}
+                                height={y.bandwidth()}
+                                rx={0}
+                                fill={colors[i % colors.length]}
+                            />
+                        </g>
+                    </ChartTooltip>
                     <text
                         x={labelWidth + x(d.count) + 8}
                         y={(y(d.key) ?? 0) + y.bandwidth() / 2}
@@ -171,6 +196,18 @@ export default function AdminDashboardCharts({ data }: { data: AdminDashboardOve
         )
     }));
     const runtimes = data.buildRuntimes.map((d) => ({ ...d, key: d.key || t("dashboardUnknown") }));
+    const metrics = Object.fromEntries(data.metrics.map((d) => [d.key, d.count]));
+    const verified = metrics.qqVerified ?? 0;
+    const published = metrics.publishedBuilds ?? 0;
+    const totalBuilds = runtimes.reduce((sum, d) => sum + d.count, 0);
+    const verification = [
+        { key: t("dashboardQqVerified"), count: verified },
+        { key: t("dashboardUnverified"), count: Math.max(0, (metrics.users ?? 0) - verified) }
+    ];
+    const publication = [
+        { key: t("dashboardPublishedBuilds"), count: published },
+        { key: t("dashboardUnpublished"), count: Math.max(0, totalBuilds - published) }
+    ];
     const total = accounts.reduce((sum, d) => sum + d.count, 0);
     const attempts = data.loginTrend.reduce((sum, d) => sum + d.succeeded + d.failed, 0);
     const succeeded = data.loginTrend.reduce((sum, d) => sum + d.succeeded, 0);
@@ -223,12 +260,16 @@ export default function AdminDashboardCharts({ data }: { data: AdminDashboardOve
                                     padAngle={0.025}>
                                     {(pie) =>
                                         pie.arcs.map((arc, i) => (
-                                            <path
+                                            <ChartTooltip
                                                 key={arc.data.key}
-                                                d={pie.path(arc) ?? ""}
-                                                fill={accountColors[i % accountColors.length]}>
-                                                <title>{`${arc.data.key}: ${arc.data.count} (${((arc.data.count / total) * 100).toFixed(1)}%)`}</title>
-                                            </path>
+                                                content={`${arc.data.key}: ${arc.data.count.toLocaleString()} (${((arc.data.count / total) * 100).toFixed(1)}%)`}>
+                                                <path
+                                                    tabIndex={0}
+                                                    aria-label={`${arc.data.key}: ${arc.data.count}`}
+                                                    d={pie.path(arc) ?? ""}
+                                                    fill={accountColors[i % accountColors.length]}
+                                                />
+                                            </ChartTooltip>
                                         ))
                                     }
                                 </Pie>
@@ -258,7 +299,9 @@ export default function AdminDashboardCharts({ data }: { data: AdminDashboardOve
             </Card>
             {[
                 { title: t("dashboardBuilds"), note: t("dashboardBuildNote"), values: runtimes },
-                { title: t("dashboardPending"), note: t("dashboardPendingNote"), values: pending }
+                { title: t("dashboardPending"), note: t("dashboardPendingNote"), values: pending },
+                { title: t("dashboardVerification"), note: t("dashboardAllTime"), values: verification },
+                { title: t("dashboardPublication"), note: t("dashboardBuildNote"), values: publication }
             ].map((chart) => (
                 <Card key={chart.title} bordered={false} title={chart.title} subtitle={chart.note}>
                     <div style={{ height: Math.max(150, chart.values.length * 38 + 20) }}>
@@ -283,6 +326,81 @@ export default function AdminDashboardCharts({ data }: { data: AdminDashboardOve
                                         <tr key={d.key}>
                                             <td>{d.key}</td>
                                             <td>{d.count}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
+                </Card>
+            ))}
+            {[
+                ...(data.loginHours
+                    ? [
+                          {
+                              title: t("dashboardLoginHours"),
+                              note: t("dashboardLoginHoursNote"),
+                              hourly: true,
+                              single: false,
+                              values: data.loginHours.map((d) => ({
+                                  date: `${String(d.hour).padStart(2, "0")}:00`,
+                                  succeeded: d.succeeded,
+                                  failed: d.failed
+                              }))
+                          }
+                      ]
+                    : []),
+                ...(data.acceptedContributionTrend
+                    ? [
+                          {
+                              title: t("dashboardContributionTrend"),
+                              note: t("dashboardContributionTrendNote"),
+                              hourly: false,
+                              single: true,
+                              values: data.acceptedContributionTrend.map((d) => ({
+                                  date: d.date,
+                                  succeeded: d.count,
+                                  failed: 0
+                              }))
+                          }
+                      ]
+                    : [])
+            ].map((chart) => (
+                <Card key={chart.title} bordered={false} title={chart.title} subtitle={chart.note}>
+                    <div className={styles.trendCanvas}>
+                        <ParentSize>
+                            {({ width }) =>
+                                width > 0 && (
+                                    <LoginTrend
+                                        data={chart.values}
+                                        width={width}
+                                        title={chart.title}
+                                        single={chart.single}
+                                        hourly={chart.hourly}
+                                    />
+                                )
+                            }
+                        </ParentSize>
+                    </div>
+                    <details className={styles.chartDetails}>
+                        <summary>{t("dashboardViewData")}</summary>
+                        <div className={styles.tableScroll}>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>{t(chart.hourly ? "dashboardHour" : "dashboardDate")}</th>
+                                        <th>
+                                            {t(chart.single ? "dashboardAcceptedContributions" : "dashboardSucceeded")}
+                                        </th>
+                                        {!chart.single && <th>{t("dashboardFailed")}</th>}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {chart.values.map((d) => (
+                                        <tr key={d.date}>
+                                            <td>{d.date}</td>
+                                            <td>{d.succeeded}</td>
+                                            {!chart.single && <td>{d.failed}</td>}
                                         </tr>
                                     ))}
                                 </tbody>

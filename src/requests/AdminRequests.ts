@@ -28,6 +28,8 @@ export interface AdminDashboardOverview {
     accountDistribution: DashboardDistribution[];
     buildRuntimes: DashboardDistribution[];
     pendingContributions: DashboardDistribution[];
+    loginHours?: { hour: number; succeeded: number; failed: number }[];
+    acceptedContributionTrend?: { date: string; count: number }[];
 }
 
 export async function getDashboardOverviewAsync(token: string, days: number) {

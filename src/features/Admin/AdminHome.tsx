@@ -10,6 +10,7 @@ import {
 import { Suspense, lazy, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { Tooltip, TooltipContent, TooltipTrigger } from "../../components/ui/tooltip.tsx";
 import { Alert, Button, Select, Skeleton } from "../../components/marathon/index.tsx";
 import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import { getDashboardOverviewAsync } from "../../requests/AdminRequests.ts";
@@ -140,7 +141,25 @@ function AdminHome() {
                                                 : "dashboardAllTime"
                                         )}
                                         count={boardItem.count.toLocaleString()}
-                                        Icon={getDashboardItemIcon(boardItem.key)}
+                                        Icon={
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <span
+                                                        tabIndex={0}
+                                                        aria-label={t(metricTitles[boardItem.key] ?? boardItem.key)}>
+                                                        {getDashboardItemIcon(boardItem.key)}
+                                                    </span>
+                                                </TooltipTrigger>
+                                                <TooltipContent sideOffset={8}>
+                                                    {t(metricTitles[boardItem.key] ?? boardItem.key)} ·{" "}
+                                                    {t(
+                                                        ["loginAttempts", "failedLogins"].includes(boardItem.key)
+                                                            ? "dashboardPeriod"
+                                                            : "dashboardAllTime"
+                                                    )}
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        }
                                     />
                                 </Suspense>
                             </div>
