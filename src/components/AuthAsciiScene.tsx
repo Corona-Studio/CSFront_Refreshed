@@ -8,6 +8,7 @@ import { Euler, TorusKnotGeometry, Vector3 } from "three";
 
 import AuthAsciiFluid from "./AuthAsciiFluid";
 import styles from "./AuthAsciiScene.module.css";
+import { observeAuthAsciiTheme, readAuthAsciiPalette } from "./authAsciiPalette";
 
 const KineticAsciiBackground = dynamic(() => import("./KineticAsciiBackground"), { ssr: false });
 
@@ -41,6 +42,7 @@ export default function AuthAsciiScene() {
         const canvas = canvasRef.current;
         const context = canvas?.getContext("2d");
         if (!canvas || !context) return;
+        let palette = readAuthAsciiPalette();
         const faces = knotSurface();
         const light = new Vector3(-0.4, 0.8, 1).normalize();
         const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -127,12 +129,12 @@ export default function AuthAsciiScene() {
                         const contour = Math.abs(wave - Math.round(wave));
                         const margin = Math.min(1, Math.min(nx, 1 - nx, ny, 1 - ny) * 8);
                         if (contour < 0.075) {
-                            context.fillStyle = Math.round(wave) % 3 === 0 ? "#3d907a" : "#3456b8";
+                            context.fillStyle = Math.round(wave) % 3 === 0 ? palette.stem : palette.petal;
                             context.globalAlpha = (0.16 + (1 - contour / 0.075) * 0.15) * margin;
                             glyph = Math.cos(nx * 5 + elapsed * 0.08) > 0.3 ? "/" : "-";
                         } else {
                             if ((col * 7 + row * 11) % 29 > 1) continue;
-                            context.fillStyle = "#456589";
+                            context.fillStyle = palette.field;
                             context.globalAlpha = 0.23 * margin;
                             glyph = (col + row) % 4 === 0 ? "+" : ".";
                         }
@@ -146,12 +148,12 @@ export default function AuthAsciiScene() {
                             row < rows - 1 &&
                             [i - 1, i + 1, i - cols, i + cols].some((neighbor) => faceAt[neighbor] < 0);
                         context.fillStyle = blue
-                            ? "#3356d3"
+                            ? palette.stem
                             : tone > 0.75
-                              ? "#77de99"
+                              ? palette.highlight
                               : tone > 0.42
-                                ? "#36b97d"
-                                : "#136953";
+                                ? palette.petal
+                                : palette.stem;
                         context.globalAlpha = 0.6 + tone * 0.4;
                         glyph = outline && (col + row) % 3 === 0 ? "+" : glyphs[Math.min(5, Math.floor(tone * 5.9))];
                         if (!outline && (col * 3 + row) % 11 === 0) glyph = "/";
@@ -161,7 +163,7 @@ export default function AuthAsciiScene() {
             }
             context.globalAlpha = 1;
             // Sparse registration marks give the scene a technical drawing rhythm.
-            context.strokeStyle = "#33515b";
+            context.strokeStyle = palette.field;
             context.lineWidth = 0.6;
             for (const x of [18, width - 18]) {
                 for (const y of [24, height - 24]) {
@@ -174,7 +176,7 @@ export default function AuthAsciiScene() {
                 }
             }
             context.font = "9px ui-monospace, monospace";
-            context.fillStyle = "#6b8f96";
+            context.fillStyle = palette.field;
             context.textAlign = "left";
             context.fillText("TREFOIL / 02:03", 32, 24);
         };
@@ -229,10 +231,15 @@ export default function AuthAsciiScene() {
         canvas.addEventListener("pointerleave", onLeave);
         document.addEventListener("visibilitychange", sync);
         motion.addEventListener("change", sync);
+        const stopThemeObserver = observeAuthAsciiTheme(() => {
+            palette = readAuthAsciiPalette();
+            draw();
+        });
         resize();
         sync();
         return () => {
             cancelAnimationFrame(frame);
+            stopThemeObserver();
             resizeObserver.disconnect();
             observer.disconnect();
             canvas.removeEventListener("pointermove", onPointer);

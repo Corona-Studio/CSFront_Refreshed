@@ -46,7 +46,7 @@
     width: 100%;
 }
 .login .shade {
-    background: linear-gradient(0deg, #020303, transparent 15%, transparent 90%, #020303);
+    background: linear-gradient(0deg, var(--background), transparent 15%, transparent 90%, var(--background));
 }
 @media (max-width: 767px) {
     .login .canvas {

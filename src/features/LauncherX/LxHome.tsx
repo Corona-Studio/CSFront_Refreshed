@@ -5,16 +5,17 @@ import showcase from "@/components/motion/showcase.module.css";
 import { ScrollReveal } from "@/components/motion/scroll-reveal";
 import { SectionHeading } from "@/components/marathon";
 import { Button } from "@/components/ui/button";
+import { useCarousel } from "@/components/use-carousel";
 import type { zhCN } from "@/langs/zh_CN";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Pause, Play } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export default function LxHome() {
     const { t } = useTranslation();
-    const [activePreview, setActivePreview] = useState(0);
+    const carousel = useCarousel(4);
+    const activePreview = carousel.active;
     const copy = t("lxLanding", { returnObjects: true }) as typeof zhCN.translation.lxLanding;
     const previews = [
         { image: 1, caption: copy.home },
@@ -92,8 +93,13 @@ export default function LxHome() {
                             </div>
                             <p className="m-kicker mt-8">WINDOWS / MACOS / LINUX</p>
                         </div>
-                        <div className="min-w-0">
-                            <figure id="lx-preview" className={showcase.frame}>
+                        <div
+                            className="min-w-0"
+                            role="region"
+                            aria-roledescription={t("home.carouselRole")}
+                            aria-label="LauncherX"
+                            {...carousel.focusHandlers}>
+                            <figure id="lx-preview" className={showcase.frame} {...carousel.hoverHandlers}>
                                 <div className={showcase.media}>
                                     <PreviewSwap id={preview.image}>
                                         <Image
@@ -110,7 +116,7 @@ export default function LxHome() {
                                 </div>
                                 <figcaption
                                     className={`flex justify-between gap-4 p-4 ${showcase.caption}`}
-                                    aria-live="polite">
+                                    aria-live={carousel.live}>
                                     <span className="m-kicker">{preview.caption}</span>
                                     <span className="m-kicker">0{activePreview + 1} / 04</span>
                                 </figcaption>
@@ -123,7 +129,7 @@ export default function LxHome() {
                                     <button
                                         key={item.image}
                                         type="button"
-                                        onClick={() => setActivePreview(index)}
+                                        onClick={() => carousel.select(index)}
                                         aria-pressed={activePreview === index}
                                         aria-controls="lx-preview"
                                         className={`${motionStyles.button} min-w-0 border text-left transition-colors hover:border-primary ${activePreview === index ? "border-primary bg-accent" : "border-border bg-card"}`}>
@@ -139,7 +145,17 @@ export default function LxHome() {
                                     </button>
                                 ))}
                             </div>
-                            <p className="m-kicker mt-4">{copy.hint}</p>
+                            <div className="flex items-center justify-between gap-4 mt-4">
+                                <p className="m-kicker">{copy.hint}</p>
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="icon"
+                                    aria-label={t(carousel.paused ? "home.resumeCarousel" : "home.pauseCarousel")}
+                                    onClick={carousel.togglePlayback}>
+                                    {carousel.paused ? <Play size={14} /> : <Pause size={14} />}
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 </div>

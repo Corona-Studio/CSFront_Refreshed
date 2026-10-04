@@ -2,15 +2,13 @@
     display: flex;
     position: relative;
     flex-direction: column;
-    border-right: 1px solid #263936;
-    background:
-        radial-gradient(ellipse at 75% 25%, #10296055, transparent 55%),
-        radial-gradient(ellipse at 15% 60%, #123e2a40, transparent 50%), #020303;
+    border-right: 1px solid var(--border);
+    background: var(--background);
     padding: clamp(24px, 3.5vw, 64px);
     min-width: 0;
     min-height: 680px;
     overflow: hidden;
-    color: #edf2e9;
+    color: var(--foreground);
 }
 .drawing {
     position: relative;
@@ -29,7 +27,7 @@
     right: 12px;
     bottom: 12px;
     pointer-events: none;
-    color: #6e9390;
+    color: var(--muted-foreground);
     font: 8px var(--font-code);
     letter-spacing: 0.1em;
 }
@@ -46,11 +44,11 @@
     align-items: center;
 }
 .code {
-    color: #c0ccbf;
+    color: var(--foreground);
 }
 .status,
 .footer {
-    color: #798b83;
+    color: var(--muted-foreground);
 }
 .copy {
     padding: 8px 0 32px;
@@ -61,11 +59,11 @@
     letter-spacing: -0.055em;
 }
 .copy h2 span {
-    color: #66d88c;
+    color: var(--primary-ink);
 }
 .copy p {
     margin-top: 16px;
-    color: #a3b2a6;
+    color: var(--muted-foreground);
     font-size: 13px;
     line-height: 1.7;
 }
@@ -78,7 +76,7 @@
 @media (max-width: 900px) {
     .scene {
         border-right: 0;
-        border-bottom: 1px solid #263936;
+        border-bottom: 1px solid var(--border);
         min-height: 540px;
     }
     .drawing {
@@ -99,14 +97,10 @@
 
 .main {
     background-image:
-        radial-gradient(ellipse at 50% 45%, color-mix(in srgb, var(--primary) 8%, transparent), transparent 65%),
-        linear-gradient(color-mix(in srgb, var(--foreground) 4%, transparent) 1px, transparent 1px),
-        linear-gradient(90deg, color-mix(in srgb, var(--foreground) 4%, transparent) 1px, transparent 1px);
+        linear-gradient(color-mix(in srgb, var(--foreground) 2.5%, transparent) 1px, transparent 1px),
+        linear-gradient(90deg, color-mix(in srgb, var(--foreground) 2.5%, transparent) 1px, transparent 1px);
     background-position: center;
-    background-size:
-        auto,
-        48px 48px,
-        48px 48px;
+    background-size: 48px 48px;
 }
 
 .fluidCanvas {

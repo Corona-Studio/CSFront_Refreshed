@@ -4,6 +4,7 @@ import * as THREE from "three";
 
 import styles from "./KineticAsciiBackground.module.css";
 import { AsciiFlowField } from "./asciiFlowField";
+import { observeAuthAsciiTheme, readAuthAsciiPalette } from "./authAsciiPalette";
 import { type SeedBody, createSeedBody, detachSeed, flowerSway, stepSeed } from "./asciiSeedPhysics";
 
 const glyphs = " /\\>*.:[]{}<%&01+=#^i";
@@ -34,7 +35,7 @@ const vertexShader = `
         vec2 anchor = aAnchor;
         float sway = sin(uTime * 0.65 + aSpeed) * 0.035 + sin(uTime * 0.32 + aSpeed * 2.0) * 0.015;
         if (aKind < 0.5) {
-            // A restrained blue character field establishes a graphic, flat backdrop.
+            // A restrained character field establishes a graphic, flat backdrop.
             anchor.x = mod(anchor.x + uTime * 0.009 + 1.2, 2.4) - 1.2;
             vOpacity = 0.28;
         } else if (aKind > 2.5) {
@@ -77,17 +78,18 @@ const vertexShader = `
 const fragmentShader = `
     uniform sampler2D uAtlas;
     uniform float uGlyphCount;
+    uniform vec3 uPalette[5];
     varying vec2 vUv;
     varying float vGlyph;
     varying float vColor;
     varying float vOpacity;
     void main() {
         float ink = texture2D(uAtlas, vec2((vUv.x + vGlyph) / uGlyphCount, vUv.y)).a;
-        vec3 color = vColor < 0.5 ? vec3(0.045, 0.19, 0.78)
-            : vColor < 1.5 ? vec3(0.42, 0.86, 0.63)
-            : vColor < 2.5 ? vec3(0.08, 0.48, 0.36)
-            : vColor < 3.5 ? vec3(1.0, 0.005, 0.045)
-            : vec3(0.86, 0.88, 0.84);
+        vec3 color = vColor < 0.5 ? uPalette[0]
+            : vColor < 1.5 ? uPalette[1]
+            : vColor < 2.5 ? uPalette[2]
+            : vColor < 3.5 ? uPalette[3]
+            : uPalette[4];
         gl_FragColor = vec4(color, ink * vOpacity);
         #include <colorspace_fragment>
     }
@@ -279,10 +281,26 @@ export default function KineticAsciiBackground({ variant = "hero" }: { variant?:
         geometry.setAttribute("aPose", poses);
         geometry.setAttribute("aPivot", pivots);
         geometry.instanceCount = kinds.length;
+        let palette = readAuthAsciiPalette();
+        const paletteColors = [
+            new THREE.Color().setRGB(0.045, 0.19, 0.78),
+            new THREE.Color().setRGB(0.42, 0.86, 0.63),
+            new THREE.Color().setRGB(0.08, 0.48, 0.36),
+            new THREE.Color().setRGB(1.0, 0.005, 0.045),
+            new THREE.Color().setRGB(0.86, 0.88, 0.84)
+        ];
+        const updatePalette = () => {
+            palette = readAuthAsciiPalette();
+            [palette.field, palette.petal, palette.stem, palette.accent, palette.highlight].forEach((color, index) =>
+                paletteColors[index].set(color)
+            );
+        };
+        if (variant === "login") updatePalette();
         const material = new THREE.ShaderMaterial({
             vertexShader,
             fragmentShader,
             uniforms: {
+                uPalette: { value: paletteColors },
                 uAtlas: { value: atlas },
                 uGlyphCount: { value: glyphs.length },
                 uViewport: { value: new THREE.Vector2() },
@@ -386,10 +404,12 @@ export default function KineticAsciiBackground({ variant = "hero" }: { variant?:
                     }
                     if (density > 0.46 && speed < 1.4) glyph = "o";
                     const alpha = Math.min(0.38, Math.pow((density - 0.035) / 0.965, 0.9) * 0.55);
-                    flowContext.fillStyle = "rgba(169,201,184," + alpha + ")";
+                    flowContext.fillStyle = variant === "login" ? palette.highlight : "#a9c9b8";
+                    flowContext.globalAlpha = alpha;
                     flowContext.fillText(glyph, (col + 0.5) * flow.cellWidth, (row + 0.5) * flow.cellHeight);
                 }
             }
+            flowContext.globalAlpha = 1;
         };
         const resize = () => {
             const width = host.clientWidth;
@@ -541,10 +561,18 @@ export default function KineticAsciiBackground({ variant = "hero" }: { variant?:
         motionQuery.addEventListener("change", sync);
         renderer.domElement.addEventListener("webglcontextlost", onLost);
         renderer.domElement.addEventListener("webglcontextrestored", onRestored);
+        const stopThemeObserver =
+            variant === "login"
+                ? observeAuthAsciiTheme(() => {
+                      updatePalette();
+                      if (!lost && !disposed) draw();
+                  })
+                : undefined;
         resize();
         sync();
         return () => {
             disposed = true;
+            stopThemeObserver?.();
             cancelAnimationFrame(frame);
             resizeObserver.disconnect();
             intersectionObserver.disconnect();

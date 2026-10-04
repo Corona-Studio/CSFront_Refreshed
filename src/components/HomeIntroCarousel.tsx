@@ -2,10 +2,10 @@
 
 import { ArrowRight, ArrowUpRight, Pause, Play } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "./ui/button";
+import { useCarousel } from "./use-carousel";
 import styles from "./HomeIntroCarousel.module.css";
 
 const slides = [
@@ -26,34 +26,16 @@ const slides = [
 
 export default function HomeIntroCarousel() {
     const { t } = useTranslation();
-    const [active, setActive] = useState(0);
-    const [paused, setPaused] = useState(false);
-    const [hovered, setHovered] = useState(false);
-    const [focused, setFocused] = useState(false);
-
-    useEffect(() => {
-        if (paused || hovered || focused) return;
-        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-        const timer = window.setInterval(() => {
-            if (!document.hidden && !reducedMotion.matches) {
-                setActive((index) => (index + 1) % slides.length);
-            }
-        }, 6000);
-        return () => window.clearInterval(timer);
-    }, [active, paused, hovered, focused]);
+    const carousel = useCarousel(slides.length);
+    const { active, paused } = carousel;
 
     return (
         <div
             role="region"
             aria-roledescription={t("home.carouselRole")}
             aria-label={t("home.carouselLabel")}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-            onFocusCapture={() => setFocused(true)}
-            onBlurCapture={(event) => {
-                if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false);
-            }}>
-            <div className={styles.viewport} aria-live={paused || focused ? "polite" : "off"}>
+            {...carousel.focusHandlers}>
+            <div className={styles.viewport} aria-live={carousel.live} {...carousel.hoverHandlers}>
                 {slides.map((slide, index) => {
                     const selected = index === active;
                     const external = slide.href.startsWith("https");
@@ -102,7 +84,7 @@ export default function HomeIntroCarousel() {
                         className={styles.selector}
                         aria-label={t("home.showIntro", { project: slide.name })}
                         aria-pressed={active === index}
-                        onClick={() => setActive(index)}>
+                        onClick={() => carousel.select(index)}>
                         <span aria-hidden="true" />
                         {slide.name}
                     </button>
@@ -111,7 +93,7 @@ export default function HomeIntroCarousel() {
                     type="button"
                     className={styles.playback}
                     aria-label={t(paused ? "home.resumeCarousel" : "home.pauseCarousel")}
-                    onClick={() => setPaused((value) => !value)}>
+                    onClick={carousel.togglePlayback}>
                     {paused ? <Play size={14} /> : <Pause size={14} />}
                 </button>
             </div>

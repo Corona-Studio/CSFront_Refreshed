@@ -222,6 +222,16 @@ export const enUS = {
         integratedWithThirdPartyResourcesDescription:
             "LauncherX integrates with third-party sites like CurseForge and Modrinth to provide the latest mods, resource packs, and plugins.",
 
+        cmfsHeroTitleWorlds: "MAKE WORLDS.",
+        cmfsHeroTitleFriends: "MAKE FRIENDS",
+        cmfsCommunityWorlds: "COMMUNITY WORLDS",
+        cmfsServerDirectory: "SERVER DIRECTORY",
+        cmfsOrigins: "ORIGINS",
+        cmfsSurvival: "SURVIVAL",
+        cmfsMinigames: "MINIGAMES",
+        cmfsLappland: "LAPPLAND",
+        cmfsMinigamesName: "pure.craftmine.fun Minigames",
+
         joinServer: "Join Server",
         serverList: "Server List",
         beginningOfEverything: "The Beginning of Everything...",

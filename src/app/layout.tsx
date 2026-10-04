@@ -4,7 +4,6 @@ import PageEntrance from "@/components/motion/page-entrance";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Suspense } from "react";
 
 import "./globals.css";
 import Providers from "./providers";
@@ -32,16 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Providers>
                     <MenuBar />
                     <main id="main-content" className="min-h-[70vh]">
-                        <PageEntrance>
-                            <Suspense
-                                fallback={
-                                    <div className="m-container py-20 m-kicker" role="status">
-                                        LOADING / 正在加载…
-                                    </div>
-                                }>
-                                {children}
-                            </Suspense>
-                        </PageEntrance>
+                        <PageEntrance>{children}</PageEntrance>
                     </main>
                     <Footer />
                     <Analytics />

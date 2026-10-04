@@ -1,15 +1,55 @@
 // @vitest-environment jsdom
 import i18n from "@/i18n";
-import { act, cleanup, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { I18nextProvider } from "react-i18next";
-import { afterEach, expect, it } from "vitest";
+import { afterEach, beforeEach, expect, it, vi } from "vitest";
 
 import LxHome from "./LxHome";
 
+beforeEach(() => {
+    vi.stubGlobal(
+        "matchMedia",
+        vi.fn(() => ({
+            matches: false,
+            addEventListener: vi.fn(),
+            removeEventListener: vi.fn()
+        }))
+    );
+});
+
 afterEach(async () => {
     cleanup();
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
     await i18n.changeLanguage("zhCN");
+});
+
+it("cycles all previews, resumes after pointer selection, and supports pausing", () => {
+    vi.useFakeTimers();
+    render(
+        <I18nextProvider i18n={i18n}>
+            <LxHome />
+        </I18nextProvider>
+    );
+    const captions = ["你的冒险，从这里开始", "所有版本，井然有序", "发现下一场冒险", "让界面，成为你的风格"];
+    for (const caption of [...captions.slice(1), captions[0]]) {
+        act(() => vi.advanceTimersByTime(6000));
+        expect(screen.getByRole("img", { name: caption })).toBeTruthy();
+        expect(screen.getByRole("button", { name: caption }).getAttribute("aria-pressed")).toBe("true");
+    }
+    const selector = screen.getByRole("button", { name: captions[2] });
+    fireEvent.pointerDown(selector);
+    act(() => selector.focus());
+    fireEvent.click(selector);
+    act(() => vi.advanceTimersByTime(6000));
+    expect(screen.getByRole("img", { name: captions[3] })).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "暂停自动轮播" }));
+    act(() => vi.advanceTimersByTime(12000));
+    expect(screen.getByRole("img", { name: captions[3] })).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "继续自动轮播" }));
+    act(() => vi.advanceTimersByTime(6000));
+    expect(screen.getByRole("img", { name: captions[0] })).toBeTruthy();
 });
 
 it("switches screenshots and translates the selected preview when the language changes", async () => {

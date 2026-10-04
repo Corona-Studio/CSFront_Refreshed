@@ -208,6 +208,16 @@ export const zhCN = {
         integratedWithThirdPartyResourcesDescription:
             "LauncherX 与 CurseForge、Modrinth 等第三方资源站点集成，为您提供最新的模组包、资源包、插件等资源。",
 
+        cmfsHeroTitleWorlds: "共建世界。",
+        cmfsHeroTitleFriends: "结识伙伴。",
+        cmfsCommunityWorlds: "社区世界",
+        cmfsServerDirectory: "服务器目录",
+        cmfsOrigins: "起源",
+        cmfsSurvival: "生存",
+        cmfsMinigames: "小游戏",
+        cmfsLappland: "拉普兰",
+        cmfsMinigamesName: "pure.craftmine.fun 小游戏",
+
         joinServer: "加入服务器",
         serverList: "服务器列表",
         beginningOfEverything: "一切的起点...",

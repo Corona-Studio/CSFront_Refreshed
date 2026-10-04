@@ -1,0 +1,33 @@
+@layer theme, base, components, utilities;
+
+@layer components {
+    .heroTitle {
+        font-weight: 900;
+        font-size: clamp(2rem, 7.5vw, 7.5rem);
+        line-height: 1.15;
+        letter-spacing: -0.035em;
+    }
+
+    .heroTitle > span {
+        display: block;
+    }
+
+    .serverCard.serverCard {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+    }
+
+    .serverInfo {
+        flex: 1;
+        transition:
+            background-color 220ms ease,
+            color 220ms ease;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .serverInfo {
+            transition: none;
+        }
+    }
+}

@@ -4,22 +4,7 @@ import { useEffect, useRef } from "react";
 
 import styles from "./AuthAsciiScene.module.css";
 import { AsciiFluidSimulation } from "./asciiFluidSimulation";
-
-// Deep blue -> cyan -> mint -> pale foam, sampled as a continuous ramp.
-const stops = [
-    [27, 46, 125],
-    [33, 94, 176],
-    [27, 165, 173],
-    [83, 211, 161],
-    [218, 250, 221]
-];
-const colors = Array.from({ length: 64 }, (_, i) => {
-    const position = (i / 63) * (stops.length - 1);
-    const left = Math.min(stops.length - 2, Math.floor(position));
-    const blend = position - left;
-    return `rgb(${stops[left].map((value, channel) => Math.round(value + (stops[left + 1][channel] - value) * blend)).join(",")})`;
-});
-const color = (value: number) => colors[Math.round(Math.max(0, Math.min(1, value)) * 63)];
+import { observeAuthAsciiTheme, readAuthAsciiPalette } from "./authAsciiPalette";
 
 export default function AuthAsciiFluid() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -27,6 +12,7 @@ export default function AuthAsciiFluid() {
         const canvas = canvasRef.current;
         const context = canvas?.getContext("2d");
         if (!canvas || !context) return;
+        let palette = readAuthAsciiPalette();
         const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
         let simulation: AsciiFluidSimulation;
         let width = 0;
@@ -59,7 +45,7 @@ export default function AuthAsciiFluid() {
                     const edge = Math.min(1, Math.min(x, width - x, y, height - y) / 42);
                     if (density < 0.03 || edge <= 0) continue;
                     const glow = Math.min(1, density * 1.5 + foam * 0.4 + speed * 0.025);
-                    context.fillStyle = color(glow);
+                    context.fillStyle = palette.ramp[Math.round(Math.max(0, Math.min(1, glow)) * 63)];
                     context.globalAlpha = Math.min(0.88, 0.18 + density * 1.4 + foam * 0.25) * edge;
                     let glyph = density < 0.08 ? "." : density < 0.17 ? ":" : "~";
                     if (speed > 0.6 && density > 0.13) {
@@ -183,10 +169,15 @@ export default function AuthAsciiFluid() {
         canvas.addEventListener("pointerleave", onLeave);
         document.addEventListener("visibilitychange", sync);
         motion.addEventListener("change", sync);
+        const stopThemeObserver = observeAuthAsciiTheme(() => {
+            palette = readAuthAsciiPalette();
+            draw();
+        });
         resize();
         sync();
         return () => {
             cancelAnimationFrame(frame);
+            stopThemeObserver();
             resizeObserver.disconnect();
             observer.disconnect();
             canvas.removeEventListener("pointerdown", onDown);

@@ -61,11 +61,11 @@ it("supports manual selection and translates the currently selected action", asy
 
 it("pauses while hovering, focusing, or explicitly paused", () => {
     renderCarousel();
-    const region = screen.getByRole("region");
-    fireEvent.mouseEnter(region);
+    const viewport = screen.getByRole("region").firstElementChild!;
+    fireEvent.mouseEnter(viewport);
     act(() => vi.advanceTimersByTime(12000));
     expect(screen.getByRole("link", { name: "下载 LauncherX" })).toBeTruthy();
-    fireEvent.mouseLeave(region);
+    fireEvent.mouseLeave(viewport);
     const action = screen.getByRole("link", { name: "下载 LauncherX" });
     fireEvent.focus(action);
     act(() => vi.advanceTimersByTime(12000));
@@ -75,6 +75,36 @@ it("pauses while hovering, focusing, or explicitly paused", () => {
     act(() => vi.advanceTimersByTime(12000));
     expect(screen.getByRole("link", { name: "下载 LauncherX" })).toBeTruthy();
     fireEvent.click(screen.getByRole("button", { name: "继续自动轮播" }));
+    act(() => vi.advanceTimersByTime(6000));
+    expect(screen.getByRole("link", { name: "探索 ProjBobcat" })).toBeTruthy();
+});
+
+it("continues autoplay after a pointer selection leaves the selector focused", () => {
+    renderCarousel();
+    act(() => vi.advanceTimersByTime(3000));
+    const selector = screen.getByRole("button", { name: "查看 ConnectX 介绍" });
+    fireEvent.pointerDown(selector);
+    act(() => selector.focus());
+    fireEvent.click(selector);
+    expect(document.activeElement).toBe(selector);
+    act(() => vi.advanceTimersByTime(5999));
+    expect(selector.getAttribute("aria-pressed")).toBe("true");
+    act(() => vi.advanceTimersByTime(1));
+    expect(screen.getByRole("link", { name: "下载 LauncherX" })).toBeTruthy();
+    act(() => vi.advanceTimersByTime(6000));
+    expect(screen.getByRole("link", { name: "探索 ProjBobcat" })).toBeTruthy();
+});
+
+it("resumes autoplay with the playback button still keyboard focused", () => {
+    renderCarousel();
+    const playback = screen.getByRole("button", { name: "暂停自动轮播" });
+    act(() => playback.focus());
+    fireEvent.keyDown(playback, { key: "Enter" });
+    fireEvent.click(playback);
+    act(() => vi.advanceTimersByTime(12000));
+    expect(screen.getByRole("link", { name: "下载 LauncherX" })).toBeTruthy();
+    fireEvent.keyDown(playback, { key: "Enter" });
+    fireEvent.click(playback);
     act(() => vi.advanceTimersByTime(6000));
     expect(screen.getByRole("link", { name: "探索 ProjBobcat" })).toBeTruthy();
 });

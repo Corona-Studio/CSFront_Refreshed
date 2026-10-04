@@ -1,19 +1,17 @@
 "use client";
+import DeferredGraphicBackground from "@/components/DeferredGraphicBackground";
 import HomeSections from "@/components/HomeSections";
 import HomeIntroCarousel from "@/components/HomeIntroCarousel";
 import showcase from "@/components/motion/showcase.module.css";
-import motionStyles from "@/components/motion/interactions.module.css";
 import { ScrollReveal } from "@/components/motion/scroll-reveal";
-import { SectionHeading } from "@/components/marathon";
+import { SectionHeading } from "@/components/marathon/layout";
 import { ArrowUpRight, Axis3D, BookOpen, Cat, Network, Rocket } from "lucide-react";
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
 import styles from "./Home.module.css";
 
-const GraphicPlaneBackground = dynamic(() => import("@/components/GraphicPlaneBackground"), { ssr: false });
 export default function Home() {
     const { t } = useTranslation();
     const projects = [
@@ -41,9 +39,9 @@ export default function Home() {
     return (
         <>
             <section className={`${styles.hero} bg-background text-foreground`}>
-                <GraphicPlaneBackground />
+                <DeferredGraphicBackground />
                 <div className="m-container">
-                    <div className={`${styles.heroCopy} ${motionStyles.intro}`}>
+                    <div className={styles.heroCopy}>
                         <div className={`m-kicker mb-8 text-muted-foreground ${showcase.heroBadge}`}>
                             [ CS—001 ] / {t("welcomeAccess")}
                         </div>
@@ -73,9 +71,9 @@ export default function Home() {
                                         alt={`Minecraft 社区世界 ${index}`}
                                         width={640}
                                         height={360}
-                                        sizes="(max-width: 640px) 100vw, 33vw"
+                                        sizes="(max-width: 767px) 50vw, 25vw"
                                         loading="lazy"
-                                        className="aspect-[4/3] object-cover"
+                                        className="aspect-[4/3] w-full object-cover"
                                     />
                                     <span className="absolute bottom-2 left-2 bg-primary text-primary-foreground font-mono text-[10px] px-2 py-1">
                                         WORLD / {String(index).padStart(3, "0")}
