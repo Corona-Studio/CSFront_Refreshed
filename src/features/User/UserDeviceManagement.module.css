@@ -1,0 +1,180 @@
+.page {
+    display: grid;
+    gap: 24px;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.summary h2 {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.count {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--secondary);
+    padding: 0 7px;
+    min-width: 26px;
+    height: 24px;
+    color: var(--secondary-foreground);
+    font-weight: 600;
+    font-size: 12px;
+    font-family: var(--font-code);
+}
+
+.description {
+    margin-top: 8px;
+    color: var(--muted-foreground);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+    align-items: start;
+    gap: 20px;
+}
+
+.card {
+    border: 1px solid var(--border);
+    background: var(--card);
+    min-width: 0;
+    color: var(--card-foreground);
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 1px solid var(--border);
+    padding: 22px 24px;
+}
+
+.deviceIcon {
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--border);
+    background: var(--background);
+    width: 44px;
+    height: 44px;
+    color: var(--primary-ink);
+}
+
+.deviceIcon svg {
+    stroke-width: 1.5;
+    width: 22px;
+    height: 22px;
+}
+
+.deviceHeading {
+    min-width: 0;
+}
+
+.eyebrow {
+    margin-bottom: 5px;
+    color: var(--muted-foreground);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.deviceHeading h3 {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.details {
+    display: grid;
+    gap: 20px;
+    padding: 24px;
+}
+
+.field dt {
+    margin-bottom: 8px;
+    color: var(--muted-foreground);
+    font-size: 12px;
+}
+
+.field dd {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 0;
+}
+
+.field code {
+    min-width: 0;
+    font-size: 13px;
+    line-height: 1.8;
+    font-family: var(--font-code);
+    overflow-wrap: anywhere;
+}
+
+.copyButton {
+    margin-top: -4px;
+    width: 32px;
+    height: 32px;
+    color: var(--muted-foreground);
+}
+
+.cardFooter {
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid var(--border);
+    background: var(--background);
+    padding: 10px 16px;
+}
+
+.removeButton {
+    color: var(--destructive);
+    font-size: 12px;
+}
+
+.removeButton:hover {
+    background: color-mix(in srgb, var(--destructive) 10%, transparent);
+    color: var(--destructive);
+}
+
+.state {
+    display: flex;
+    justify-content: center;
+    border: 1px dashed var(--border);
+    background: var(--card);
+    padding: 64px 24px;
+}
+
+.confirmName {
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 540px) {
+    .toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cardHeader,
+    .details {
+        padding: 20px;
+    }
+}

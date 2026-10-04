@@ -336,6 +336,16 @@ export const enUS = {
 
         deviceId: "Device ID",
         serialNumber: "Serial Number",
+        registeredDevices: "Registered devices",
+        registeredDevice: "Registered device",
+        deviceManageDescription: "Review devices linked to your account and remove those you no longer use.",
+        refreshDevices: "Refresh list",
+        removeDevice: "Remove device",
+        confirmRemoveDevice: "Remove this device?",
+        confirmRemoveDeviceDescription: "This device will be removed from your account’s registered device list.",
+        noRegisteredDevices: "No registered devices yet",
+        deviceCopyFailed: "Copy failed",
+        deviceCopyFailedDescription: "Please select and copy the identifier directly.",
 
         afdCardTitle: "Sponsor Us on AFDian",
         afdCardDescription: "Sponsor us on AFDian to join our beta program!",

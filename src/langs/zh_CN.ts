@@ -316,6 +316,16 @@ export const zhCN = {
 
         deviceId: "设备 ID",
         serialNumber: "序列号",
+        registeredDevices: "已注册设备",
+        registeredDevice: "已注册设备",
+        deviceManageDescription: "查看与账号关联的设备，移除不再使用的设备。",
+        refreshDevices: "刷新列表",
+        removeDevice: "移除设备",
+        confirmRemoveDevice: "确认移除设备？",
+        confirmRemoveDeviceDescription: "此设备将从账号的已注册设备列表中移除。",
+        noRegisteredDevices: "暂无已注册设备",
+        deviceCopyFailed: "复制失败",
+        deviceCopyFailedDescription: "请直接选择并复制下方的编号。",
 
         afdCardTitle: "前往爱发电赞助我们",
         afdCardDescription: "前往爱发电赞助我们即可加入我们的内测计划！",
