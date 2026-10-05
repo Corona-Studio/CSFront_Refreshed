@@ -68,7 +68,7 @@
 }
 .heroBadge::before {
     flex-shrink: 0;
-    background: var(--signal);
+    background: var(--primary);
     width: 6px;
     height: 6px;
     content: "";
