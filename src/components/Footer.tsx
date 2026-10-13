@@ -9,6 +9,7 @@ export default function Footer() {
                         CORONA STUDIO
                     </Link>
                     <div className="flex flex-wrap gap-6 text-xs font-mono">
+                        <Link href="/sitemap">站点导航</Link>
                         <a href="https://github.com/Corona-Studio" target="_blank" rel="noopener noreferrer">
                             GITHUB ↗
                         </a>

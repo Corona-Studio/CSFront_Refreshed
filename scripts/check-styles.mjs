@@ -17,12 +17,13 @@ const globalFiles = new Set([
 const referenced = new Set();
 const classes = new Map();
 const errors = [];
+const relativePath = (file) => path.relative(root, file).split(path.sep).join("/");
 const report = (file, line, message) => errors.push(`${path.relative(root, file)}:${line}: ${message}`);
 const resolve = (file, specifier) =>
     path.resolve(specifier.startsWith("@/") ? sourceRoot : path.dirname(file), specifier.replace(/^@\//, ""));
 
 for (const file of stylesheets) {
-    const relative = path.relative(root, file);
+    const relative = relativePath(file);
     if (!file.endsWith(".module.css") && !globalFiles.has(relative))
         report(file, 1, "Component CSS must use .module.css.");
     const tree = postcss.parse(fs.readFileSync(file, "utf8"), { from: file });
@@ -81,7 +82,7 @@ for (const file of sources) {
         const target = resolve(file, specifier);
         referenced.add(target);
         if (!classes.has(target)) report(file, 1, `Stylesheet does not exist: ${specifier}.`);
-        if (!specifier.endsWith(".module.css") && path.relative(root, file) !== "src/app/layout.tsx")
+        if (!specifier.endsWith(".module.css") && relativePath(file) !== "src/app/layout.tsx")
             report(file, 1, "Only the root layout may import global CSS.");
         if (statement.importClause?.name) modules.set(statement.importClause.name.text, target);
     }

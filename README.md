@@ -50,6 +50,7 @@ pnpm dev
 - [架构、设计规则与部署迁移](docs/marathon.md)。
 - [首屏性能优化与 Lighthouse 复测](docs/performance.md)；`pnpm perf:audit` 保存可比较的生产审计报告。
 - [CSS 审计、样式架构与维护约定](docs/styles.md)；`pnpm lint:styles` 检查样式边界及模块引用。
+- [SEO、站点地图与 Markdown 索引](docs/seo.md)；`pnpm seo:audit http://localhost:3217` 检查生产响应并生成 Lighthouse SEO 评分。
 
 注册使用 Cloudflare Turnstile：配置 `NEXT_PUBLIC_TURNSTILE_SITE_KEY` 公钥，后端配置 `Turnstile__SecretKey` 私钥。API 默认地址为 `https://api.corona.studio`，可用 `NEXT_PUBLIC_LX_BACKEND` 修改。
 

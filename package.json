@@ -19,7 +19,8 @@
         "format": "prettier --write .",
         "clean": "node -e \"require('node:fs').rmSync('.next', { recursive: true, force: true })\"",
         "lint:styles": "node scripts/check-styles.mjs",
-        "perf:audit": "node scripts/lighthouse.mjs"
+        "perf:audit": "node scripts/lighthouse.mjs",
+        "seo:audit": "node scripts/seo-audit.mjs"
     },
     "dependencies": {
         "@tanstack/react-query": "^5.103.2",

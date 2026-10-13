@@ -1,6 +1,13 @@
 import Home from "@/features/Home";
+import StructuredData from "@/components/StructuredData";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = { title: "日冕工作室" };
+export const metadata = pageMetadata("/");
 export default function RoutePage() {
-    return <Home />;
+    return (
+        <>
+            <StructuredData path="/" />
+            <Home />
+        </>
+    );
 }

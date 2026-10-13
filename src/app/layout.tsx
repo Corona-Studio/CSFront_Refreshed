@@ -4,14 +4,27 @@ import PageEntrance from "@/components/motion/page-entrance";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
+import { SITE_URL, publicPages } from "@/lib/seo";
 
 import "./globals.css";
 import Providers from "./providers";
 
 export const metadata: Metadata = {
-    metadataBase: new URL("https://corona.studio"),
+    metadataBase: new URL(SITE_URL),
     title: { default: "Corona Studio · 日冕工作室", template: "%s · Corona Studio" },
-    description: "由 Minecraft 爱好者组建的开发团队。探索 LauncherX、ProjBobcat、ConnectX 与 CMFS。",
+    description: publicPages[0].description,
+    applicationName: "Corona Studio",
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+            index: true,
+            follow: true,
+            "max-image-preview": "large",
+            "max-snippet": -1,
+            "max-video-preview": -1
+        }
+    },
     icons: {
         icon: [
             { url: "/favicon.svg", type: "image/svg+xml" },
