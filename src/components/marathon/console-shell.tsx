@@ -1,13 +1,15 @@
 "use client";
-import { isAdminSessionValidAsync, isUserSessionValidAsync } from "@/helpers/SessionHelper";
 import { Bell, Coins, GitCommitHorizontal, House, Image, Layers, MonitorSmartphone, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { type ReactNode, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import styles from "./console-shell.module.css";
+import { isAdminSessionValidAsync, isUserSessionValidAsync } from "@/helpers/SessionHelper";
+
 import { Loading } from "./layout";
+
+import styles from "./console-shell.module.css";
 
 export default function ConsoleShell({ children, admin = false }: { children: ReactNode; admin?: boolean }) {
     const path = usePathname();
@@ -70,7 +72,7 @@ export default function ConsoleShell({ children, admin = false }: { children: Re
         <div className={styles.console}>
             <aside className={styles.sidebar}>
                 <nav aria-label={admin ? "管理导航" : "用户导航"}>
-                    <p className="m-kicker px-3 mb-6">{admin ? "CS / ADMIN CONTROL" : "CS / PERSONAL SPACE"}</p>
+                    <p className="m-kicker mb-6 px-3">{admin ? "CS / ADMIN CONTROL" : "CS / PERSONAL SPACE"}</p>
                     {links.map(([suffix, title, Icon]) => (
                         <Link
                             key={suffix}

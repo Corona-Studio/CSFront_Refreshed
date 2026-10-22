@@ -3,9 +3,8 @@
 import * as m from "motion/react-m";
 import type { ReactNode } from "react";
 
-import MotionProvider from "./provider";
-
 import { useMotionAllowed } from "./preferences";
+import MotionProvider from "./provider";
 
 export default function PreviewSwap({ children, id }: { children: ReactNode; id: number }) {
     const allowed = useMotionAllowed();

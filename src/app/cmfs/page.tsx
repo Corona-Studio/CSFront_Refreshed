@@ -1,6 +1,7 @@
-import Page from "@/features/CMFS";
 import { Suspense } from "react";
+
 import StructuredData from "@/components/StructuredData";
+import Page from "@/features/CMFS";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata("/cmfs");

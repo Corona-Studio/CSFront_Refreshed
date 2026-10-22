@@ -1,4 +1,4 @@
-import IResponse from "../interfaces/IResponse.ts";
+import type IResponse from "../interfaces/IResponse.ts";
 import { postAsync } from "./ApiConstants.ts";
 
 export const StoredAuthEmail = "AUTH_EMAIL";

@@ -1,6 +1,7 @@
-import axios, { AxiosRequestConfig, AxiosResponse, Method } from "axios";
+import type { AxiosRequestConfig, AxiosResponse, Method } from "axios";
+import axios from "axios";
 
-import IResponse from "../interfaces/IResponse.ts";
+import type IResponse from "../interfaces/IResponse.ts";
 
 export const lxBackendUrl = process.env.NEXT_PUBLIC_LX_BACKEND ?? "https://api.corona.studio";
 
@@ -12,11 +13,7 @@ export const csBackend = axios.create({
     }
 });
 
-export function buildHeader(
-    token: string,
-    data: unknown = undefined,
-    query: unknown = undefined
-): AxiosRequestConfig<unknown> {
+export function buildHeader(token: string, data?: unknown, query?: unknown): AxiosRequestConfig<unknown> {
     return {
         headers: {
             Authorization: `Bearer ${token}`

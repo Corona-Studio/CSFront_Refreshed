@@ -1,9 +1,10 @@
-import { describe, expect, it } from "vitest";
-import { pageMarkdown, pageMetadata, prefersMarkdown, publicPages, SITE_URL } from "./seo";
-import { proxy } from "../proxy";
 import { NextRequest } from "next/server";
+import { describe, expect, it } from "vitest";
+
 import robots from "../app/robots";
 import sitemap from "../app/sitemap";
+import { proxy } from "../proxy";
+import { pageMarkdown, pageMetadata, prefersMarkdown, publicPages, SITE_URL } from "./seo";
 
 describe("Markdown content negotiation", () => {
     it.each([

@@ -17,9 +17,20 @@ const preview: AdminDashboardOverview = {
         { date: "2026-09-29", succeeded: 182, failed: 22 },
         { date: "2026-09-30", succeeded: 176, failed: 14 }
     ],
-    accountDistribution: [{ key: "regular", count: 840 }, { key: "sponsors", count: 160 }],
-    buildRuntimes: [{ key: "Windows", count: 42 }, { key: "macOS", count: 28 }, { key: "Linux", count: 19 }],
-    pendingContributions: [{ key: "translations", count: 12 }, { key: "links", count: 8 }, { key: "tags", count: 5 }]
+    accountDistribution: [
+        { key: "regular", count: 840 },
+        { key: "sponsors", count: 160 }
+    ],
+    buildRuntimes: [
+        { key: "Windows", count: 42 },
+        { key: "macOS", count: 28 },
+        { key: "Linux", count: 19 }
+    ],
+    pendingContributions: [
+        { key: "translations", count: 12 },
+        { key: "links", count: 8 },
+        { key: "tags", count: 5 }
+    ]
 };
 
 export default function ChartPreview() {

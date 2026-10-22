@@ -24,6 +24,7 @@ import {
     setBuildPublishedAsync
 } from "../../requests/AdminRequests.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
+
 import styles from "./AdminBuilds.module.css";
 import tableStyles from "./AdminTable.module.css";
 
@@ -229,7 +230,7 @@ function AdminBuilds() {
                     icon={<DownloadIcon />}
                     loading={downloadingBuildIds.has(row.id)}
                     disabled={downloadingBuildIds.has(row.id)}
-                    onClick={() => downloadBuildAsync(row)}>
+                    onClick={() => void downloadBuildAsync(row)}>
                     {t("download")}
                 </Button>
             )
@@ -248,7 +249,7 @@ function AdminBuilds() {
                         aria-checked={row.isPublished}
                         className={`${styles.deliverySwitch} ${row.isPublished ? styles.deliverySwitchEnabled : ""} ${updatingBuildIds.has(row.id) ? styles.deliverySwitchLoading : ""}`}
                         disabled={updatingBuildIds.has(row.id)}
-                        onClick={() => setPublishedAsync(row, !row.isPublished)}>
+                        onClick={() => void setPublishedAsync(row, !row.isPublished)}>
                         <span className={styles.deliverySwitchThumb} />
                     </button>
                     <span className={row.isPublished ? styles.enabledText : styles.disabledText}>
@@ -288,7 +289,9 @@ function AdminBuilds() {
                             variant="outline"
                             icon={<RefreshIcon />}
                             loading={isRefreshing}
-                            onClick={refreshCacheAsync}>
+                            onClick={() => {
+                                void refreshCacheAsync();
+                            }}>
                             {t("refreshBuildCacheNow")}
                         </Button>
                     </div>

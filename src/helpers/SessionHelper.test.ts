@@ -30,7 +30,7 @@ describe("server session validation", () => {
     });
     it("does not erase credentials on a transient server failure", async () => {
         state.check.mockResolvedValue({ status: 500 });
-        await expect(isUserSessionValidAsync()).rejects.toThrow();
+        await expect(isUserSessionValidAsync()).rejects.toThrow("Unable to validate account session");
         expect(sessionStorage.getItem(StoredAuthToken)).toBe("token");
     });
     it("rejects an admin token when the server rejects its account", async () => {

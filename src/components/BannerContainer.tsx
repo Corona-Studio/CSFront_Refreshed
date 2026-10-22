@@ -1,5 +1,5 @@
 "use client";
-import { FC, ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 
 interface PaperProps {
     children?: ReactNode;
@@ -9,8 +9,8 @@ interface PaperProps {
 const BannerContainer: FC<PaperProps> = ({ children = null, innerDivClassName = "" }) => {
     return (
         <>
-            <div className="flex h-screen relative overflow-x-hidden items-center">
-                <div className={`flex w-full h-full ${innerDivClassName}`}>{children}</div>
+            <div className="relative flex h-screen items-center overflow-x-hidden">
+                <div className={`flex h-full w-full ${innerDivClassName}`}>{children}</div>
             </div>
         </>
     );

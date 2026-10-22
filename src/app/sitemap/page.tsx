@@ -1,4 +1,6 @@
 import Link from "next/link";
+
+/* oxlint-disable nextjs/no-html-link-for-pages -- These links download XML, text, and JSON route responses and require full document navigation. */
 import { SITE_URL, publicPages } from "@/lib/seo";
 
 export const metadata = {

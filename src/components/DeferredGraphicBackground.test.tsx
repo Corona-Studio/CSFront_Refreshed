@@ -18,7 +18,7 @@ it("serves a static background without requesting WebGL during SSR", () => {
     expect(html).not.toContain("<canvas");
 });
 
-it("waits for critical resources and idle time and cancels work on navigation", () => {
+it("waits for critical resources and idle time and cancels work on navigation", async () => {
     vi.spyOn(document, "readyState", "get").mockReturnValue("loading");
     const idle = vi.fn();
     const cancel = vi.fn();
@@ -26,19 +26,19 @@ it("waits for critical resources and idle time and cancels work on navigation", 
     vi.stubGlobal("cancelIdleCallback", cancel);
     const { unmount } = render(<DeferredGraphicBackground />);
     expect(idle).not.toHaveBeenCalled();
-    act(() => window.dispatchEvent(new Event("load")));
+    await act(() => window.dispatchEvent(new Event("load")));
     expect(idle).toHaveBeenCalledOnce();
     unmount();
     expect(cancel).toHaveBeenCalledWith(7);
 });
 
-it("enhances the shell once the browser is idle", () => {
+it("enhances the shell once the browser is idle", async () => {
     vi.spyOn(document, "readyState", "get").mockReturnValue("complete");
     const idle = vi.fn().mockReturnValue(3);
     vi.stubGlobal("requestIdleCallback", idle);
     vi.stubGlobal("cancelIdleCallback", vi.fn());
     const { queryByTestId } = render(<DeferredGraphicBackground />);
     expect(queryByTestId("webgl")).toBeNull();
-    act(() => idle.mock.calls[0][0]());
+    await act(() => idle.mock.calls[0][0]());
     expect(queryByTestId("webgl")).toBeTruthy();
 });

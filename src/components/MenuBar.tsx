@@ -1,6 +1,12 @@
 "use client";
-import ProgressiveBlur from "@/components/motion/progressive-blur";
+import { ArrowUpRight, Globe, Menu, Monitor, Moon, Sun, User } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useTranslation } from "react-i18next";
+
 import { Button, Dropdown } from "@/components/marathon";
+import ProgressiveBlur from "@/components/motion/progressive-blur";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -9,11 +15,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { I18NLangKey } from "@/helpers/StorageHelper";
 import { setTheme, useThemePreference } from "@/helpers/ThemeDetector";
-import { ArrowUpRight, Globe, Menu, Monitor, Moon, Sun, User } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useTranslation } from "react-i18next";
 
 import styles from "./MenuBar.module.css";
 
@@ -41,7 +42,7 @@ export default function MenuBar() {
                         height={345}
                         sizes="(max-width: 360px) 100px, (max-width: 640px) 136px, 180px"
                         preload
-                        className="block h-auto w-[136px] max-[360px]:w-[100px] sm:w-[180px] object-contain invert dark:invert-0 transition-opacity group-hover:opacity-80 motion-reduce:transition-none"
+                        className="block h-auto w-[136px] object-contain invert transition-opacity group-hover:opacity-80 motion-reduce:transition-none max-[360px]:w-[100px] sm:w-[180px] dark:invert-0"
                     />
                 </Link>
                 <nav aria-label="主导航" className={styles.navigation}>

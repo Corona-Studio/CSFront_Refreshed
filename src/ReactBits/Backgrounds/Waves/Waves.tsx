@@ -1,5 +1,6 @@
 "use client";
-import React, { CSSProperties, useEffect, useRef } from "react";
+import type { CSSProperties } from "react";
+import React, { useEffect, useRef } from "react";
 
 class Grad {
     x: number;
@@ -49,8 +50,8 @@ class Noise {
             235, 249, 14, 239, 107, 49, 192, 214, 31, 181, 199, 106, 157, 184, 84, 204, 176, 115, 121, 50, 45, 127, 4,
             150, 254, 138, 236, 205, 93, 222, 114, 67, 29, 24, 72, 243, 141, 128, 195, 78, 66, 215, 61, 156, 180
         ];
-        this.perm = new Array(512);
-        this.gradP = new Array(512);
+        this.perm = Array.from({ length: 512 }, () => 0);
+        this.gradP = Array.from({ length: 512 }, () => this.grad3[0]);
         this.seed(seed);
     }
     seed(seed: number) {
@@ -58,7 +59,7 @@ class Noise {
         seed = Math.floor(seed);
         if (seed < 256) seed |= seed << 8;
         for (let i = 0; i < 256; i++) {
-            let v = i & 1 ? this.p[i] ^ (seed & 255) : this.p[i] ^ ((seed >> 8) & 255);
+            const v = i & 1 ? this.p[i] ^ (seed & 255) : this.p[i] ^ ((seed >> 8) & 255);
             this.perm[i] = this.perm[i + 256] = v;
             this.gradP[i] = this.gradP[i + 256] = this.grad3[v % 12];
         }
@@ -163,7 +164,7 @@ const Waves: React.FC<WavesProps> = ({
         left: 0,
         top: 0
     });
-    const noiseRef = useRef(new Noise(Math.random()));
+    const noiseRef = useRef(new Noise(0));
     const linesRef = useRef<Point[][]>([]);
     const mouseRef = useRef<Mouse>({
         x: -10,
@@ -212,6 +213,7 @@ const Waves: React.FC<WavesProps> = ({
         const canvas = canvasRef.current;
         const container = containerRef.current;
         if (!canvas || !container) return;
+        noiseRef.current.seed(Math.random());
         ctxRef.current = canvas.getContext("2d");
 
         function setSize() {
@@ -384,15 +386,15 @@ const Waves: React.FC<WavesProps> = ({
                 backgroundColor,
                 ...style
             }}
-            className={`absolute top-0 left-0 w-full h-full overflow-hidden ${className}`}>
+            className={`absolute top-0 left-0 h-full w-full overflow-hidden ${className}`}>
             <div
-                className="absolute top-0 left-0 bg-[#160000] rounded-full w-[0.5rem] h-[0.5rem]"
+                className="absolute top-0 left-0 h-[0.5rem] w-[0.5rem] rounded-full bg-[#160000]"
                 style={{
                     transform: "translate3d(calc(var(--x) - 50%), calc(var(--y) - 50%), 0)",
                     willChange: "transform"
                 }}
             />
-            <canvas ref={canvasRef} className="block w-full h-full" />
+            <canvas ref={canvasRef} className="block h-full w-full" />
         </div>
     );
 };

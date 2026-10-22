@@ -53,7 +53,7 @@ describe("detectPlatform", () => {
         const { getContext } = mockRenderer("Intel Iris");
         expect(await detectPlatformAsync()).toEqual(expected);
         expect(getHighEntropyValues).toHaveBeenCalledWith(["architecture", "bitness"]);
-        if (expected.arch !== "Intel") expect(getContext).not.toHaveBeenCalled();
+        expect(getContext).toHaveBeenCalledTimes(expected.arch === "Intel" ? 1 : 0);
     });
 
     it.each([

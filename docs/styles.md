@@ -52,7 +52,7 @@ Tailwind 的顺序是 `theme → base → components → utilities`。全局入�
 ## 检查与验证
 
 - `pnpm lint:styles`：解析所有源 CSS；检查文件引用、组件全局 CSS、静态 CSS Module 类名、重复声明、非基础文件的 `!important` 和组件 `<style>`。
-- `pnpm lint`：同时执行 ESLint 和样式检查，`pnpm quality` 也自动包含这些规则。
+- `pnpm lint`：同时执行 Oxlint（含类型感知规则）和样式检查，`pnpm quality` 也自动包含这些规则。
 - `pnpm quality`：样式检查、现有单元测试、TypeScript、生产构建。
 - InfiniteScroll 曾增加多实例回归测试；该未接入页面的示例组件及测试已在依赖清理中移除。
 

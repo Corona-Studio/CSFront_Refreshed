@@ -1,16 +1,17 @@
 "use client";
-import DeferredGraphicBackground from "@/components/DeferredGraphicBackground";
-import HomeSections from "@/components/HomeSections";
-import HomeIntroCarousel from "@/components/HomeIntroCarousel";
-import showcase from "@/components/motion/showcase.module.css";
-import { ScrollReveal } from "@/components/motion/scroll-reveal";
-import { SectionHeading } from "@/components/marathon/layout";
 import { ArrowUpRight, Axis3D, BookOpen, Cat, Network, Rocket } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
+import DeferredGraphicBackground from "@/components/DeferredGraphicBackground";
+import HomeIntroCarousel from "@/components/HomeIntroCarousel";
+import HomeSections from "@/components/HomeSections";
+import { SectionHeading } from "@/components/marathon/layout";
+import { ScrollReveal } from "@/components/motion/scroll-reveal";
+
 import styles from "./Home.module.css";
+import showcase from "@/components/motion/showcase.module.css";
 
 export default function Home() {
     const { t } = useTranslation();
@@ -62,7 +63,7 @@ export default function Home() {
             <section className="m-section">
                 <div className="m-container">
                     <SectionHeading code="01 / THE STUDIO" title={t("whoWeAre")} description={t("whoWeAreDetail")} />
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
                         {[1, 7, 12, 20].map((index) => (
                             <ScrollReveal asChild key={index} index={index % 4} zoom>
                                 <div key={index} className="relative border border-border">
@@ -75,7 +76,7 @@ export default function Home() {
                                         loading="lazy"
                                         className="aspect-[4/3] w-full object-cover"
                                     />
-                                    <span className="absolute bottom-2 left-2 bg-primary text-primary-foreground font-mono text-[10px] px-2 py-1">
+                                    <span className="absolute bottom-2 left-2 bg-primary px-2 py-1 font-mono text-[10px] text-primary-foreground">
                                         WORLD / {String(index).padStart(3, "0")}
                                     </span>
                                 </div>
@@ -96,8 +97,8 @@ export default function Home() {
                                     href={href}
                                     target={href.startsWith("https") ? "_blank" : undefined}
                                     rel={href.startsWith("https") ? "noopener noreferrer" : undefined}
-                                    className="group hover:bg-primary hover:text-primary-foreground transition-colors">
-                                    <div className="flex justify-between items-center mb-12">
+                                    className="group transition-colors hover:bg-primary hover:text-primary-foreground">
+                                    <div className="mb-12 flex items-center justify-between">
                                         <span className="m-kicker group-hover:text-current">[ 0{index + 1} ]</span>
                                         <Icon className="size-5" />
                                     </div>

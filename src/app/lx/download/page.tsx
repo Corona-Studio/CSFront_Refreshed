@@ -1,6 +1,7 @@
-import { Component as Page } from "@/features/LauncherX/LxDownload";
 import { Suspense } from "react";
+
 import StructuredData from "@/components/StructuredData";
+import { Component as Page } from "@/features/LauncherX/LxDownload";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata("/lx/download");

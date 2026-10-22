@@ -1,10 +1,12 @@
 "use client";
 
-import motionStyles from "@/components/motion/interactions.module.css";
-import { cn } from "@/lib/utils";
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import { Select as SelectPrimitive } from "radix-ui";
 import * as React from "react";
+
+import { cn } from "@/lib/utils";
+
+import motionStyles from "@/components/motion/interactions.module.css";
 
 function Select({ ...props }: React.ComponentProps<typeof SelectPrimitive.Root>) {
     return <SelectPrimitive.Root data-slot="select" {...props} />;
@@ -31,7 +33,7 @@ function SelectTrigger({
             data-slot="select-trigger"
             data-size={size}
             className={cn(
-                "group flex w-full items-center justify-between gap-3 rounded-none border border-border bg-card px-3 text-sm font-medium whitespace-nowrap transition-[border-color,background-color,box-shadow] outline-none hover:border-input focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/20 data-[state=open]:border-ring data-[state=open]:ring-2 data-[state=open]:ring-ring/15 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive data-[placeholder]:text-muted-foreground data-[size=default]:h-10 data-[size=sm]:h-8 *:data-[slot=select-value]:truncate *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 [&_svg]:shrink-0 motion-reduce:transition-none",
+                "group flex w-full items-center justify-between gap-3 rounded-none border border-border bg-card px-3 text-sm font-medium whitespace-nowrap transition-[border-color,background-color,box-shadow] outline-none hover:border-input focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/20 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive data-[placeholder]:text-muted-foreground data-[size=default]:h-10 data-[size=sm]:h-8 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 *:data-[slot=select-value]:truncate data-[state=open]:border-ring data-[state=open]:ring-2 data-[state=open]:ring-ring/15 motion-reduce:transition-none [&_svg]:shrink-0",
                 className
             )}
             {...props}>
@@ -92,7 +94,7 @@ function SelectItem({ className, children, ...props }: React.ComponentProps<type
         <SelectPrimitive.Item
             data-slot="select-item"
             className={cn(
-                "relative flex min-h-9 w-full cursor-pointer items-center gap-2 rounded-none border-l-2 border-transparent py-2 pr-9 pl-3 text-sm outline-none select-none focus:bg-accent focus:text-accent-foreground data-[state=checked]:border-primary data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:shrink-0 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
+                "relative flex min-h-9 w-full cursor-pointer items-center gap-2 rounded-none border-l-2 border-transparent py-2 pr-9 pl-3 text-sm outline-none select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[state=checked]:border-primary data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground [&_svg]:shrink-0 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
                 className
             )}
             {...props}>

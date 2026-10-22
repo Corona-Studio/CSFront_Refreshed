@@ -1,8 +1,10 @@
-import localForage from "@/lib/storage";
-import { JwtPayload, jwtDecode } from "jwt-decode";
+import type { JwtPayload } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
+import localForage from "@/lib/storage";
+
+import type { RawLoginResponse } from "../requests/LxAuthRequests.ts";
 import {
-    RawLoginResponse,
     StoredAccountEmail,
     StoredAuthEmail,
     StoredAuthExpired,

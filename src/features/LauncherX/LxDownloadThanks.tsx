@@ -1,10 +1,11 @@
 "use client";
-import { SectionHeading } from "@/components/marathon";
-import { Button } from "@/components/ui/button";
-import { detectPlatform, getSavedOperatingSystem } from "@/helpers/PlatformHelper";
 import { ArrowUpRight, CircleCheck } from "lucide-react";
 import { useSyncExternalStore } from "react";
 import { useTranslation } from "react-i18next";
+
+import { SectionHeading } from "@/components/marathon";
+import { Button } from "@/components/ui/button";
+import { detectPlatform, getSavedOperatingSystem } from "@/helpers/PlatformHelper";
 
 const subscribe = () => () => {};
 const snapshot = () => getSavedOperatingSystem() ?? detectPlatform().os;
@@ -15,11 +16,11 @@ function LxDownloadThanks() {
         { os: "Windows", key: "windowsSetupGuide", path: "windows" },
         { os: "macOS", key: "macosSetupGuide", path: "macOS" },
         { os: "Linux", key: "linuxSetupGuide", path: "linux" }
-    ];
+    ] as const;
     return (
         <section className="m-section">
             <div className="m-container">
-                <CircleCheck className="size-12 mb-8 text-success" />
+                <CircleCheck className="mb-8 size-12 text-success" />
                 <SectionHeading
                     code="LX—003 / INSTALLATION"
                     title={t("downloadThanks")}

@@ -1,10 +1,12 @@
 "use client";
 
-import motionStyles from "@/components/motion/interactions.module.css";
-import { cn } from "@/lib/utils";
 import { ChevronDownIcon } from "lucide-react";
 import { Accordion as AccordionPrimitive } from "radix-ui";
 import * as React from "react";
+
+import { cn } from "@/lib/utils";
+
+import motionStyles from "@/components/motion/interactions.module.css";
 
 function Accordion({ ...props }: React.ComponentProps<typeof AccordionPrimitive.Root>) {
     return <AccordionPrimitive.Root data-slot="accordion" {...props} />;

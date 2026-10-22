@@ -1,8 +1,9 @@
 "use client";
-import localForage from "@/lib/storage";
 import { LockKeyhole as LockOnIcon, User as UserIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+
+import localForage from "@/lib/storage";
 
 import { Button, Checkbox, Form, Input, notify } from "../../components/marathon/index.tsx";
 import type { FormProps } from "../../components/marathon/index.tsx";
@@ -21,6 +22,7 @@ import {
 } from "../../requests/LxAuthRequests.ts";
 import { checkUserIsPaidAsync } from "../../requests/LxUserRequests.ts";
 import Constants from "./../../helpers/Constants.ts";
+
 import layout from "./AuthFormLayout.module.css";
 
 interface FormData {
@@ -46,7 +48,7 @@ function AuthLogin() {
             setSavedEmail(email);
         }
 
-        setEmailAsync().then();
+        setEmailAsync().catch(() => setSavedEmail(null));
     }, []);
 
     // Check for login status
@@ -63,7 +65,9 @@ function AuthLogin() {
             navigate(redirect);
         }
 
-        checkAuthAsync().then();
+        checkAuthAsync().catch(() => {
+            // Keep the login form available when stored credentials cannot be validated.
+        });
     }, [navigate, redirect]);
 
     const onSubmit: FormProps["onSubmit"] = (e) => {
@@ -136,7 +140,7 @@ function AuthLogin() {
 
     return (
         <>
-            <div className="p-5 sm:p-8 bg-card rounded-none    transition">
+            <div className="rounded-none bg-card p-5 transition sm:p-8">
                 <h1 className={`${layout.title} text-2xl leading-normal`}>{t("login")}</h1>
                 <Form className="w-full min-w-0" onSubmit={onSubmit}>
                     <FormItem

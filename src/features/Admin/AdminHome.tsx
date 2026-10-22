@@ -10,11 +10,12 @@ import {
 import { Suspense, lazy, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Tooltip, TooltipContent, TooltipTrigger } from "../../components/ui/tooltip.tsx";
 import { Alert, Button, Select, Skeleton } from "../../components/marathon/index.tsx";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../../components/ui/tooltip.tsx";
 import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import { getDashboardOverviewAsync } from "../../requests/AdminRequests.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
+
 import styles from "./AdminHome.module.css";
 
 const DashboardCharts = lazy(() => import("./AdminDashboardCharts.tsx"));
@@ -109,7 +110,7 @@ function AdminHome() {
                                 label: t("dashboardDays", { count: value })
                             }))}
                         />
-                        <Button loading={dashboardItems.isFetching} onClick={() => dashboardItems.refetch()}>
+                        <Button loading={dashboardItems.isFetching} onClick={() => void dashboardItems.refetch()}>
                             {t("dashboardRefresh")}
                         </Button>
                     </div>
@@ -134,7 +135,9 @@ function AdminHome() {
                             <div key={boardItem.key}>
                                 <Suspense fallback={<Skeleton theme="paragraph" />}>
                                     <Board
-                                        title={t(metricTitles[boardItem.key] ?? boardItem.key)}
+                                        title={t(metricTitles[boardItem.key] ?? boardItem.key, {
+                                            defaultValue: boardItem.key
+                                        })}
                                         desc={t(
                                             ["loginAttempts", "failedLogins"].includes(boardItem.key)
                                                 ? "dashboardPeriod"
@@ -144,14 +147,19 @@ function AdminHome() {
                                         Icon={
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
-                                                    <span
-                                                        tabIndex={0}
-                                                        aria-label={t(metricTitles[boardItem.key] ?? boardItem.key)}>
+                                                    <button
+                                                        type="button"
+                                                        aria-label={t(metricTitles[boardItem.key] ?? boardItem.key, {
+                                                            defaultValue: boardItem.key
+                                                        })}>
                                                         {getDashboardItemIcon(boardItem.key)}
-                                                    </span>
+                                                    </button>
                                                 </TooltipTrigger>
                                                 <TooltipContent sideOffset={8}>
-                                                    {t(metricTitles[boardItem.key] ?? boardItem.key)} ·{" "}
+                                                    {t(metricTitles[boardItem.key] ?? boardItem.key, {
+                                                        defaultValue: boardItem.key
+                                                    })}{" "}
+                                                    ·{" "}
                                                     {t(
                                                         ["loginAttempts", "failedLogins"].includes(boardItem.key)
                                                             ? "dashboardPeriod"

@@ -21,8 +21,8 @@ function Fallback({ pathname = "/", embedded = false }: FallbackProps) {
     const isManagement = /^\/(admin|user)(\/|$)/.test(pathname);
     const isTable =
         /^\/admin\/(builds|users|notifications|contributions)(\/|$)/.test(pathname) || pathname === "/user/device";
-    const isDetail = /^\/admin\/contributions\//.test(pathname);
-    const isSponsor = /\/sponsor$/.test(pathname);
+    const isDetail = pathname.startsWith("/admin/contributions/");
+    const isSponsor = pathname.endsWith("/sponsor");
     const isDownload = pathname.includes("/download");
     const isLanding = pathname === "/" || pathname === "/lx" || pathname === "/cmfs";
     const type = isDetail

@@ -1,13 +1,6 @@
 "use client";
-// @ts-nocheck
-import {
-    AnimatePresence,
-    type Target,
-    type TargetAndTransition,
-    Transition,
-    type VariantLabels,
-    motion
-} from "motion/react";
+import type { Transition } from "motion/react";
+import { AnimatePresence, type Target, type TargetAndTransition, type VariantLabels, motion } from "motion/react";
 import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 
 function cn(...classes: (string | undefined | null | boolean)[]): string {
@@ -21,11 +14,10 @@ export interface RotatingTextRef {
     reset: () => void;
 }
 
-export interface RotatingTextProps
-    extends Omit<
-        React.ComponentPropsWithoutRef<typeof motion.span>,
-        "children" | "transition" | "initial" | "animate" | "exit"
-    > {
+export interface RotatingTextProps extends Omit<
+    React.ComponentPropsWithoutRef<typeof motion.span>,
+    "children" | "transition" | "initial" | "animate" | "exit"
+> {
     texts: string[];
     transition?: Transition;
     initial?: boolean | Target | VariantLabels;
@@ -193,7 +185,7 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
 
         return (
             <motion.span
-                className={cn("inline-block relative overflow-hidden", mainClassName)}
+                className={cn("relative inline-block overflow-hidden", mainClassName)}
                 {...rest}
                 layout="position"
                 transition={transition}
@@ -217,7 +209,7 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
                     <motion.span
                         key={currentTextIndex}
                         className={cn(
-                            splitBy === "lines" ? "flex flex-col w-full" : "flex flex-wrap whitespace-pre-wrap relative"
+                            splitBy === "lines" ? "flex w-full flex-col" : "relative flex flex-wrap whitespace-pre-wrap"
                         )}
                         layout
                         aria-hidden="true">

@@ -1,5 +1,5 @@
-import Home from "@/features/Home";
 import StructuredData from "@/components/StructuredData";
+import Home from "@/features/Home";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata("/");

@@ -2,9 +2,10 @@
 
 import { useEffect, useRef } from "react";
 
-import styles from "./AuthAsciiScene.module.css";
 import { AsciiFluidSimulation } from "./asciiFluidSimulation";
 import { observeAuthAsciiTheme, readAuthAsciiPalette } from "./authAsciiPalette";
+
+import styles from "./AuthAsciiScene.module.css";
 
 export default function AuthAsciiFluid() {
     const canvasRef = useRef<HTMLCanvasElement>(null);

@@ -1,4 +1,8 @@
 "use client";
+import { Loader2, X } from "lucide-react";
+import type { CSSProperties, ComponentProps, ReactNode } from "react";
+import { toast } from "sonner";
+
 import { Badge as ShadcnBadge } from "@/components/ui/badge";
 import { Button as ShadcnButton } from "@/components/ui/button";
 import { Checkbox as ShadcnCheckbox } from "@/components/ui/checkbox";
@@ -22,9 +26,6 @@ import { Textarea as ShadcnTextarea } from "@/components/ui/textarea";
 import { TooltipContent, Tooltip as TooltipRoot, TooltipTrigger } from "@/components/ui/tooltip";
 import i18n from "@/i18n";
 import { cn } from "@/lib/utils";
-import { Loader2, X } from "lucide-react";
-import type { CSSProperties, ComponentProps, ReactNode } from "react";
-import { toast } from "sonner";
 
 type Theme = "default" | "primary" | "danger" | "success" | "warning" | "error" | "info";
 export interface ButtonProps extends Omit<ComponentProps<"button">, "size"> {
@@ -54,7 +55,7 @@ export function Button({
     ...props
 }: ButtonProps) {
     const styles = cn(
-        "font-semibold uppercase tracking-wide rounded-none",
+        "rounded-none font-semibold tracking-wide uppercase",
         block && "w-full",
         shape === "square" && "px-3",
         className
@@ -71,7 +72,7 @@ export function Button({
                   : "default";
     const content = (
         <>
-            {loading ? <Loader2 className="animate-spin size-4" /> : icon}
+            {loading ? <Loader2 className="size-4 animate-spin" /> : icon}
             {children}
         </>
     );
@@ -127,7 +128,7 @@ export function Input({
     return (
         <div className={cn("relative min-w-0", className)}>
             {prefixIcon && (
-                <span className="absolute left-3 top-3 pointer-events-none [&>svg]:size-4 text-muted-foreground">
+                <span className="pointer-events-none absolute top-3 left-3 text-muted-foreground [&>svg]:size-4">
                     {prefixIcon}
                 </span>
             )}
@@ -138,7 +139,7 @@ export function Input({
                 onChange={(e) => onChange?.(e.target.value)}
                 aria-invalid={status === "error" || props["aria-invalid"]}
                 className={cn(
-                    "rounded-none h-11 bg-background",
+                    "h-11 rounded-none bg-background",
                     prefixIcon && "pl-10",
                     (clearable || suffix) && "pr-10"
                 )}
@@ -147,7 +148,7 @@ export function Input({
                 <button
                     type="button"
                     aria-label={i18n.t("clear")}
-                    className="absolute right-3 top-3"
+                    className="absolute top-3 right-3"
                     onClick={() => onChange?.("")}>
                     <X className="size-4" />
                 </button>
@@ -263,7 +264,7 @@ export function Dialog({
                     <DialogTitle>{header}</DialogTitle>
                     <DialogDescription className="sr-only">{i18n.t("confirm")}</DialogDescription>
                 </DialogHeader>
-                <div className="py-4 space-y-4">{children}</div>
+                <div className="space-y-4 py-4">{children}</div>
                 {footer ?? (
                     <DialogFooter>
                         {cancelBtn !== null && (

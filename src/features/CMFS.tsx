@@ -1,13 +1,14 @@
 "use client";
-import motionStyles from "@/components/motion/interactions.module.css";
-import { ScrollReveal } from "@/components/motion/scroll-reveal";
-import { SectionHeading } from "@/components/marathon";
-import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
+import { SectionHeading } from "@/components/marathon";
+import { ScrollReveal } from "@/components/motion/scroll-reveal";
+import { Button } from "@/components/ui/button";
+
 import styles from "./CMFS.module.css";
+import motionStyles from "@/components/motion/interactions.module.css";
 
 export default function CMFS() {
     const { t } = useTranslation();
@@ -41,10 +42,10 @@ export default function CMFS() {
                     height={1080}
                     sizes="100vw"
                     fetchPriority="high"
-                    className="absolute inset-0 w-full h-full object-cover opacity-35"
+                    className="absolute inset-0 h-full w-full object-cover opacity-35"
                 />
                 <div className={`m-container relative py-24 md:py-40 ${motionStyles.intro}`}>
-                    <p className="m-kicker text-white mb-10">CMFS—001 / {t("cmfsCommunityWorlds")}</p>
+                    <p className="m-kicker mb-10 text-white">CMFS—001 / {t("cmfsCommunityWorlds")}</p>
                     <h1 className={styles.heroTitle}>
                         <span>{t("cmfsHeroTitleWorlds")}</span>
                         <span>
@@ -52,7 +53,7 @@ export default function CMFS() {
                             <span className="text-primary">/</span>
                         </span>
                     </h1>
-                    <p className="text-2xl font-bold mt-8">CMFS · CraftMineFun</p>
+                    <p className="mt-8 text-2xl font-bold">CMFS · CraftMineFun</p>
                     <div className="m-actions">
                         <Button asChild size="lg">
                             <a href="#servers">
@@ -60,7 +61,7 @@ export default function CMFS() {
                                 <ArrowUpRight />
                             </a>
                         </Button>
-                        <Button asChild variant="outline" size="lg" className="bg-transparent border-white text-white">
+                        <Button asChild variant="outline" size="lg" className="border-white bg-transparent text-white">
                             <a href="https://craftmine.fun" target="_blank" rel="noopener noreferrer">
                                 {t("learnMore")}
                                 <ArrowUpRight />
@@ -87,7 +88,7 @@ export default function CMFS() {
                                         height={360}
                                         sizes="(max-width: 640px) 100vw, (max-width: 900px) 50vw, 33vw"
                                         loading="lazy"
-                                        className="w-full aspect-video object-cover"
+                                        className="aspect-video w-full object-cover"
                                     />
                                     <div
                                         className={`${styles.serverInfo} p-6 group-hover:bg-primary group-hover:text-primary-foreground`}>
@@ -102,7 +103,7 @@ export default function CMFS() {
                 </div>
             </section>
             <section className="m-section">
-                <div className="m-container grid lg:grid-cols-2 gap-12">
+                <div className="m-container grid gap-12 lg:grid-cols-2">
                     <SectionHeading
                         code={`02 / ${t("cmfsOrigins")}`}
                         title={t("beginningOfEverything")}
@@ -115,14 +116,14 @@ export default function CMFS() {
                         }
                     />
                     <ol className="border-t border-border">
-                        {Array.from({ length: 9 }, (_, index) => (
+                        {([1, 2, 3, 4, 5, 6, 7, 8, 9] as const).map((event, index) => (
                             <ScrollReveal asChild key={index} index={0}>
                                 <li className="grid grid-cols-[70px_1fr] gap-6 border-b border-border py-6">
                                     <span className="m-kicker">{2016 + index}</span>
                                     <div>
-                                        <h3>{t(`event${index + 1}`)}</h3>
-                                        <p className="text-muted-foreground text-sm mt-3 leading-7">
-                                            {t(`event${index + 1}Description`)}
+                                        <h3>{t(`event${event}`)}</h3>
+                                        <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                                            {t(`event${event}Description`)}
                                         </p>
                                     </div>
                                 </li>

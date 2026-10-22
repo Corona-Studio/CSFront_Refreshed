@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+
 import { publicPages } from "@/lib/seo";
 import { socialImage } from "@/lib/social-image";
 

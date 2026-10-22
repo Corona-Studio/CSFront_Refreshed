@@ -2,10 +2,11 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
-import styles from "./KineticAsciiBackground.module.css";
 import { AsciiFlowField } from "./asciiFlowField";
-import { observeAuthAsciiTheme, readAuthAsciiPalette } from "./authAsciiPalette";
 import { type SeedBody, createSeedBody, detachSeed, flowerSway, stepSeed } from "./asciiSeedPhysics";
+import { observeAuthAsciiTheme, readAuthAsciiPalette } from "./authAsciiPalette";
+
+import styles from "./KineticAsciiBackground.module.css";
 
 const glyphs = " /\\>*.:[]{}<%&01+=#^i";
 const vertexShader = `
@@ -136,7 +137,7 @@ export default function KineticAsciiBackground({ variant = "hero" }: { variant?:
             context.font = "bold 52px monospace";
             context.textAlign = "center";
             context.textBaseline = "middle";
-            [...glyphs].forEach((glyph, index) => context.fillText(glyph, index * 64 + 32, 32));
+            Array.from(glyphs).forEach((glyph, index) => context.fillText(glyph, index * 64 + 32, 32));
         }
         const atlas = new THREE.CanvasTexture(atlasCanvas);
         atlas.minFilter = THREE.LinearFilter;

@@ -1,16 +1,18 @@
 "use client";
-import PreviewSwap from "@/components/motion/preview-swap";
-import motionStyles from "@/components/motion/interactions.module.css";
-import showcase from "@/components/motion/showcase.module.css";
-import { ScrollReveal } from "@/components/motion/scroll-reveal";
-import { SectionHeading } from "@/components/marathon";
-import { Button } from "@/components/ui/button";
-import { useCarousel } from "@/components/use-carousel";
-import type { zhCN } from "@/langs/zh_CN";
 import { ArrowRight, Pause, Play } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+
+import { SectionHeading } from "@/components/marathon";
+import PreviewSwap from "@/components/motion/preview-swap";
+import { ScrollReveal } from "@/components/motion/scroll-reveal";
+import { Button } from "@/components/ui/button";
+import { useCarousel } from "@/components/use-carousel";
+import type { zhCN } from "@/langs/zh_CN";
+
+import motionStyles from "@/components/motion/interactions.module.css";
+import showcase from "@/components/motion/showcase.module.css";
 
 export default function LxHome() {
     const { t } = useTranslation();
@@ -66,9 +68,9 @@ export default function LxHome() {
             <section className="m-section">
                 <div className="m-container">
                     <p className={`m-kicker mb-8 ${showcase.heroBadge}`}>LX—001 / MINECRAFT LAUNCHER</p>
-                    <div className="grid lg:grid-cols-[0.9fr_1.1fr] items-center gap-12">
+                    <div className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
                         <div className={motionStyles.intro}>
-                            <h1 className="leading-[1.12] text-[clamp(3.25rem,6.3vw,6.5rem)]">
+                            <h1 className="text-[clamp(3.25rem,6.3vw,6.5rem)] leading-[1.12]">
                                 {copy.headline[0]}
                                 <br />
                                 {copy.headline[1]}
@@ -76,7 +78,7 @@ export default function LxHome() {
                                 <span className="text-muted-foreground">{copy.headline[2]}</span>
                             </h1>
                             <p className="mt-8 text-2xl font-bold">LauncherX</p>
-                            <p className="text-muted-foreground mt-4 leading-7">{t("lxSlogan")}</p>
+                            <p className="mt-4 leading-7 text-muted-foreground">{t("lxSlogan")}</p>
                             <div className="m-actions">
                                 <Button asChild size="lg">
                                     <Link href="/lx/download">
@@ -122,7 +124,7 @@ export default function LxHome() {
                                 </figcaption>
                             </figure>
                             <div
-                                className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3"
+                                className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4"
                                 role="group"
                                 aria-label="LauncherX">
                                 {previews.map((item, index) => (
@@ -145,7 +147,7 @@ export default function LxHome() {
                                     </button>
                                 ))}
                             </div>
-                            <div className="flex items-center justify-between gap-4 mt-4">
+                            <div className="mt-4 flex items-center justify-between gap-4">
                                 <p className="m-kicker">{copy.hint}</p>
                                 <Button
                                     type="button"
@@ -181,7 +183,7 @@ export default function LxHome() {
             </section>
             {copy.stories.map((story, index) => (
                 <section className="m-section" key={storyCodes[index]}>
-                    <div className="m-container grid lg:grid-cols-[0.9fr_1.1fr] items-start gap-12 lg:gap-20">
+                    <div className="m-container grid items-start gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
                         <div className={`lg:sticky lg:top-28 ${index % 2 === 1 ? "lg:order-2" : ""}`}>
                             <SectionHeading
                                 code={storyCodes[index]}
@@ -189,12 +191,12 @@ export default function LxHome() {
                                 description={story.description}
                             />
                             <ScrollReveal asChild>
-                                <p className="text-muted-foreground leading-8 border-t border-border pt-6">
+                                <p className="border-t border-border pt-6 leading-8 text-muted-foreground">
                                     {story.detail}
                                 </p>
                             </ScrollReveal>
                         </div>
-                        <div className="grid gap-5 min-w-0">
+                        <div className="grid min-w-0 gap-5">
                             {storyImages[index].map((image, i) => (
                                 <div key={image}>{screenshot(image, story.captions[i])}</div>
                             ))}
@@ -203,7 +205,7 @@ export default function LxHome() {
                 </section>
             ))}
             <section className="m-section">
-                <div className="m-container grid md:grid-cols-2 gap-12">
+                <div className="m-container grid gap-12 md:grid-cols-2">
                     <SectionHeading
                         code="05 / PERFORMANCE"
                         title={t("aggressiveOptimizing")}
@@ -253,10 +255,10 @@ export default function LxHome() {
             <section className="m-section bg-primary text-primary-foreground">
                 <ScrollReveal asChild>
                     <div className="m-container">
-                        <p className="m-kicker text-current mb-6">07 / CONTINUOUS DEVELOPMENT</p>
+                        <p className="m-kicker mb-6 text-current">07 / CONTINUOUS DEVELOPMENT</p>
                         <h2>{t("alwaysGetLatestUpdates")}</h2>
                         <p className="my-6 max-w-2xl leading-8">{t("alwaysGetLatestUpdatesDescription")}</p>
-                        <Button asChild variant="outline" className="bg-transparent border-current text-current">
+                        <Button asChild variant="outline" className="border-current bg-transparent text-current">
                             <Link href="/lx/download">
                                 {t("downloadNow")}
                                 <ArrowRight />

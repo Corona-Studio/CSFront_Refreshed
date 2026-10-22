@@ -7,8 +7,9 @@ import { useTranslation } from "react-i18next";
 import { Euler, TorusKnotGeometry, Vector3 } from "three";
 
 import AuthAsciiFluid from "./AuthAsciiFluid";
-import styles from "./AuthAsciiScene.module.css";
 import { observeAuthAsciiTheme, readAuthAsciiPalette } from "./authAsciiPalette";
+
+import styles from "./AuthAsciiScene.module.css";
 
 const KineticAsciiBackground = dynamic(() => import("./KineticAsciiBackground"), { ssr: false });
 

@@ -1,19 +1,12 @@
 "use client";
-import localForage from "@/lib/storage";
 import { KeyRound as KeyIcon, User as User1Icon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import {
-    Button,
-    FieldValidator,
-    Form,
-    FormController,
-    type FormProps,
-    Input,
-    Tooltip,
-    notify
-} from "../../components/marathon/index.tsx";
+import localForage from "@/lib/storage";
+
+import type { FieldValidator, FormController } from "../../components/marathon/index.tsx";
+import { Button, Form, type FormProps, Input, Tooltip, notify } from "../../components/marathon/index.tsx";
 import { FormItem } from "../../components/marathon/index.tsx";
 import { getSafeRedirect } from "../../helpers/RouteHelper.ts";
 import { getCurrentPageTheme } from "../../helpers/ThemeDetector.ts";
@@ -23,6 +16,7 @@ import { useNavigate } from "../../lib/navigation.ts";
 import { StoredAuthEmail, registerAsync } from "../../requests/LxAuthRequests.ts";
 import Constants from "./../../helpers/Constants.ts";
 import AllowedChars from "./AllowedChars.tsx";
+
 import layout from "./AuthFormLayout.module.css";
 
 const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
@@ -143,7 +137,7 @@ function AuthRegister() {
 
     return (
         <>
-            <div className="w-full min-w-0 max-w-[520px] rounded-none bg-card p-5  transition   bg-card sm:p-8">
+            <div className="w-full max-w-[520px] min-w-0 rounded-none bg-card p-5 transition sm:p-8">
                 <h1 className={`${layout.title} text-2xl leading-normal`}>{t("register")}</h1>
                 <Form ref={form} onSubmit={onSubmit} className="w-full min-w-0">
                     <FormItem

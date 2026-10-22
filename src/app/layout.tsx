@@ -1,9 +1,10 @@
-import Footer from "@/components/Footer";
-import MenuBar from "@/components/MenuBar";
-import PageEntrance from "@/components/motion/page-entrance";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
+
+import Footer from "@/components/Footer";
+import MenuBar from "@/components/MenuBar";
+import PageEntrance from "@/components/motion/page-entrance";
 import { SITE_URL, publicPages } from "@/lib/seo";
 
 import "./globals.css";

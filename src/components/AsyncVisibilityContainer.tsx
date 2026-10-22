@@ -1,5 +1,6 @@
 "use client";
-import { FC, ReactNode, useEffect, useState } from "react";
+import type { FC, ReactNode } from "react";
+import { useEffect, useState } from "react";
 
 interface AsyncVisibilityContainerProps {
     children?: ReactNode;
@@ -16,7 +17,11 @@ const AsyncVisibilityContainer: FC<AsyncVisibilityContainerProps> = ({
 
     useEffect(() => {
         let active = true;
-        visible().then((result) => active && setIsVisible(result));
+        visible()
+            .then((result) => active && setIsVisible(result))
+            .catch(() => {
+                if (active) setIsVisible(false);
+            });
         return () => {
             active = false;
         };

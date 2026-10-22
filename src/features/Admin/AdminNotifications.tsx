@@ -28,6 +28,7 @@ import {
 } from "../../requests/AdminRequests.ts";
 import { isSuccessfulResponse } from "../../requests/ApiConstants.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
+
 import styles from "./AdminManagement.module.css";
 import tableStyles from "./AdminTable.module.css";
 
@@ -215,7 +216,7 @@ function AdminNotifications() {
                     theme="error"
                     title={t("notificationListLoadFailed")}
                     message={(notificationsQuery.error as Error).message}
-                    operation={<Button onClick={() => notificationsQuery.refetch()}>{t("retry")}</Button>}
+                    operation={<Button onClick={() => void notificationsQuery.refetch()}>{t("retry")}</Button>}
                 />
             )}
             <Card>

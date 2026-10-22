@@ -1,6 +1,7 @@
-import Page from "@/features/LauncherX/LxHome";
 import { Suspense } from "react";
+
 import StructuredData from "@/components/StructuredData";
+import Page from "@/features/LauncherX/LxHome";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata("/lx");

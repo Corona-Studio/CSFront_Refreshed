@@ -1,9 +1,10 @@
 "use client";
-import PromoCard from "@/components/marathon/promo-card";
 import { useQuery } from "@tanstack/react-query";
 import { CircleCheck as CheckCircleIcon, Copy as CopyIcon, Users as UsergroupIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+
+import PromoCard from "@/components/marathon/promo-card";
 
 import {
     Alert,
@@ -144,7 +145,7 @@ function UserSponsor() {
                 .finally(() => setIsLoading(false));
         }
 
-        redeemAsyncImpl().then();
+        redeemAsyncImpl().catch(() => setIsLoading(false));
     };
 
     return (
@@ -175,39 +176,39 @@ function UserSponsor() {
                 )}
 
                 {isPaid.data && (
-                    <section className="rounded-none border border-border bg-card p-5  border-border bg-card sm:p-8">
+                    <section className="rounded-none border border-border bg-card p-5 sm:p-8">
                         <div className="flex items-start gap-4">
                             <CheckCircleIcon size="32px" className="shrink-0 text-emerald-600 dark:text-emerald-400" />
                             <div className="space-y-2">
                                 <h2 className="text-xl font-semibold">{t("sponsorThanks")}</h2>
-                                <p className="text-sm leading-6 text-muted-foreground text-muted-foreground">
+                                <p className="text-sm leading-6 text-muted-foreground">
                                     {t("sponsorThanksDescription")}
                                 </p>
                             </div>
                         </div>
 
-                        <div className="mt-6 border-t border-border pt-6 border-border">
+                        <div className="mt-6 border-t border-border pt-6">
                             <div className="flex flex-wrap items-center gap-3">
                                 <UsergroupIcon className="text-emerald-600 dark:text-emerald-400" />
                                 <span className="font-medium">{t("sponsorInsiderGroupTitle")}</span>
-                                <Button variant="outline" size="small" onClick={() => copyAsync("956810404")}>
+                                <Button variant="outline" size="small" onClick={() => void copyAsync("956810404")}>
                                     956810404 <CopyIcon className="ml-2" />
                                 </Button>
                             </div>
-                            <p className="mt-2 text-sm leading-6 text-muted-foreground text-muted-foreground">
+                            <p className="mt-2 text-sm leading-6 text-muted-foreground">
                                 {t("sponsorInsiderGroupDescription")}
                             </p>
                         </div>
 
                         {verificationInfo && !verification.isError && (
-                            <div className="mt-6 border-t border-border pt-6 border-border">
+                            <div className="mt-6 border-t border-border pt-6">
                                 <h3 className="text-lg font-semibold">{t("sponsorQqVerificationTitle")}</h3>
-                                <p className="mt-2 text-sm leading-6 text-muted-foreground text-muted-foreground">
+                                <p className="mt-2 text-sm leading-6 text-muted-foreground">
                                     {t("sponsorQqVerificationDescription")}
                                 </p>
                                 <div className="mt-4 flex flex-wrap gap-2">
                                     {verificationInfo.qqGroups.map((group) => (
-                                        <Button key={group} variant="outline" onClick={() => copyAsync(group)}>
+                                        <Button key={group} variant="outline" onClick={() => void copyAsync(group)}>
                                             QQ {group} <CopyIcon className="ml-2" />
                                         </Button>
                                     ))}
@@ -222,7 +223,7 @@ function UserSponsor() {
                                     disabled={verificationExpired}
                                     className="mt-3 inline-flex max-w-full items-center rounded-none border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-left font-mono text-sm break-all text-emerald-700 disabled:opacity-50 dark:text-emerald-300"
                                     onClick={() =>
-                                        copyAsync(
+                                        void copyAsync(
                                             `/verify ${verificationInfo.username} ${verificationInfo.verificationCode}`
                                         )
                                     }>
@@ -238,10 +239,10 @@ function UserSponsor() {
                                     <Button
                                         theme="primary"
                                         disabled={verificationExpired}
-                                        onClick={() => verification.refetch()}>
+                                        onClick={() => void verification.refetch()}>
                                         {t("sponsorQqVerificationDone")}
                                     </Button>
-                                    <Button variant="outline" onClick={() => verification.refetch()}>
+                                    <Button variant="outline" onClick={() => void verification.refetch()}>
                                         {t("sponsorQqVerificationRefresh")}
                                     </Button>
                                 </div>
@@ -249,17 +250,18 @@ function UserSponsor() {
                         )}
 
                         {recentlyRedeemed && verification.isError && (
-                            <div className="mt-6 border-t border-border pt-6 border-border">
+                            <div className="mt-6 border-t border-border pt-6">
                                 <h3 className="text-lg font-semibold">{t("sponsorQqVerificationTitle")}</h3>
-                                <p className="mt-2 text-sm leading-6 text-muted-foreground text-muted-foreground">
+                                <p className="mt-2 text-sm leading-6 text-muted-foreground">
                                     {t("sponsorQqVerificationLoginHint")}
                                 </p>
                                 <Button
                                     className="mt-4"
                                     theme="primary"
-                                    onClick={async () => {
-                                        await clearSessionAsync();
-                                        navigate("/auth/login?redirect=/user/sponsor");
+                                    onClick={() => {
+                                        void clearSessionAsync().then(() =>
+                                            navigate("/auth/login?redirect=/user/sponsor")
+                                        );
                                     }}>
                                     {t("sponsorQqVerificationLogin")}
                                 </Button>

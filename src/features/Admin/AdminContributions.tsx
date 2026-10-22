@@ -23,6 +23,7 @@ import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import { useNavigate } from "../../lib/navigation.ts";
 import { type PendingContributionSummary, getPendingContributionsAsync } from "../../requests/AdminRequests.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
+
 import styles from "./AdminContributions.module.css";
 import tableStyles from "./AdminTable.module.css";
 
@@ -134,7 +135,7 @@ function AdminContributions() {
                     theme="error"
                     title={t("contributionListLoadFailed")}
                     message={(contributionsQuery.error as Error).message}
-                    operation={<Button onClick={() => contributionsQuery.refetch()}>{t("retry")}</Button>}
+                    operation={<Button onClick={() => void contributionsQuery.refetch()}>{t("retry")}</Button>}
                 />
             )}
             <div className={styles.statsGrid}>

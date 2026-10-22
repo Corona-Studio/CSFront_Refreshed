@@ -1,14 +1,16 @@
 import Link from "next/link";
 
+const copyrightYear = new Date().getFullYear();
+
 export default function Footer() {
     return (
         <footer className="border-t border-border bg-card">
             <div className="m-container py-10">
                 <div className="flex flex-wrap justify-between gap-8">
-                    <Link href="/" className="font-black text-3xl tracking-tighter">
+                    <Link href="/" className="text-3xl font-black tracking-tighter">
                         CORONA STUDIO
                     </Link>
-                    <div className="flex flex-wrap gap-6 text-xs font-mono">
+                    <div className="flex flex-wrap gap-6 font-mono text-xs">
                         <Link href="/sitemap">站点导航</Link>
                         <a href="https://github.com/Corona-Studio" target="_blank" rel="noopener noreferrer">
                             GITHUB ↗
@@ -22,7 +24,7 @@ export default function Footer() {
                     </div>
                 </div>
                 <div className="m-rule m-kicker mt-8 mb-0">
-                    <span>2016—{new Date().getFullYear()} © CORONA STUDIO</span>
+                    <span>2016—{copyrightYear} © CORONA STUDIO</span>
                     <a href="https://www.12377.cn" target="_blank" rel="noopener noreferrer">
                         违法和不良信息举报
                     </a>

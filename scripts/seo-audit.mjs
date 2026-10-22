@@ -3,6 +3,7 @@ import { spawnSync } from "node:child_process";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import path from "node:path";
+
 import { JSDOM } from "jsdom";
 
 const [target = "http://localhost:3217", mode] = process.argv.slice(2);

@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { Alert, Button, Card, Empty, Loading } from "../../components/marathon/index.tsx";
 import { getLauncherNotificationsAsync } from "../../requests/LxNotificationRequests.ts";
+
 import styles from "./UserNotifications.module.css";
 
 function UserNotifications() {
@@ -27,7 +28,7 @@ function UserNotifications() {
                     title={t("notificationListLoadFailed")}
                     message={t("launcherNotificationsLoadFailed")}
                     operation={
-                        <Button loading={notifications.isFetching} onClick={() => notifications.refetch()}>
+                        <Button loading={notifications.isFetching} onClick={() => void notifications.refetch()}>
                             {t("retry")}
                         </Button>
                     }

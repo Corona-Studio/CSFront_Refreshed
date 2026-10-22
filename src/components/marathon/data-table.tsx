@@ -1,12 +1,14 @@
 "use client";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { type ReactNode, useState } from "react";
 
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { cn, toPlainText } from "@/lib/utils";
+
 import { Button, Select } from "./controls";
-import styles from "./data-table.module.css";
 import { Loading } from "./layout";
+
+import styles from "./data-table.module.css";
 
 export interface DataTableColumn<T> {
     colKey: string;
@@ -106,12 +108,12 @@ export function DataTable<T>({
                         </TableRow>
                     ) : rows.length ? (
                         rows.map((row, index) => (
-                            <TableRow key={String((row as Record<string, unknown>)[String(rowKey)] ?? index)}>
+                            <TableRow key={toPlainText((row as Record<string, unknown>)[String(rowKey)]) || index}>
                                 {columns.map((col) => (
                                     <TableCell key={col.colKey} style={{ textAlign: col.align }}>
                                         {typeof col.cell === "function"
                                             ? col.cell({ row, rowIndex: index })
-                                            : String(
+                                            : toPlainText(
                                                   (row as Record<string, unknown>)[
                                                       typeof col.cell === "string" ? col.cell : col.colKey
                                                   ] ?? ""

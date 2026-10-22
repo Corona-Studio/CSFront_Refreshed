@@ -1,4 +1,5 @@
 "use client";
+/* oxlint-disable nextjs/no-img-element -- Crop previews use local blob URLs and exact pixel positioning. */
 import { type ChangeEvent, type PointerEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -9,6 +10,7 @@ import { useNavigate } from "../../lib/navigation.ts";
 import { isSuccessfulResponse } from "../../requests/ApiConstants.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
 import { uploadUserAvatarAsync } from "../../requests/LxUserRequests.ts";
+
 import styles from "./UserAvatar.module.css";
 
 function UserAvatar() {
@@ -116,7 +118,15 @@ function UserAvatar() {
         <section className={styles.page}>
             <h2>{t("changeAvatar")}</h2>
             <p className={styles.description}>{t("avatarCropDescription")}</p>
-            <input ref={input} type="file" accept="image/png,image/jpeg,image/webp" hidden onChange={selectFile} />
+            <input
+                ref={input}
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                hidden
+                onChange={(event) => {
+                    void selectFile(event);
+                }}
+            />
             <Button variant="outline" disabled={saving || decoding} onClick={() => input.current?.click()}>
                 {source ? t("avatarReselect") : t("avatarSelect")}
             </Button>
@@ -126,8 +136,11 @@ function UserAvatar() {
             {crop && (
                 <div className={styles.editor}>
                     <div className={styles.controls}>
+                        {/* This keyboard-controlled two-dimensional crop surface is a composite widget. */}
+                        {/* oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
                         <div
                             className={styles.crop}
+                            // oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- Arrow keys move the crop selection.
                             tabIndex={0}
                             role="group"
                             aria-label={t("avatarCropArea")}
@@ -220,7 +233,13 @@ function UserAvatar() {
                 <Button variant="outline" disabled={saving} onClick={() => navigate("/user")}>
                     {t("avatarCancel")}
                 </Button>
-                <Button theme="primary" loading={saving} disabled={!ready || decoding} onClick={save}>
+                <Button
+                    theme="primary"
+                    loading={saving}
+                    disabled={!ready || decoding}
+                    onClick={() => {
+                        void save();
+                    }}>
                     {t("avatarSave")}
                 </Button>
             </div>

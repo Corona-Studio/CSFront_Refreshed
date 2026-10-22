@@ -1,5 +1,6 @@
-import { Component as Page } from "@/features/Admin/AdminContributions";
 import { Suspense } from "react";
+
+import { Component as Page } from "@/features/Admin/AdminContributions";
 
 export const metadata = { title: "贡献管理" };
 export default function RoutePage() {

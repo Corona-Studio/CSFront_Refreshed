@@ -44,7 +44,9 @@ cp .env.example .env.local
 pnpm dev
 ```
 
-- `pnpm quality`：ESLint、单元测试、TypeScript 与生产构建。
+- `pnpm quality`：Oxfmt 格式检查、TypeScript 7 类型检查、Oxlint（含类型感知规则）、样式审计、单元测试与生产构建。
+- `pnpm format` / `pnpm format:check`：统一格式化 / 只检查格式；`pnpm lint:fix` 修复可自动处理的 lint 问题。
+- [开发工具、规则和 TypeScript 7 迁移说明](docs/tooling.md)。
 - `pnpm build && pnpm start`：本地生产服务。
 - `/design-system`：交互式 Marathon 组件展示。
 - [架构、设计规则与部署迁移](docs/marathon.md)。

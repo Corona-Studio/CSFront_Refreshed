@@ -1,6 +1,8 @@
 "use client";
-import showcase from "@/components/motion/showcase.module.css";
-import motionStyles from "@/components/motion/interactions.module.css";
+import { AlertCircle, Loader2, X } from "lucide-react";
+import type { CSSProperties, ReactNode } from "react";
+import { Children, useState } from "react";
+
 import { ScrollReveal } from "@/components/motion/scroll-reveal";
 import { AvatarFallback, AvatarImage, Avatar as AvatarRoot } from "@/components/ui/avatar";
 import {
@@ -15,9 +17,9 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton as SkeletonRoot } from "@/components/ui/skeleton";
 import i18n from "@/i18n";
 import { cn } from "@/lib/utils";
-import { AlertCircle, Loader2, X } from "lucide-react";
-import type { CSSProperties, ReactNode } from "react";
-import { Children, useState } from "react";
+
+import motionStyles from "@/components/motion/interactions.module.css";
+import showcase from "@/components/motion/showcase.module.css";
 
 export interface PanelProps {
     children?: ReactNode;
@@ -37,11 +39,12 @@ export function Card({ children, title, subtitle, actions, footer, cover, classN
     return (
         <CardRoot
             className={cn(
-                "rounded-none shadow-none gap-0 py-0 border-border bg-card",
+                "gap-0 rounded-none border-border bg-card py-0 shadow-none",
                 hoverShadow && motionStyles.card,
                 className
             )}
             style={style}>
+            {/* oxlint-disable-next-line nextjs/no-img-element -- This compatibility prop accepts external images with unknown dimensions. */}
             {typeof cover === "string" ? <img src={cover} alt="" loading="lazy" /> : cover}
             {(title || subtitle || actions) && (
                 <CardHeader className="flex flex-row justify-between gap-4 border-b border-border py-5">
@@ -52,7 +55,7 @@ export function Card({ children, title, subtitle, actions, footer, cover, classN
                     {actions}
                 </CardHeader>
             )}
-            {Children.toArray(children).length > 0 && <CardContent className="p-6 min-w-0">{children}</CardContent>}
+            {Children.toArray(children).length > 0 && <CardContent className="min-w-0 p-6">{children}</CardContent>}
             {footer && <CardFooter className="border-t border-border px-6 py-4">{footer}</CardFooter>}
         </CardRoot>
     );
@@ -150,7 +153,7 @@ export function Alert({
             )}>
             {icon ?? <AlertCircle className="mt-0.5 size-4" />}
             <div className="min-w-0 flex-1">
-                {title && <strong className="block mb-2">{title}</strong>}
+                {title && <strong className="mb-2 block">{title}</strong>}
                 {message}
                 {operation}
             </div>
@@ -193,7 +196,7 @@ export function Loading({
 }
 export function Empty({ description }: { description?: ReactNode }) {
     return (
-        <div className="border border-dashed border-border p-12 text-center text-muted-foreground text-sm">
+        <div className="border border-dashed border-border p-12 text-center text-sm text-muted-foreground">
             {description ?? i18n.t("noData")}
         </div>
     );
@@ -255,7 +258,7 @@ export function SectionHeading({
                 <span className={showcase.headingMeta}>CORONA STUDIO / SYSTEMS</span>
             </div>
             <h2>{title}</h2>
-            {description && <p className="mt-5 max-w-2xl text-muted-foreground leading-8">{description}</p>}
+            {description && <p className="mt-5 max-w-2xl leading-8 text-muted-foreground">{description}</p>}
         </ScrollReveal>
     );
 }

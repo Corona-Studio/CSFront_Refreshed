@@ -1,4 +1,4 @@
-import IResponse from "../interfaces/IResponse.ts";
+import type IResponse from "../interfaces/IResponse.ts";
 import { buildHeader, deleteAsync, getAsync, postAsync } from "./ApiConstants.ts";
 import type { RegistrationVerificationInfo } from "./LxAuthRequests.ts";
 

@@ -4,6 +4,7 @@ import { LogOut as LogoutIcon, Coins as MoneyIcon, ShieldCheck as SecuredIcon } 
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import type { DialogProps } from "../../components/marathon/index.tsx";
 import {
     Alert,
     Badge,
@@ -11,13 +12,12 @@ import {
     Card,
     Col,
     Dialog,
-    DialogProps,
     Divider,
     Loading,
     Row,
     notify
 } from "../../components/marathon/index.tsx";
-import { ReactNode } from "../../components/marathon/index.tsx";
+import type { ReactNode } from "../../components/marathon/index.tsx";
 import { checkIsPaidImpl } from "../../helpers/PaymentHelper.ts";
 import { clearSessionAsync } from "../../helpers/SessionHelper.ts";
 import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
@@ -32,8 +32,9 @@ import {
 } from "../../requests/LxAuthRequests.ts";
 import { getUserCurrentChannelAsync, revokeUserAccountAsync } from "../../requests/LxUserRequests.ts";
 import Constants from "./../../helpers/Constants.ts";
-import styles from "./UserHome.module.css";
 import UserNotifications from "./UserNotifications.tsx";
+
+import styles from "./UserHome.module.css";
 
 async function getAccountEmailAsync() {
     const accountEmail = await getStorageItemAsync(StoredAccountEmail);
@@ -78,7 +79,7 @@ function UserHome() {
             if (!avatarUrl) setAvatarState("error");
         }
 
-        getStoredUserInfoAsync().then();
+        getStoredUserInfoAsync().catch(() => setAvatarState("error"));
     }, []);
 
     const tips: TipModel[] = [
@@ -133,19 +134,19 @@ function UserHome() {
             })
     });
 
-    if (userInfo.error) {
-        notify
-            .error({
-                title: t("userInfoFetchFailed"),
-                content: (userInfo.error as Error).message,
-                placement: "top-right",
-                duration: 3000,
-                offset: Constants.NotificationOffset,
-                closeBtn: true,
-                attach: () => document
-            })
-            .then(() => {});
-    }
+    const userInfoError = userInfo.error;
+    useEffect(() => {
+        if (!userInfoError) return;
+        void notify.error({
+            title: t("userInfoFetchFailed"),
+            content: userInfoError.message,
+            placement: "top-right",
+            duration: 3000,
+            offset: Constants.NotificationOffset,
+            closeBtn: true,
+            attach: () => document
+        });
+    }, [userInfoError, t]);
 
     async function logout() {
         setIsLoggingOut(true);
@@ -175,17 +176,15 @@ function UserHome() {
         const authToken = await getStorageItemAsync(StoredAuthToken);
 
         if (!authToken) {
-            notify
-                .error({
-                    title: t("deleteAccountFailed"),
-                    content: t("deleteAccountFailedDescription1"),
-                    placement: "top-right",
-                    duration: 3000,
-                    offset: Constants.NotificationOffset,
-                    closeBtn: true,
-                    attach: () => document
-                })
-                .then(() => {});
+            void notify.error({
+                title: t("deleteAccountFailed"),
+                content: t("deleteAccountFailedDescription1"),
+                placement: "top-right",
+                duration: 3000,
+                offset: Constants.NotificationOffset,
+                closeBtn: true,
+                attach: () => document
+            });
             setIsDeleting(false);
 
             return;
@@ -194,17 +193,15 @@ function UserHome() {
         const revokeResult = await revokeUserAccountAsync(authToken);
 
         if (!isSuccessfulResponse(revokeResult)) {
-            notify
-                .error({
-                    title: t("deleteAccountFailed"),
-                    content: t("deleteAccountFailedDescription2"),
-                    placement: "top-right",
-                    duration: 3000,
-                    offset: Constants.NotificationOffset,
-                    closeBtn: true,
-                    attach: () => document
-                })
-                .then(() => {});
+            void notify.error({
+                title: t("deleteAccountFailed"),
+                content: t("deleteAccountFailedDescription2"),
+                placement: "top-right",
+                duration: 3000,
+                offset: Constants.NotificationOffset,
+                closeBtn: true,
+                attach: () => document
+            });
             setIsDeleting(false);
 
             return;
@@ -212,17 +209,15 @@ function UserHome() {
 
         await logout();
 
-        notify
-            .success({
-                title: t("deleteAccountSucceeded"),
-                content: t("deleteAccountSucceededDescription"),
-                placement: "top-right",
-                duration: 3000,
-                offset: Constants.NotificationOffset,
-                closeBtn: true,
-                attach: () => document
-            })
-            .then(() => {});
+        void notify.success({
+            title: t("deleteAccountSucceeded"),
+            content: t("deleteAccountSucceededDescription"),
+            placement: "top-right",
+            duration: 3000,
+            offset: Constants.NotificationOffset,
+            closeBtn: true,
+            attach: () => document
+        });
 
         setIsDeleting(false);
     };
@@ -239,6 +234,7 @@ function UserHome() {
                     <div className={styles.avatarBlock}>
                         <div className={styles.avatar} aria-busy={avatarState === "loading"}>
                             {userAvatarUrl && (
+                                // oxlint-disable-next-line nextjs/no-img-element -- Versioned user avatars use the configurable external API directly.
                                 <img
                                     src={userAvatarUrl}
                                     alt={t("userAvatar")}
@@ -268,7 +264,9 @@ function UserHome() {
                             variant="outline"
                             icon={<LogoutIcon />}
                             loading={isLoggingOut}
-                            onClick={logout}>
+                            onClick={() => {
+                                void logout();
+                            }}>
                             {t("logout")}
                         </Button>
                     </div>
@@ -295,14 +293,14 @@ function UserHome() {
 
                         <Divider align="left" layout="horizontal" />
 
-                        <div className="border-2 border-dashed rounded-none border-red-500 px-4 py-4 ">
+                        <div className="rounded-none border-2 border-dashed border-red-500 px-4 py-4">
                             <Alert
                                 theme="error"
                                 title={t("revokeCsAccountTitle")}
                                 message={t("revokeCsAccountMessage")}
                             />
 
-                            <div className="w-full place-content-end flex">
+                            <div className="flex w-full place-content-end">
                                 <div className="mt-4">
                                     <Button
                                         theme="danger"
@@ -336,7 +334,7 @@ function UserHome() {
                                     theme={tip.theme}
                                     message={
                                         <article>
-                                            <p className="font-bold text-lg">{tip.title}</p>
+                                            <p className="text-lg font-bold">{tip.title}</p>
                                             <p>{tip.description}</p>
                                         </article>
                                     }

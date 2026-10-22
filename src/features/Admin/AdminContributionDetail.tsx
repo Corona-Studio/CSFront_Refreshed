@@ -42,6 +42,7 @@ import {
 } from "../../requests/AdminRequests.ts";
 import { isSuccessfulResponse } from "../../requests/ApiConstants.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
+
 import styles from "./AdminContributions.module.css";
 import tableStyles from "./AdminTable.module.css";
 
@@ -89,7 +90,7 @@ async function showErrorAsync(title: string, content: string) {
 
 function AdminContributionDetail() {
     const { t } = useTranslation();
-    const { resourceId = "" } = useParams<{ resourceId: string }>();
+    const { resourceId = "" } = useParams<{ resourceId?: string }>();
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const initializedResourceId = useRef<string | undefined>(undefined);
@@ -386,7 +387,7 @@ function AdminContributionDetail() {
                     theme="error"
                     title={t("contributionDetailLoadFailed")}
                     message={(detailQuery.error as Error).message}
-                    operation={<Button onClick={() => detailQuery.refetch()}>{t("retry")}</Button>}
+                    operation={<Button onClick={() => void detailQuery.refetch()}>{t("retry")}</Button>}
                 />
             </Space>
         );

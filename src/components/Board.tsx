@@ -1,5 +1,6 @@
 "use client";
-import { FC, ReactElement, memo } from "react";
+import type { FC, ReactElement } from "react";
+import { memo } from "react";
 
 import styles from "./Board.module.css";
 

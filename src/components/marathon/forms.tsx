@@ -13,6 +13,8 @@ import {
 } from "react";
 import { Controller, FormProvider, useFormContext, useForm as useReactHookForm } from "react-hook-form";
 
+import { toPlainText } from "@/lib/utils";
+
 import { Checkbox } from "./controls";
 
 export type FieldValidator = (value: unknown) => boolean | Promise<boolean>;
@@ -57,10 +59,12 @@ const FormRoot = forwardRef<FormController, FormProps>(function FormRoot({ child
                 <form
                     noValidate
                     className={className}
-                    onSubmit={methods.handleSubmit(
-                        (fields) => onSubmit?.({ validateResult: true, fields }),
-                        (errors) => onSubmit?.({ validateResult: errors, fields: methods.getValues() })
-                    )}
+                    onSubmit={(event) => {
+                        void methods.handleSubmit(
+                            (fields) => onSubmit?.({ validateResult: true, fields }),
+                            (errors) => onSubmit?.({ validateResult: errors, fields: methods.getValues() })
+                        )(event);
+                    }}
                     onReset={() => methods.reset()}>
                     {children}
                 </form>
@@ -109,7 +113,7 @@ export function FormItem({ name, label, children, rules = [], initialData, class
             rules={{
                 validate: async (value) => {
                     for (const rule of rules) {
-                        const text = String(value ?? "");
+                        const text = toPlainText(value);
                         const message = rule.message ?? "Invalid value";
                         if (rule.required && (value == null || text === "" || value === false)) return message;
                         if (rule.whitespace && text.trim() === "") return message;
@@ -125,7 +129,7 @@ export function FormItem({ name, label, children, rules = [], initialData, class
             render={({ field, fieldState }) => (
                 <div className={className ?? "mb-5"}>
                     {element.type !== Checkbox && (
-                        <label htmlFor={id} className="block mb-2 text-xs font-semibold tracking-wide">
+                        <label htmlFor={id} className="mb-2 block text-xs font-semibold tracking-wide">
                             {label ?? element.props.placeholder ?? name}
                         </label>
                     )}

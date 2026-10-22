@@ -38,8 +38,17 @@ import {
 } from "../../requests/AdminRequests.ts";
 import { isSuccessfulResponse, lxBackendUrl } from "../../requests/ApiConstants.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
+
 import tableStyles from "./AdminTable.module.css";
 import styles from "./AdminUsers.module.css";
+
+const userRoleKeys = {
+    [AdminUserType.User]: "userRoleUser",
+    [AdminUserType.Reader]: "userRoleReader",
+    [AdminUserType.Reviewer]: "userRoleReviewer",
+    [AdminUserType.ProjectManager]: "userRoleProjectManager",
+    [AdminUserType.Admin]: "userRoleAdmin"
+} as const;
 
 async function getAdminTokenAsync() {
     return (await getStorageItemAsync(StoredAuthToken)) ?? "";
@@ -57,6 +66,7 @@ function UserAvatar({ user, version = 0 }: { user: AdminUserInfo; version?: numb
             {imageFailed ? (
                 getInitial(user)
             ) : (
+                // oxlint-disable-next-line nextjs/no-img-element -- Versioned user avatars use the configurable external API directly.
                 <img
                     src={`${lxBackendUrl}/Avatar/${encodeURIComponent(user.id)}?v=${version}`}
                     alt=""
@@ -74,7 +84,7 @@ function AdminUsers() {
     const roleOptions = () =>
         Object.values(AdminUserType)
             .filter((value): value is AdminUserType => typeof value === "number")
-            .map((value) => ({ label: t(`userRole${AdminUserType[value]}`), value }));
+            .map((value) => ({ label: t(userRoleKeys[value]), value }));
     const queryClient = useQueryClient();
     const [searchInput, setSearchInput] = useState("");
     const [search, setSearch] = useState("");
@@ -277,7 +287,7 @@ function AdminUsers() {
                                 className={styles.idButton}
                                 title={`${t("copyUserId")}: ${row.id}`}
                                 aria-label={`${t("copyUserId")}: ${row.id}`}
-                                onClick={() => copyUserIdAsync(row.id)}>
+                                onClick={() => void copyUserIdAsync(row.id)}>
                                 <span>{row.id.slice(0, 8)}</span>
                                 <CopyIcon />
                             </button>
@@ -402,7 +412,7 @@ function AdminUsers() {
                     theme="error"
                     title={t("userListLoadFailed")}
                     message={(usersQuery.error as Error).message}
-                    operation={<Button onClick={() => usersQuery.refetch()}>{t("retry")}</Button>}
+                    operation={<Button onClick={() => void usersQuery.refetch()}>{t("retry")}</Button>}
                 />
             )}
 
@@ -521,7 +531,7 @@ function AdminUsers() {
                 <p>
                     {t("confirmUserRoleChangeDescription", {
                         user: pendingChange?.user.userName,
-                        role: pendingChange ? t(`userRole${AdminUserType[pendingChange.userType]}`) : ""
+                        role: pendingChange ? t(userRoleKeys[pendingChange.userType]) : ""
                     })}
                 </p>
                 <Alert theme="warning" message={t("userRoleTokenNotice")} />

@@ -1,7 +1,9 @@
 "use client";
-import { FC, ReactNode, memo } from "react";
+import type { FC, ReactNode } from "react";
+import { memo } from "react";
 
 import SpotlightCard from "../ReactBits/Components/SpotlightCard/SpotlightCard.tsx";
+
 import styles from "./ProjectCard.module.css";
 
 interface ProjectCardProps {
@@ -21,7 +23,7 @@ const ProjectCard: FC<ProjectCardProps> = ({
         <>
             <SpotlightCard className="h-full" spotlightColor={spotlightColor}>
                 <div className={styles.projIcon}>{icon}</div>
-                <article className="text-pretty pt-4">
+                <article className="pt-4 text-pretty">
                     <h4 className="font-bold">{title}</h4>
                     <p>{description}</p>
                 </article>

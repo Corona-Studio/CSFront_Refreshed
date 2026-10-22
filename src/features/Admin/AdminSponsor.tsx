@@ -32,6 +32,7 @@ import {
 import { lxBackendUrl } from "../../requests/ApiConstants.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
 import Constants from "./../../helpers/Constants.ts";
+
 import styles from "./AdminSponsor.module.css";
 import tableStyles from "./AdminTable.module.css";
 
@@ -174,7 +175,7 @@ function AdminSponsor() {
                         type="button"
                         className={styles.copyValue}
                         title={t("copyOrderNumber")}
-                        onClick={() => copyOrderNumberAsync(row.orderNumber!)}>
+                        onClick={() => void copyOrderNumberAsync(row.orderNumber!)}>
                         <code>{row.orderNumber}</code>
                         <CopyIcon />
                     </button>
@@ -292,7 +293,7 @@ function AdminSponsor() {
                     theme="error"
                     title={t("sponsorListLoadFailed")}
                     message={(sponsorsQuery.error as Error).message}
-                    operation={<Button onClick={() => sponsorsQuery.refetch()}>{t("retry")}</Button>}
+                    operation={<Button onClick={() => void sponsorsQuery.refetch()}>{t("retry")}</Button>}
                 />
             )}
 

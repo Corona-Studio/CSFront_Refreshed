@@ -6,12 +6,13 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Button, Dropdown, Loading } from "../../components/marathon/index.tsx";
-import { DropdownOption } from "../../components/marathon/index.tsx";
+import type { DropdownOption } from "../../components/marathon/index.tsx";
 import { getBuildName } from "../../helpers/BuildHelper.ts";
 import { detectPlatform, detectPlatformAsync, saveDetectedPlatform } from "../../helpers/PlatformHelper.ts";
 import { useNavigate } from "../../lib/navigation.ts";
 import { lxBackendUrl } from "../../requests/ApiConstants.ts";
-import { LauncherRawBuildModel, getAllStableBuildsAsync } from "../../requests/LxBuildRequests.ts";
+import type { LauncherRawBuildModel } from "../../requests/LxBuildRequests.ts";
+import { getAllStableBuildsAsync } from "../../requests/LxBuildRequests.ts";
 
 const latestToken = "net10.0";
 
@@ -104,14 +105,14 @@ function LxDownload() {
                     <span>LX—002 / DOWNLOAD CENTER</span>
                     <span>STABLE CHANNEL / .NET 10</span>
                 </div>
-                <div className="grid lg:grid-cols-2 gap-12 py-12">
+                <div className="grid gap-12 py-12 lg:grid-cols-2">
                     <div>
                         <h1>
                             READY TO
                             <br />
                             LAUNCH<span className="text-muted-foreground">/</span>
                         </h1>
-                        <p className="text-muted-foreground mt-8 leading-8">{t("lxDescription")}</p>
+                        <p className="mt-8 leading-8 text-muted-foreground">{t("lxDescription")}</p>
                         <p className="m-kicker mt-8">WINDOWS / MACOS / LINUX · X64 / ARM64</p>
                         <Image
                             src="/assets/lx/LauncherX_1.webp"
@@ -160,14 +161,14 @@ function LxDownload() {
                                         </Button>
                                     </Dropdown>
                                 </div>
-                                <p className="mt-6 text-xs text-muted-foreground flex items-center gap-2">
+                                <p className="mt-6 flex items-center gap-2 text-xs text-muted-foreground">
                                     <CodeIcon className="size-4" /> .NET 10
                                 </p>
                                 <div className="mt-8 border-t border-border">
                                     {downloadOptions.map((option) => (
                                         <button
                                             key={String(option.value)}
-                                            className="flex w-full justify-between gap-3 border-b border-border py-4 text-sm text-left hover:text-muted-foreground"
+                                            className="flex w-full justify-between gap-3 border-b border-border py-4 text-left text-sm hover:text-muted-foreground"
                                             onClick={() => onMenuItemClicked(option)}>
                                             {option.content}
                                             <span aria-hidden="true">↗</span>

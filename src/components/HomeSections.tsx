@@ -1,13 +1,15 @@
 "use client";
-import showcase from "@/components/motion/showcase.module.css";
-import { ScrollReveal } from "@/components/motion/scroll-reveal";
-import { SectionHeading } from "@/components/marathon";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+
+import { SectionHeading } from "@/components/marathon";
+import { ScrollReveal } from "@/components/motion/scroll-reveal";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+
+import showcase from "@/components/motion/showcase.module.css";
 
 export default function HomeSections({ placement }: { placement: "featured" | "community" }) {
     const { t } = useTranslation();
@@ -19,17 +21,17 @@ export default function HomeSections({ placement }: { placement: "featured" | "c
                         <span>02 / FEATURED SYSTEM</span>
                         <span>LAUNCHERX — CROSS PLATFORM</span>
                     </div>
-                    <div className="grid lg:grid-cols-2 gap-12 items-center">
+                    <div className="grid items-center gap-12 lg:grid-cols-2">
                         <ScrollReveal asChild>
                             <div>
                                 <p className="m-kicker mb-6">BUILT FOR YOUR NEXT ADVENTURE</p>
                                 <h2>{t("home.featureTitle")}</h2>
-                                <p className="text-muted-foreground leading-8 mt-6 max-w-lg">
+                                <p className="mt-6 max-w-lg leading-8 text-muted-foreground">
                                     {t("home.featureDescription")}
                                 </p>
-                                <div className="flex gap-2 mt-6">
+                                <div className="mt-6 flex gap-2">
                                     {["Windows", "macOS", "Linux"].map((os) => (
-                                        <span className="border border-border font-mono text-xs px-3 py-2" key={os}>
+                                        <span className="border border-border px-3 py-2 font-mono text-xs" key={os}>
                                             {os}
                                         </span>
                                     ))}
@@ -52,7 +54,7 @@ export default function HomeSections({ placement }: { placement: "featured" | "c
                         </ScrollReveal>
                         <ScrollReveal asChild zoom>
                             <figure className={showcase.frame}>
-                                <div className="m-kicker px-4 py-3 border-b border-border flex justify-between">
+                                <div className="m-kicker flex justify-between border-b border-border px-4 py-3">
                                     <span>LX / INTERFACE</span>
                                     <span>01—32</span>
                                 </div>
@@ -80,7 +82,7 @@ export default function HomeSections({ placement }: { placement: "featured" | "c
         { key: "build", name: "ProjBobcat", href: "https://github.com/Corona-Studio/ProjBobcat" },
         { key: "connect", name: "ConnectX", href: "https://github.com/Corona-Studio/ConnectX" },
         { key: "learn", name: "CSKB", href: "https://kb.corona.studio/" }
-    ];
+    ] as const;
     return (
         <>
             <section className="m-section">
@@ -90,15 +92,15 @@ export default function HomeSections({ placement }: { placement: "featured" | "c
                         title={t("home.ecosystemTitle")}
                         description={t("home.ecosystemDescription")}
                     />
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 border border-border">
+                    <div className="grid border border-border sm:grid-cols-2 lg:grid-cols-4">
                         {ecosystem.map((item, index) => (
                             <ScrollReveal asChild key={item.key} index={index % 4}>
-                                <article className="p-6 border-b sm:border-r border-border" key={item.key}>
+                                <article className="border-b border-border p-6 sm:border-r" key={item.key}>
                                     <p className="m-kicker mb-8">
                                         0{index + 1} / {item.key.toUpperCase()}
                                     </p>
                                     <h3>{t(`home.${item.key}Title`)}</h3>
-                                    <p className="text-sm text-muted-foreground leading-7 my-4">
+                                    <p className="my-4 text-sm leading-7 text-muted-foreground">
                                         {t(`home.${item.key}Description`)}
                                     </p>
                                     <Link
@@ -119,7 +121,7 @@ export default function HomeSections({ placement }: { placement: "featured" | "c
                 <div className="m-container">
                     <SectionHeading code="05 / PRINCIPLES" title={t("home.valuesTitle")} />
                     <div className="m-grid">
-                        {["experience", "open", "curiosity"].map((key, index) => (
+                        {(["experience", "open", "curiosity"] as const).map((key, index) => (
                             <ScrollReveal asChild key={key} index={index}>
                                 <article key={key}>
                                     <p className="m-kicker">0{index + 1} /</p>
@@ -132,7 +134,7 @@ export default function HomeSections({ placement }: { placement: "featured" | "c
                 </div>
             </section>
             <section className="m-section">
-                <div className="m-container grid lg:grid-cols-2 gap-12">
+                <div className="m-container grid gap-12 lg:grid-cols-2">
                     <SectionHeading
                         code="06 / FIELD NOTES"
                         title={t("home.faqTitle")}
@@ -140,12 +142,12 @@ export default function HomeSections({ placement }: { placement: "featured" | "c
                     />
                     <ScrollReveal asChild>
                         <Accordion type="single" collapsible>
-                            {["start", "source", "help", "contribute"].map((key) => (
+                            {(["start", "source", "help", "contribute"] as const).map((key) => (
                                 <AccordionItem key={key} value={key}>
-                                    <AccordionTrigger className="text-base py-6">
+                                    <AccordionTrigger className="py-6 text-base">
                                         {t(`home.${key}Question`)}
                                     </AccordionTrigger>
-                                    <AccordionContent className="text-muted-foreground leading-7">
+                                    <AccordionContent className="leading-7 text-muted-foreground">
                                         {t(`home.${key}Answer`)}
                                     </AccordionContent>
                                 </AccordionItem>
@@ -157,15 +159,15 @@ export default function HomeSections({ placement }: { placement: "featured" | "c
             <section className="bg-primary text-primary-foreground">
                 <ScrollReveal asChild>
                     <div className="m-container py-16 md:py-24">
-                        <p className="m-kicker text-current mb-8">07 / LET’S BUILD WHAT’S NEXT</p>
+                        <p className="m-kicker mb-8 text-current">07 / LET’S BUILD WHAT’S NEXT</p>
                         <h2 className="max-w-3xl">{t("home.joinTitle")}</h2>
-                        <p className="max-w-xl mt-6 leading-8">{t("home.joinDescription")}</p>
+                        <p className="mt-6 max-w-xl leading-8">{t("home.joinDescription")}</p>
                         <div className="m-actions">
                             <Button
                                 asChild
                                 variant="outline"
                                 size="lg"
-                                className="bg-transparent border-current text-current hover:bg-foreground hover:text-background">
+                                className="border-current bg-transparent text-current hover:bg-foreground hover:text-background">
                                 <a href="https://github.com/Corona-Studio" target="_blank" rel="noopener noreferrer">
                                     {t("home.github")}
                                     <ArrowUpRight />
@@ -175,7 +177,7 @@ export default function HomeSections({ placement }: { placement: "featured" | "c
                                 asChild
                                 variant="outline"
                                 size="lg"
-                                className="bg-transparent border-current text-current">
+                                className="border-current bg-transparent text-current">
                                 <a href="https://kb.corona.studio/" target="_blank" rel="noopener noreferrer">
                                     {t("home.knowledge")}
                                     <ArrowUpRight />

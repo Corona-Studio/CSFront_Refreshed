@@ -8,8 +8,10 @@ import { Alert, Button, Dialog, Empty, Loading, notify } from "../../components/
 import { getStorageItemAsync } from "../../helpers/StorageHelper.ts";
 import { isSuccessfulResponse } from "../../requests/ApiConstants.ts";
 import { StoredAuthToken } from "../../requests/LxAuthRequests.ts";
-import { UserDeviceInfo, getUserAllDevicesAsync, removeDeviceAsync } from "../../requests/LxUserRequests.ts";
+import type { UserDeviceInfo } from "../../requests/LxUserRequests.ts";
+import { getUserAllDevicesAsync, removeDeviceAsync } from "../../requests/LxUserRequests.ts";
 import Constants from "./../../helpers/Constants.ts";
+
 import styles from "./UserDeviceManagement.module.css";
 
 function UserDeviceManagement() {

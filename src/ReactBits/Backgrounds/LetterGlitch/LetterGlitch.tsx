@@ -2,7 +2,6 @@
 /*
 	Installed from https://reactbits.dev/ts/tailwind/
 */
-// @ts-nocheck
 import { useEffect, useRef } from "react";
 
 const LetterGlitch = ({
@@ -12,11 +11,11 @@ const LetterGlitch = ({
     outerVignette = true,
     smooth = true
 }: {
-    glitchColors: string[];
-    glitchSpeed: number;
-    centerVignette: boolean;
-    outerVignette: boolean;
-    smooth: boolean;
+    glitchColors?: string[];
+    glitchSpeed?: number;
+    centerVignette?: boolean;
+    outerVignette?: boolean;
+    smooth?: boolean;
 }) => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const animationRef = useRef<number | null>(null);
@@ -273,17 +272,17 @@ const LetterGlitch = ({
             cancelAnimationFrame(animationRef.current!);
             window.removeEventListener("resize", handleResize);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // oxlint-disable-next-line react/exhaustive-deps -- The upstream canvas animation restarts when its timing settings change.
     }, [glitchSpeed, smooth]);
 
     return (
-        <div className="relative w-full h-full bg-black overflow-hidden">
-            <canvas ref={canvasRef} className="block w-full h-full" />
+        <div className="relative h-full w-full overflow-hidden bg-black">
+            <canvas ref={canvasRef} className="block h-full w-full" />
             {outerVignette && (
-                <div className="absolute top-0 left-0 w-full h-full pointer-events-none bg-[radial-gradient(circle,_rgba(0,0,0,0)_60%,_rgba(0,0,0,1)_100%)]"></div>
+                <div className="pointer-events-none absolute top-0 left-0 h-full w-full bg-[radial-gradient(circle,_rgba(0,0,0,0)_60%,_rgba(0,0,0,1)_100%)]"></div>
             )}
             {centerVignette && (
-                <div className="absolute top-0 left-0 w-full h-full pointer-events-none bg-[radial-gradient(circle,_rgba(0,0,0,0.8)_0%,_rgba(0,0,0,0)_60%)]"></div>
+                <div className="pointer-events-none absolute top-0 left-0 h-full w-full bg-[radial-gradient(circle,_rgba(0,0,0,0.8)_0%,_rgba(0,0,0,0)_60%)]"></div>
             )}
         </div>
     );

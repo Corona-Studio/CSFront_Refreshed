@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 
 import { Button } from "./ui/button";
 import { useCarousel } from "./use-carousel";
+
 import styles from "./HomeIntroCarousel.module.css";
 
 const slides = [
@@ -46,7 +47,7 @@ export default function HomeIntroCarousel() {
                             data-active={selected}
                             aria-hidden={!selected}
                             inert={!selected}>
-                            <p className="text-foreground leading-7">
+                            <p className="leading-7 text-foreground">
                                 {t("weDevelop")} {slide.name}
                                 <br />
                                 {t(`home.${slide.description}`)}
@@ -65,7 +66,7 @@ export default function HomeIntroCarousel() {
                                     asChild
                                     variant="outline"
                                     size="lg"
-                                    className="bg-background/30 border-foreground/40 text-foreground hover:bg-primary hover:text-primary-foreground">
+                                    className="border-foreground/40 bg-background/30 text-foreground hover:bg-primary hover:text-primary-foreground">
                                     <a href="#projects">
                                         {t("ourProjects")}
                                         <ArrowUpRight />

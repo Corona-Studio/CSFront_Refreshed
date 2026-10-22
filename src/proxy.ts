@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+
 import { SITE_URL, pageMarkdown, prefersMarkdown, publicPages } from "@/lib/seo";
 
 export function proxy(request: NextRequest) {

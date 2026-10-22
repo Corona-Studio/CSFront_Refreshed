@@ -1,4 +1,8 @@
 "use client";
+import { ArrowUpRight, Rocket } from "lucide-react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+
 import {
     Alert,
     Button,
@@ -16,9 +20,6 @@ import {
     notify
 } from "@/components/marathon";
 import PromoCard from "@/components/marathon/promo-card";
-import { ArrowUpRight, Rocket } from "lucide-react";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import ChartPreview from "./charts";
 
@@ -44,7 +45,7 @@ export default function Showcase() {
                 title="MARATHON/"
                 description="基于 shadcn/ui 与 Radix 的 Corona Studio 组件系统。硬边框、工业编号、明确的操作状态，覆盖官网与控制台。"
             />
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid gap-6 md:grid-cols-2">
                 <Card title="01 / ACTIONS" subtitle="按钮、状态与消息">
                     <div className="flex flex-wrap gap-3">
                         <Button icon={<Rocket className="size-4" />}>主操作</Button>
@@ -61,7 +62,7 @@ export default function Showcase() {
                             <ArrowUpRight className="size-4" />
                         </Button>
                     </div>
-                    <div className="flex gap-2 mt-6">
+                    <div className="mt-6 flex gap-2">
                         <Tag theme="success">ACTIVE</Tag>
                         <Tag>STABLE</Tag>
                         <Tag theme="danger">ERROR</Tag>
@@ -141,7 +142,7 @@ export default function Showcase() {
                     title="SUPPORT/"
                     description="图片、说明与操作整合在同一张卡片内。"
                 />
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid gap-6 md:grid-cols-2">
                     <PromoCard
                         image="/assets/lx/LauncherX_Poster.webp"
                         title={t("afdCardTitle")}

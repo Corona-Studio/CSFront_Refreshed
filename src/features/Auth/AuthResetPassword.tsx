@@ -1,8 +1,9 @@
 "use client";
-import localForage from "@/lib/storage";
 import { KeyRound as KeyIcon, User as UserIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+
+import localForage from "@/lib/storage";
 
 import {
     Button,
@@ -41,10 +42,13 @@ function AuthResetPassword() {
     const form = useRef<FormController>(null);
 
     useEffect(() => {
-        localForage.getItem<string>(StoredPasswordResetEmail).then((email) => {
-            if (email) setSavedEmail(email);
-            form.current?.setFieldsValue({ email: email ?? "" });
-        });
+        localForage
+            .getItem<string>(StoredPasswordResetEmail)
+            .then((email) => {
+                if (email) setSavedEmail(email);
+                form.current?.setFieldsValue({ email: email ?? "" });
+            })
+            .catch(() => setSavedEmail(undefined));
     }, []);
 
     const passwordsMatch: FieldValidator = async (value) => form.current?.getFieldValue("password") === value;
@@ -87,7 +91,7 @@ function AuthResetPassword() {
     };
 
     return (
-        <div className="p-5 sm:p-8 space-y-4 bg-card rounded-none    transition">
+        <div className="space-y-4 rounded-none bg-card p-5 transition sm:p-8">
             <h1 className="text-2xl leading-normal">{t("resetPassword")}</h1>
             <p className="max-w-[450px] text-sm text-muted-foreground">{t("passwordResetCodeDescription")}</p>
             <Form ref={form} className="w-full min-w-0" onSubmit={onSubmit}>
@@ -119,8 +123,8 @@ function AuthResetPassword() {
                         placeholder={t("pleaseInputResetCode")}
                     />
                 </FormItem>
-                <FormItem className="h-px! p-0! m-0!">
-                    <div className="INTERNAL___WHERE_TOOLTIP_ATTACHES h-px! p-0! m-0!"></div>
+                <FormItem className="m-0! h-px! p-0!">
+                    <div className="INTERNAL___WHERE_TOOLTIP_ATTACHES m-0! h-px! p-0!"></div>
                 </FormItem>
                 <Tooltip
                     zIndex={1000}

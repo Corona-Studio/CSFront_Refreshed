@@ -1,8 +1,9 @@
 "use client";
-import localForage from "@/lib/storage";
 import { User as UserIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+
+import localForage from "@/lib/storage";
 
 import { Button, Form, type FormProps, Input, notify } from "../../components/marathon/index.tsx";
 import { FormItem } from "../../components/marathon/index.tsx";
@@ -59,7 +60,7 @@ function AuthForgetPassword() {
     };
 
     return (
-        <div className="p-5 sm:p-8 space-y-4 bg-card rounded-none    transition">
+        <div className="space-y-4 rounded-none bg-card p-5 transition sm:p-8">
             <h1 className="text-2xl leading-normal">{t("forgetPassword")}</h1>
             <p className="max-w-[450px] text-sm text-muted-foreground">{t("passwordResetRequestDescription")}</p>
             <Form className="w-full min-w-0" onSubmit={onSubmit}>

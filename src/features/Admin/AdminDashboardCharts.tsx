@@ -6,9 +6,10 @@ import { Bar, LinePath, Pie } from "@visx/shape";
 import type { ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Tooltip, TooltipContent, TooltipTrigger } from "../../components/ui/tooltip.tsx";
 import { Card } from "../../components/marathon/index.tsx";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../../components/ui/tooltip.tsx";
 import type { AdminDashboardOverview, DashboardDistribution, DashboardLoginDay } from "../../requests/AdminRequests.ts";
+
 import styles from "./AdminHome.module.css";
 
 const colors = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)", "var(--chart-4)", "var(--chart-5)"];
@@ -192,7 +193,8 @@ export default function AdminDashboardCharts({ data }: { data: AdminDashboardOve
                     string,
                     string
                 >
-            )[d.key] ?? d.key
+            )[d.key] ?? d.key,
+            { defaultValue: d.key }
         )
     }));
     const runtimes = data.buildRuntimes.map((d) => ({ ...d, key: d.key || t("dashboardUnknown") }));

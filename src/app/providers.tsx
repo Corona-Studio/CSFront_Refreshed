@@ -1,12 +1,13 @@
 "use client";
+import { type ReactNode, useEffect } from "react";
+import { I18nextProvider } from "react-i18next";
+import { Toaster } from "sonner";
+
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { I18NLangKey } from "@/helpers/StorageHelper";
 import { applyTheme, getTheme, useTheme } from "@/helpers/ThemeDetector";
 import i18n, { resources } from "@/i18n";
 import localForage from "@/lib/storage";
-import { type ReactNode, useEffect } from "react";
-import { I18nextProvider } from "react-i18next";
-import { Toaster } from "sonner";
 
 function Preferences() {
     const theme = useTheme();
