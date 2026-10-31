@@ -110,7 +110,7 @@ for (const [index, route] of paths.entries()) {
             npmCli,
             "exec",
             "--yes",
-            "--package=lighthouse@13.5.0",
+            "--package=lighthouse@13.6.0",
             "--",
             "lighthouse",
             new URL(route, base).href,
@@ -138,7 +138,7 @@ for (const [index, route] of paths.entries()) {
 await writeFile(
     path.join(directory, "seo-summary.json"),
     JSON.stringify(
-        { measuredAt: new Date().toISOString(), target: base.href, lighthouse: "13.5.0", checks, scores },
+        { measuredAt: new Date().toISOString(), target: base.href, lighthouse: "13.6.0", checks, scores },
         null,
         2
     ) + "\n"

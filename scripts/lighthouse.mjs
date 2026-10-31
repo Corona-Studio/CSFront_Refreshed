@@ -25,7 +25,7 @@ for (let run = 1; run <= runs; run++) {
         [
             "exec",
             "--yes",
-            "--package=lighthouse@13.5.0",
+            "--package=lighthouse@13.6.0",
             "--",
             "lighthouse",
             url.href,
@@ -64,7 +64,7 @@ const median = (values) => {
 const summary = {
     url: url.href,
     profile,
-    lighthouse: "13.5.0",
+    lighthouse: "13.6.0",
     results,
     medians: Object.fromEntries(Object.keys(results[0]).map((key) => [key, median(results.map((run) => run[key]))]))
 };

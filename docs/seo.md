@@ -52,7 +52,7 @@ pnpm seo:audit http://localhost:3217
 pnpm seo:audit http://localhost:3217 --checks-only
 ```
 
-审计脚本先验证真实 HTTP 响应的 metadata、单一 H1、结构化数据 JSON、robots/noindex、sitemap、分享图片、静态索引、Markdown 内容一致性、格式权重、HEAD 和未知 Markdown 404，再逐页运行 Lighthouse 13.5.0 的移动端 SEO 分类。
+审计脚本先验证真实 HTTP 响应的 metadata、单一 H1、结构化数据 JSON、robots/noindex、sitemap、分享图片、静态索引、Markdown 内容一致性、格式权重、HEAD 和未知 Markdown 404，再逐页运行 Lighthouse 13.6.0 的移动端 SEO 分类。
 
 报告位于 `reports/lighthouse/seo-{0..3}.report.html` / `.json` 和 `seo-summary.json`，已通过现有规则忽略。该命令可在 Windows 下运行，使用 Node 调用 npm CLI 获取固定版本 Lighthouse；需要安装 Chrome。仅评测 SEO 分类，不表示性能、可访问性或真实排名满分。Lighthouse 的结构化数据手动审计仍需使用 [Schema Markup Validator](https://validator.schema.org/) 或 [Google Rich Results Test](https://search.google.com/test/rich-results) 验证。
 

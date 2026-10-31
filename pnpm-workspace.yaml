@@ -1,7 +1,7 @@
 minimumReleaseAgeExclude:
-  - framer-motion@14.6.0
-  - i18next@26.5.5
-  - motion-dom@14.6.0
-  - motion-utils@14.6.0
-  - motion@14.6.0
-  - react-i18next@17.1.2
+  - "@types/three@0.187.0"
+  - framer-motion@14.9.0
+  - i18next@26.5.12
+  - lucide-react@1.66.0
+  - motion-dom@14.9.0
+  - motion@14.9.0
